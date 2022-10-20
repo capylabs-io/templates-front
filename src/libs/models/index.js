@@ -1,5 +1,4 @@
 import Web3 from "web3";
-import Account from "./Account";
 
 class Application {
   constructor({ test = false, mainnet = true, network = "BSC" }) {
@@ -18,7 +17,9 @@ class Application {
     } else {
       if (!this.test) {
         this.isMetamask = false;
-        throw new Error("Please Use an Ethereum Enabled Browser like Metamask or Coinbase Wallet");
+        throw new Error(
+          "Please Use an Ethereum Enabled Browser like Metamask or Coinbase Wallet"
+        );
       }
     }
   };
