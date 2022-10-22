@@ -1,41 +1,11 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
+    <NavigationBar v-if="$vuetify.breakpoint.mdAndUp" />
+    <MobileNavigationBar v-else />
     <v-main>
       <router-view />
     </v-main>
+    <Footer />
   </v-app>
 </template>
 
@@ -54,11 +24,11 @@ import { walletStore } from "./stores/wallet-store";
       import("@/components/global-loading/global-loading.vue"),
     ConfirmDialog: () =>
       import("@/components/confirm-dialog/confirm-dialog.vue"),
-    //Nav bar and Footer
-    // NavigationBar: () => import("@/components/NavigationBar.vue"),
-    // MobileNavigationBar: () => import("@/components/MobileNavigationBar.vue"),
+    // Nav bar and Footer
+    NavigationBar: () => import("@/components/NavigationBar.vue"),
+    MobileNavigationBar: () => import("@/components/MobileNavigationBar.vue"),
     // NavigationDrawer: () => import("@/components/NavigationDrawer.vue"),
-    // Footer: () => import("./components/Footer.vue"),
+    Footer: () => import("@/components/Footer.vue"),
     // NotifyDialog: () => import("@/components/NotifyDialog.vue"),
   },
 })
@@ -85,7 +55,27 @@ export default class App extends Vue {
   -ms-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
 }
-
+.v-application--wrap {
+  height: initial;
+  width: 100vw;
+  position: relative;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+.v-application--wrap::before {
+  content:"";
+  background: url("assets/background.png") !important;
+  background-blend-mode: overlay;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  opacity: 0.3;
+  background-position: center;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
 .v-application {
   [class*="text-"] {
     font-family: "DM Sans", sans-serif !important;
@@ -178,7 +168,6 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 //Font-faces
 .font-dm-sans {
   font-family: "DM Sans", sans-serif !important;
@@ -189,6 +178,8 @@ input[type="number"]::-webkit-outer-spin-button {
 .font-ubuntu {
   font-family: "Ubuntu", sans-serif !important;
 }
-
+.w-full {
+  width: 100%;
+}
 //Animations
 </style>

@@ -1,21 +1,34 @@
 <template>
   <v-btn
-    class="rounded-lg px-5 py-5 text-sm"
+    class="rounded-lg px-2 py-5 text-sm boder-gray-10"
     v-if="!walletStore.connected"
     @click="walletStore.connect()"
     :large="large"
     :block="block"
     :small="small"
-    color="gold50"
     outlined
   >
-    <div class="text-capitalize font-weight-bold">Connect Wallet</div>
-    <!-- <v-img
-      class="ml-3"
-      :src="require('@/assets/wallet.svg')"
-      max-width="18px"
-      contain
-    ></v-img> -->
+    <div
+      class="d-flex flex-row text-capitalize font-weight-regular justify-center"
+    >
+      <div class="mx-2 align-self-center">
+        <v-img
+          :src="require('@/assets/metamask-icon.png')"
+          max-width="18px"
+          contain
+        ></v-img>
+      </div>
+      <div class="mr-3 align-self-center">
+        <div class="white--text">Connect Wallet</div>
+        <div class="gray7--text">Metamask</div>
+      </div>
+      <div class="straight-line"></div>
+      <div class="align-self-center pa-2">
+        <v-icon small color="white">
+          mdi-chevron-down
+        </v-icon>
+      </div>
+    </div>
   </v-btn>
   <v-btn
     text-caption
@@ -59,4 +72,14 @@ export default class ConnectMetamask extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.straight-line {
+  width: 1px;
+  height: 38px;
+  background: #4F4F54;
+}
+.boder-gray-10 {
+  background-color: #3B3B3F !important;
+  border: 1px solid #4F4F54 !important; 
+}
+</style>
