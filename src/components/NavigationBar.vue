@@ -99,7 +99,8 @@ import { Observer } from "mobx-vue";
 })
 export default class NavigationBar extends Vue {
   wallet = walletStore;
-  chainId = process.env.VUE_APP_CHAIN_ID;
+  // chainId = process.env.VUE_APP_CHAIN_ID;
+  chainId = "";
   openLink(url) {
     window.open(url, "_blank");
   }
