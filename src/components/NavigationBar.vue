@@ -34,6 +34,9 @@
         </v-col>
         <v-col col="3">
           <div class="d-flex align-center justify-end">
+            <div class="pa-2 box-gray-11 rounded-circle mr-2">
+              <v-icon>mdi-lightbulb-on-outline</v-icon>
+            </div>
             <ConnectMetamask :requiredChainId="chainId">
               <v-menu open-on-hover offset-y v-if="wallet.connected">
                 <template v-slot:activator="{ on, attrs }">

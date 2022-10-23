@@ -65,7 +65,7 @@ export default class App extends Vue {
   background-size: cover !important;
 }
 .v-application--wrap::before {
-  content:"";
+  content: "";
   background: url("assets/background.png") !important;
   background-blend-mode: overlay;
   height: 100%;
@@ -178,8 +178,38 @@ input[type="number"]::-webkit-outer-spin-button {
 .font-ubuntu {
   font-family: "Ubuntu", sans-serif !important;
 }
-.w-full {
-  width: 100%;
+.w-fit-content {
+  width: fit-content;
+}
+.box-gray-11 {
+  background: #3B3B3F;
+  border: 1px solid #4F4F54;
+}
+.box-gray-12 {
+  background: #2a2a2d !important;
+  border: 1px solid #3b3b3f !important;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4) !important;
+}
+.box-gray-13 {
+  background: #1E1E20;
+  border: 1px solid #3B3B3F;
+  border-radius: 6px !important;
+}
+.btn-gray-11 {
+  text-transform: capitalize !important;
+  background: #3B3B3F !important;
+  border: 1px solid #4F4F54 !important;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25), inset -1px -1px 4px rgba(0, 0, 0, 0.25), inset 1px 1px 4px rgba(255, 255, 255, 0.05);
+  border-radius: 8px !important;
+}
+.h-36 {
+  height: 36px;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
 }
 //Animations
 </style>

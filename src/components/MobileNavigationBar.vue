@@ -8,7 +8,6 @@
       <div class="full-width d-flex justify-center">
         Logo here
         <!-- <img src=""/> -->
-        <!-- Hellven Gate Logo-->
       </div>
     </div>
   </v-app-bar>
