@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import HomeView from '../views/home/Home.vue'
+import HomeView from '../views/home/pages/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -13,7 +13,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/dao",
     name: "DAO Dashboard",
-    component: () => import("../views/dao/Dao.vue"),
+    component: () => import("../views/dao/pages/Dao.vue"),
     meta: {
       title: "DAO Dashboard",
     }
