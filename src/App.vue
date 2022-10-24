@@ -56,8 +56,14 @@ export default class App extends Vue {
 .border-radius-16 {
   border-radius: 16px !important;
 }
+.border-radius-12 {
+  border-radius: 12px !important;
+}
 .border-radius-8 {
   border-radius: 8px !important;
+}
+.border-radius-4 {
+  border-radius: 4px !important;
 }
 .v-application--wrap {
   height: initial;
@@ -93,7 +99,8 @@ body {
 
 //Typography
 //Font-size
-.text-overline {
+// text-overline
+.text-overline-1 {
   font-size: 10px !important;
   line-height: 12px !important;
 }
@@ -210,6 +217,9 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .h-36 {
   height: 36px;
+}
+.min-h-80 {
+  min-height: 80px;
 }
 .relative {
   position: relative;

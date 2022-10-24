@@ -44,7 +44,12 @@
   </v-footer>
 </template>
 <script lang="ts">
-import { Vue } from "vue-property-decorator";
+import { Observer } from "mobx-vue";
+import { Component, Vue } from "vue-property-decorator";
+@Observer
+@Component({
+  components: {},
+})
 export default class Footer extends Vue {}
 </script>
 <style scoped>

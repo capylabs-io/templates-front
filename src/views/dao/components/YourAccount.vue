@@ -18,13 +18,16 @@
   </v-card>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
+import { DaoViewModel } from "../models/dao-viewmodels";
 @Observer
 @Component({
   components: {},
 })
-export default class YourAccount extends Vue {}
+export default class YourAccount extends Vue {
+  @Inject() vm!: DaoViewModel;
+}
 </script>
 <style scoped>
 .vote-info {
