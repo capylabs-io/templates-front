@@ -1,12 +1,12 @@
 <template>
   <v-card class="card my-10 gray12 rounded-xl boder-gray-10">
-    <template slot="progress">
+    <!-- <template slot="progress">
       <v-progress-linear
         color="deep-purple"
         height="10"
         indeterminate
       ></v-progress-linear>
-    </template>
+    </template> -->
     <!-- src="../assets/ManagementBox/ManagementBox1.png" -->
     <v-img height="70%" :src="require(`../assets/ManagementBox/ManagementBox${content.index}.png`)"></v-img>
     <div class="ml-2">
