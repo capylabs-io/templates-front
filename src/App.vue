@@ -50,10 +50,14 @@ export default class App extends Vue {
 .cursor-pointer {
   cursor: pointer;
 }
-.vertical-center {
-  left: 50%;
-  -ms-transform: translate(-50%, 0);
-  transform: translate(-50%, 0);
+.border-radius-24 {
+  border-radius: 24px !important;
+}
+.border-radius-16 {
+  border-radius: 16px !important;
+}
+.border-radius-8 {
+  border-radius: 8px !important;
 }
 .v-application--wrap {
   height: initial;
@@ -128,22 +132,22 @@ body {
 .text-dp-md {
   font-size: 36px !important;
   line-height: 44px !important;
-  line-height: -2% !important;
+  letter-spacing: -2% !important;
 }
 .text-dp-lg {
   font-size: 48px !important;
   line-height: 60px !important;
-  line-height: -2% !important;
+  letter-spacing: -2% !important;
 }
 .text-dp-xl {
   font-size: 60px !important;
   line-height: 72px !important;
-  line-height: -2% !important;
+  letter-spacing: -2% !important;
 }
 .text-dp-xxl {
   font-size: 72px !important;
   line-height: 90px !important;
-  line-height: -2% !important;
+  letter-spacing: -2% !important;
 }
 
 //Scrollbar
@@ -182,8 +186,8 @@ input[type="number"]::-webkit-outer-spin-button {
   width: fit-content;
 }
 .box-gray-11 {
-  background: #3B3B3F;
-  border: 1px solid #4F4F54;
+  background: #3b3b3f;
+  border: 1px solid #4f4f54;
 }
 .box-gray-12 {
   background: #2a2a2d !important;
@@ -191,15 +195,17 @@ input[type="number"]::-webkit-outer-spin-button {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4) !important;
 }
 .box-gray-13 {
-  background: #1E1E20;
-  border: 1px solid #3B3B3F;
+  background: #1e1e20;
+  border: 1px solid #3b3b3f;
   border-radius: 6px !important;
 }
 .btn-gray-11 {
   text-transform: capitalize !important;
-  background: #3B3B3F !important;
-  border: 1px solid #4F4F54 !important;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25), inset -1px -1px 4px rgba(0, 0, 0, 0.25), inset 1px 1px 4px rgba(255, 255, 255, 0.05);
+  background: #3b3b3f !important;
+  border: 1px solid #4f4f54 !important;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25),
+    inset -1px -1px 4px rgba(0, 0, 0, 0.25),
+    inset 1px 1px 4px rgba(255, 255, 255, 0.05);
   border-radius: 8px !important;
 }
 .h-36 {
