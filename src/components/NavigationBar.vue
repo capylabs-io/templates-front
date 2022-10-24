@@ -84,7 +84,6 @@
         </v-col>
       </v-row>
     </div>
-    <v-divider></v-divider>
   </v-app-bar>
 </template>
 
