@@ -1,4 +1,5 @@
-import { action, observable } from "mobx";
+import { action, observable, computed } from "mobx";
+import moment, { now } from "moment";
 
 export class DaoViewModel {
   @observable isOpenAddProposal = false;
@@ -8,13 +9,30 @@ export class DaoViewModel {
     "Instruction 3",
     "Instruction 3",
   ];
-  @observable proposalID = 1;
+  @observable proposalID = 0;
   @observable pageSize = 3;
   @observable currentPage = 1;
   @observable totalPage = 3;
-  @observable voteEnd="2022/12/31";
+  @observable voteEnd="2022/10/31";
   @observable isVoted = false;
-  @observable showVoteResult = true;
+  @observable showVoteResult = false;
+  @observable chartOptions =  {
+    series: [44, 55, 13, 43, 22],
+    chart: {
+      width: 380,
+      type: "pie",
+    },
+    labels: ["3Q3ph...RGvG8", "3Q3ph...RGvG8", "3Q3ph...RGvG8", "3Q3ph...RGvG8", "Other"],
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: { width: 200 },
+          legend: { position: "bottom" },
+        },
+      },
+    ],
+  };
 
   @action changeAddProposalDialog() {
     this.isOpenAddProposal = !this.isOpenAddProposal;
@@ -34,4 +52,9 @@ export class DaoViewModel {
   @action backPropoDetail() {
     this.showVoteResult = false;
   }
+
+  // computed
+  // @computed get eventEndDate() {
+  //   return moment(this.voteEnd).isBefore(now());
+  // }
 }

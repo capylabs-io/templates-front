@@ -229,6 +229,7 @@
         </div>
         <div class="white--text text-lg font-weight-bold my-3">Graph</div>
         <div class="graph-area d-flex justify-center align-center">
+            <PieChart :chartOptions='vm.chartOptions'/>
         </div>
       </v-col>
     </v-row>
@@ -238,9 +239,11 @@
 import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
+import PieChart from "@/components/PieChart.vue";
 @Observer
 @Component({
   components: {
+    PieChart,
   },
 })
 export default class VoteResult extends Vue {

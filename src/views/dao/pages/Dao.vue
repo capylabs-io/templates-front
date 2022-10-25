@@ -1,21 +1,26 @@
 <template>
-  <div class="dao-management mt-4 ma-auto">
-    <v-row class="justify-center ma-auto" v-if="!vm.showVoteResult">
-      <v-col cols="10" md="7">
-        <SolendDao v-if="vm.proposalID == 0" />
-        <div v-else>
-          <ProposalDetail/>
-          <ProposalDetailDiscussion/>
-        </div>
-      </v-col>
-      <v-col cols="10" md="4">
-        <YourAccount />
-        <Programs v-if="vm.proposalID== 0"/>
-        <Voting v-else />
-      </v-col>
-    </v-row>
-    <div v-else>
-      <VoteResult/>
+  <div>
+    <div class="weight-full" v-if="!vm.showVoteResult && vm.proposalID == 0">
+      <img src="@/assets/dao-banner.png" />
+    </div>
+    <div class="dao-management mt-4 ma-auto">
+      <v-row class="justify-center ma-auto" v-if="!vm.showVoteResult">
+        <v-col cols="10" md="7">
+          <SolendDao v-if="vm.proposalID == 0" />
+          <div v-else>
+            <ProposalDetail />
+            <ProposalDetailDiscussion />
+          </div>
+        </v-col>
+        <v-col cols="10" md="4">
+          <YourAccount />
+          <img class="full-width mt-4" src="@/assets/dao-front-banner.png" v-if="vm.proposalID == 0" />
+          <Voting v-else />
+        </v-col>
+      </v-row>
+      <div v-else>
+        <VoteResult />
+      </div>
     </div>
   </div>
 </template>
@@ -41,7 +46,7 @@ import { DaoViewModel } from "../models/dao-viewmodels";
     ProposalDetail,
     ProposalDetailDiscussion,
     Voting,
-    VoteResult
+    VoteResult,
   },
 })
 export default class Dao extends Vue {

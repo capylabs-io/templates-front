@@ -109,6 +109,7 @@
         align-center
         mt-3
         rounded-lg
+        cursor-pointer
       "
       @click="vm.gotoProposalDetail()"
     >

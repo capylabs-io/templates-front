@@ -1,7 +1,7 @@
 <template>
   <div class="pa-4 box-gray-12 rounded-lg">
     <div class="d-flex justify-space-between">
-      <div class="pa-0" text @click="vm.backSolendDao()">
+      <div class="pa-0 cursor-pointer" text @click="vm.backSolendDao()">
         <v-icon small color="blueJeans"> mdi-chevron-left</v-icon>
         <span class="text-capitalize blueJeans--text">Back</span>
       </div>
@@ -14,7 +14,7 @@
         SLND3: Introduce Account Borrow Limit
       </div>
       <div text class="text-sm pa-0">
-        <v-icon color="blueJeans">mdi-vanish</v-icon>
+        <v-icon color="blueJeans cursor-pointer">mdi-vanish</v-icon>
         <span class="text-capitalize blueJeans--text ml-1">Voting</span>
       </div>
     </div>
