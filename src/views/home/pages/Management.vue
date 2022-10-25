@@ -116,7 +116,7 @@
         </v-btn>
       </div>
     </div>
-    <div class="d-flex flex-wrap gap-24 justify-center">
+    <div class="d-flex flex-wrap gap-24 justify-center mt-5">
       <card v-bind:content="content1"></card>
       <card v-bind:content="content2"></card>
       <card v-bind:content="content3"></card>
@@ -140,7 +140,6 @@ export default {
   },
   data() {
     return {
-      dropdown: [{ action: "Add" }, { action: "Delete" }],
       content1: {
         index: "1",
         name: "Website name here",
@@ -218,7 +217,7 @@ export default {
   border: 1px solid #4f4f54 !important;
 }
 .gap-24 {
-  gap: 25px;
+  column-gap: 25px;
 }
 .search-bar {
   height: 44px;

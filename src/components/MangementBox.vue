@@ -1,5 +1,5 @@
 <template>
-  <v-card class="card my-10 gray12 rounded-xl boder-gray-10">
+  <v-card class="card my-4 gray12 rounded-xl boder-gray-10">
     <!-- <template slot="progress">
       <v-progress-linear
         color="deep-purple"
@@ -34,7 +34,13 @@
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <div class="align-self-center pl-12">
-            <v-btn color="transparent" icon elevation="o" v-bind="attrs" v-on="on">
+            <v-btn
+              color="transparent"
+              icon
+              elevation="o"
+              v-bind="attrs"
+              v-on="on"
+            >
               <v-icon large color="white"> mdi-dots-horizontal </v-icon>
             </v-btn>
           </div>
