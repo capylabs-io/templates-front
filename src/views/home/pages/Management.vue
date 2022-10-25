@@ -140,6 +140,7 @@ export default {
   },
   data() {
     return {
+      dropdown: [{ action: "Add" }, { action: "Delete" }],
       content1: {
         index: "1",
         name: "Website name here",

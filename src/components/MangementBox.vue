@@ -30,9 +30,25 @@
           </v-row>
         </v-card-text>
       </div>
-      <div class="align-self-center pl-12">
+
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <div class="align-self-center pl-12">
+            <v-btn color="transparent" icon elevation="o" v-bind="attrs" v-on="on">
+              <v-icon large color="white"> mdi-dots-horizontal </v-icon>
+            </v-btn>
+          </div>
+        </template>
+        <v-list class="gray12">
+          <v-list-item v-for="(item, index) in dropdown" :key="index">
+            <v-list-item-title>{{ item.action }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+      <!-- <div class="align-self-center pl-12">
         <v-icon large color="white"> mdi-dots-horizontal </v-icon>
-      </div>
+      </div> -->
     </div>
   </v-card>
 </template>
@@ -40,7 +56,7 @@
 export default {
   props: ["content"],
   data() {
-    return {};
+    return { dropdown: [{ action: "Add" }, { action: "Delete" }] };
   },
 };
 </script>

@@ -19,7 +19,7 @@
         ></v-img>
       </div>
       <div class="mr-3 align-self-center">
-        <div class="white--text">Connect Wallet</div>
+        <div class="white--text">Connect</div>
         <div class="gray7--text">Metamask</div>
       </div>
       <div class="straight-line"></div>
