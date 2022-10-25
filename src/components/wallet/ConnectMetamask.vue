@@ -1,6 +1,6 @@
 <template>
   <v-btn
-    class="rounded-lg px-2 py-5 text-sm boder-gray-10"
+    class="rounded-lg px-2 py-5 text-sm boder-gray-10 align-self-center"
     v-if="!walletStore.connected"
     @click="walletStore.connect()"
     :large="large"
@@ -24,9 +24,7 @@
       </div>
       <div class="straight-line"></div>
       <div class="align-self-center pa-2">
-        <v-icon small color="white">
-          mdi-chevron-down
-        </v-icon>
+        <v-icon small color="white"> mdi-chevron-down </v-icon>
       </div>
     </div>
   </v-btn>
@@ -76,10 +74,10 @@ export default class ConnectMetamask extends Vue {
 .straight-line {
   width: 1px;
   height: 38px;
-  background: #4F4F54;
+  background: #4f4f54;
 }
 .boder-gray-10 {
-  background-color: #3B3B3F !important;
-  border: 1px solid #4F4F54 !important; 
+  background-color: #3b3b3f !important;
+  border: 1px solid #4f4f54 !important;
 }
 </style>

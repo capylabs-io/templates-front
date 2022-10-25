@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="d-flex flex-column mx-12 mt-16 overflow-y-auto">
-    <div class="card-content d-flex flex-row">
+    <!-- <div class="card-content d-flex flex-row">
       <v-card
         class="options my-10 gray12 rounded-xl boder-gray-10 d-flex flex-row"
       >
@@ -82,21 +82,41 @@
           <v-icon large color="white"> mdi-plus </v-icon>
         </div>
       </v-card>
-    </div>
-    <div class="d-flex">
-      <p class="mt-2">Sort By</p>
-      <v-btn
-        class="rounded-lg px-2 py-5 text-sm ml-5 boder-gray-10 text-capitalize"
-      >
-        <div class="mr-1 align-self-center">
-          <div class="gray7--text">Filter</div>
+    </div> -->
+    <div class="d-flex flex-row align-center justify-space-between">
+      <div class="d-flex">
+        <p class="mt-2">Sort:</p>
+        <v-btn
+          class="rounded-lg px-2 py-5 text-sm ml-5 boder-gray-12 text-capitalize"
+        >
+          <div class="align-self-center">
+            <div class="gray7--text">Recent</div>
+          </div>
+          <div class="align-self-center pa-2">
+            <v-icon medium color="gray7"> mdi-chevron-down </v-icon>
+          </div>
+        </v-btn>
+      </div>
+      <div class="d-flex">
+        <div class="search-bar d-flex gray12 boder-gray-10 rounded-lg mr-5">
+          <div class="pl-5 align-self-center">
+            <v-icon medium color="gray7"> mdi-magnify </v-icon>
+          </div>
+          <v-text-field
+            class="mr-2 ml-5 align-self-center"
+            placeholder="Search Theme or Creator"
+          ></v-text-field>
         </div>
-        <div class="align-self-center pa-2">
-          <v-icon small color="gray7"> mdi-chevron-down </v-icon>
-        </div>
-      </v-btn>
+        <v-btn
+          class="rounded-lg px-2 py-5 text-sm boder-majorelleBlue text-capitalize font-weight-bold"
+          color="majorelleBlue"
+          large
+        >
+          Create New Service
+        </v-btn>
+      </div>
     </div>
-    <div class="d-flex flex-wrap">
+    <div class="d-flex flex-wrap gap-24 justify-center">
       <card v-bind:content="content1"></card>
       <card v-bind:content="content2"></card>
       <card v-bind:content="content3"></card>
@@ -195,5 +215,12 @@ export default {
 .boder-gray-10 {
   background-color: #3b3b3f !important;
   border: 1px solid #4f4f54 !important;
+}
+.gap-24 {
+  gap: 25px;
+}
+.search-bar {
+  height: 44px;
+  width: 500px;
 }
 </style>

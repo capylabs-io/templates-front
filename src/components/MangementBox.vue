@@ -7,23 +7,32 @@
         indeterminate
       ></v-progress-linear>
     </template> -->
-    <!-- src="../assets/ManagementBox/ManagementBox1.png" -->
-    <v-img height="70%" :src="require(`../assets/ManagementBox/ManagementBox${content.index}.png`)"></v-img>
-    <div class="ml-2">
-      <v-card-title
-        ><v-img
-          :src="require('@/assets/web-icon.png')"
-          max-width="18px"
-          contain
-        ></v-img>
-        <div class="ml-2 title">{{ content.name }}</div></v-card-title
-      >
+    <v-img
+      height="70%"
+      :src="
+        require(`../assets/ManagementBox/ManagementBox${content.index}.png`)
+      "
+    ></v-img>
+    <div class="ml-2 d-flex flex-row">
+      <div>
+        <v-card-title
+          ><v-img
+            :src="require('@/assets/web-icon.png')"
+            max-width="18px"
+            contain
+          ></v-img>
+          <div class="ml-2 title">{{ content.name }}</div></v-card-title
+        >
 
-      <v-card-text>
-        <v-row align="center" class="mx-0">
-          <div>{{ content.description }}</div>
-        </v-row>
-      </v-card-text>
+        <v-card-text>
+          <v-row align="center" class="mx-0">
+            <div>{{ content.description }}</div>
+          </v-row>
+        </v-card-text>
+      </div>
+      <div class="align-self-center pl-12">
+        <v-icon large color="white"> mdi-dots-horizontal </v-icon>
+      </div>
     </div>
   </v-card>
 </template>
@@ -43,5 +52,9 @@ export default {
 }
 .card {
   width: 20%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
 }
 </style>
