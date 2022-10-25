@@ -14,9 +14,8 @@
     <div v-if="!vm.isVoted">
       <div class="d-flex justify-space-between text-lg white--text">
         <div class="font-weight-bold">Voting now</div>
-        <div class="gray13 align-center px-3">
-          2d : 23h : 59m
-          <!-- <Countdown :targetDate="vm.voteEnd" /> -->
+        <div class="gray13 align-center px-3 d-flex">
+          <Countdown :targetDate="vm.voteEnd" />
         </div>
       </div>
       <div class="vote-info pa-4 mt-3">
@@ -126,10 +125,12 @@
 import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
-// import Countdown from "@/components/Countdown.vue";
+import Countdown from "@/components/Countdown.vue";
 @Observer
 @Component({
-  components: {},
+  components: {
+    Countdown
+  },
 })
 export default class Voting extends Vue {
   @Inject() vm!: DaoViewModel;
