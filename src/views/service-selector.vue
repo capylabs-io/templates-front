@@ -9,6 +9,7 @@
         :icon="'mdi-account-supervisor'"
         :content="'DAO is a community, where it’s members make decisions in a transparent and decentralized fashion, with smart contracts executing these decisions.'"
         :buttonText="'Create Now'"
+        :link="'/select-dao'"
         :cardBg="1"
       />
       <ServiceCard
@@ -20,7 +21,7 @@
         :isButtonDisable="true"
       />
       <ServiceCard
-        :title="'DAO Governance'"
+        :title="'NFT Lending'"
         :icon="'mdi-cash-multiple'"
         :content="'NFT Lending is a platform that ensure NFTs get into the hands of users as seamlessly as possible without the need of a middleman.'"
         :buttonText="'Coming Soon'"

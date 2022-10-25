@@ -1,7 +1,15 @@
 import Vue from "vue";
-import Vuetify from "vuetify/lib/framework";
+import Vuetify from "vuetify";
+import { VForm, VTextarea, VTextField, VCheckbox } from "vuetify/lib";
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  components: {
+    VForm,
+    VTextarea,
+    VTextField,
+    VCheckbox,
+  },
+});
 
 export default new Vuetify({
   theme: {

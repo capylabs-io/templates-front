@@ -3,7 +3,9 @@
     <NavigationBar v-if="$vuetify.breakpoint.mdAndUp" />
     <MobileNavigationBar v-else />
     <v-main>
-      <router-view />
+      <v-scroll-x-reverse-transition mode="out-in">
+        <router-view> </router-view>
+      </v-scroll-x-reverse-transition>
     </v-main>
     <Footer />
   </v-app>
@@ -85,7 +87,7 @@ export default class App extends Vue {
     font-family: "DM Sans", sans-serif !important;
   }
   font-family: "DM Sans", sans-serif !important;
-  font-weight: 500;
+  font-weight: 400;
 }
 body {
   font-family: "DM Sans", sans-serif !important;
@@ -152,7 +154,7 @@ body {
 
 //Scrollbar
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
   background-color: transparent !important;
 }
@@ -162,8 +164,8 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: var(--v-subtitle-base);
+  -webkit-box-shadow: inset 0 0 8px var(--v-primary-base);
+  background-color: var(--v-gray13-base);
 }
 
 //Others
@@ -171,6 +173,14 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.btn-text {
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  color: var(--v-gray03-base) !important;
+  font-family: "DM Sans", sans-serif !important;
+  letter-spacing: 0px !important;
 }
 //Font-faces
 .font-dm-sans {
@@ -216,6 +226,17 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .absolute {
   position: absolute;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.theme--dark {
+  .input-field.v-text-field--solo > .v-input__control > fieldset {
+    color: var(--v-red-base) !important;
+  }
+  .input-field.v-text-field--solo > .v-input__control > .v-input__slot {
+    background: var(--v-gray13-base) !important;
+  }
 }
 //Animations
 </style>

@@ -26,6 +26,22 @@ const routes: Array<RouteConfig> = [
       title: "Service Selector",
     },
   },
+  {
+    path: "/select-dao",
+    name: "DAO Selector",
+    component: () => import("../views/create-dao/pages/dao-selector.vue"),
+    meta: {
+      title: "DAO Selector",
+    },
+  },
+  {
+    path: "/create-dao",
+    name: "Create DAO",
+    component: () => import("../views/create-dao/pages/create-dao.vue"),
+    meta: {
+      title: "Create DAO",
+    },
+  },
 ];
 
 const router = new VueRouter({
