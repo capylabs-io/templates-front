@@ -72,7 +72,6 @@ export default {
   border: 1px solid #4f4f54 !important;
 }
 .card {
-  width: 20%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

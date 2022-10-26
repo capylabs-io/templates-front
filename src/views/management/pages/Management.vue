@@ -117,18 +117,11 @@
       </div>
     </div>
     <div class="d-flex flex-wrap gap-24 justify-center mt-5">
-      <card v-bind:content="content1"></card>
-      <card v-bind:content="content2"></card>
-      <card v-bind:content="content3"></card>
-      <card v-bind:content="content4"></card>
-      <card v-bind:content="content5"></card>
-      <card v-bind:content="content6"></card>
-      <card v-bind:content="content7"></card>
-      <card v-bind:content="content8"></card>
-      <card v-bind:content="content9"></card>
-      <card v-bind:content="content10"></card>
-      <card v-bind:content="content11"></card>
-      <card v-bind:content="content12"></card>
+      <card
+        v-for="content in contents"
+        :key="content.index"
+        v-bind:content="content"
+      ></card>
     </div>
   </div>
 </template>
@@ -140,66 +133,68 @@ export default {
   },
   data() {
     return {
-      content1: {
-        index: "1",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content2: {
-        index: "2",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content3: {
-        index: "3",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content4: {
-        index: "4",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content5: {
-        index: "5",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content6: {
-        index: "6",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content7: {
-        index: "7",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content8: {
-        index: "1",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content9: {
-        index: "9",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content10: {
-        index: "10",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content11: {
-        index: "11",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
-      content12: {
-        index: "12",
-        name: "Website name here",
-        description: "In Draft - Edited 3 minutes ago",
-      },
+      contents: [
+        {
+          index: "1",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "2",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "3",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "4",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "5",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "6",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "7",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "1",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "9",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "10",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "11",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+        {
+          index: "12",
+          name: "Website name here",
+          description: "In Draft - Edited 3 minutes ago",
+        },
+      ],
     };
   },
 };
@@ -222,5 +217,12 @@ export default {
 .search-bar {
   height: 44px;
   width: 500px;
+}
+.card {
+  width: 20%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
 }
 </style>
