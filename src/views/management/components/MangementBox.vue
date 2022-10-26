@@ -1,13 +1,5 @@
 <template>
   <v-card class="card my-4 gray12 rounded-xl boder-gray-10">
-    <!-- <template slot="progress">
-      <v-progress-linear
-        color="deep-purple"
-        height="10"
-        indeterminate
-      ></v-progress-linear>
-    </template> 
-    -->
     <v-img
       height="70%"
       :src="require(`@/assets/ManagementBox/ManagementBox${content.index}.png`)"
@@ -50,10 +42,6 @@
           </v-list-item>
         </v-list>
       </v-menu>
-
-      <!-- <div class="align-self-center pl-12">
-        <v-icon large color="white"> mdi-dots-horizontal </v-icon>
-      </div> -->
     </div>
   </v-card>
 </template>
@@ -72,6 +60,7 @@ export default {
   border: 1px solid #4f4f54 !important;
 }
 .card {
+  width: 20%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

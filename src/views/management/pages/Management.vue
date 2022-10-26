@@ -83,7 +83,7 @@
         </div>
       </v-card>
     </div> -->
-    <div class="d-flex flex-row align-center justify-space-between">
+    <div class="content-top d-flex flex-row align-center justify-space-between">
       <div class="d-flex">
         <p class="mt-2">Sort:</p>
         <v-btn
@@ -200,12 +200,8 @@ export default {
 };
 </script>
 <style scoped>
-.options {
-  margin-left: 30px;
-  width: 25%;
-}
-.card-content {
-  margin-left: 15%;
+.content-top {
+  margin: 0 150px;
 }
 .boder-gray-10 {
   background-color: #3b3b3f !important;
@@ -217,12 +213,5 @@ export default {
 .search-bar {
   height: 44px;
   width: 500px;
-}
-.card {
-  width: 20%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  align-self: center;
 }
 </style>
