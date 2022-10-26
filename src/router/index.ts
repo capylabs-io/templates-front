@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import HomeView from '../views/home/pages/Home.vue'
-import ManagementView from '../views/home/pages/Management.vue'
+import ManagementView from '../views/management/pages/Management.vue'
 
 Vue.use(VueRouter);
 

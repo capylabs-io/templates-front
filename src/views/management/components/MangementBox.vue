@@ -6,12 +6,11 @@
         height="10"
         indeterminate
       ></v-progress-linear>
-    </template> -->
+    </template> 
+    -->
     <v-img
       height="70%"
-      :src="
-        require(`../assets/ManagementBox/ManagementBox${content.index}.png`)
-      "
+      :src="require(`@/assets/ManagementBox/ManagementBox${content.index}.png`)"
     ></v-img>
     <div class="ml-2 d-flex flex-row">
       <div>

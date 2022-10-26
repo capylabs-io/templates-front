@@ -133,7 +133,7 @@
   </div>
 </template>
 <script lang="ts">
-import ManagementBox from "../../../components/MangementBox.vue";
+import ManagementBox from "../components/MangementBox.vue";
 export default {
   components: {
     card: ManagementBox,
