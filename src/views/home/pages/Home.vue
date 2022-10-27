@@ -59,7 +59,7 @@ export default class Home extends Vue {}
   width: 90%;
 }
 .max-height {
-  max-height: 900px;
+  max-height: calc(100vh-apx);
   overflow: hidden;
 }
 .main {

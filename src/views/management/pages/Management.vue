@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="d-flex flex-column mt-10 overflow-y-auto">
+  <div class="max-height d-flex flex-column mt-10 overflow-y-auto">
     <!-- <div class="card-content d-flex flex-row">
       <v-card
         class="options my-10 gray12 rounded-xl boder-gray-10 d-flex flex-row"
@@ -222,5 +222,9 @@ export default {
 }
 .text-field-contain .v-input__slot {
   background-color: #2a2a2d !important;
+}
+.max-height {
+  max-height: calc(100vh-apx);
+  overflow: hidden;
 }
 </style>
