@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="d-flex flex-column mt-16 overflow-y-auto">
+  <div class="d-flex flex-column mt-10 overflow-y-auto">
     <!-- <div class="card-content d-flex flex-row">
       <v-card
         class="options my-10 gray12 rounded-xl boder-gray-10 d-flex flex-row"
@@ -89,7 +89,7 @@
         <v-btn
           class="rounded-lg px-2 py-5 text-sm ml-5 boder-gray-12 text-capitalize"
         >
-          <div class="align-self-center">
+          <div class="d-flex align-self-center pl-1">
             <div class="gray7--text">Recent</div>
           </div>
           <div class="align-self-center pa-2">
@@ -215,7 +215,7 @@ export default {
 .search-bar {
   height: 44px;
   width: 500px;
-  background-color: #1E1E1E !important;
+  background-color: #1e1e1e !important;
 }
 .text-field-contain {
   overflow: hidden;
