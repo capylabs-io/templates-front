@@ -84,6 +84,36 @@
 
       <div>Vote No: Do nothing.</div>
     </div>
+    <div class="d-flex justify-space-between pt-3" v-if="vm.isVoted && !vm.isVoteDone">
+      <v-btn
+          color="gray60"
+          height="34px"
+          outlined
+          class="px-4 text-capitalize"
+          @click="vm.voteExcute()"
+          >Inspect</v-btn
+        >
+        <v-btn
+          class="btn-gray-11 white--text font-weight-bold text-capitalize rounded-lg px-4"
+          @click="vm.voteExcute()"
+          :loading = vm.loading
+          >Execute</v-btn>
+    </div>
+    <div class="d-flex justify-space-between pt-3" v-if="vm.isVoteDone">
+      <v-btn
+          color="gray60"
+          height="34px"
+          outlined
+          class="px-4 text-capitalize"
+          >Inspect executed instruction</v-btn
+        >
+        <v-btn outlined color="emerald">
+          <div class="d-flex align-center">
+            <v-icon>mdi-check</v-icon>
+            <div class="text-capitalize align-seft-center">Executed</div>
+          </div>
+        </v-btn>
+    </div>
   </div>
 </template>
 <script lang="ts">

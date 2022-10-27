@@ -16,6 +16,10 @@ export class DaoViewModel {
   @observable voteEnd="2022/10/31";
   @observable isVoted = false;
   @observable showVoteResult = false;
+  @observable isOpenVoteConfirm = false;
+  @observable isVoteYes = false;
+  @observable isVoteDone = false;
+  @observable loading = false;
   @observable chartOptions =  {
     series: [44, 55, 13, 43, 22],
     chart: {
@@ -37,6 +41,10 @@ export class DaoViewModel {
   @action changeAddProposalDialog() {
     this.isOpenAddProposal = !this.isOpenAddProposal;
   }
+  @action changeVoteConfirmDialog(isVoteYes) {
+    this.isVoteYes = isVoteYes;
+    this.isOpenVoteConfirm = !this.isOpenVoteConfirm;
+  }
   @action gotoProposalDetail() {
     this.proposalID = 1;
   }
@@ -44,7 +52,13 @@ export class DaoViewModel {
     this.proposalID = 0;
   }
   @action voting() {
+    this.isOpenVoteConfirm = false;
     this.isVoted = true;
+  }
+  @action voteExcute() {
+    this.loading = true;
+    this.isVoteDone = true;
+    this.loading = false;
   }
   @action gotoVoteResult() {
     this.showVoteResult = true;
