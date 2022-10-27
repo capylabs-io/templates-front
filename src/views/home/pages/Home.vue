@@ -1,11 +1,11 @@
 <template>
-  <div class="d-flex justify-space-between mx-auto pl-16">
-    <div class="left d-flex flex-column">
+  <div class="d-flex justify-space-between mx-auto">
+    <div class="left d-flex flex-column pl-16">
       <div class="main-content d-flex flex-column">
-        <h1 class="display-4">
+        <h1 class="text-dp-xxl">
           Lorem ipsum dolor sit amet, consecte adipiscing elit.
         </h1>
-        <h2 class="font-weight-light mt-12 gray7--text">
+        <h2 class="font-weight-light mt-12 gray7--text text-dp-xs">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit turpis
           quis auctor donec Sit turpis quis auctor donec sit enim, duis.
         </h2>
@@ -53,7 +53,7 @@ export default class Home extends Vue {}
   background-color: #3b3b3f !important;
   border: 1px solid #4f4f54 !important;
 }
-.main-content{
+.main-content {
   width: 90%;
 }
 </style>

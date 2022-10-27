@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="d-flex flex-column mx-12 mt-16 overflow-y-auto">
+  <div class="d-flex flex-column mt-16 overflow-y-auto">
     <!-- <div class="card-content d-flex flex-row">
       <v-card
         class="options my-10 gray12 rounded-xl boder-gray-10 d-flex flex-row"
@@ -84,7 +84,7 @@
       </v-card>
     </div> -->
     <div class="content-top d-flex flex-row align-center justify-space-between">
-      <div class="d-flex">
+      <div class="d-flex align-self-center">
         <p class="mt-2">Sort:</p>
         <v-btn
           class="rounded-lg px-2 py-5 text-sm ml-5 boder-gray-12 text-capitalize"
@@ -98,12 +98,14 @@
         </v-btn>
       </div>
       <div class="d-flex">
-        <div class="search-bar d-flex gray12 boder-gray-10 rounded-lg mr-5">
+        <div class="search-bar d-flex rounded-lg mr-5">
           <div class="pl-5 align-self-center">
             <v-icon medium color="gray7"> mdi-magnify </v-icon>
           </div>
           <v-text-field
-            class="mr-2 ml-5 align-self-center"
+            flat
+            solo
+            class="mr-2 ml-5 text-field-contain"
             placeholder="Search Theme or Creator"
           ></v-text-field>
         </div>
@@ -201,7 +203,7 @@ export default {
 </script>
 <style scoped>
 .content-top {
-  margin: 0 150px;
+  margin: 0 60px;
 }
 .boder-gray-10 {
   background-color: #3b3b3f !important;
@@ -213,5 +215,12 @@ export default {
 .search-bar {
   height: 44px;
   width: 500px;
+  background-color: #1E1E1E !important;
+}
+.text-field-contain {
+  overflow: hidden;
+}
+.text-field-contain .v-input__slot {
+  background-color: #2a2a2d !important;
 }
 </style>
