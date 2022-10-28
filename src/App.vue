@@ -5,11 +5,12 @@
     <v-main>
       <router-view />
     </v-main>
-    <Footer/>
+    <Footer v-if="currentRoute.name != 'home'"/>
   </v-app>
 </template>
 
 <script>
+import { observable } from "mobx";
 import { Observer } from "mobx-vue";
 import { Component, Vue } from "vue-property-decorator";
 import { appProvider } from "./app-providers";
@@ -33,6 +34,7 @@ import { appProvider } from "./app-providers";
   },
 })
 export default class App extends Vue {
+  @observable currentRoute = this.$router.currentRoute;
   mounted() {
     // walletStore.start();
     appProvider.setVueRouter(this.$router);

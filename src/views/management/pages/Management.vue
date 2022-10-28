@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="max-height d-flex flex-column mt-10 overflow-y-auto">
+  <div class="max-width d-flex flex-column mt-10 overflow-y-auto ma-auto px-10">
     <!-- <div class="card-content d-flex flex-row">
       <v-card
         class="options my-10 gray12 rounded-xl boder-gray-10 d-flex flex-row"
@@ -83,7 +83,7 @@
         </div>
       </v-card>
     </div> -->
-    <div class="content-top d-flex flex-row align-center justify-space-between">
+    <div class="d-flex flex-row align-center justify-space-between">
       <div class="d-flex align-self-center">
         <p class="mt-2">Sort:</p>
         <v-btn
@@ -118,7 +118,7 @@
         </v-btn>
       </div>
     </div>
-    <div class="d-flex flex-wrap gap-24 justify-center mt-5">
+    <div class="d-flex flex-wrap justify-space-between mt-5">
       <card
         v-for="content in contents"
         :key="content.index"
@@ -202,15 +202,12 @@ export default {
 };
 </script>
 <style scoped>
-.content-top {
-  margin: 0 60px;
-}
 .boder-gray-10 {
   background-color: #3b3b3f !important;
   border: 1px solid #4f4f54 !important;
 }
 .gap-24 {
-  column-gap: 25px;
+  column-gap: 20px;
 }
 .search-bar {
   height: 44px;
@@ -223,8 +220,7 @@ export default {
 .text-field-contain .v-input__slot {
   background-color: #2a2a2d !important;
 }
-.max-height {
-  max-height: calc(100vh-apx);
-  overflow: hidden;
+.max-width {
+  max-width: 1440px;
 }
 </style>

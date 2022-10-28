@@ -1,6 +1,6 @@
 <template>
-  <div class="main d-flex justify-space-between mx-auto max-height">
-    <div class="left d-flex flex-column pl-16">
+  <div class="main d-flex justify-space-between mx-auto height">
+    <div class="left d-flex flex-column pl-16 justify-center">
       <div class="content d-flex flex-column">
         <h1 class="text-dp-xxl">
           Lorem ipsum dolor sit amet, consecte adipiscing elit.
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="right">
-      <v-img aspect-ratio="1" src="@/assets/HomePage.png" />
+      <v-img class="full-height" aspect-ratio="1" src="@/assets/HomePage.png" />
     </div>
   </div>
 </template>
@@ -37,7 +37,6 @@ export default class Home extends Vue {}
 </script>
 <style scoped>
 .left {
-  margin-top: 12%;
   width: 50%;
   height: 100%;
   overflow: hidden;
@@ -58,8 +57,8 @@ export default class Home extends Vue {}
 .content {
   width: 90%;
 }
-.max-height {
-  max-height: calc(100vh-apx);
+.height {
+  height: calc(100vh - 66px);
   overflow: hidden;
 }
 .main {

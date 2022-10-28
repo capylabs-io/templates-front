@@ -1,12 +1,12 @@
 <template>
-  <v-card class="card my-4 gray12 rounded-xl boder-gray-10">
+  <v-card class="card my-3 gray12 rounded-xl boder-gray-10 ma-auto">
     <v-img
       height="70%"
       :src="require(`@/assets/ManagementBox/ManagementBox${content.index}.png`)"
     ></v-img>
-    <div class="d-flex flex-row justify-space-between mx-4">
+    <div class="d-flex flex-row justify-space-between mx-4 pb-2">
       <div class="align-self-center">
-        <v-card-title
+        <v-card-title class="pa-1"
           ><v-img
             :src="require('@/assets/web-icon.png')"
             max-width="18px"
@@ -17,7 +17,7 @@
           </div></v-card-title
         >
 
-        <v-card-text>
+        <v-card-text class="pa-1">
           <v-row align="center" class="mx-0 gray7--text card-description">
             <div>{{ content.description }}</div>
           </v-row>
@@ -26,7 +26,7 @@
 
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <div class="align-self-center pr-6">
+          <div class="align-self-center">
             <v-btn
               color="transparent"
               icon
@@ -62,14 +62,13 @@ export default {
   border: 1px solid #4f4f54 !important;
 }
 .card {
-  width: 22.5%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   align-self: center;
 }
 .card-title {
-  font-size: 14px;
+  font-size: 14px; 
   font-weight: 500px;
 }
 .card-description {
