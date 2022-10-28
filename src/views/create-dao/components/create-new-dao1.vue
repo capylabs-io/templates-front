@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5">
+  <v-form ref="create-new-dao1" class="mt-5">
     <div>
       <div>Name</div>
       <v-text-field
@@ -7,6 +7,7 @@
         v-model="vm.daoName"
         color="primary"
         placeholder="Name of your DAO"
+        :disabled="isSummary"
         dense
         solo
         outlined
@@ -21,6 +22,7 @@
         type="number"
         v-model="vm.minAmountToCreate"
         color="primary"
+        :disabled="isSummary"
         dense
         solo
         outlined
@@ -34,21 +36,26 @@
         type="number"
         v-model="vm.communityMintFactor"
         color="primary"
+        :disabled="isSummary"
         dense
         solo
         outlined
       ></v-text-field>
     </div>
-  </div>
+  </v-form>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Inject } from "vue-property-decorator";
+import { Vue, Component, Inject, Prop } from "vue-property-decorator";
 import { CreateDaoViewModel } from "../models/create-dao-viewmodels";
 
-@Component
+@Component({
+  components: {},
+})
 export default class ChooseToken extends Vue {
   @Inject() vm!: CreateDaoViewModel;
+
+  @Prop({ default: false }) isSummary!: boolean;
 }
 </script>
 

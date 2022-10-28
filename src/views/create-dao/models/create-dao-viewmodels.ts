@@ -21,6 +21,15 @@ export class CreateDaoViewModel {
 
   @observable memberCount?: number = 1;
   @observable memberText?: number = 60;
+  @observable page?: number = 0;
+  @observable totalPage?: number = 1;
+  // @observable members?: any = [
+  //   {
+  //     wallet: "0x20C07DaDc0AB5219246BCac518b56F4212380538",
+  //     isYou: true,
+  //   },
+  // ];
+  @observable members?: any = [];
 
   @action.bound changeCurrentStep(value: number) {
     this.currentStep = value;

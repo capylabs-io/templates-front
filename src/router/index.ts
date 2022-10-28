@@ -42,6 +42,14 @@ const routes: Array<RouteConfig> = [
       title: "Create DAO",
     },
   },
+  {
+    path: "/customize-interface",
+    name: "Customize Interface",
+    component: () => import("../views/customize-interface/pages/customize-interface.vue"),
+    meta: {
+      title: "Customize Interface",
+    },
+  },
 ];
 
 const router = new VueRouter({

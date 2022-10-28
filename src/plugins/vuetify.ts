@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
-import { VForm, VTextarea, VTextField, VCheckbox } from "vuetify/lib";
+import { VForm, VTextarea, VTextField, VCheckbox, VDataTable } from "vuetify/lib";
 
 Vue.use(Vuetify, {
   components: {
@@ -8,6 +8,7 @@ Vue.use(Vuetify, {
     VTextarea,
     VTextField,
     VCheckbox,
+    VDataTable,
   },
 });
 

@@ -1,7 +1,11 @@
 <template>
-  <div class="mt-5">
+  <v-form ref="create-new-dao2" class="mt-5">
     <div>
-      <v-checkbox v-model="vm.isCouncilUse" :label="`Use Council`"></v-checkbox>
+      <v-checkbox
+        v-model="vm.isCouncilUse"
+        :label="`Use Council`"
+        :disabled="isSummary"
+      ></v-checkbox>
     </div>
 
     <v-slide-y-transition mode="out-in">
@@ -13,6 +17,7 @@
             v-model="vm.councilTokenAddress"
             color="primary"
             placeholder="ex: 0x0CDF9acd87E940837ff21BB40c9fd55F68bba059"
+            :disabled="isSummary"
             dense
             solo
             outlined
@@ -26,6 +31,7 @@
             class="input-field border-radius-8 elevation-0 mt-2"
             v-model="vm.councilApprovalQuorum"
             color="primary"
+            :disabled="isSummary"
             dense
             solo
             outlined
@@ -34,16 +40,20 @@
         </div>
       </div>
     </v-slide-y-transition>
-  </div>
+  </v-form>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Inject } from "vue-property-decorator";
+import { Vue, Component, Inject, Prop } from "vue-property-decorator";
 import { CreateDaoViewModel } from "../models/create-dao-viewmodels";
 
-@Component
+@Component({
+  components: {},
+})
 export default class ChooseToken extends Vue {
   @Inject() vm!: CreateDaoViewModel;
+
+  @Prop({ default: false }) isSummary!: boolean;
 }
 </script>
 

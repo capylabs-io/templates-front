@@ -3,7 +3,7 @@
     <NavigationBar v-if="$vuetify.breakpoint.mdAndUp" />
     <MobileNavigationBar v-else />
     <v-main>
-      <v-scroll-x-reverse-transition mode="out-in">
+      <v-scroll-x-reverse-transition mode="out-in" appear>
         <router-view> </router-view>
       </v-scroll-x-reverse-transition>
     </v-main>
@@ -182,6 +182,9 @@ input[type="number"]::-webkit-outer-spin-button {
   font-family: "DM Sans", sans-serif !important;
   letter-spacing: 0px !important;
 }
+.card-border {
+  border: var(--v-gray11-base) 1px solid;
+}
 //Font-faces
 .font-dm-sans {
   font-family: "DM Sans", sans-serif !important;
@@ -229,6 +232,12 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .overflow-hidden {
   overflow: hidden;
+}
+.gap-24 {
+  gap: 24px !important;
+}
+.gap-16 {
+  gap: 16px !important;
 }
 .theme--dark {
   .input-field.v-text-field--solo > .v-input__control > fieldset {

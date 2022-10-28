@@ -9,9 +9,10 @@
       <div>Back</div>
     </v-btn>
 
-    <v-card
+    <!-- <v-card
       class="card card-border border-radius-16 mx-auto pa-6"
       elevation="10"
+      v-if="vm.currentStep < vm.totalStep + 1"
     >
       <div>
         <SimpleStepper
@@ -27,12 +28,10 @@
       </div>
       <div class="mt-5" v-if="vm.isCommunityToken">
         <v-scroll-x-reverse-transition mode="out-in">
-          <!-- <ChooseToken v-if="vm.currentStep == 1" />
-            <CreateNew1 v-else-if="vm.currentStep == 2" />
-            <CreateNew2 v-else-if="vm.currentStep == 3" />
-            <AddTeamWallet v-else /> -->
-
-          <AddTeamWallet />
+          <ChooseToken v-if="vm.currentStep == 1" />
+          <CreateNew1 v-else-if="vm.currentStep == 2" />
+          <CreateNew2 v-else-if="vm.currentStep == 3" />
+          <AddTeamWallet v-else />
         </v-scroll-x-reverse-transition>
       </div>
       <v-divider></v-divider>
@@ -54,6 +53,8 @@
         >
       </div>
     </v-card>
+    <DaoSummary v-else /> -->
+    <DaoSummary />
   </div>
 </template>
 
@@ -71,6 +72,7 @@ import { CreateDaoViewModel } from "../models/create-dao-viewmodels";
     CreateNew1: () => import("../components/create-new-dao1.vue"),
     CreateNew2: () => import("../components/create-new-dao2.vue"),
     AddTeamWallet: () => import("../components/add-team-wallet.vue"),
+    DaoSummary: () => import("../components/summary-dao.vue"),
   },
 })
 export default class CreateDAOView extends Vue {
@@ -123,8 +125,5 @@ export default class CreateDAOView extends Vue {
 .card {
   background: var(--v-gray12-base) !important;
   width: 576px !important;
-}
-.card-border {
-  border: var(--v-gray11-base) 1px solid;
 }
 </style>
