@@ -33,14 +33,14 @@ export default class CustomizeInterface extends Vue {
 
 <style scoped>
 .swatches {
-  gap: 12px;
+  gap: 8px;
 }
 .swatch {
   border-radius: 50%;
   cursor: pointer;
   position: relative;
-  height: 36px;
-  width: 36px;
+  height: 28px;
+  width: 28px;
 }
 .swatch.active {
   border: #ffffff 2px solid;

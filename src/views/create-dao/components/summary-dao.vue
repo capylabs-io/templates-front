@@ -2,17 +2,16 @@
   <v-card class="card card-border border-radius-16 mx-auto pa-6" elevation="10">
     <div class="text-xl text-center font-weight-medium">Summary of the DAO</div>
     <div class="inner-card card-border border-radius-8 mt-6 px-5">
-      <div>
+      <div v-if="vm.isCommunityToken">
         <ChooseToken :isSummary="true" />
-      </div>
-      <div>
         <CreateNew1 class="mt-n1" :isSummary="true" />
-      </div>
-      <div>
         <CreateNew2 class="mt-n5" :isSummary="true" />
+        <AddWallet :isSummary="true" />
       </div>
-      <div>
-        <AddTeamWallet :isSummary="true" />
+      <div v-else>
+        <SetupWallet :isSummary="true" />
+        <AddWallet :isSummary="true" />
+        <SetApprovalThreshold :isSummary="true" />
       </div>
     </div>
     <div class="d-flex justify-space-between">
@@ -44,7 +43,10 @@ import { CreateDaoViewModel } from "../models/create-dao-viewmodels";
     ChooseToken: () => import("../components/choose-token.vue"),
     CreateNew1: () => import("../components/create-new-dao1.vue"),
     CreateNew2: () => import("../components/create-new-dao2.vue"),
-    AddTeamWallet: () => import("../components/add-team-wallet.vue"),
+    AddWallet: () => import("../components/add-wallet.vue"),
+    SetupWallet: () => import("../components/setup-wallet.vue"),
+    SetApprovalThreshold: () =>
+      import("../components/set-approval-threshold.vue"),
   },
 })
 export default class SummaryDao extends Vue {
@@ -64,7 +66,6 @@ export default class SummaryDao extends Vue {
 }
 .inner-card {
   background: var(--v-gray13-base) !important;
-  height: 480px;
   overflow-x: hidden;
   overflow-y: auto;
 }

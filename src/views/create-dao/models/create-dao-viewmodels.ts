@@ -23,6 +23,9 @@ export class CreateDaoViewModel {
   @observable memberText?: number = 60;
   @observable page?: number = 0;
   @observable totalPage?: number = 1;
+
+  @observable walletAddress?: string;
+  @observable approvalThreshold?: number = 65;
   // @observable members?: any = [
   //   {
   //     wallet: "0x20C07DaDc0AB5219246BCac518b56F4212380538",

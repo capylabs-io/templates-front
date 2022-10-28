@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="gray6--text mt-1">
-          Add Solana wallet addresses, separated by a comma. You can add more
+          Add member's wallet addresses, separated by a comma. You can add more
           later in DAO’s setting.
         </div>
         <div class="mt-3 d-flex align-center">

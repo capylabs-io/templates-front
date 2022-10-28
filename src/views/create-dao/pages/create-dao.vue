@@ -31,7 +31,14 @@
           <ChooseToken v-if="vm.currentStep == 1" />
           <CreateNew1 v-else-if="vm.currentStep == 2" />
           <CreateNew2 v-else-if="vm.currentStep == 3" />
-          <AddTeamWallet v-else />
+          <AddWallet v-else />
+        </v-scroll-x-reverse-transition>
+      </div>
+      <div>
+        <v-scroll-x-reverse-transition mode="out-in">
+          <SetupWallet v-if="vm.currentStep == 1" />
+          <AddWallet v-if="vm.currentStep == 2" />
+          <SetApprovalThreshold v-else />
         </v-scroll-x-reverse-transition>
       </div>
       <v-divider></v-divider>
@@ -71,8 +78,11 @@ import { CreateDaoViewModel } from "../models/create-dao-viewmodels";
     ChooseToken: () => import("../components/choose-token.vue"),
     CreateNew1: () => import("../components/create-new-dao1.vue"),
     CreateNew2: () => import("../components/create-new-dao2.vue"),
-    AddTeamWallet: () => import("../components/add-team-wallet.vue"),
+    AddWallet: () => import("../components/add-wallet.vue"),
     DaoSummary: () => import("../components/summary-dao.vue"),
+    SetupWallet: () => import("../components/setup-wallet.vue"),
+    SetApprovalThreshold: () =>
+      import("../components/set-approval-threshold.vue"),
   },
 })
 export default class CreateDAOView extends Vue {

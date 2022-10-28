@@ -8,6 +8,7 @@ export class CustomizeInterfaceViewmodel {
   @observable totalPage?: number = 1;
 
   @observable primaryColor?: string;
+  @observable backgroundColor?: string = "#6A49E2";
   @observable drawer = true;
 
   @observable mediaIcons = [
@@ -35,4 +36,8 @@ export class CustomizeInterfaceViewmodel {
     ["#51e5db", "#74ebe3", "#96f0ea", "#b9f5f1", "#dcfaf8"],
     ["#ffa51a", "#ffb748", "#ffc976", "#ffdba3", "#ffedd1"],
   ];
+
+  @action setBackgroundColor(color: string) {
+    this.backgroundColor = color;
+  }
 }

@@ -5,7 +5,7 @@
     </div> -->
     <div class="customize-layout d-flex">
       <CustomizeDrawer />
-      <div class="layout-content">
+      <div class="layout-content" :style="`background: ${vm.backgroundColor}`">
         <v-app-bar>
           <v-select class="page-select" hide-details dense outlined></v-select>
         </v-app-bar>
@@ -41,7 +41,6 @@ export default class CustomizeInterface extends Vue {
   height: 100vh;
 }
 .layout-content {
-  background: rebeccapurple !important;
   width: 100%;
 }
 .page-select {
