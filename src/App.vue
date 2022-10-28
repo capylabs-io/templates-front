@@ -44,6 +44,9 @@ export default class App extends Vue {
 .full-width {
   width: 100% !important;
 }
+.screen-width {
+  width: 100vw;
+}
 .full-height {
   height: 100% !important;
 }

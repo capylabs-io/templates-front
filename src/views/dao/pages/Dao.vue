@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="weight-full" v-if="!vm.showVoteResult && vm.proposalID == 0">
-      <img src="@/assets/dao-banner.png" />
+    <div v-if="!vm.showVoteResult && vm.proposalID == 0">
+      <img class="screen-width" src="@/assets/dao-banner.png" />
     </div>
     <div class="dao-management mt-4 ma-auto">
       <v-row class="justify-center ma-auto" v-if="!vm.showVoteResult">
@@ -14,7 +14,7 @@
         </v-col>
         <v-col cols="10" md="4">
           <YourAccount />
-          <img class="full-width mt-4" src="@/assets/dao-front-banner.png" v-if="vm.proposalID == 0" />
+          <img class="full-width mt-4 border-radius-8" src="@/assets/dao-front-banner.png" v-if="vm.proposalID == 0" />
           <Voting v-else />
         </v-col>
       </v-row>
