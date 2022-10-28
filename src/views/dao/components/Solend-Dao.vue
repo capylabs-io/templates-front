@@ -26,7 +26,7 @@
     color: white !important;
 }
 .min-h {
-    min-height: calc(100vh - 176px);
+    min-height: 848px;
 }
 </style>
 <script lang="ts">
