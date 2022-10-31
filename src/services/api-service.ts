@@ -144,6 +144,11 @@ export class ApiService {
     const res = await axios.post(`auth/signin`, { publicAddress, signature });
     return res.data;
   }
+
+  async getOneTimeNonce(walletAddress: string) {
+    const res = await axios.post("user-noneces/get-nonce", {wallet_addrress: walletAddress});
+    return res.data;
+  }
 }
 
 export const apiService = new ApiService();

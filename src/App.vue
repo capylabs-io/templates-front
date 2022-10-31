@@ -14,7 +14,7 @@ import { observable } from "mobx";
 import { Observer } from "mobx-vue";
 import { Component, Vue } from "vue-property-decorator";
 import { appProvider } from "./app-providers";
-// import { walletStore } from "./stores/wallet-store";
+import { walletStore } from "./stores/wallet-store";
 
 @Observer
 @Component({
@@ -36,7 +36,7 @@ import { appProvider } from "./app-providers";
 export default class App extends Vue {
   @observable currentRoute = this.$router.currentRoute;
   mounted() {
-    // walletStore.start();
+    walletStore.start;
     appProvider.setVueRouter(this.$router);
   }
 }

@@ -7,6 +7,7 @@ import { loadingController } from "@/components/global-loading/global-loading-co
 import { Zero } from "@/constants";
 import { FixedNumber } from "@ethersproject/bignumber";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
+import { apiService } from "@/services/api-service";
 
 export class WalletStore {
   ethereum: any = (window as any).ethereum;
@@ -56,59 +57,42 @@ export class WalletStore {
   //   this.hvgBalance = FixedNumber.from(`${this.web3?.utils.fromWei(balance)}`);
   // }
 
-  // @flow *start() {
-  //   try {
-  //     this.app.start();
-  //     this.isMetamask = this.app.isMetamask;
-  //     // this.web3 = this.app.web3
-  //     if (yield this.app.getAddress()) {
-  //       yield this.connect();
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  //   this.loaded = true;
-  // }
+  @flow *start() {
+    try {
+      console.log("okokok");
+      this.app.start();
+      this.isMetamask = this.app.isMetamask;
+      // this.web3 = this.app.web3
+      if (yield this.app.getAddress()) {
+        yield this.connect();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    this.loaded = true;
+  }
 
-  // @flow *connect() {
-  //   loadingController.increaseRequest();
-  //   try {
-  //     const ok = yield this.app.login();
-  //     this.web3 = this.app.web3;
-  //     if (ok) {
-  //       this.web3 = this.app.web3;
-  //       this.chainId = yield this.web3!.eth.getChainId();
-  //       this.account = yield this.app.getAddress();
-  //       this.ethereum.removeListener(
-  //         "accountsChanged",
-  //         this.ethereumConfigChanged
-  //       );
-  //       this.ethereum.removeListener(
-  //         "chainChanged",
-  //         this.ethereumConfigChanged
-  //       );
-  //       this.ethereum.once("accountsChanged", this.ethereumConfigChanged);
-  //       this.ethereum.once("chainChanged", this.ethereumConfigChanged);
-  //       if (this.isChainIdValid) {
-  //         this.getAvaxBalance();
-  //         // this.getUserTokenBalance();
-  //       }
-  //       this._balanceSubscription?.unsubscribe();
-  //       this._balanceSubscription = timer(0, 5000).subscribe(() => {
-  //         if (this.isChainIdValid) {
-  //           this.getAvaxBalance();
-  //           this.getUserTokenBalance();
-  //         }
-  //       });
-  //     }
-  //     return ok;
-  //   } catch (error) {
-  //     error.message && snackController.error(error.message);
-  //     return false;
-  //   } finally {
-  //     loadingController.decreaseRequest();
-  //   }
-  // }
+  @flow *connect() {
+    loadingController.increaseRequest();
+    try {
+      const ok = yield this.app.login();
+      // this.web3 = this.app.web3;
+      if (ok) {
+        this.web3 = this.app.web3;
+        this.chainId = yield this.web3!.eth.getChainId();
+        this.account = yield this.app.getAddress();
+        const oneTimeNonce = apiService.getOneTimeNonce(this.account);
+        console.log(oneTimeNonce);
+        
+      }
+      return ok;
+    } catch (error) {
+      error.message && snackController.error(error.message);
+      return false;
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  }
 
   // @action disconnectAccount() {
   //   try {

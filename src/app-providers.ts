@@ -10,6 +10,7 @@ export class AppProvider {
 
   @action.bound setVueRouter(router: VueRouter) {
     this.router = router;
+    this.wallet.start();
   }
 }
 
