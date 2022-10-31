@@ -33,8 +33,8 @@ import { walletStore } from "./stores/wallet-store";
   },
 })
 export default class App extends Vue {
-  mounted() {
-    walletStore.start;
+  async created() {
+    await walletStore.start();
     appProvider.setVueRouter(this.$router);
   }
 }
