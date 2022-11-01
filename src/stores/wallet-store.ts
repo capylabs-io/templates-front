@@ -149,59 +149,59 @@ export class WalletStore {
   //   window.location.reload();
   // };
 
-  // async switchNetwork(chainId: number) {
-  //   if (this.connected) {
-  //     try {
-  //       await this.ethereum.request({
-  //         method: "wallet_switchEthereumChain",
-  //         params: [{ chainId: Web3.utils.toHex(chainId) }],
-  //       });
-  //     } catch (error) {
-  //       if (error.message.includes("wallet_addEthereumChain")) {
-  //         if (chainId === Number(process.env.VUE_APP_CHAIN_ID)) {
-  //           this.ethereum.request({
-  //             method: "wallet_addEthereumChain",
-  //             params: [
-  //               {
-  //                 chainId: Web3.utils.toHex(chainId),
-  //                 chainName: "Avalanche Mainnet",
-  //                 nativeCurrency: {
-  //                   name: "Avax",
-  //                   symbol: "AVAX",
-  //                   decimals: 18,
-  //                 },
-  //                 rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
-  //                 blockExplorerUrls: ["https://snowtrace.io/"],
-  //               },
-  //             ],
-  //           });
-  //         } else if (Number(process.env.VUE_APP_CHAIN_ID)) {
-  //           this.ethereum.request({
-  //             method: "wallet_addEthereumChain",
-  //             params: [
-  //               {
-  //                 chainId: Web3.utils.toHex(chainId),
-  //                 chainName: "Avalanche Testnet",
-  //                 nativeCurrency: {
-  //                   name: "Avax",
-  //                   symbol: "AVAX",
-  //                   decimals: 18,
-  //                 },
-  //                 rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
-  //                 blockExplorerUrls: ["https://testnet.snowtrace.io/"],
-  //               },
-  //             ],
-  //           });
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  async switchNetwork(chainId: number) {
+    if (this.connected) {
+      try {
+        await this.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: Web3.utils.toHex(chainId) }],
+        });
+      } catch (error) {
+        if (error.message.includes("wallet_addEthereumChain")) {
+          if (chainId === Number(process.env.VUE_APP_CHAIN_ID)) {
+            this.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [
+                {
+                  chainId: Web3.utils.toHex(chainId),
+                  chainName: "Avalanche Mainnet",
+                  nativeCurrency: {
+                    name: "Avax",
+                    symbol: "AVAX",
+                    decimals: 18,
+                  },
+                  rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
+                  blockExplorerUrls: ["https://snowtrace.io/"],
+                },
+              ],
+            });
+          } else if (Number(process.env.VUE_APP_CHAIN_ID)) {
+            this.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [
+                {
+                  chainId: Web3.utils.toHex(chainId),
+                  chainName: "Avalanche Testnet",
+                  nativeCurrency: {
+                    name: "Avax",
+                    symbol: "AVAX",
+                    decimals: 18,
+                  },
+                  rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
+                  blockExplorerUrls: ["https://testnet.snowtrace.io/"],
+                },
+              ],
+            });
+          }
+        }
+      }
+    }
+  }
 
-  // //#region computed
-  // @computed get connected() {
-  //   return !!this.account;
-  // }
+  //#region computed
+  @computed get connected() {
+    return !!this.account;
+  }
 
   // @computed get shortAccount() {
   //   if (!this.account) return "";

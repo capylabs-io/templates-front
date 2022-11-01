@@ -1,5 +1,12 @@
 <template>
-  <v-app-bar class="" height="64px" style="z-index: 99,max-width:100%" app flat color="gray12">
+  <v-app-bar
+    class=""
+    height="64px"
+    style="z-index: 99,max-width:100%"
+    app
+    flat
+    color="gray12"
+  >
     <div
       class="nav-container ml-13 text-s font-weight-regular"
       style="min-width: 95%"
@@ -12,13 +19,26 @@
           <!-- Main menu -->
           <div
             @click="openLink('/')"
-            class="white--text text-decoration-none cursor-pointer pl-6 pr-2 align-self-center"
+            class="
+              white--text
+              text-decoration-none
+              cursor-pointer
+              pl-6
+              pr-2
+              align-self-center
+            "
           >
             <div class="text-none">Home</div>
           </div>
           <router-link
             to="/service"
-            class="white--text text-decoration-none cursor-pointer px-2 align-self-center"
+            class="
+              white--text
+              text-decoration-none
+              cursor-pointer
+              px-2
+              align-self-center
+            "
             active-class="active"
           >
             <div class="text-none">Service</div>
@@ -28,7 +48,13 @@
               <div
                 v-bind="attrs"
                 v-on="on"
-                class="white--text text-decoration-none cursor-pointer px-2 align-self-center"
+                class="
+                  white--text
+                  text-decoration-none
+                  cursor-pointer
+                  px-2
+                  align-self-center
+                "
                 active-class="active"
               >
                 <div class="text-none">Help</div>
@@ -46,7 +72,15 @@
               <v-menu open-on-hover offset-y v-if="wallet.connected">
                 <template v-slot:activator="{ on, attrs }">
                   <div
-                    class="d-flex align-center connect-wallet rounded-lg text-none py-2 px-4"
+                    class="
+                      d-flex
+                      align-center
+                      connect-wallet
+                      rounded-lg
+                      text-none
+                      py-2
+                      px-4
+                    "
                     v-bind="attrs"
                     v-on="on"
                     large
@@ -60,7 +94,7 @@
                     ></address-copy-board>
                   </div>
                 </template>
-                <v-list>
+                <!-- <v-list>
                   <div class="px-8 py-2 text-md mt-2">
                     HVG Balance:
                     <span class="primary--text font-weight-bold">{{
@@ -74,7 +108,7 @@
                     }}</span>
                   </div>
                   <v-divider class="my-2"></v-divider>
-                </v-list>
+                </v-list> -->
               </v-menu>
             </ConnectMetamask>
           </div>
@@ -98,8 +132,7 @@ import { Observer } from "mobx-vue";
 })
 export default class NavigationBar extends Vue {
   wallet = walletStore;
-  // chainId = process.env.VUE_APP_CHAIN_ID;
-  chainId = "";
+  chainId = process.env.VUE_APP_CHAIN_ID;
   openLink(url) {
     window.open(url, "_blank");
   }
