@@ -6,6 +6,7 @@ import { pluginsRegister } from "./plugins/plugins-register";
 import { vueFilterRegister } from "./plugins/vue-filter-register";
 
 Vue.config.productionTip = false;
+Vue.component("address-copy-board", () => import("@/components/address-copy-board.vue"));
 
 pluginsRegister();
 vueFilterRegister();

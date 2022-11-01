@@ -34,9 +34,9 @@
         </v-col>
         <v-col col="3">
           <div class="d-flex align-center justify-end">
-            <div class="pa-2 box-gray-11 rounded-circle mr-2">
+            <!-- <div class="pa-2 box-gray-11 rounded-circle mr-2">
               <v-icon>mdi-lightbulb-on-outline</v-icon>
-            </div>
+            </div> -->
             <ConnectMetamask :requiredChainId="chainId">
               <v-menu open-on-hover offset-y v-if="wallet.connected">
                 <template v-slot:activator="{ on, attrs }">
@@ -101,8 +101,7 @@ import { Observer } from "mobx-vue";
 })
 export default class NavigationBar extends Vue {
   wallet = walletStore;
-  // chainId = process.env.VUE_APP_CHAIN_ID;
-  chainId = "";
+  chainId = process.env.VUE_APP_CHAIN_ID;
   openLink(url) {
     window.open(url, "_blank");
   }
