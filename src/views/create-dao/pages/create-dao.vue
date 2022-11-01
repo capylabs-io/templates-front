@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column justify-center full-height">
+  <div class="d-flex flex-column justify-center full-height py-8">
     <v-btn
       class="d-flex btn-back text-none btn-text"
       @click="onBtnBackClick()"
@@ -9,7 +9,7 @@
       <div>Back</div>
     </v-btn>
 
-    <!-- <v-card
+    <v-card
       class="card card-border border-radius-16 mx-auto pa-6"
       elevation="10"
       v-if="vm.currentStep < vm.totalStep + 1"
@@ -27,45 +27,68 @@
         <div class="font-weight-medium">{{ stepTitles[vm.currentStep] }}</div>
       </div>
       <div class="mt-5" v-if="vm.isCommunityToken">
-        <v-scroll-x-reverse-transition mode="out-in">
-          <ChooseToken v-if="vm.currentStep == 1" />
-          <CreateNew1 v-else-if="vm.currentStep == 2" />
-          <CreateNew2 v-else-if="vm.currentStep == 3" />
-          <AddWallet v-else />
-        </v-scroll-x-reverse-transition>
+        <div v-if="vm.currentStep == 1">
+          <ChooseToken />
+        </div>
+        <div v-else-if="vm.currentStep == 2">
+          <CreateNew1 />
+        </div>
+        <div v-else-if="vm.currentStep == 3">
+          <CreateNew2 />
+        </div>
+        <div v-else>
+          <AddWallet />
+        </div>
       </div>
-      <div>
-        <v-scroll-x-reverse-transition mode="out-in">
-          <SetupWallet v-if="vm.currentStep == 1" />
-          <AddWallet v-if="vm.currentStep == 2" />
-          <SetApprovalThreshold v-else />
-        </v-scroll-x-reverse-transition>
+      <div v-else>
+        <div v-show="vm.currentStep == 1">
+          <SetupWallet />
+        </div>
+        <div v-show="vm.currentStep == 2">
+          <AddWallet />
+        </div>
+        <div v-show="vm.currentStep == 3">
+          <SetApprovalThreshold />
+        </div>
       </div>
       <v-divider></v-divider>
-      <div class="d-flex justify-space-between">
+      <div class="d-flex justify-space-between mt-6">
         <div>
           <v-btn
-            v-if="vm.currentStep > 1"
-            class="text-none btn-text border-radius-8 py-5 mt-6"
+            class="text-none btn-text border-radius-8 py-5"
             color="gray10"
             elevation="0"
+            @click="vm.previousStep()"
+            v-if="vm.currentStep > 1"
             >Previous</v-btn
           >
         </div>
         <v-btn
-          class="text-none btn-text border-radius-8 py-5 mt-6"
+          class="text-none btn-text border-radius-8 py-5"
           color="primary"
           elevation="0"
+          :disabled="!vm.canNextStep"
+          @click="vm.nextStep()"
+          v-if="!vm.isLastStep"
           >Next</v-btn
+        >
+        <v-btn
+          class="text-none btn-text border-radius-8 py-5"
+          color="primary"
+          elevation="0"
+          :disabled="!vm.canNextStep"
+          @click="vm.createApplication()"
+          v-else
+          >Finish</v-btn
         >
       </div>
     </v-card>
-    <DaoSummary v-else /> -->
-    <DaoSummary />
+    <DaoSummary v-else />
   </div>
 </template>
 
 <script lang="ts">
+import { walletStore } from "@/stores/wallet-store";
 import { Observer } from "mobx-vue";
 import { Component, Provide, Vue } from "vue-property-decorator";
 import { CreateDaoViewModel } from "../models/create-dao-viewmodels";
@@ -98,16 +121,17 @@ export default class CreateDAOView extends Vue {
     "3": "Proposal Setting",
   };
   stepTitles = {};
+  walletStore = walletStore;
 
   @Provide() vm = new CreateDaoViewModel();
-  //   @Inject() vm!: CreateDaoViewModel;
 
   mounted() {
-    if (!this.vm) this.$router.push("/select-dao");
+    if (!this.vm || !walletStore.connected) this.$router.push("/select-dao");
     if (!this.$route.query || !this.$route.query.type)
       this.$router.push("/select-dao");
     if (this.$route.query.type == "multi-signature") {
       this.vm.isCommunityToken = false;
+      this.vm.daoType = "multi-sig";
       this.stepTitles = this.multiSigStepTitles;
       this.vm.changeTotalStep(3);
     } else if (
@@ -115,6 +139,8 @@ export default class CreateDAOView extends Vue {
       this.$route.query.type == "community-token"
     ) {
       this.vm.isCommunityToken = true;
+      this.vm.daoType =
+        this.$route.query.type == "nft-community" ? "nft-dao" : "community-dao";
       this.stepTitles = this.communityStepTitles;
       this.vm.changeTotalStep(4);
     }

@@ -27,8 +27,16 @@
           class="border-radius-8 card-button px-6 py-5 btn-text text-none"
           @click="onButtonClick()"
           :disabled="isButtonDisable"
+          v-if="walletStore.connected"
         >
           {{ buttonText }}
+        </v-btn>
+        <v-btn
+          class="border-radius-8 card-button px-6 py-5 btn-text text-none"
+          @click="walletStore.connect"
+          v-else
+        >
+          Connect Wallet
         </v-btn>
       </div>
     </div>
@@ -36,9 +44,10 @@
 </template>
 
 <script lang="ts">
+import { walletStore } from "@/stores/wallet-store";
 import { Component, Vue, Prop } from "vue-property-decorator";
 
-@Component
+@Component({})
 export default class ServiceCard extends Vue {
   @Prop() title!: string;
   @Prop() content!: string;
@@ -47,6 +56,8 @@ export default class ServiceCard extends Vue {
   @Prop({ default: 1 }) cardBg!: number;
   @Prop({ default: "Create Now" }) buttonText!: string;
   @Prop({ default: false }) isButtonDisable!: boolean;
+
+  walletStore = walletStore;
 
   onButtonClick() {
     if (this.link) this.$router.push(this.link);

@@ -1,20 +1,21 @@
 <template>
-  <div class="mt-5">
-    <div>Do you have an existing token for your DAO's community?</div>
+  <v-form v-model="vm.setupWalletForm" class="mt-5">
+    <div>Your Wallet Name</div>
     <div class="gray6--text text-sm">
-      Holders of this token will be able to vote or edit your DAO.
+      It’s best to choose a descriptive and memorable name.
     </div>
     <v-text-field
       class="input-field border-radius-8 elevation-0 mt-2"
       placeholder="ex: 0x0CDF9acd87E940837ff21BB40c9fd55F68bba059"
       color="primary"
-      v-model="vm.walletAddress"
+      v-model="vm.daoName"
       :disabled="isSummary"
+      :rules="[$rules.required]"
       dense
       solo
       outlined
     ></v-text-field>
-  </div>
+  </v-form>
 </template>
 
 <script lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <v-form class="mt-5" ref="choose-token">
+  <v-form class="mt-5" ref="choose-token" v-model="vm.chooseTokenForm">
     <div>
       <div>Do you have an existing token for your DAO's community?</div>
       <div class="gray6--text">
@@ -28,6 +28,7 @@
             color="primary"
             placeholder="ex: 0x0CDF9acd87E940837ff21BB40c9fd55F68bba059"
             :disabled="isSummary"
+            :rules="[$rules.required, $rules.validWalletAddress]"
             dense
             solo
             outlined
@@ -36,7 +37,7 @@
         </div>
       </div>
     </v-slide-y-transition>
-    <div
+    <!-- <div
       class="
         btn-advance
         border-radius-8
@@ -52,25 +53,21 @@
       <div class="mr-1">Advance Option</div>
       <v-icon v-if="vm.isChooseTokenAdvance">mdi-chevron-up</v-icon>
       <v-icon v-else>mdi-chevron-down</v-icon>
+    </div> -->
+    <div>Do you have an existing token for your DAO's community?</div>
+    <div class="gray6--text">
+      This value determines the max voter weight used to calculate voting
+      thresholds.
     </div>
-    <v-slide-y-transition mode="out-in">
-      <div v-show="vm.isChooseTokenAdvance">
-        <div>Do you have an existing token for your DAO's community?</div>
-        <div class="gray6--text">
-          This value determines the max voter weight used to calculate voting
-          thresholds.
-        </div>
-        <v-radio-group
-          class="mt-3"
-          v-model="vm.isAbsoluteOption"
-          :disabled="isSummary"
-          mandatory
-        >
-          <v-radio :label="`Supply Fraction`" :value="false"></v-radio>
-          <v-radio :label="`Absolute`" :value="true"></v-radio>
-        </v-radio-group>
-      </div>
-    </v-slide-y-transition>
+    <v-radio-group
+      class="mt-3"
+      v-model="vm.isAbsoluteOption"
+      :disabled="isSummary"
+      mandatory
+    >
+      <v-radio :label="`Supply Fraction`" :value="false"></v-radio>
+      <v-radio :label="`Absolute`" :value="true"></v-radio>
+    </v-radio-group>
   </v-form>
 </template>
 

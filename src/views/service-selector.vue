@@ -30,12 +30,18 @@
       />
     </div>
     <div class="mt-16">
-      <div class="text-center">
-        or
-        <span class="blueJeans--text text-decoration-underline cursor-pointer"
-          >Watch Tutorial</span
-        >
-      </div>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <div class="text-center cursor-pointer" v-bind="attrs" v-on="on">
+            or
+            <span
+              class="blueJeans--text text-decoration-underline cursor-pointer"
+              >Watch Tutorial</span
+            >
+          </div>
+        </template>
+        <span>Coming Soon</span>
+      </v-tooltip>
     </div>
   </div>
 </template>

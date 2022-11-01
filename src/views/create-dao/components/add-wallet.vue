@@ -15,18 +15,18 @@
           later in DAO’s setting.
         </div>
         <div class="mt-3 d-flex align-center">
-          <v-icon large>mdi-account-circle-outline</v-icon>
+          <v-icon>mdi-account-circle-outline</v-icon>
           <div class="font-weight-medium ml-2">
-            0x20C07DaDc0AB5219246BCac518b56F4212380538
+            You: {{ walletStore.account }}
           </div>
         </div>
 
         <div class="mt-3">
           <v-textarea
             class="input-field border-radius-8 elevation-0 overflow-hidden"
-            v-model="vm.tokenAddress"
             color="primary"
             placeholder="ex: 0x20C07DaDc0AB5219246BCac518b56F4212380538"
+            v-model="vm.membersString"
             dense
             solo
             outlined
@@ -63,6 +63,7 @@
 </template>
 
 <script lang="ts">
+import { walletStore } from "@/stores/wallet-store";
 import { Vue, Component, Inject, Prop } from "vue-property-decorator";
 import { CreateDaoViewModel } from "../models/create-dao-viewmodels";
 
@@ -74,6 +75,7 @@ export default class AddTeamWallet extends Vue {
 
   @Prop({ default: false }) isSummary!: boolean;
 
+  walletStore = walletStore;
   headers = [
     {
       text: "Wallet",

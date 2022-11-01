@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="create-new-dao1" class="mt-5">
+  <v-form ref="create-new-dao1" v-model="vm.createNewDaoForm1" class="mt-5">
     <div>
       <div>Name</div>
       <v-text-field
@@ -8,6 +8,7 @@
         color="primary"
         placeholder="Name of your DAO"
         :disabled="isSummary"
+        :rules="[$rules.required]"
         dense
         solo
         outlined
@@ -23,6 +24,7 @@
         v-model="vm.minAmountToCreate"
         color="primary"
         :disabled="isSummary"
+        :rules="[$rules.required]"
         dense
         solo
         outlined
@@ -37,6 +39,7 @@
         v-model="vm.communityMintFactor"
         color="primary"
         :disabled="isSummary"
+        :rules="[$rules.required]"
         dense
         solo
         outlined

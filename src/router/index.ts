@@ -8,6 +8,10 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
+    redirect: "/home",
+  },
+  {
+    path: "/home",
     name: "home",
     component: () => import("../views/home/pages/Home.vue"),
     meta: {
