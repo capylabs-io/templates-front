@@ -1,19 +1,44 @@
 <template>
-  <v-app-bar height="64px" style="z-index: 99" app flat color=gray12>
-    <div class="nav-container mx-auto text-xs font-weight-regular" style="width: 100%">
-      <v-row class="d-flex align-center justify-space-between px-4">
+  <v-app-bar
+    class=""
+    height="64px"
+    style="z-index: 99,max-width:100%"
+    app
+    flat
+    color="gray12"
+  >
+    <div
+      class="nav-container ml-13 text-s font-weight-regular"
+      style="min-width: 95%"
+    >
+      <v-row class="d-flex align-center justify-space-between">
         <v-col col="8" class="d-inline-flex">
-          <div>Logo here</div>
+          <div class="font-weight-bold text-xl align-self-center">
+            Logo here
+          </div>
           <!-- Main menu -->
           <div
             @click="openLink('/')"
-            class="white--text text-decoration-none cursor-pointer pl-6 pr-2"
+            class="
+              white--text
+              text-decoration-none
+              cursor-pointer
+              pl-6
+              pr-2
+              align-self-center
+            "
           >
             <div class="text-none">Home</div>
           </div>
           <router-link
             to="/service"
-            class="white--text text-decoration-none cursor-pointer px-2"
+            class="
+              white--text
+              text-decoration-none
+              cursor-pointer
+              px-2
+              align-self-center
+            "
             active-class="active"
           >
             <div class="text-none">Service</div>
@@ -23,7 +48,13 @@
               <div
                 v-bind="attrs"
                 v-on="on"
-                class="white--text text-decoration-none cursor-pointer px-2"
+                class="
+                  white--text
+                  text-decoration-none
+                  cursor-pointer
+                  px-2
+                  align-self-center
+                "
                 active-class="active"
               >
                 <div class="text-none">Help</div>
@@ -34,9 +65,9 @@
         </v-col>
         <v-col col="3">
           <div class="d-flex align-center justify-end">
-            <div class="pa-2 box-gray-11 rounded-circle mr-2">
+            <!-- <div class="pa-2 box-gray-11 rounded-circle mr-2 align-self-center">
               <v-icon>mdi-lightbulb-on-outline</v-icon>
-            </div>
+            </div> -->
             <ConnectMetamask :requiredChainId="chainId">
               <v-menu open-on-hover offset-y v-if="wallet.connected">
                 <template v-slot:activator="{ on, attrs }">
@@ -63,7 +94,7 @@
                     ></address-copy-board>
                   </div>
                 </template>
-                <v-list>
+                <!-- <v-list>
                   <div class="px-8 py-2 text-md mt-2">
                     HVG Balance:
                     <span class="primary--text font-weight-bold">{{
@@ -77,14 +108,13 @@
                     }}</span>
                   </div>
                   <v-divider class="my-2"></v-divider>
-                </v-list>
+                </v-list> -->
               </v-menu>
             </ConnectMetamask>
           </div>
         </v-col>
       </v-row>
     </div>
-    <v-divider></v-divider>
   </v-app-bar>
 </template>
 
@@ -102,8 +132,7 @@ import { Observer } from "mobx-vue";
 })
 export default class NavigationBar extends Vue {
   wallet = walletStore;
-  // chainId = process.env.VUE_APP_CHAIN_ID;
-  chainId = "";
+  chainId = process.env.VUE_APP_CHAIN_ID;
   openLink(url) {
     window.open(url, "_blank");
   }

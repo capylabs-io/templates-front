@@ -1,6 +1,6 @@
 <template>
   <v-footer height="52px" color="gray12" class="px-12">
-    <div class="d-flex justify-space-between gray5--text text-xs full-width">
+    <div class="d-flex justify-space-between gray5--text text-s full-width">
       <div class="d-flex">
         <div
           @click="openLink('/')"
@@ -44,7 +44,12 @@
   </v-footer>
 </template>
 <script lang="ts">
-import { Vue } from "vue-property-decorator";
+import { Observer } from "mobx-vue";
+import { Component, Vue } from "vue-property-decorator";
+@Observer
+@Component({
+  components: {},
+})
 export default class Footer extends Vue {}
 </script>
 <style scoped>

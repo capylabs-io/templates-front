@@ -140,8 +140,13 @@ export class ApiService {
   }
 
   async signIn(model) {
-    const { publicAddress, signature } = model;
-    const res = await axios.post(`auth/signin`, { publicAddress, signature });
+    const { walletAddress, signature } = model;
+    const res = await axios.post(`login/metamask`, { walletAddress, signature });
+    return res.data;
+  }
+
+  async getOneTimeNonce(walletAddress: string) {
+    const res = await axios.get("user-nonces/get-nonce?address=" + walletAddress);
     return res.data;
   }
 }

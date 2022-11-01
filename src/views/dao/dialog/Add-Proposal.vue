@@ -2,7 +2,7 @@
   <v-dialog
     transition="dialog-bottom-transition"
     v-model="vm.isOpenAddProposal"
-    width="500px"
+    width="576px"
     persistent
   >
     <v-card class="border-radius-16 box-gray-12">
@@ -11,30 +11,72 @@
         <v-icon
           class="mr-1"
           @click="vm.changeAddProposalDialog()"
+          color="blueJeans"
           >mdi-close</v-icon
         >
       </v-card-title>
-      <v-divider></v-divider>
-      <v-card-text class="mt-3">
-        <div class="my-4 text-subtitle-2 text-center white--text">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis eos
-          ab cum soluta harum, delectus beatae praesentium repellat fugit
-          veritatis cupiditate atque laboriosam quo in adipisci fugiat ipsum
-          expedita consequatur.
+      <v-card-text class="mt-3 text-sm font-weight-regular white--text">
+        <div>Title</div>
+        <div class="mt-2">
+          <input
+            type="text"
+            name="proposalTitle"
+            placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
+            class="h-36 full-width box-gray-13 pl-4 white--text"
+          />
+        </div>
+        <div class="mt-2">Description</div>
+        <div class="mt-2">
+          <textarea
+            name="proposalDes"
+            auto-grow
+            class="min-h-80 full-width box-gray-13 pl-4 white--text"
+            placeholder="eg: Introducte to new Features..."
+          ></textarea>
+        </div>
+        <div class="d-flex justify-space-between mt-6">
+          <div class="text-lg font-weight-bold">Instruction</div>
+          <div class="blueJeans--text d-flex align-center cursor-pointer">
+            <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
+            <span class="ml-1">Add Instruction</span>
+          </div>
+        </div>
+        <div class="mt-3">Instruction 1</div>
+        <div class="mt-2">
+          <v-select
+            :items="vm.instructionList"
+            label="Selection"
+            solo
+          ></v-select>
+        </div>
+        <div>Governance</div>
+        <div class="mt-2">
+          <v-select
+            :items="vm.instructionList"
+            label="Selection"
+            solo
+          ></v-select>
+        </div>
+        <div>SPL Token Mint</div>
+        <div class="mt-2">
+          <v-select
+            :items="vm.instructionList"
+            label="Selection"
+            solo
+          ></v-select>
         </div>
       </v-card-text>
       <v-card-actions
-        class="d-flex flex-row align-center px-6 pb-6 justify-center"
+        class="d-flex flex-row align-center px-6 pb-6 justify-space-between"
       >
-        <v-btn
-          color="gray60"
-          class="
-            btn-gray-11
-            px-10
-            mx-3
-          "
-          >Save as Draft</v-btn
-        >
+        <div class="d-flex">
+          <v-btn color="gray60" class="btn-gray-11 px-4 mr-4"
+            >Preview instruction</v-btn
+          >
+          <v-btn color="gray60" class="btn-gray-11 px-4"
+            >Save as Draft</v-btn
+          >
+        </div>
         <v-btn
           color="majorelleBlue"
           class="
@@ -42,8 +84,7 @@
             font-weight-bold
             text-capitalize
             rounded-lg
-            px-10
-            mx-3
+            px-4
           "
           >Add proposal</v-btn
         >
@@ -62,7 +103,7 @@ import { DaoViewModel } from "../models/dao-viewmodels";
   components: {},
 })
 export default class AddProposal extends Vue {
-    @Inject() vm!: DaoViewModel;
+  @Inject() vm!: DaoViewModel;
 }
 </script>
 
