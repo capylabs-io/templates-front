@@ -1,3 +1,5 @@
+import { walletStore } from "@/stores/wallet-store";
+import { when } from "mobx";
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import HomeView from "../views/home/pages/Home.vue";
@@ -69,6 +71,13 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  await when(() => walletStore.loaded);
+  next(); //TODO: uncomment below
+  // if (!to.name || !to) next("/my-character");
+  // else next();
 });
 
 export default router;

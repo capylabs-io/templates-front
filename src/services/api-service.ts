@@ -27,7 +27,7 @@ export class ApiHandler<T> {
     params?: any,
     settings: { _sort?: string; _limit?: number; _start?: number } = {}
   ): Promise<T[]> {
-    const settingDefault = { _sort: "createdAt:DESC", _limit: 10, _start: 0 };
+    const settingDefault = { _sort: "createdAt:DESC", _limit: -1, _start: 0 };
     params = { ...settingDefault, ...settings, ...(params ?? {}) };
     const res = await this.axios.get(this.route, { params });
     const lst = res.data;
@@ -149,6 +149,11 @@ export class ApiService {
 
   async getOneTimeNonce(walletAddress: string) {
     const res = await axios.get("user-nonces/get-nonce?address=" + walletAddress);
+    return res.data;
+  }
+
+  async getFile(id: any) {
+    const res = await axios.get(`upload/files/${id}`);
     return res.data;
   }
 }

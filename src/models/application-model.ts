@@ -10,6 +10,7 @@ export interface ApplicationModel {
   defaultDomain: string;
   user?: any;
   dao_setting: DaoSettingModel;
-  updatedAt: Date;
-  createdAt: Date;
+  updatedAt?: string;
+  createdAt?: string;
+  status: string;
 }

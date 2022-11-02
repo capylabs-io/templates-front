@@ -1,6 +1,8 @@
-import { action, observable } from "mobx";
+import { action, flow, observable } from "mobx";
 
 export class CustomizeInterfaceViewmodel {
+  @observable isFirstTimeCustomize = false;
+
   @observable sortBy: any = ["All", "Free", "Premium"];
   @observable searchKey?: string;
 
@@ -36,6 +38,8 @@ export class CustomizeInterfaceViewmodel {
     ["#51e5db", "#74ebe3", "#96f0ea", "#b9f5f1", "#dcfaf8"],
     ["#ffa51a", "#ffb748", "#ffc976", "#ffdba3", "#ffedd1"],
   ];
+
+  getApplicationDetail = flow(function* (this) {});
 
   @action setBackgroundColor(color: string) {
     this.backgroundColor = color;

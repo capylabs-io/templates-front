@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!-- <div>
+    <div>
       <ThemeSelector />
-    </div> -->
+    </div>
     <div class="customize-layout d-flex">
       <CustomizeDrawer />
       <div class="layout-content" :style="`background: ${vm.backgroundColor}`">
@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+import { walletStore } from "@/stores/wallet-store";
 import { Vue, Component, Provide } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
 
@@ -26,6 +27,12 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
 })
 export default class CustomizeInterface extends Vue {
   @Provide() vm = new CustomizeInterfaceViewmodel();
+
+  walletStore = walletStore;
+
+  created() {
+    // if (!walletStore.connected) this.$router.push("/home");
+  }
 }
 </script>
 
