@@ -10,7 +10,7 @@
       </div>
       <div v-else>
         <SetupWallet :isSummary="true" />
-        <AddWallet :isSummary="true" />
+        <AddWallet class="mt-n4" :isSummary="true" />
         <SetApprovalThreshold :isSummary="true" />
       </div>
     </div>
@@ -28,16 +28,19 @@
         class="text-none btn-text border-radius-8 py-5 mt-6"
         color="primary"
         elevation="0"
-        >Next</v-btn
+        @click="vm.createApplication()"
+        >Finish</v-btn
       >
     </div>
   </v-card>
 </template>
 
 <script lang="ts">
+import { Observer } from "mobx-vue";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { CreateDaoViewModel } from "../models/create-dao-viewmodels";
 
+@Observer
 @Component({
   components: {
     ChooseToken: () => import("../components/choose-token.vue"),

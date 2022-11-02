@@ -72,9 +72,11 @@
 </template>
 
 <script lang="ts">
+import { Observer } from "mobx-vue";
 import { Vue, Component, Inject, Prop } from "vue-property-decorator";
 import { CreateDaoViewModel } from "../models/create-dao-viewmodels";
 
+@Observer
 @Component({
   components: {},
 })

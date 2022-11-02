@@ -12,7 +12,7 @@
     <v-card
       class="card card-border border-radius-16 mx-auto pa-6"
       elevation="10"
-      v-if="vm.currentStep < vm.totalStep + 1"
+      v-if="!vm.isLastStep"
     >
       <div>
         <SimpleStepper
@@ -22,7 +22,7 @@
       </div>
       <div class="d-flex text-xl mt-3">
         <div class="gray4--text mr-2">
-          Step {{ vm.currentStep }}/{{ vm.totalStep }}:
+          Step {{ vm.currentStep }}/{{ vm.totalStep - 1 }}:
         </div>
         <div class="font-weight-medium">{{ stepTitles[vm.currentStep] }}</div>
       </div>
@@ -69,17 +69,7 @@
           elevation="0"
           :disabled="!vm.canNextStep"
           @click="vm.nextStep()"
-          v-if="!vm.isLastStep"
           >Next</v-btn
-        >
-        <v-btn
-          class="text-none btn-text border-radius-8 py-5"
-          color="primary"
-          elevation="0"
-          :disabled="!vm.canNextStep"
-          @click="vm.createApplication()"
-          v-else
-          >Finish</v-btn
         >
       </div>
     </v-card>
@@ -126,14 +116,15 @@ export default class CreateDAOView extends Vue {
   @Provide() vm = new CreateDaoViewModel();
 
   mounted() {
-    if (!this.vm || !walletStore.connected) this.$router.push("/select-dao");
+    if (!this.vm || !walletStore.connected)
+      this.$router.push("/select-service");
     if (!this.$route.query || !this.$route.query.type)
-      this.$router.push("/select-dao");
+      this.$router.push("/select-service");
     if (this.$route.query.type == "multi-signature") {
       this.vm.isCommunityToken = false;
       this.vm.daoType = "multi-sig";
       this.stepTitles = this.multiSigStepTitles;
-      this.vm.changeTotalStep(3);
+      this.vm.changeTotalStep(4);
     } else if (
       this.$route.query.type == "nft-community" ||
       this.$route.query.type == "community-token"
@@ -142,7 +133,7 @@ export default class CreateDAOView extends Vue {
       this.vm.daoType =
         this.$route.query.type == "nft-community" ? "nft-dao" : "community-dao";
       this.stepTitles = this.communityStepTitles;
-      this.vm.changeTotalStep(4);
+      this.vm.changeTotalStep(5);
     }
   }
 

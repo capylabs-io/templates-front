@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex full-width step-lines">
     <div
-      v-for="step in totalStep"
+      v-for="step in totalStep - 1"
       class="step-line flex-grow-1"
       :class="{ active: step <= currentStep }"
       :key="step"

@@ -136,11 +136,6 @@ export class ApiHandlerJWT<T> {
 export class ApiService {
   applications = new ApiHandler<any>(axios, "applications");
 
-  async createApplication(params: any) {
-    const res = await axios.post(`/applications/create`, params);
-    return res.data;
-  }
-
   async signUp(publicAddress: string) {
     const res = await axios.post(`auth/local/register`, { publicAddress });
     return res.data;

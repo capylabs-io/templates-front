@@ -61,7 +61,7 @@ export class WalletStore {
   //   this.hvgBalance = FixedNumber.from(`${this.web3?.utils.fromWei(balance)}`);
   // }
 
-  *start() {
+  @flow.bound *start() {
     try {
       this.app.start();
       this.isMetamask = this.app.isMetamask;
@@ -75,7 +75,7 @@ export class WalletStore {
     this.loaded = true;
   }
 
-  *connect() {
+  @flow.bound *connect() {
     loadingController.increaseRequest();
     try {
       const ok = yield this.app.login();
@@ -136,14 +136,6 @@ export class WalletStore {
   //   } finally {
   //     loadingController.decreaseRequest();
   //   }
-  // }
-
-  // @action.bound setNavigationDrawer(val) {
-  //   this.navigationDrawer = val;
-  // }
-
-  // @action.bound setMobileDialog(val) {
-  //   this.mobileDialog = val;
   // }
 
   // ethereumConfigChanged = () => {

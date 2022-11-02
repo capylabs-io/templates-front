@@ -45,8 +45,10 @@
 
 <script lang="ts">
 import { walletStore } from "@/stores/wallet-store";
+import { Observer } from "mobx-vue";
 import { Component, Vue, Prop } from "vue-property-decorator";
 
+@Observer
 @Component({})
 export default class ServiceCard extends Vue {
   @Prop() title!: string;

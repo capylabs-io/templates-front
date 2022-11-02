@@ -2,7 +2,7 @@ import { apiService } from "./../../../services/api-service";
 import { snackController } from "./../../../components/snack-bar/snack-bar-controller";
 import { loadingController } from "./../../../components/global-loading/global-loading-controller";
 import { walletStore } from "@/stores/wallet-store";
-import { action, computed, makeAutoObservable, observable, runInAction } from "mobx";
+import { action, computed, flow, makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
 import Web3 from "web3";
 import { appProvider } from "@/app-providers";
 export class CreateDaoViewModel {
@@ -25,20 +25,18 @@ export class CreateDaoViewModel {
   @observable councilTokenAddress?: string;
   @observable councilApprovalQuorum?: number = 60;
 
-  @observable page?: number = 0;
-  @observable totalPage?: number = 1;
-
   @observable approvalThreshold?: number = 65;
   @observable membersString?: string;
+  @observable members?: any;
+  @observable memberPage?: number = 1;
+  memberPerPage?: number = 10;
 
   @observable setupWalletForm?: boolean;
   @observable chooseTokenForm?: boolean;
   @observable createNewDaoForm1?: boolean;
   @observable createNewDaoForm2?: boolean;
 
-  constructor() {
-    makeAutoObservable(this);
-  }
+  constructor() {}
 
   @action.bound changeCurrentStep(value: number) {
     this.currentStep = value;
@@ -54,11 +52,32 @@ export class CreateDaoViewModel {
     this.currentStep--;
     if (this.currentStep < 1) this.currentStep = 1;
   }
+  @action.bound changeMemberString(val: string) {
+    if (!val) return [];
+    this.membersString = val;
+    const wallets = [
+      {
+        wallet: walletStore.account,
+        isYou: true,
+      },
+    ];
+    const membersString = val.trim().replaceAll(/\s/g, "").split(",");
+    for (let i = 0; i < membersString.length; i++) {
+      const wallet = membersString[i];
+      // if (Web3.utils.isAddress(wallet) && wallets.findIndex((member) => member.wallet == wallet) == -1)
+      if (Web3.utils.isAddress(wallet))
+        wallets.push({
+          wallet,
+          isYou: false,
+        });
+    }
+    this.members = wallets.slice();
+  }
 
-  *createApplication() {
+  createApplication = flow(function* (this) {
     try {
       loadingController.increaseRequest();
-      const { application, setting } = yield apiService.createApplication({
+      const { application, setting } = yield apiService.applications.create({
         userId: walletStore.userId,
         name: this.daoName,
         service: "dao",
@@ -90,19 +109,8 @@ export class CreateDaoViewModel {
     } finally {
       loadingController.decreaseRequest();
     }
-  }
+  });
 
-  @computed get members() {
-    if (!this.membersString) return [];
-    const accounts: string[] = [walletStore.account];
-    const membersString = this.membersString.trim().replaceAll(/\s/g, "").split(",");
-    for (let i = 0; i < membersString.length; i++) {
-      const account = membersString[i];
-      if (Web3.utils.isAddress(account) && accounts.findIndex((member) => member == account) == -1)
-        accounts.push(account);
-    }
-    return accounts;
-  }
   @computed get canNextStep() {
     if (this.isCommunityToken) return this.canNextStepCommunityToken;
     else return this.canNextStepMultiSig;
@@ -129,5 +137,17 @@ export class CreateDaoViewModel {
   @computed get memberCount() {
     if (!this.members || this.members.length == 0) return 1;
     return this.members.length;
+  }
+  @computed get totalMemberPage() {
+    if (!this.members || this.members.length == 0) return 1;
+    if (this.memberCount % this.memberPerPage! == 0) return this.memberCount / this.memberPerPage!;
+    else return Math.floor(this.memberCount / this.memberPerPage!) + 1;
+  }
+  @computed get pageMembers() {
+    if (!this.members) return [];
+    return this.members.slice(
+      (this.memberPage! - 1) * this.memberPerPage!,
+      this.memberPage! * this.memberPerPage!
+    );
   }
 }
