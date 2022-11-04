@@ -9,7 +9,8 @@ export class ManagementViewModel {
   @observable searchKey?: string;
   @observable page?: number = 1;
   @observable itemsPerPage?: number = 12;
-
+  @observable sortSelected?: string;
+  @observable typeSelected?: string;
   fetchApplications = flow(function* (this) {
     try {
       loadingController.increaseRequest();
@@ -31,7 +32,15 @@ export class ManagementViewModel {
   @computed get filteredApplications() {
     if (!this.applications) return [];
     if (!this.searchKey) return this.applications;
-    return this.applications.filter((app) => app.name.toLowerCase().includes(this.searchKey?.toLowerCase()));
+    return this.applications.filter(
+      (app) =>
+        app.name.toLowerCase().includes(this.searchKey?.toLowerCase()) ||
+        app.status.includes(this.searchKey?.toLowerCase()) ||
+        new Date(app.updatedAt)
+          .toString()
+          .toLowerCase()
+          .includes(this.searchKey?.toLowerCase()!)
+    );
   }
 
   @computed get slicedApplications() {
@@ -46,5 +55,13 @@ export class ManagementViewModel {
     if (this.applications.length % this.itemsPerPage! == 0)
       return this.applications.length / this.itemsPerPage!;
     else return Math.floor(this.applications.length / this.itemsPerPage!) + 1;
+  }
+  @computed get SortedApplications() {
+    if (!this.applications) return [];
+    if (this.sortSelected == "name")
+      return this.applications.sort((a, b) => a.name - b.name);
+    else if (this.sortSelected == "status")
+      return this.applications.sort((a, b) => a.status - b.status);
+    // else return this.applications.sort((a, b) => a.updatedAt - b.updatedAt)
   }
 }

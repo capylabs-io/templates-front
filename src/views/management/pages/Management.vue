@@ -2,9 +2,30 @@
 <template>
   <div class="max-width d-flex flex-column mt-10 ma-auto px-10">
     <div class="d-flex align-center justify-space-between">
-      <div class="d-flex align-self-center">
+      <div class="d-flex align-self-center mt-7">
         <p class="mt-2">Sort:</p>
-        <v-btn
+        <v-select
+          class="rounded-lg text-sm ml-5"
+          v-model="vm.sortSelected"
+          :items="items"
+          label="Recent"
+          item-text="key"
+          item-value="value"
+          solo
+        ></v-select>
+
+        <p class="mt-2 ml-4">Type:</p>
+        <v-select
+          class="rounded-lg text-sm ml-5"
+          v-model="vm.typeSelected"
+          :items="types"
+          label="Select"
+          item-text="key"
+          item-value="value"
+          solo
+        ></v-select>
+        <!-- <v-btn
+        <p class="mt-2">Sort:</p>
           class="
             rounded-lg
             px-2
@@ -21,7 +42,7 @@
           <div class="align-self-center pa-2">
             <v-icon medium color="gray7"> mdi-chevron-down </v-icon>
           </div>
-        </v-btn>
+        </v-btn> -->
       </div>
       <div class="d-flex">
         <div class="search-bar d-flex rounded-lg mr-5">
@@ -36,21 +57,33 @@
             placeholder="Search Theme or Creator"
           ></v-text-field>
         </div>
-        <v-btn
-          class="
-            rounded-lg
-            px-2
-            py-5
-            text-sm
-            boder-majorelleBlue
-            text-capitalize
+        <router-link
+        to="/select-service"
+        class="
+          white--text
+          text-decoration-none
+          cursor-pointer
+          px-3
+          align-self-center
+        "
+        active-class="active"
+      >
+      <v-btn
+      class="
+      rounded-lg
+      px-2
+      py-5
+      text-sm
+      boder-majorelleBlue
+      text-capitalize
             font-weight-bold
-          "
+            "
           color="majorelleBlue"
           large
         >
           Create New Service
         </v-btn>
+      </router-link>
       </div>
     </div>
     <v-row class="mt-4">
@@ -90,7 +123,16 @@ import { ManagementViewModel } from "../viewmodel/management-viewmodel";
 export default class Management extends Vue {
   @Provide() vm = new ManagementViewModel();
   walletStore = walletStore;
-
+  items = [
+    { key: "Name", value: "name" },
+    { key: "Status", value: "status" },
+    { key: "Time", value: "time" },
+  ];
+  types = [
+    { key: "DAO", value: "dao" },
+    { key: "NFT Minter", value: "minter" },
+    { key: "NFT Staking", value: "staking" },
+  ];
   async created() {
     // if (!walletStore.connected) this.$router.push("/home");
     await this.vm.fetchApplications();
@@ -119,5 +161,8 @@ export default class Management extends Vue {
 }
 .max-width {
   max-width: 1440px;
+}
+.v-select {
+  width: 150px;
 }
 </style>

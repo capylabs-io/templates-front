@@ -13,6 +13,8 @@
       "
       :class="{ 'on-hover cursor-pointer': hover }"
     >
+    <div class="type pa-1"><span class="px-2">{{applicationService}}</span></div>
+
       <CoverImage :imageUrl="applicationCoverImage" />
       <div class="d-flex justify-space-between px-4 py-3">
         <div class="flex-grow-1 application-title">
@@ -82,6 +84,10 @@ export default class ManagementBox extends Vue {
     if (!this.application || !this.application.name) return "Your Application";
     return this.application.name;
   }
+  get applicationService() {
+    if (!this.application || !this.application.service) return "Your Application";
+    return this.application.service.toUpperCase();
+  }
 
   get applicationUpdatedAt() {
     if (!this.application || !this.application.updatedAt) return Date.now();
@@ -120,5 +126,16 @@ export default class ManagementBox extends Vue {
 }
 .application-title {
   width: calc(100% - 26px - 16px * 2) !important;
+}
+.type {
+  position: absolute;
+  font-size: medium;
+  z-index: 2;
+  top: 12px;
+  left: 11px;
+  background-color: var(--v-gray12-base) !important;
+  width: max-content;
+  height: max-content;
+  border-radius: inherit;
 }
 </style>
