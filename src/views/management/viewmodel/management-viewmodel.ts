@@ -64,4 +64,9 @@ export class ManagementViewModel {
       return this.applications.sort((a, b) => a.status - b.status);
     // else return this.applications.sort((a, b) => a.updatedAt - b.updatedAt)
   }
+  @computed get GroupApplicationsByType() {
+    if (!this.applications) return [];
+    if (!this.sortSelected) return this.applications;
+    return this.applications.filter((app)=> app.service.toLowerCase().includes(this.sortSelected?.toLowerCase()) )
+  }
 }

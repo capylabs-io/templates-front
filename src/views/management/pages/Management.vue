@@ -22,6 +22,7 @@
           label="Select"
           item-text="key"
           item-value="value"
+          v-on:change="vm.GroupApplicationsByType"
           solo
         ></v-select>
         <!-- <v-btn
