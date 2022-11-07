@@ -59,9 +59,9 @@ export class ManagementViewModel {
   @computed get SortedApplications() {
     if (!this.applications) return [];
     if (this.sortSelected == "name")
-      return this.applications.sort((a, b) => a.name - b.name);
+      return this.applications.sort((a, b) => a.name === b.name ? 0:a.name<b.name?-1:1);
     else if (this.sortSelected == "status")
-      return this.applications.sort((a, b) => a.status - b.status);
+      return this.applications.sort((a, b) =>a.status === b.status ? 0:a.status<b.status?-1:1);
     // else return this.applications.sort((a, b) => a.updatedAt - b.updatedAt)
   }
   @computed get GroupApplicationsByType() {
