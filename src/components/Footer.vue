@@ -8,10 +8,7 @@
         >
           Docs
         </div>
-        <div
-          @click="openLink('/')"
-          class="text-decoration-none cursor-pointer"
-        >
+        <div @click="openLink('/')" class="text-decoration-none cursor-pointer">
           Programs Github
         </div>
       </div>
@@ -37,9 +34,7 @@
           contain
         ></v-img>
       </div>
-      <div>
-        Powered by <span class="white--text">Solana</span>
-      </div>
+      <div>Powered by <span class="white--text">Solana</span></div>
     </div>
   </v-footer>
 </template>
@@ -50,7 +45,11 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({
   components: {},
 })
-export default class Footer extends Vue {}
+export default class Footer extends Vue {
+  openLink(url) {
+    window.open(url, "_blank");
+  }
+}
 </script>
 <style scoped>
 </style>

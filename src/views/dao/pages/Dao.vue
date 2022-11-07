@@ -14,7 +14,11 @@
         </v-col>
         <v-col cols="10" md="4">
           <YourAccount />
-          <img class="full-width mt-4 border-radius-8" src="@/assets/dao-front-banner.png" v-if="vm.proposalID == 0" />
+          <img
+            class="full-width mt-4 border-radius-8"
+            src="@/assets/dao-front-banner.png"
+            v-if="vm.proposalID == 0"
+          />
           <Voting v-else />
         </v-col>
       </v-row>
