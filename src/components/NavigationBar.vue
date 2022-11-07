@@ -117,21 +117,11 @@
                     ></address-copy-board>
                   </div>
                 </template>
-                <!-- <v-list>
-                  <div class="px-8 py-2 text-md mt-2">
-                    HVG Balance:
-                    <span class="primary--text font-weight-bold">{{
-                      wallet.hvgBalance | formatNumber(2)
-                    }}</span>
-                  </div>
-                  <div class="px-8 py-2 text-md">
-                    AVAX Balance:
-                    <span class="primary--text font-weight-bold">{{
-                      wallet.avaxBalance | formatNumber(2)
-                    }}</span>
-                  </div>
-                  <v-divider class="my-2"></v-divider>
-                </v-list> -->
+                <v-list>
+                  <v-list-item :to="'/management'"
+                    >Application Dashboard</v-list-item
+                  >
+                </v-list>
               </v-menu>
             </ConnectMetamask>
           </div>
