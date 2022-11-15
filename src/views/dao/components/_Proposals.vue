@@ -1,5 +1,15 @@
 <template>
-  <div class="pa-4 box-gray-13 mt-4 text-sm font-weight-regular gray8--text min-height">
+  <div
+    class="
+      pa-4
+      box-gray-13
+      mt-4
+      text-sm
+      font-weight-regular
+      gray8--text
+      min-height
+    "
+  >
     <v-row class="justify-space-between">
       <v-col cols="10">
         <div class="relative d-flex full-width box-gray-12 rounded-lg h-36">
@@ -88,7 +98,6 @@
         </div>
       </v-col>
     </v-row>
-    <AddProposal />
     <div class="d-flex justify-space-between mt-4">
       <div class="gray7--text">3 Proposals</div>
       <div
@@ -190,12 +199,9 @@ import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { observable } from "mobx";
 import { DaoViewModel } from "../models/dao-viewmodels";
-import AddProposal from "../dialog/Add-Proposal.vue";
 @Observer
 @Component({
-  components: {
-    AddProposal,
-  },
+  components: {},
 })
 export default class Proposals extends Vue {
   @observable checkbox;

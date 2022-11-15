@@ -6,11 +6,12 @@
     <div class="dao-management mt-4 ma-auto">
       <v-row class="justify-center ma-auto" v-if="!vm.showVoteResult">
         <v-col cols="10" md="7">
-          <SolendDao v-if="vm.proposalID == 0" />
-          <div v-else>
+          <div v-if="vm.proposalID != 0">
             <ProposalDetail />
             <ProposalDetailDiscussion />
           </div>
+          <AddProposal v-else-if="vm.isOpenAddProposal"/>
+          <SolendDao v-else />
         </v-col>
         <v-col cols="10" md="4">
           <YourAccount />
@@ -40,6 +41,7 @@ import Programs from "../components/_Programs.vue";
 import Voting from "../components/Voting.vue";
 import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
+import AddProposal from "../components/Add-Proposal.vue";
 @Observer
 @Component({
   components: {
@@ -51,6 +53,7 @@ import { DaoViewModel } from "../models/dao-viewmodels";
     ProposalDetailDiscussion,
     Voting,
     VoteResult,
+    AddProposal,
   },
 })
 export default class Dao extends Vue {

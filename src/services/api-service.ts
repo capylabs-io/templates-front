@@ -156,6 +156,11 @@ export class ApiService {
     const res = await axios.get(`upload/files/${id}`);
     return res.data;
   }
+
+  async addProposal(proposal: any) {
+    const res = await axios.post(`proposals`, proposal);
+    return res.data;
+  }
 }
 
 export const apiService = new ApiService();

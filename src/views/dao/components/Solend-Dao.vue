@@ -2,8 +2,8 @@
   <v-card class="pa-4 box-gray-12 rounded-lg min-h" outlined>
     <div class="d-inline-flex justify-space-between full-width">
       <div class="d-flex align-center">
-        <img class="mr-2" src="@/assets/metamask-icon.png" />
-        <span class="font-weight-bold text-dp-xs">Solend DAO</span>
+        <img class="mr-2" src="@/assets/axie-icon.png" />
+        <span class="font-weight-bold text-dp-xs">Axie DAO</span>
       </div>
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
         <v-icon color="gray6">mdi-account-multiple</v-icon>
