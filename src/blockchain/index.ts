@@ -7,13 +7,9 @@ const getChainConfig = (chainId: any) => {
   let name = "";
   // let explorer = "";
   switch (chainId) {
-    case 43114:
-      name = "Avalance MainNET";
-      rpc = "https://api.avax.network/ext/bc/C/rpc";
-      break;
-    case 43113:
-      name = "Avalance TestNET";
-      rpc = "https://api.avax-test.network/ext/bc/C/rpc";
+    case 5:
+      name = "Goerli Testnet";
+      rpc = "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161";
       break;
   }
   return { rpc, name };

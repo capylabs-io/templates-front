@@ -8,35 +8,38 @@
     color="gray12"
   >
     <div
-      class="nav-container ml-13 text-s font-weight-regular"
-      style="min-width: 95%"
+      class="nav-container text-s font-weight-regular"
+      :class="{
+        'px-12': $vuetify.breakpoint.lgAndUp,
+        'px-4': $vuetify.breakpoint.mdAndDown,
+      }"
     >
       <v-row class="d-flex align-center justify-space-between">
-        <v-col col="8" class="d-inline-flex">
-          <div class="font-weight-bold text-xl align-self-center">
+        <v-col col="8" class="d-flex align-center">
+          <div class="font-weight-bold text-xl align-self-center mr-6">
             Logo here
           </div>
           <!-- Main menu -->
-          <div
-            @click="openLink('/')"
+          <router-link
+            to="/home"
             class="
               white--text
               text-decoration-none
               cursor-pointer
-              pl-6
-              pr-2
+              px-3
               align-self-center
             "
+            active-class="active"
           >
             <div class="text-none">Home</div>
-          </div>
+          </router-link>
           <router-link
-            to="/service"
+            to="/select-service"
             class="
               white--text
               text-decoration-none
               cursor-pointer
-              px-2
+              px-3
               align-self-center
             "
             active-class="active"
@@ -52,7 +55,7 @@
                   white--text
                   text-decoration-none
                   cursor-pointer
-                  px-2
+                  px-3
                   align-self-center
                 "
                 active-class="active"
@@ -62,14 +65,34 @@
             </template>
             <span>Coming Soon</span>
           </v-tooltip>
+          <router-link
+            to="/select-service"
+            class="
+              primary--text
+              text-lg
+              font-weight-bold
+              text-decoration-none
+              cursor-pointer
+              px-3
+              align-self-center
+            "
+          >
+            <v-btn
+              class="btn-text text-none white--text"
+              elevation="0"
+              color="primary"
+              rounded
+              >Create</v-btn
+            >
+          </router-link>
         </v-col>
         <v-col col="3">
           <div class="d-flex align-center justify-end">
             <!-- <div class="pa-2 box-gray-11 rounded-circle mr-2 align-self-center">
               <v-icon>mdi-lightbulb-on-outline</v-icon>
             </div> -->
-            <ConnectMetamask :requiredChainId="chainId">
-              <v-menu open-on-hover offset-y v-if="wallet.connected">
+            <ConnectMetamask :requiredChainId="walletStore.chainId">
+              <v-menu open-on-hover offset-y v-if="walletStore.connected">
                 <template v-slot:activator="{ on, attrs }">
                   <div
                     class="
@@ -86,7 +109,7 @@
                     large
                   >
                     <address-copy-board
-                      :address="wallet.account"
+                      :address="walletStore.account"
                       :isShortAddress="true"
                       :shortStartAmount="6"
                       :shortEndAmount="4"
@@ -94,21 +117,11 @@
                     ></address-copy-board>
                   </div>
                 </template>
-                <!-- <v-list>
-                  <div class="px-8 py-2 text-md mt-2">
-                    HVG Balance:
-                    <span class="primary--text font-weight-bold">{{
-                      wallet.hvgBalance | formatNumber(2)
-                    }}</span>
-                  </div>
-                  <div class="px-8 py-2 text-md">
-                    AVAX Balance:
-                    <span class="primary--text font-weight-bold">{{
-                      wallet.avaxBalance | formatNumber(2)
-                    }}</span>
-                  </div>
-                  <v-divider class="my-2"></v-divider>
-                </v-list> -->
+                <v-list>
+                  <v-list-item :to="'/management'"
+                    >Application Dashboard</v-list-item
+                  >
+                </v-list>
               </v-menu>
             </ConnectMetamask>
           </div>
@@ -131,8 +144,8 @@ import { Observer } from "mobx-vue";
   },
 })
 export default class NavigationBar extends Vue {
-  wallet = walletStore;
-  chainId = process.env.VUE_APP_CHAIN_ID;
+  walletStore = walletStore;
+
   openLink(url) {
     window.open(url, "_blank");
   }
@@ -141,7 +154,7 @@ export default class NavigationBar extends Vue {
 
 <style scoped>
 .nav-container {
-  max-width: 1562px;
+  width: 100%;
 }
 .connect-wallet {
   border: 1px solid var(--v-primary-base);

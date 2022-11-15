@@ -1,32 +1,34 @@
 <template>
   <div class="container mx-auto full-height d-flex flex-column justify-center">
+    <v-btn
+      class="d-flex btn-back text-none btn-text"
+      @click="onBtnBackClick()"
+      text
+    >
+      <v-icon>mdi-chevron-left</v-icon>
+      <div>Back</div>
+    </v-btn>
     <div class="text-center font-weight-bold text-dp-lg">
       What type of web service would you like to create?
     </div>
     <div class="d-flex gap-24 justify-center mt-16">
       <ServiceCard
-        :title="'DAO Governance'"
-        :icon="'mdi-account-supervisor'"
-        :content="'DAO is a community, where it’s members make decisions in a transparent and decentralized fashion, with smart contracts executing these decisions.'"
-        :buttonText="'Create Now'"
-        :link="'/select-dao'"
+        :title="'Multi-Signature Wallet'"
+        :content="'A multi-signature is a share wallet, typically with two or more members authorizing transactions.'"
         :cardBg="1"
+        :link="'/create-dao?type=multi-signature'"
       />
       <ServiceCard
-        :title="'NFT Dashboard'"
-        :icon="'mdi-view-dashboard'"
-        :content="'NFT Dashboard is a platform from where a user will able to get the update of the NFT market statistics and see the latest trend in this fast developing world.'"
-        :buttonText="'Coming Soon'"
+        :title="'NFT Community DAO'"
+        :content="'NFT Community DAOs leverage NFTs as membership, giving NFT holders voting power to make decisions.'"
         :cardBg="2"
-        :isButtonDisable="true"
+        :link="'/create-dao?type=nft-community'"
       />
       <ServiceCard
-        :title="'NFT Lending'"
-        :icon="'mdi-cash-multiple'"
-        :content="'NFT Lending is a platform that ensure NFTs get into the hands of users as seamlessly as possible without the need of a middleman.'"
-        :buttonText="'Coming Soon'"
+        :title="'Community Token DAO'"
+        :content="'DAO members use a community token to denote their membership and allow them to vote on proposals.'"
         :cardBg="3"
-        :isButtonDisable="true"
+        :link="'/create-dao?type=community-token'"
       />
     </div>
     <div class="mt-16">
@@ -47,9 +49,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Provide, Vue } from "vue-property-decorator";
 import ServiceCard from "@/components/service-selector/service-card.vue";
 import { Observer } from "mobx-vue";
+import { CreateDaoViewModel } from "../models/create-dao-viewmodels";
 
 @Observer
 @Component({
@@ -57,7 +60,13 @@ import { Observer } from "mobx-vue";
     ServiceCard,
   },
 })
-export default class ServiceSelector extends Vue {}
+export default class DaoSelector extends Vue {
+  @Provide() vm = new CreateDaoViewModel();
+
+  onBtnBackClick() {
+    this.$router.push("/select-service");
+  }
+}
 </script>
 
 <style scope>
@@ -66,5 +75,10 @@ export default class ServiceSelector extends Vue {}
 }
 .gap-24 {
   gap: 24px;
+}
+.btn-back {
+  position: absolute;
+  left: 12px;
+  top: 24px;
 }
 </style>

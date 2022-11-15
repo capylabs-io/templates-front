@@ -12,15 +12,58 @@
       </div>
       <div class="d-flex mt-16">
         <v-btn
-          class="rounded-lg px-2 py-5 text-sm boder-majorelleBlue text-capitalize"
-          color="majorelleBlue"
+          class="
+            rounded-lg
+            px-4
+            py-5
+            text-sm
+            mr-5
+            boder-majorelleBlue
+            text-capitalize
+            btn-text
+          "
+          color="primary"
+          v-if="!_walletStore.connected"
+          @click="_walletStore.connect()"
         >
           Connect Wallet
         </v-btn>
         <v-btn
-          class="rounded-lg px-2 py-5 text-sm ml-5 boder-gray-10 text-capitalize"
-          >Watch Tutorial</v-btn
+          to="/select-service"
+          class="
+            rounded-lg
+            px-4
+            py-5
+            text-sm
+            mr-5
+            boder-majorelleBlue
+            text-capitalize
+            btn-text
+          "
+          color="primary"
+          v-else
         >
+          Create Service
+        </v-btn>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="
+                rounded-lg
+                px-4
+                py-5
+                text-sm
+                boder-gray-10
+                text-capitalize
+                btn-text
+              "
+              v-bind="attrs"
+              v-on="on"
+              >Watch Tutorial</v-btn
+            >
+          </template>
+          <span>Coming Soon</span>
+        </v-tooltip>
       </div>
     </div>
     <div class="right">
@@ -28,13 +71,19 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
+import { walletStore } from "@/stores/wallet-store";
+
 @Observer
 @Component({})
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  _walletStore = walletStore;
+}
 </script>
+
 <style scoped>
 .left {
   width: 50%;
@@ -46,13 +95,8 @@ export default class Home extends Vue {}
   height: 100%;
   overflow: hidden;
 }
-.boder-majorelleBlue {
-  background-color: #3b3b3f !important;
-  border: 1px solid #6a49e2 !important;
-}
-.boder-gray-10 {
-  background-color: #3b3b3f !important;
-  border: 1px solid #4f4f54 !important;
+.border-gray-10 {
+  border: 1px solid var(--v-gray10-base) !important;
 }
 .content {
   width: 90%;

@@ -22,6 +22,49 @@ export const vueFilterRegister = () => {
     if (!address) return "";
     return address.substr(0, start) + "..." + address.substr(address.length - end, end);
   });
+  Vue.filter("normalizeTimeDuration", (timestamp) => {
+    if (!timestamp) return "TBA";
+    const duration = timestamp - Date.now();
+    const arr = ["year", "month", "week", "minute", "second"];
+    for (const i of arr) {
+      const unitTime = i as moment.unitOfTime.Base;
+      const normalizeDuration = Math.trunc(moment.duration(duration).as(unitTime));
+      if (normalizeDuration != 0) {
+        const res = moment.duration(normalizeDuration, unitTime).humanize();
+        return duration >= 0 ? res : `${res} ago`;
+      }
+    }
+    return "a few seconds ago";
+  });
+
+  Vue.filter("shortNumber", (number: any) => {
+    if (number instanceof FixedNumber) {
+      number = number.toUnsafeFloat();
+    } else {
+      number = +(number || "0");
+    }
+    return abbreviateNumber(number);
+  });
+
+  const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
+
+  function abbreviateNumber(number) {
+    // what tier? (determines SI symbol)
+    const tier = (Math.log10(Math.abs(number)) / 3) | 0;
+
+    // if zero, we don't need a suffix
+    if (tier == 0) return round(number, 1);
+
+    // get suffix and determine scale
+    const suffix = SI_SYMBOL[tier];
+    const scale = Math.pow(10, tier * 3);
+
+    // scale the number
+    const scaled = number / scale;
+
+    // format number and add suffix
+    return `${round(scaled, 1)}${suffix}`;
+  }
 
   Vue.filter("_get", (any: any, path: string, defaultValue = "") => {
     return get(any, path, defaultValue);

@@ -13,11 +13,12 @@ export class WalletStore {
   ethereum: any = (window as any).ethereum;
 
   app = new Application({ mainnet: false });
+
   @observable web3: Web3 | null = null;
   @observable account = "";
   @observable avaxBalance = Zero;
   @observable hvgBalance = Zero;
-  @observable chainId = "";
+  @observable chainId = "5";
   @observable loaded = false;
 
   @observable navigationDrawer = false;
@@ -25,7 +26,7 @@ export class WalletStore {
   @observable mobileDialog = false;
 
   @observable jwt = "";
-  @observable userInfo?: any;
+  @observable userId = "";
 
   LPTokenContract?: any;
   private _balanceSubscription: Subscription | undefined;
@@ -34,13 +35,13 @@ export class WalletStore {
     makeAutoObservable(this);
   }
 
-  @action.bound setAuth(jwt: string, user: any) {
+  @action.bound setAuth(jwt: string, userId: string) {
     this.jwt = jwt;
-    this.userInfo = user;
+    this.userId = userId;
   }
   @action.bound resetAuth() {
     this.jwt = "";
-    this.userInfo = null;
+    this.userId = "";
   }
 
   // @action *getAvaxBalance() {
@@ -60,7 +61,7 @@ export class WalletStore {
   //   this.hvgBalance = FixedNumber.from(`${this.web3?.utils.fromWei(balance)}`);
   // }
 
-  *start() {
+  @flow.bound *start() {
     try {
       this.app.start();
       this.isMetamask = this.app.isMetamask;
@@ -74,7 +75,7 @@ export class WalletStore {
     this.loaded = true;
   }
 
-  *connect() {
+  @flow.bound *connect() {
     loadingController.increaseRequest();
     try {
       const ok = yield this.app.login();
@@ -96,7 +97,7 @@ export class WalletStore {
           signature,
         });
         if (!res) return;
-        this.setAuth(res.jwt, res.user);
+        this.setAuth(res.jwt, res.user.id);
       }
       return ok;
     } catch (error) {
@@ -137,14 +138,6 @@ export class WalletStore {
   //   }
   // }
 
-  // @action.bound setNavigationDrawer(val) {
-  //   this.navigationDrawer = val;
-  // }
-
-  // @action.bound setMobileDialog(val) {
-  //   this.mobileDialog = val;
-  // }
-
   // ethereumConfigChanged = () => {
   //   window.location.reload();
   // };
@@ -164,35 +157,36 @@ export class WalletStore {
               params: [
                 {
                   chainId: Web3.utils.toHex(chainId),
-                  chainName: "Avalanche Mainnet",
+                  chainName: "Goerli Testnet",
                   nativeCurrency: {
                     name: "Avax",
                     symbol: "AVAX",
                     decimals: 18,
                   },
-                  rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
-                  blockExplorerUrls: ["https://snowtrace.io/"],
-                },
-              ],
-            });
-          } else if (Number(process.env.VUE_APP_CHAIN_ID)) {
-            this.ethereum.request({
-              method: "wallet_addEthereumChain",
-              params: [
-                {
-                  chainId: Web3.utils.toHex(chainId),
-                  chainName: "Avalanche Testnet",
-                  nativeCurrency: {
-                    name: "Avax",
-                    symbol: "AVAX",
-                    decimals: 18,
-                  },
-                  rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
-                  blockExplorerUrls: ["https://testnet.snowtrace.io/"],
+                  rpcUrls: ["https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],
+                  blockExplorerUrls: ["https://goerli.etherscan.io/"],
                 },
               ],
             });
           }
+          // else if (Number(process.env.VUE_APP_CHAIN_ID)) {
+          //   this.ethereum.request({
+          //     method: "wallet_addEthereumChain",
+          //     params: [
+          //       {
+          //         chainId: Web3.utils.toHex(chainId),
+          //         chainName: "Avalanche Testnet",
+          //         nativeCurrency: {
+          //           name: "Avax",
+          //           symbol: "AVAX",
+          //           decimals: 18,
+          //         },
+          //         rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
+          //         blockExplorerUrls: ["https://testnet.snowtrace.io/"],
+          //       },
+          //     ],
+          //   });
+          // }
         }
       }
     }
@@ -200,7 +194,7 @@ export class WalletStore {
 
   //#region computed
   @computed get connected() {
-    return !!this.account;
+    return !!this.account && !!this.jwt;
   }
 
   // @computed get shortAccount() {

@@ -1,78 +1,124 @@
 <template>
-  <v-card class="card my-3 gray12 rounded-xl boder-gray-10 ma-auto">
-    <v-img
-      height="70%"
-      :src="require(`@/assets/ManagementBox/ManagementBox${content.index}.png`)"
-    ></v-img>
-    <div class="d-flex flex-row justify-space-between mx-4 pb-2">
-      <div class="align-self-center">
-        <v-card-title class="pa-1"
-          ><v-img
-            :src="require('@/assets/web-icon.png')"
-            max-width="18px"
-            contain
-          ></v-img>
-          <div class="ml-2 card-title">
-            {{ content.name }}
-          </div></v-card-title
-        >
-
-        <v-card-text class="pa-1">
-          <v-row align="center" class="mx-0 gray7--text card-description">
-            <div>{{ content.description }}</div>
-          </v-row>
-        </v-card-text>
-      </div>
-
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <div class="align-self-center">
-            <v-btn
-              color="transparent"
-              icon
-              elevation="o"
-              v-bind="attrs"
-              v-on="on"
+  <v-hover v-slot="{ hover }">
+    <v-card
+      elevation="12"
+      class="
+        card
+        gray12
+        border-radius-16
+        boder-gray-10
+        d-flex
+        flex-column
+        overflow-hidden
+      "
+      :class="{ 'on-hover cursor-pointer': hover }"
+    >
+      <CoverImage :imageUrl="applicationCoverImage" />
+      <div class="d-flex justify-space-between px-4 py-3">
+        <div class="flex-grow-1 application-title">
+          <div class="d-flex">
+            <v-img
+              :src="require('@/assets/web-icon.png')"
+              max-width="18px"
+              contain
+            ></v-img>
+            <div
+              class="
+                ml-2
+                white--text
+                text-sm
+                font-weight-medium
+                application-name
+                text-truncate
+              "
             >
-              <v-icon large color="white"> mdi-dots-horizontal </v-icon>
-            </v-btn>
+              {{ applicationName }}
+            </div>
           </div>
-        </template>
-        <v-list class="gray12">
-          <v-list-item v-for="(item, index) in dropdown" :key="index">
-            <v-list-item-title>{{ item.action }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </div>
-  </v-card>
+
+          <div class="mt-2">
+            <div class="gray5--text text-xs">
+              <span class="text-caplitalize">{{ applicationStatus }}</span>
+              - {{ applicationUpdatedAt | normalizeTimeDuration }}
+            </div>
+          </div>
+        </div>
+
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <div class="d-flex align-center ml-4">
+              <v-btn icon elevation="o" v-bind="attrs" v-on="on">
+                <v-icon color="white"> mdi-dots-horizontal </v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <v-list class="gray12">
+            <v-list-item>
+              <v-list-item-title>Edit</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>Delete</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+    </v-card>
+  </v-hover>
 </template>
+
 <script lang="ts">
-export default {
-  props: ["content"],
-  data() {
-    return { dropdown: [{ action: "Add" }, { action: "Delete" }] };
+import { ApplicationModel } from "@/models/application-model";
+import { Vue, Component, Prop } from "vue-property-decorator";
+
+@Component({
+  components: {
+    CoverImage: () => import("@/components/CoverImage.vue"),
   },
-};
+})
+export default class ManagementBox extends Vue {
+  @Prop() application?: ApplicationModel;
+
+  get applicationName() {
+    if (!this.application || !this.application.name) return "Your Application";
+    return this.application.name;
+  }
+
+  get applicationUpdatedAt() {
+    if (!this.application || !this.application.updatedAt) return Date.now();
+    return new Date(this.application.updatedAt);
+  }
+
+  get applicationCoverImage() {
+    if (!this.application || !this.application.metadata) return "";
+    return this.application.metadata.coverImage;
+  }
+
+  get applicationStatus() {
+    if (
+      !this.application ||
+      !this.application.status ||
+      this.application.status === "draft"
+    )
+      return "In Draft";
+    return this.application.status;
+  }
+}
 </script>
 
 <style scoped>
 .boder-gray-10 {
-  background-color: #3b3b3f !important;
   border: 1px solid #4f4f54 !important;
 }
 .card {
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
   align-self: center;
+  background: var(--v-gray12-base) !important;
 }
-.card-title {
-  font-size: 14px; 
-  font-weight: 500px;
+.on-hover {
+  border: 1px solid var(--v-primary-base) !important;
 }
-.card-description {
-  font-size: 12px;
-  font-weight: 400px;
+.application-title {
+  width: calc(100% - 26px - 16px * 2) !important;
 }
 </style>
