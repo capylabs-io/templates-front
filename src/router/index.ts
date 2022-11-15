@@ -1,5 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
+import HomeView from "../views/home/pages/Home.vue";
+import ManagementView from "../views/management/pages/Management.vue";
 
 Vue.use(VueRouter);
 
@@ -11,6 +13,11 @@ const routes: Array<RouteConfig> = [
     meta: {
       title: "Home",
     },
+  },
+  {
+    path: "/management",
+    name: "Management",
+    component: ManagementView,
   },
   {
     path: "/dao",
