@@ -1,0 +1,174 @@
+<template>
+  <div class="pa-4 box-gray-12 rounded-lg member-page">
+    <div class="d-flex">
+      <div class="pa-0 cursor-pointer" text @click="vm.changeMemberFlag()">
+        <v-icon small color="blueJeans"> mdi-chevron-left</v-icon>
+        <span class="text-capitalize blueJeans--text">Back</span>
+      </div>
+    </div>
+    <div class="d-flex align-center mt-3">
+      <img class="mr-2 w-16" src="@/assets/axie-icon.png" />
+      <span class="font-weight-bold text-md gray5--text">Axie DAO</span>
+    </div>
+    <div class="text-dp-xs white--text font-weight-bold">Member</div>
+    <v-row class="pa-2">
+      <v-col cols="12" md="4" class="pa-2 text-sm">
+        <div class="gray13 border-radius-12 pa-4">
+          <div class="d-flex justify-space-between">
+            <div class="pa-0">2 members</div>
+            <div class="blueJeans--text d-flex justify-center cursor-pointer">
+              <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
+              <span class="ml-1">Add Member</span>
+            </div>
+          </div>
+          <div class="overflow-y-auto mt-3">
+            <div class="d-flex pa-4 active">
+              <div>
+                <div class="prime7 pa-1 rounded-circle mr-2">
+                  <v-icon color="prime2">mdi-account-circle</v-icon>
+                </div>
+              </div>
+              <div class="gray3--text">
+                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
+                <div class="text-overline-1">Votes Cast: 3</div>
+              </div>
+            </div>
+            <div class="d-flex pa-4">
+              <div>
+                <div class="prime7 pa-1 rounded-circle mr-2">
+                  <v-icon color="prime2">mdi-account-circle</v-icon>
+                </div>
+              </div>
+              <div class="gray3--text">
+                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
+                <div class="text-overline-1">Votes Cast: 3</div>
+              </div>
+            </div>
+            <div class="d-flex pa-4">
+              <div>
+                <div class="prime7 pa-1 rounded-circle mr-2">
+                  <v-icon color="prime2">mdi-account-circle</v-icon>
+                </div>
+              </div>
+              <div class="gray3--text">
+                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
+                <div class="text-overline-1">Votes Cast: 3</div>
+              </div>
+            </div>
+            <div class="d-flex pa-4">
+              <div>
+                <div class="prime7 pa-1 rounded-circle mr-2">
+                  <v-icon color="prime2">mdi-account-circle</v-icon>
+                </div>
+              </div>
+              <div class="gray3--text">
+                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
+                <div class="text-overline-1">Votes Cast: 3</div>
+              </div>
+            </div>
+            <div class="d-flex pa-4">
+              <div>
+                <div class="prime7 pa-1 rounded-circle mr-2">
+                  <v-icon color="prime2">mdi-account-circle</v-icon>
+                </div>
+              </div>
+              <div class="gray3--text">
+                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
+                <div class="text-overline-1">Votes Cast: 3</div>
+              </div>
+            </div>
+            <div class="d-flex pa-4">
+              <div>
+                <div class="prime7 pa-1 rounded-circle mr-2">
+                  <v-icon color="prime2">mdi-account-circle</v-icon>
+                </div>
+              </div>
+              <div class="gray3--text">
+                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
+                <div class="text-overline-1">Votes Cast: 3</div>
+              </div>
+            </div>
+            <div class="d-flex pa-4">
+              <div>
+                <div class="prime7 pa-1 rounded-circle mr-2">
+                  <v-icon color="prime2">mdi-account-circle</v-icon>
+                </div>
+              </div>
+              <div class="gray3--text">
+                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
+                <div class="text-overline-1">Votes Cast: 3</div>
+              </div>
+            </div>
+            <div class="d-flex pa-4">
+              <div>
+                <div class="prime7 pa-1 rounded-circle mr-2">
+                  <v-icon color="prime2">mdi-account-circle</v-icon>
+                </div>
+              </div>
+              <div class="gray3--text">
+                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
+                <div class="text-overline-1">Votes Cast: 3</div>
+              </div>
+            </div>
+            <div class="d-flex pa-4">
+              <div>
+                <div class="prime7 pa-1 rounded-circle mr-2">
+                  <v-icon color="prime2">mdi-account-circle</v-icon>
+                </div>
+              </div>
+              <div class="gray3--text">
+                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
+                <div class="text-overline-1">Votes Cast: 3</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </v-col>
+      <v-col cols="12" md="8" class="pa-2">
+        <div class="gray13 border-radius-12 pa-4 overflow-y-auto">
+          <div class="d-flex justify-space-between">
+            <div class="pa-0">3Q3ph8KiL...RGvG8</div>
+            <div
+              class="
+                blueJeans--text
+                d-flex
+                justify-center
+                cursor-pointer
+                gray6--text
+              "
+            >
+              <span class="ml-1">Explore</span>
+              <v-icon small color="blueJeans">mdi-launch</v-icon>
+            </div>
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+  </div>
+</template>
+<script lang="ts">
+import { Component, Inject, Vue } from "vue-property-decorator";
+import { Observer } from "mobx-vue";
+import { DaoViewModel } from "../models/dao-viewmodels";
+@Observer
+@Component({
+  components: {},
+})
+export default class Members extends Vue {
+  @Inject() vm!: DaoViewModel;
+}
+</script>
+<style lang="scss">
+.member-page {
+  .w-16 {
+    width: 16px;
+  }
+  .active {
+    background: #3b3b3f !important;
+    border-radius: 12px;
+    .gray3--text {
+      color: white !important;
+    }
+  }
+}
+</style>

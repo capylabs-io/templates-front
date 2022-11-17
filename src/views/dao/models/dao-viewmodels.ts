@@ -7,7 +7,6 @@ import { action, observable, computed, flow } from "mobx";
 import moment, { now } from "moment";
 
 export class DaoViewModel {
-  @observable isOpenAddProposal = true;
   @observable transactionList = ["none", "Transfer Token", "Mint Token"];
   @observable proposalID = 0;
   @observable pageSize = 3;
@@ -43,6 +42,8 @@ export class DaoViewModel {
       },
     ],
   };
+  // Add Proposal
+  @observable isOpenAddProposal = false;
   @observable title = "";
   @observable description = "";
   @observable quorum = "";
@@ -64,6 +65,9 @@ export class DaoViewModel {
       token: "1",
     },
   ];
+
+  // Member
+  @observable openMemberFlag = true; 
 
   createApplication = flow(function* (this) {
     try {
