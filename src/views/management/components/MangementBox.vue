@@ -5,13 +5,13 @@
       class="
         card
         gray12
-        border-radius-16
-        boder-gray-10
+        border-radius-16 border-gray-11
         d-flex
         flex-column
         overflow-hidden
       "
       :class="{ 'on-hover cursor-pointer': hover }"
+      @click="goToDomain()"
     >
       <CoverImage :imageUrl="applicationCoverImage" />
       <div class="d-flex justify-space-between px-4 py-3">
@@ -53,7 +53,9 @@
             </div>
           </template>
           <v-list class="gray12">
-            <v-list-item>
+            <v-list-item
+              :to="`/customize-interface?type=${application?.service}&appId=${application?.appId}`"
+            >
               <v-list-item-title>Edit</v-list-item-title>
             </v-list-item>
             <v-list-item>
@@ -77,6 +79,17 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 })
 export default class ManagementBox extends Vue {
   @Prop() application?: ApplicationModel;
+
+  goToDomain() {
+    if (!this.application || !this.application.service) return;
+    if (this.application.service != "dao") return; //TODO: Remove this
+    this.$router.push({
+      path: "/dao",
+      query: {
+        appId: this.application.appId.toString(),
+      },
+    });
+  }
 
   get applicationName() {
     if (!this.application || !this.application.name) return "Your Application";
@@ -106,8 +119,8 @@ export default class ManagementBox extends Vue {
 </script>
 
 <style scoped>
-.boder-gray-10 {
-  border: 1px solid #4f4f54 !important;
+.border-gray-11 {
+  border: 1px solid var(--v-gray11-base) !important;
 }
 .card {
   white-space: nowrap;

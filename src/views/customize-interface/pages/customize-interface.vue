@@ -1,14 +1,15 @@
 <template>
   <div>
-    <div>
+    <div v-if="vm.isChoosingTheme">
       <ThemeSelector />
     </div>
-    <div class="customize-layout d-flex">
+    <div class="customize-layout" v-else>
       <CustomizeDrawer />
       <div class="layout-content" :style="`background: ${vm.backgroundColor}`">
         <v-app-bar>
           <v-select class="page-select" hide-details dense outlined></v-select>
         </v-app-bar>
+        <DaoInterface :isReview="true" />
       </div>
     </div>
   </div>
@@ -23,6 +24,7 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
   components: {
     ThemeSelector: () => import("./theme-selector.vue"),
     CustomizeDrawer: () => import("./customize-drawer.vue"),
+    DaoInterface: () => import("../../dao/pages/Dao.vue"),
   },
 })
 export default class CustomizeInterface extends Vue {
@@ -30,17 +32,16 @@ export default class CustomizeInterface extends Vue {
 
   walletStore = walletStore;
 
-  created() {
-    // if (!walletStore.connected) this.$router.push("/home");
+  async created() {
+    await this.vm.fetchApplication();
   }
 }
 </script>
 
 <style scoped>
 .customize-layout {
-  z-index: 999;
-  position: absolute;
-  top: -64px;
+  z-index: 10;
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 0;

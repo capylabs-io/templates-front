@@ -1,5 +1,15 @@
 <template>
-  <div class="customize-drawer">
+  <div
+    class="customize-drawer"
+    :class="vm.drawer ? 'open-drawer' : 'close-drawer'"
+  >
+    <div class="button-close">
+      <v-btn @click="toggleDrawer()" icon>
+        <v-icon>{{
+          vm.drawer ? "mdi-chevron-left" : "mdi-chevron-right"
+        }}</v-icon>
+      </v-btn>
+    </div>
     <div class="px-6 pt-4">
       <div class="text-lg font-weight-bold">Customize Interface</div>
       <div class="text-sm">Theme Name</div>
@@ -120,16 +130,10 @@
     </div>
     <v-divider class="my-5"></v-divider>
     <div class="d-flex flex-column align-center pb-5">
-      <v-btn
-        class="button-action text-none btn-text"
-        color="primary"
-        elevation="10"
+      <v-btn class="button-action text-none btn-text" color="primary"
         >Save and Deploy</v-btn
       >
-      <v-btn
-        class="button-action text-none btn-text mt-2"
-        color="gray13"
-        elevation="10"
+      <v-btn class="button-action text-none btn-text mt-2" color="gray13"
         >Cancel</v-btn
       >
     </div>
@@ -150,6 +154,10 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
 export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
 
+  toggleDrawer() {
+    this.vm.drawer = !this.vm.drawer;
+  }
+
   changeBackground(data: any) {
     this.vm.setBackgroundColor(data);
   }
@@ -160,6 +168,12 @@ export default class CustomizeInterface extends Vue {
 .button-action {
   width: 150px;
 }
+
+.button-close {
+  position: absolute;
+  right: -44px;
+  top: 12px;
+}
 .media-select {
   max-width: 76px;
   margin-right: -1px;
@@ -168,11 +182,23 @@ export default class CustomizeInterface extends Vue {
   max-width: 48px;
 }
 .customize-drawer {
-  max-width: 312px !important;
+  width: 312px !important;
   background: var(--v-gray12-base);
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10 !important;
+  transition: margin-left 0.5s;
+}
+.open-drawer {
+  margin-left: 0px;
+}
+.close-drawer {
+  margin-left: -312px;
 }
 .drawer-content {
-  height: calc(100% - 140px - 64px - 32px);
+  height: calc(100% - 140px - 64px - 34px);
   overflow-x: hidden;
   overflow-y: auto;
 }

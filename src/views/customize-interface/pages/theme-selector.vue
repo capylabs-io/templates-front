@@ -29,11 +29,12 @@
         ></v-text-field>
       </div>
     </div>
-    <div class="gap-24 d-flex flex-wrap mt-6">
-      <div class="flex-grow-1" v-for="n in 9" :key="n">
+
+    <v-row class="mt-6">
+      <v-col cols="12" md="4" sm="6">
         <ThemeCard />
-      </div>
-    </div>
+      </v-col>
+    </v-row>
     <div class="my-6">
       <v-pagination v-model="vm.page" :length="vm.totalPage"></v-pagination>
     </div>

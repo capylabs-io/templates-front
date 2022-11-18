@@ -9,7 +9,7 @@ export interface ApplicationModel {
   appId: number;
   defaultDomain: string;
   user?: any;
-  dao_setting: DaoSettingModel;
+  dao_setting?: DaoSettingModel;
   updatedAt?: string;
   createdAt?: string;
   status: string;

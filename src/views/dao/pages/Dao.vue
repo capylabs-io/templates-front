@@ -29,7 +29,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Provide, Vue } from "vue-property-decorator";
+import { Component, Prop, Provide, Vue } from "vue-property-decorator";
 import SettingIcon from "@/components/svg/Settings-icon.vue";
 import { Observer } from "mobx-vue";
 import SolendDao from "../components/Solend-Dao.vue";
@@ -55,6 +55,16 @@ import { DaoViewModel } from "../models/dao-viewmodels";
 })
 export default class Dao extends Vue {
   @Provide() vm = new DaoViewModel();
+  @Prop({ default: false }) isReview?: boolean;
+
+  async created() {
+    if (this.isReview) return;
+    if (!this.$route.query || !this.$route.query.appId)
+      this.$router.replace("/home");
+    const query = this.$route.query;
+    if (!query.appId) this.$router.replace("/home");
+    await this.vm.fetchApplication();
+  }
 }
 </script>
 <style scoped>
