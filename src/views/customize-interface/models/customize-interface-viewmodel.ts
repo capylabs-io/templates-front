@@ -5,10 +5,14 @@ import { appProvider } from "@/app-providers";
 import { walletStore } from "@/stores/wallet-store";
 import { apiService } from "@/services/api-service";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
+import { watch } from "vue";
 
 export class CustomizeInterfaceViewmodel {
   @observable application?: ApplicationModel;
   @observable metadata?: any;
+  @observable appType?: string;
+
+  @observable selectedPage?: string;
 
   @observable isChoosingTheme = true;
   @observable themeConfig?: any;
@@ -66,12 +70,10 @@ export class CustomizeInterfaceViewmodel {
       this.application = res.applications[0];
       this.metadata = this.application.metadata;
 
-      console.log(`query type ${query.type}`);
-      console.log(`application service ${this.application.service}`);
-
       if (!this.application.service || this.application.service != query.type)
         this.pushBackHome(`Invalid service type!`);
       if (!this.application.isCustomized) this.isChoosingTheme = true;
+      this.appType = query.type;
     } catch (err: any) {
       this.pushBackHome(`Error occurred, please try again later!`);
     } finally {
@@ -95,5 +97,22 @@ export class CustomizeInterfaceViewmodel {
 
   @action setThemeConfig(value: any) {
     this.themeConfig = value;
+  }
+
+  get appMainPages() {
+    if (!this.appType) return [];
+    switch (this.appType) {
+      case "dao":
+        return [
+          {
+            title: "DAO Management",
+            value: "management",
+          },
+          {
+            title: "Proposal Detail",
+            value: "proposal",
+          },
+        ];
+    }
   }
 }

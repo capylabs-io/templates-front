@@ -3,133 +3,55 @@
     class="customize-drawer"
     :class="vm.drawer ? 'open-drawer' : 'close-drawer'"
   >
-    <div class="button-close">
-      <v-btn @click="toggleDrawer()" icon>
-        <v-icon>{{
-          vm.drawer ? "mdi-chevron-left" : "mdi-chevron-right"
-        }}</v-icon>
-      </v-btn>
-    </div>
     <div class="px-6 pt-4">
       <div class="text-lg font-weight-bold">Customize Interface</div>
       <div class="text-sm">Theme Name</div>
     </div>
-    <div class="drawer-content mt-8 px-6">
-      <div>
-        <div class="text-sm font-weight-bold">Primary Color</div>
-        <div class="mt-2">
-          <SimpleSwatches @onColorClick="changeBackground" />
-        </div>
-      </div>
-      <v-divider class="my-5"></v-divider>
-      <div>
-        <div class="text-sm font-weight-bold mb-1">Font</div>
-        <v-select hide-details solo dense></v-select>
-      </div>
-      <div class="mt-5">
-        <div class="text-sm font-weight-bold mb-1">Layout</div>
-        <v-select hide-details solo dense></v-select>
-      </div>
-      <v-divider class="my-5"></v-divider>
-      <div>
-        <div class="d-flex align-center">
-          <div class="text-sm font-weight-bold mr-1 mb-1">Token Icon</div>
-          <v-icon small>mdi-information-outline</v-icon>
-        </div>
-        <v-file-input
-          accept="image/*"
-          placeholder="File input"
-          append-icon="mdi-cloud-upload-outline"
-          prepend-icon=""
-          solo
-          dense
-        ></v-file-input>
-      </div>
-      <div>
-        <div class="d-flex align-center">
-          <div class="text-sm font-weight-bold mr-1 mb-1">Brand Logo</div>
-          <v-icon small>mdi-information-outline</v-icon>
-        </div>
-        <v-file-input
-          accept="image/*"
-          placeholder="File input"
-          append-icon="mdi-cloud-upload-outline"
-          prepend-icon=""
-          solo
-          dense
-        ></v-file-input>
-      </div>
-      <div>
-        <div class="d-flex align-center">
-          <div class="text-sm font-weight-bold mr-1 mb-1">
-            Banner <span class="text-sm gray6--text">(7.2:1)</span>
-          </div>
-          <v-icon small>mdi-information-outline</v-icon>
-        </div>
-        <v-file-input
-          accept="image/*"
-          placeholder="File input"
-          append-icon="mdi-cloud-upload-outline"
-          prepend-icon=""
-          solo
-          dense
-        ></v-file-input>
-      </div>
-      <div>
-        <div class="d-flex align-center">
-          <div class="mr-1">
-            Side Banner <span class="text-sm gray6--text">(4:3)</span>
-          </div>
-          <v-icon small>mdi-information-outline</v-icon>
-        </div>
-        <v-file-input
-          accept="image/*"
-          placeholder="File input"
-          append-icon="mdi-cloud-upload-outline"
-          prepend-icon=""
-          solo
-          dense
-        ></v-file-input>
-      </div>
-      <v-divider class="mb-3"></v-divider>
-      <div>
-        <div class="d-flex align-center justify-space-between">
-          <div>Social</div>
-          <v-btn icon>
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </div>
-        <div>
-          <div class="d-flex align-center">
-            <div class="d-flex align-center">
-              <v-select
-                class="media-select"
-                :items="vm.mediaIcons"
-                hide-details
-                outlined
-                dense
-              >
-                <template #selection="{ item }">
-                  <v-icon>{{ item.icon }}</v-icon>
-                </template>
-                <template #item="{ item }">
-                  <div class="media-select-item">
-                    <v-icon>{{ item.icon }}</v-icon>
-                  </div>
-                </template>
-              </v-select>
-              <v-divider vertical></v-divider>
-              <v-text-field hide-details outlined dense></v-text-field>
-            </div>
-            <v-btn icon>
-              <v-icon>mdi-trash-can</v-icon>
-            </v-btn>
-          </div>
-        </div>
-      </div>
+    <v-divider class="mt-5"></v-divider>
+
+    <div class="drawer-content">
+      <v-expansion-panels
+        class="expansion-container d-flex flex-column"
+        accordion
+        flat
+      >
+        <v-expansion-panel>
+          <v-expansion-panel-header class="font-weight-bold mt-2"
+            >General Config</v-expansion-panel-header
+          >
+          <v-expansion-panel-content class="mb-4 mt-2">
+            <GeneralConfig />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-divider class="mt-2"></v-divider>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="font-weight-bold mt-2"
+            >Layout Config</v-expansion-panel-header
+          >
+          <v-expansion-panel-content class="mb-4 mt-2">
+            <LayoutConfig />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-divider class="mt-2"></v-divider>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="font-weight-bold mt-2"
+            >Social Media</v-expansion-panel-header
+          >
+          <v-expansion-panel-content class="mb-4 mt-2">
+            <SocialMedia />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-divider class="mt-2"></v-divider>
+      </v-expansion-panels>
     </div>
+
     <v-divider class="my-5"></v-divider>
-    <div class="d-flex flex-column align-center pb-5">
+    <div class="d-flex flex-column align-center mb-4">
       <v-btn class="button-action text-none btn-text" color="primary"
         >Save and Deploy</v-btn
       >
@@ -149,6 +71,9 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
     ThemeSelector: () => import("./theme-selector.vue"),
     SimpleSwatches: () =>
       import("@/components/create-service/simple-swatches.vue"),
+    GeneralConfig: () => import("../components/general-config.vue"),
+    LayoutConfig: () => import("../components/layout-config.vue"),
+    SocialMedia: () => import("../components/social-media.vue"),
   },
 })
 export default class CustomizeInterface extends Vue {
@@ -156,10 +81,6 @@ export default class CustomizeInterface extends Vue {
 
   toggleDrawer() {
     this.vm.drawer = !this.vm.drawer;
-  }
-
-  changeBackground(data: any) {
-    this.vm.setBackgroundColor(data);
   }
 }
 </script>
@@ -182,24 +103,22 @@ export default class CustomizeInterface extends Vue {
   max-width: 48px;
 }
 .customize-drawer {
-  width: 312px !important;
+  flex: 1 0 312px !important;
   background: var(--v-gray12-base);
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
   z-index: 10 !important;
   transition: margin-left 0.5s;
-}
-.open-drawer {
-  margin-left: 0px;
-}
-.close-drawer {
-  margin-left: -312px;
+  position: relative;
 }
 .drawer-content {
   height: calc(100% - 140px - 64px - 34px);
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.theme--dark .expansion-container.v-expansion-panels .v-expansion-panel {
+  background: var(--v-gray12-base) !important;
+}
+.active-header {
+  color: var(--v-primary-base) !important;
 }
 </style>

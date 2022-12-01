@@ -3,13 +3,27 @@
     <div v-if="vm.isChoosingTheme">
       <ThemeSelector />
     </div>
-    <div class="customize-layout" v-else>
+    <div class="customize-layout d-flex" v-else>
       <CustomizeDrawer />
-      <div class="layout-content" :style="`background: ${vm.backgroundColor}`">
+      <div class="layout-content">
         <v-app-bar>
-          <v-select class="page-select" hide-details dense outlined></v-select>
+          <v-select
+            v-model="vm.selectedPage"
+            :items="vm.appMainPages"
+            item-text="title"
+            item-value="value"
+            class="page-select"
+            hide-details
+            dense
+            outlined
+          ></v-select>
         </v-app-bar>
-        <DaoInterface :isReview="true" />
+        <div v-if="vm.appType == 'dao'">
+          <div v-if="vm.selectedPage == 'management'">
+            <DaoInterface :isReview="true" />
+          </div>
+          <div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -34,6 +48,7 @@ export default class CustomizeInterface extends Vue {
 
   async created() {
     await this.vm.fetchApplication();
+    this.vm.selectedPage = this.vm.appMainPages![0].value;
   }
 }
 </script>
@@ -45,6 +60,7 @@ export default class CustomizeInterface extends Vue {
   left: 0;
   right: 0;
   bottom: 0;
+  top: 0;
   width: 100vw;
   height: 100vh;
 }
@@ -52,6 +68,6 @@ export default class CustomizeInterface extends Vue {
   width: 100%;
 }
 .page-select {
-  max-width: 164px !important;
+  max-width: 214px !important;
 }
 </style>
