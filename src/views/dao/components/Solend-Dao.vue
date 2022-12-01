@@ -6,10 +6,14 @@
         <span class="font-weight-bold text-dp-xs">Axie DAO</span>
       </div>
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
-        <v-icon color="gray6">mdi-account-multiple</v-icon>
-        <span class="mx-1">Members (194)</span>
-        <img class="ml-3 mr-1" src="@/assets/cog.svg" />
-        <span>Params</span>
+        <div class="d-flex cursor-pointer align-center" @click="vm.changeMemberFlag()">
+          <v-icon color="gray6">mdi-account-multiple</v-icon>
+          <span class="mx-1">Members (194)</span>
+        </div>
+        <div class="d-flex cursor-pointer align-center" @click="vm.changeParamsFlag()">
+          <img class="ml-3 mr-1" src="@/assets/cog.svg" />
+          <span>Params</span>
+        </div>
         <v-icon class="ml-4" color="gray6">mdi-launch</v-icon>
       </div>
     </div>

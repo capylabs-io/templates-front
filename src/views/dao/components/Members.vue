@@ -1,7 +1,7 @@
 <template>
   <div class="pa-4 box-gray-12 rounded-lg member-page">
     <div class="d-flex">
-      <div class="pa-0 cursor-pointer" text @click="vm.changeMemberFlag()">
+      <div class="pa-0 cursor-pointer" @click="vm.changeMemberFlag()">
         <v-icon small color="blueJeans"> mdi-chevron-left</v-icon>
         <span class="text-capitalize blueJeans--text">Back</span>
       </div>

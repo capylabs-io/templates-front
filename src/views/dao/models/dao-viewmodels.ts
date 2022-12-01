@@ -67,7 +67,13 @@ export class DaoViewModel {
   ];
 
   // Member
-  @observable openMemberFlag = true; 
+  @observable openMemberFlag = false;
+  // Params
+  @observable openParamsFlag = false;
+  // Treasuries
+  @observable showTreasuries = false;
+  // Deposit QR Dialog
+  @observable isDepositQRDialog = false;
 
   createApplication = flow(function* (this) {
     try {
@@ -91,7 +97,18 @@ export class DaoViewModel {
       this.isOpenAddProposal = false;
     }
   });
-
+  @action changeMemberFlag() {
+    this.openMemberFlag = !this.openMemberFlag;
+  }
+  @action changeParamsFlag() {
+    this.openParamsFlag = !this.openParamsFlag;
+  }
+  @action changeShowTreasuries() {
+    this.showTreasuries = !this.showTreasuries;
+  }
+  @action changeDepositQRDialog() {
+    this.isDepositQRDialog = !this.isDepositQRDialog;
+  }
   @action changeAddProposalDialog() {
     this.isOpenAddProposal = !this.isOpenAddProposal;
   }

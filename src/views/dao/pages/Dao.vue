@@ -5,7 +5,9 @@
     </div>
     <div class="dao-management mt-4 ma-auto">
       <Members v-if="vm.openMemberFlag"/>
+      <Params v-else-if="vm.openParamsFlag"/>
       <VoteResult v-else-if="vm.showVoteResult"/>
+      <TreasuryDetail v-else-if="vm.showTreasuries"/>
       <v-row class="justify-center ma-auto" v-else>
         <v-col cols="10" md="7">
           <div v-if="vm.proposalID != 0">
@@ -17,6 +19,7 @@
         </v-col>
         <v-col cols="10" md="4">
           <YourAccount />
+          <Treasuries/>
           <img
             class="full-width mt-4 border-radius-8"
             src="@/assets/dao-front-banner.png"
@@ -42,6 +45,9 @@ import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import AddProposal from "../components/Add-Proposal.vue";
 import Members from "../components/Members.vue";
+import Params from "../components/Params.vue";
+import Treasuries from "../components/Treasuries.vue";
+import TreasuryDetail from "../components/_TreasuryDetail.vue";
 @Observer
 @Component({
   components: {
@@ -54,7 +60,10 @@ import Members from "../components/Members.vue";
     Voting,
     VoteResult,
     AddProposal,
-    Members
+    Members,
+    Params,
+    Treasuries,
+    TreasuryDetail
   },
 })
 export default class Dao extends Vue {
