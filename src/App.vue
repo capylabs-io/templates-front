@@ -7,7 +7,7 @@
         <router-view> </router-view>
       </v-scroll-x-reverse-transition>
     </v-main>
-    <Footer />
+    <Footer class="footer" />
   </v-app>
 </template>
 
@@ -259,6 +259,10 @@ input[type="number"]::-webkit-outer-spin-button {
   .input-field.v-text-field--solo > .v-input__control > .v-input__slot {
     background: var(--v-gray13-base) !important;
   }
+}
+
+.footer {
+  z-index: 1;
 }
 //Animations
 </style>

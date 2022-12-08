@@ -14,8 +14,21 @@ export class DaoViewModel {
   @observable metadata?: any;
   @observable daoSetting?: DaoSettingModel;
 
-  @observable isOpenAddProposal = false;
+  @observable isReview = false;
+  @observable reviewPage = "management";
+  @observable currentLayout = 1;
+
+  @observable searchKey = "";
+  @observable filterCancelled = false;
+  @observable filterCompleted = false;
+  @observable filterDefeated = false;
+  @observable filterExecuting = false;
+  @observable filterSucceeded = false;
+  @observable filterVoting = false;
+  @observable proposalPage = 1;
+
   @observable instructionList = ["Instruction 1", "Instruction 2", "Instruction 3", "Instruction 3"];
+  @observable transactionList = ["none", "Transfer Token", "Mint Token"];
   @observable proposalID = 0;
   @observable pageSize = 3;
   @observable currentPage = 1;
@@ -44,6 +57,55 @@ export class DaoViewModel {
       },
     ],
   };
+  // Add Proposal
+  @observable isOpenAddProposal = false;
+  @observable title = "";
+  @observable description = "";
+  @observable quorum = "";
+  @observable transactions = [
+    {
+      type: "none",
+      source: "0x00",
+      destination: "0x00",
+      explorer: null,
+      config: {},
+      token: "1",
+    },
+    {
+      type: "none",
+      source: "0x00",
+      destination: "0x00",
+      explorer: null,
+      config: {},
+      token: "1",
+    },
+  ];
+
+  // Member
+  @observable openMemberFlag = false;
+
+  createApplication = flow(function* (this) {
+    try {
+      loadingController.increaseRequest();
+      yield apiService.addProposal({
+        appId: "950467437867",
+        userId: walletStore.userId,
+        data: {
+          title: this.title,
+          description: this.description,
+          quorum: this.quorum,
+          transactions: this.transactions,
+        },
+      });
+      //TODO: Add to localstorage
+      snackController.success("Add Proposal successfully!");
+    } catch (err: any) {
+      snackController.commonError(err);
+    } finally {
+      loadingController.decreaseRequest();
+      this.isOpenAddProposal = false;
+    }
+  });
 
   fetchApplication = flow(function* (this) {
     try {
@@ -51,7 +113,6 @@ export class DaoViewModel {
       const query = appProvider.router.currentRoute.query;
       if (!query || !query.appId) this.pushBackHome("Application Id is required!");
       const appId = query.appId;
-      //TODO: Wrong logic! no need userId
       const res = yield apiService.applications.find({
         appId,
         userId: walletStore.userId,
@@ -73,10 +134,17 @@ export class DaoViewModel {
     }
   });
 
-  pushBackHome(error: any) {
+  @action pushBackHome(error: any) {
     snackController.commonError(error);
     if (walletStore.connected) appProvider.router.replace("/management");
     else appProvider.router.replace("/home");
+  }
+
+  @action setIsReview(val: boolean) {
+    this.isReview = val;
+  }
+  @action setReviewPage(val: string) {
+    this.reviewPage = val;
   }
 
   @action changeAddProposalDialog() {
@@ -107,7 +175,19 @@ export class DaoViewModel {
   @action backPropoDetail() {
     this.showVoteResult = false;
   }
-
+  @action removeTransaction(index) {
+    this.transactions.splice(index, 1);
+  }
+  @action addTransaction() {
+    this.transactions.push({
+      type: "none",
+      source: "0x00",
+      destination: "0x00",
+      explorer: null,
+      config: {},
+      token: "1",
+    });
+  }
   // computed
   // @computed get eventEndDate() {
   //   return moment(this.voteEnd).isBefore(now());

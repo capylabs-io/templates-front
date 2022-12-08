@@ -1,9 +1,9 @@
 <template>
-  <v-card class="pa-4 box-gray-12 rounded-lg min-h" outlined>
+  <v-card class="pa-4 box-gray-12 rounded-lg" outlined>
     <div class="d-inline-flex justify-space-between full-width">
       <div class="d-flex align-center">
-        <img class="mr-2" src="@/assets/metamask-icon.png" />
-        <span class="font-weight-bold text-dp-xs">Solend DAO</span>
+        <img class="mr-2" src="@/assets/axie-icon.png" />
+        <span class="font-weight-bold text-dp-xs">Axie DAO</span>
       </div>
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
         <v-icon color="gray6">mdi-account-multiple</v-icon>
@@ -17,30 +17,28 @@
       <v-btn text class="text-capitalize gray8--text active">Proposals</v-btn>
       <v-btn text class="text-capitalize gray8--text">About</v-btn>
     </div>
-    <Proposals/>
+    <Proposals />
   </v-card>
 </template>
 <style scoped>
 .box-gray-13 button.active {
-    background: #4F4F54;
-    color: white !important;
-}
-.min-h {
-    min-height: 848px;
+  background: #4f4f54;
+  color: white !important;
 }
 </style>
 <script lang="ts">
-import { Component, Inject, Vue } from "vue-property-decorator";
+import { Component, Inject, Prop, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import Proposals from "./_Proposals.vue";
-import {DaoViewModel} from "../models/dao-viewmodels";
+import { DaoViewModel } from "../models/dao-viewmodels";
 @Observer
 @Component({
   components: {
-    Proposals
+    Proposals,
   },
 })
 export default class SolendDao extends Vue {
   @Inject() vm!: DaoViewModel;
+  @Prop({ default: false }) isSmall!: boolean;
 }
 </script>

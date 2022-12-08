@@ -14,22 +14,22 @@
       </div>
       <div class="d-flex">
         <v-img
-          :src="require('@/assets/mingcute_discord-fill.png')"
-          max-width="24px"
+          :src="require('@/assets/icons/discord.png')"
+          width="24px"
           @click="openLink('')"
           contain
           class="mr-4"
         ></v-img>
         <v-img
-          :src="require('@/assets/akar-icons_github-fill.png')"
-          max-width="24px"
+          :src="require('@/assets/icons/github.png')"
+          width="24px"
           @click="openLink('')"
           contain
           class="mr-4"
         ></v-img>
         <v-img
-          :src="require('@/assets/ant-design_twitter-outlined.png')"
-          max-width="24px"
+          :src="require('@/assets/icons/twitter.png')"
+          width="24px"
           @click="openLink('')"
           contain
         ></v-img>

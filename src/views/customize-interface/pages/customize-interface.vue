@@ -6,23 +6,8 @@
     <div class="customize-layout d-flex" v-else>
       <CustomizeDrawer />
       <div class="layout-content">
-        <v-app-bar>
-          <v-select
-            v-model="vm.selectedPage"
-            :items="vm.appMainPages"
-            item-text="title"
-            item-value="value"
-            class="page-select"
-            hide-details
-            dense
-            outlined
-          ></v-select>
-        </v-app-bar>
         <div v-if="vm.appType == 'dao'">
-          <div v-if="vm.selectedPage == 'management'">
-            <DaoInterface :isReview="true" />
-          </div>
-          <div></div>
+          <DaoInterface :isReview="true" :reviewPage="vm.selectedPage" />
         </div>
       </div>
     </div>
@@ -63,9 +48,25 @@ export default class CustomizeInterface extends Vue {
   top: 0;
   width: 100vw;
   height: 100vh;
+  background: #121212 !important;
 }
+
+.customize-layout::before {
+  content: "";
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  opacity: 0.3;
+  background-position: center;
+  background-repeat: no-repeat !important;
+  background-size: cover;
+  background: url("../../../assets/background.png") !important;
+}
+
 .layout-content {
-  width: 100%;
+  z-index: 10;
+  width: calc(100vw - 312px) !important;
 }
 .page-select {
   max-width: 214px !important;

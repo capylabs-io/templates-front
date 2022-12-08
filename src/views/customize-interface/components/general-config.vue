@@ -6,8 +6,7 @@
         <SimpleSwatches @onColorClick="changeBackground" />
       </div>
     </div>
-    <v-divider class="my-5"></v-divider>
-    <div>
+    <div class="mt-5">
       <div class="text-sm font-weight-bold mb-1">Font</div>
       <v-select hide-details solo dense></v-select>
     </div>

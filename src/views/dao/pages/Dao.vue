@@ -1,16 +1,35 @@
 <template>
   <div>
-    <div v-if="!vm.showVoteResult && vm.proposalID == 0">
+    <DaoNavigationBar />
+    <div class="dao-content">
+      <div v-if="daoVM.isReview">
+        <div v-if="daoVM.reviewPage == 'management'">
+          <DaoDetail :layout="daoVM.currentLayout" />
+        </div>
+        <div v-else-if="daoVM.reviewPage == 'proposal'">
+          <Proposal :layout="daoVM.currentLayout" />
+        </div>
+      </div>
+      <div v-else>
+        <DaoDetail :layout="daoVM.currentLayout" />
+        <Proposal :layout="daoVM.currentLayout" />
+      </div>
+    </div>
+    <DaoFooter />
+    <!-- <div v-if="!vm.showVoteResult && vm.proposalID == 0">
       <img class="screen-width" src="@/assets/dao-banner.png" />
     </div>
     <div class="dao-management mt-4 ma-auto">
-      <v-row class="justify-center ma-auto" v-if="!vm.showVoteResult">
+      <Members v-if="vm.openMemberFlag" />
+      <VoteResult v-else-if="vm.showVoteResult" />
+      <v-row class="justify-center ma-auto" v-else>
         <v-col cols="10" md="7">
-          <SolendDao v-if="vm.proposalID == 0" />
-          <div v-else>
+          <div v-if="vm.proposalID != 0">
             <ProposalDetail />
             <ProposalDetailDiscussion />
           </div>
+          <AddProposal v-else-if="vm.isOpenAddProposal" />
+          <SolendDao v-else />
         </v-col>
         <v-col cols="10" md="4">
           <YourAccount />
@@ -22,27 +41,30 @@
           <Voting v-else />
         </v-col>
       </v-row>
-      <div v-else>
-        <VoteResult />
-      </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Provide, Vue } from "vue-property-decorator";
+import { Component, Prop, Provide, Vue, Watch } from "vue-property-decorator";
 import SettingIcon from "@/components/svg/Settings-icon.vue";
 import { Observer } from "mobx-vue";
-import SolendDao from "../components/Solend-Dao.vue";
+import SolendDao from "../components/ProposalList.vue";
 import ProposalDetail from "../components/Detail-Proposals.vue";
 import ProposalDetailDiscussion from "../components/Detail-Proposals-Discussion.vue";
+import Voting from "../components/Voting.vue";
 import YourAccount from "../components/YourAccount.vue";
 import Programs from "../components/_Programs.vue";
-import Voting from "../components/Voting.vue";
 import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
+import AddProposal from "../components/Add-Proposal.vue";
+
 @Observer
 @Component({
   components: {
+    DaoDetail: () => import("./DaoDetail.vue"),
+    Proposal: () => import("./Proposal.vue"),
+    DaoNavigationBar: () => import("../components/NavigationBar.vue"),
+    DaoFooter: () => import("../components/Footer.vue"),
     SettingIcon,
     SolendDao,
     YourAccount,
@@ -51,11 +73,20 @@ import { DaoViewModel } from "../models/dao-viewmodels";
     ProposalDetailDiscussion,
     Voting,
     VoteResult,
+    AddProposal,
   },
 })
 export default class Dao extends Vue {
-  @Provide() vm = new DaoViewModel();
+  @Provide() daoVM = new DaoViewModel();
   @Prop({ default: false }) isReview?: boolean;
+  @Prop({ default: "management" }) reviewPage?: string;
+
+  @Watch("reviewPage", { immediate: true }) onReviewPageChanged(val: string) {
+    this.daoVM.setReviewPage(val);
+  }
+  @Watch("isReview", { immediate: true }) onIsReviewChanged(val: boolean) {
+    this.daoVM.setIsReview(val);
+  }
 
   async created() {
     if (this.isReview) return;
@@ -63,12 +94,15 @@ export default class Dao extends Vue {
       this.$router.replace("/home");
     const query = this.$route.query;
     if (!query.appId) this.$router.replace("/home");
-    await this.vm.fetchApplication();
+    await this.daoVM.fetchApplication();
   }
 }
 </script>
-<style scoped>
+<style>
 .dao-management {
   max-width: 1440px;
+}
+.dao-content {
+  height: calc(100vh - 52px - 64px) !important;
 }
 </style>

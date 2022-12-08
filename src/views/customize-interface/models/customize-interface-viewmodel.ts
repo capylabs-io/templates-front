@@ -12,7 +12,7 @@ export class CustomizeInterfaceViewmodel {
   @observable metadata?: any;
   @observable appType?: string;
 
-  @observable selectedPage?: string;
+  @observable selectedPage?: string = "management";
 
   @observable isChoosingTheme = true;
   @observable themeConfig?: any;

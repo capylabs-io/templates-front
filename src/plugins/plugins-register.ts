@@ -2,6 +2,7 @@ import _ from "lodash";
 import Vue from "vue";
 
 import { appRules, rules } from "./rules";
+import { VueResponsiveComponents } from "vue-responsive-components";
 
 export const pluginsRegister = () => {
   Vue.use({
@@ -16,4 +17,5 @@ export const pluginsRegister = () => {
       };
     },
   });
+  // Vue.use(VueResponsiveComponents);
 };

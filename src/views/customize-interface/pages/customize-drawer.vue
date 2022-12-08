@@ -6,6 +6,16 @@
     <div class="px-6 pt-4">
       <div class="text-lg font-weight-bold">Customize Interface</div>
       <div class="text-sm">Theme Name</div>
+      <v-select
+        v-model="vm.selectedPage"
+        :items="vm.appMainPages"
+        item-text="title"
+        item-value="value"
+        class="page-select mt-4"
+        hide-details
+        dense
+        outlined
+      ></v-select>
     </div>
     <v-divider class="mt-5"></v-divider>
 
@@ -110,7 +120,7 @@ export default class CustomizeInterface extends Vue {
   position: relative;
 }
 .drawer-content {
-  height: calc(100% - 140px - 64px - 34px);
+  height: calc(100% - 140px - 120px - 16px) !important;
   overflow-x: hidden;
   overflow-y: auto;
 }
