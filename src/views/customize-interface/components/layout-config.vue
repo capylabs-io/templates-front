@@ -6,10 +6,13 @@
         <v-icon small>mdi-information-outline</v-icon>
       </div>
       <v-file-input
+        v-model="vm.tokenIcon"
         accept="image/*"
         placeholder="File input"
         append-icon="mdi-cloud-upload-outline"
         prepend-icon=""
+        @change="vm.changeTokenIcon"
+        clearable
         solo
         dense
       ></v-file-input>
@@ -36,6 +39,7 @@
         <v-icon small>mdi-information-outline</v-icon>
       </div>
       <v-file-input
+        v-model="vm.banner"
         accept="image/*"
         placeholder="File input"
         append-icon="mdi-cloud-upload-outline"

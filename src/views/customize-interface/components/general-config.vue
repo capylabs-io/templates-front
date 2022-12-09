@@ -3,7 +3,7 @@
     <div>
       <div class="text-sm font-weight-bold">Primary Color</div>
       <div class="mt-2">
-        <SimpleSwatches @onColorClick="changeBackground" />
+        <SimpleSwatches :colors="sampleColors" />
       </div>
     </div>
     <div class="mt-5">
@@ -30,8 +30,13 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
 export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
 
-  changeBackground(data: any) {
-    this.vm.setBackgroundColor(data);
-  }
+  sampleColors = [
+    "#6A49E2",
+    "#353897",
+    "#4DAAF8",
+    "#DA1B44",
+    "#F6C453",
+    "#F0845D",
+  ];
 }
 </script>

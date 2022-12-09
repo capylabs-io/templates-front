@@ -1,11 +1,11 @@
 import { ApplicationModel } from "./../../../models/application-model";
-import { action, flow, observable } from "mobx";
+import { action, flow, observable, runInAction } from "mobx";
 import { loadingController } from "@/components/global-loading/global-loading-controller";
 import { appProvider } from "@/app-providers";
 import { walletStore } from "@/stores/wallet-store";
 import { apiService } from "@/services/api-service";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
-import { watch } from "vue";
+import { Watch } from "vue-property-decorator";
 
 export class CustomizeInterfaceViewmodel {
   @observable application?: ApplicationModel;
@@ -23,35 +23,15 @@ export class CustomizeInterfaceViewmodel {
   @observable page?: number = 1;
   @observable totalPage?: number = 1;
 
-  @observable primaryColor?: string;
-  @observable backgroundColor?: string = "#6A49E2";
   @observable drawer = true;
+  @observable primaryColor?: string;
 
-  @observable mediaIcons = [
-    {
-      icon: "mdi-twitter",
-      value: "twitter",
-    },
-    {
-      icon: "mdi-facebook",
-      value: "facebook",
-    },
-    {
-      icon: "mdi-discord",
-      value: "discord",
-    },
-    {
-      icon: "mdi-telegram",
-      value: "telegram",
-    },
-  ];
-
-  swatches = [
-    ["#F64272", "#F6648B", "#F493A7", "#F891A6", "#FFCCD5"],
-    ["#8b5aff", "#a27bff", "#b99cff", "#d0bdff", "#e8deff"],
-    ["#51e5db", "#74ebe3", "#96f0ea", "#b9f5f1", "#dcfaf8"],
-    ["#ffa51a", "#ffb748", "#ffc976", "#ffdba3", "#ffedd1"],
-  ];
+  @observable font?: string;
+  @observable layout: number = 1;
+  @observable tokenIcon?: any = null;
+  @observable brandLogo?: any = null;
+  @observable banner?: any = null;
+  @observable sideBanner?: any = null;
 
   fetchApplication = flow(function* (this) {
     try {
@@ -81,14 +61,10 @@ export class CustomizeInterfaceViewmodel {
     }
   });
 
-  pushBackHome(error: any) {
+  @action pushBackHome(error: any) {
     snackController.commonError(error);
     if (walletStore.connected) appProvider.router.replace("/management");
     else appProvider.router.replace("/home");
-  }
-
-  @action setBackgroundColor(color: string) {
-    this.backgroundColor = color;
   }
 
   @action setChoosingTheme(value: boolean) {

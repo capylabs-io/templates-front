@@ -18,10 +18,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
   components: {},
 })
 export default class CustomizeInterface extends Vue {
-  @Prop({
-    default: ["#6A49E2", "#353897", "#4DAAF8", "#DA1B44", "#F6C453", "#F0845D"],
-  })
-  colors!: string[];
+  @Prop() colors!: string[];
 
   current: number = 0;
   onColorClick(index: number) {

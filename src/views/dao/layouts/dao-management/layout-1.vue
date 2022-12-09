@@ -2,7 +2,7 @@
   <Responsive :breakpoints="{ small: (el) => el.width <= 960 }">
     <div slot-scope="el">
       <div class="full-width">
-        <v-img src="@/assets/dao-banner.png" cover />
+        <v-img :src="bannerPath" cover />
       </div>
       <div class="dao-management ma-auto px-2 py-3">
         <v-row class="justify-center ma-auto">
@@ -23,9 +23,10 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Inject } from "vue-property-decorator";
+import { Vue, Component, Inject, Watch } from "vue-property-decorator";
 import { DaoViewModel } from "../../models/dao-viewmodels";
 import { Responsive } from "vue-responsive-components";
+import { CustomizeInterfaceViewmodel } from "@/views/customize-interface/models/customize-interface-viewmodel";
 
 @Component({
   components: {
@@ -35,7 +36,19 @@ import { Responsive } from "vue-responsive-components";
   },
 })
 export default class DaoManagementLayout1 extends Vue {
-  @Inject() vm!: DaoViewModel;
+  @Inject() daoVM!: DaoViewModel;
+  @Inject() vm!: CustomizeInterfaceViewmodel;
+
+  bannerPath = "";
+
+  @Watch("vm.banner", { immediate: true }) onBannerChanged(value: any) {
+    if (!this.daoVM.isReview || !this.vm) return;
+    if (!value) {
+      this.bannerPath = require("@/assets/dao-banner.png");
+      return;
+    }
+    this.bannerPath = URL.createObjectURL(this.vm.banner);
+  }
 }
 </script>
 
