@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+import { layoutStore } from "@/stores/layout-store";
 import { walletStore } from "@/stores/wallet-store";
 import { Vue, Component, Provide } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
@@ -30,10 +31,11 @@ export default class CustomizeInterface extends Vue {
   @Provide() vm = new CustomizeInterfaceViewmodel();
 
   walletStore = walletStore;
+  layoutStore = layoutStore;
 
-  async created() {
-    await this.vm.fetchApplication();
-    this.vm.selectedPage = this.vm.appMainPages![0].value;
+  created() {
+    const appType = this.$route.query.type.toString();
+    this.vm.setAppType(appType);
   }
 }
 </script>

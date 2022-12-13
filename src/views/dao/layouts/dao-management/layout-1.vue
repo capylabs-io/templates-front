@@ -26,7 +26,7 @@
 import { Vue, Component, Inject, Watch } from "vue-property-decorator";
 import { DaoViewModel } from "../../models/dao-viewmodels";
 import { Responsive } from "vue-responsive-components";
-import { CustomizeInterfaceViewmodel } from "@/views/customize-interface/models/customize-interface-viewmodel";
+import { layoutStore } from "@/stores/layout-store";
 
 @Component({
   components: {
@@ -36,18 +36,19 @@ import { CustomizeInterfaceViewmodel } from "@/views/customize-interface/models/
   },
 })
 export default class DaoManagementLayout1 extends Vue {
-  @Inject() daoVM!: DaoViewModel;
-  @Inject() vm!: CustomizeInterfaceViewmodel;
+  @Inject() vm!: DaoViewModel;
+
+  layoutStore = layoutStore;
 
   bannerPath = "";
 
   @Watch("vm.banner", { immediate: true }) onBannerChanged(value: any) {
-    if (!this.daoVM.isReview || !this.vm) return;
+    if (!this.vm.isReview) return;
     if (!value) {
       this.bannerPath = require("@/assets/dao-banner.png");
       return;
     }
-    this.bannerPath = URL.createObjectURL(this.vm.banner);
+    this.bannerPath = URL.createObjectURL(this.layoutStore.banner);
   }
 }
 </script>

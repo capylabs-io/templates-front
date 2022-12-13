@@ -1,3 +1,4 @@
+import { ProposalModel } from "./../../../models/proposal-model";
 import { DaoSettingModel } from "./../../../models/dao-setting-model";
 import { walletStore } from "@/stores/wallet-store";
 import { ApplicationModel } from "./../../../models/application-model";
@@ -20,11 +21,15 @@ export class DaoViewModel {
 
   @observable searchKey = "";
   @observable filterCancelled = false;
-  @observable filterCompleted = false;
-  @observable filterDefeated = false;
+  @observable filterPassed = false;
+  @observable filterFailed = false;
+  @observable filterOnHold = false;
   @observable filterExecuting = false;
-  @observable filterSucceeded = false;
   @observable filterVoting = false;
+  @observable filterDraft = false;
+
+  @observable proposals: ProposalModel[] = [];
+  @observable itemsPerPage = 8;
   @observable proposalPage = 1;
 
   @observable instructionList = ["Instruction 1", "Instruction 2", "Instruction 3", "Instruction 3"];
@@ -119,14 +124,38 @@ export class DaoViewModel {
       });
       if (!res || !res.applications || res.applications.length == 0)
         this.pushBackHome("Application does not exist!");
+
       this.application = res.applications[0];
       this.metadata = this.application.metadata;
       this.daoSetting = this.application.dao_setting;
+
       if (!this.application.service || !this.daoSetting) this.pushBackHome(`Invalid service type!`);
-      if (!this.application.isCustomized)
+      else if (!this.application.isCustomized && !this.isReview) {
         appProvider.router.push(
           `/customize-interface?type=${this.application?.service}&appId=${this.application?.appId}`
         );
+        return;
+      }
+
+      if (!this.application.proposals || this.application.proposals.length == 0)
+        yield this.fetchDefaultProposals();
+      else this.proposals = this.application.proposals;
+    } catch (err: any) {
+      this.pushBackHome(`Error occurred, please try again later!`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  });
+
+  fetchDefaultProposals = flow(function* (this) {
+    try {
+      loadingController.increaseRequest();
+      const proposals = yield apiService.getDefaultProposal();
+      if (!proposals || proposals.length == 0) {
+        this.pushBackHome(`Error occurred, please try again later!`);
+        return;
+      }
+      this.proposals = proposals;
     } catch (err: any) {
       this.pushBackHome(`Error occurred, please try again later!`);
     } finally {
@@ -192,4 +221,51 @@ export class DaoViewModel {
   // @computed get eventEndDate() {
   //   return moment(this.voteEnd).isBefore(now());
   // }
+
+  @computed get filteredProposals() {
+    if (!this.proposals) return [];
+    return this.proposals.filter((proposal) => {
+      if (
+        this.searchKey &&
+        !proposal.title.includes(this.searchKey) &&
+        !proposal.description.includes(this.searchKey)
+      )
+        return false;
+      if (this.filterCancelled && proposal.status == "cancelled") return true;
+      if (this.filterPassed && proposal.status == "passed") return true;
+      if (this.filterFailed && proposal.status == "failed") return true;
+      if (this.filterExecuting && proposal.status == "executing") return true;
+      if (this.filterOnHold && proposal.status == "onHold") return true;
+      if (this.filterVoting && proposal.status == "voting") return true;
+      if (this.filterDraft && proposal.status == "draft") return true;
+      return (
+        !this.filterCancelled &&
+        !this.filterPassed &&
+        !this.filterFailed &&
+        !this.filterExecuting &&
+        !this.filterOnHold &&
+        !this.filterVoting &&
+        !this.filterDraft
+      );
+    });
+  }
+
+  @computed get slicedProposals() {
+    if (!this.proposals) return [];
+    return this.filteredProposals.slice(
+      (this.proposalPage - 1) * this.itemsPerPage,
+      this.proposalPage * this.itemsPerPage
+    );
+  }
+
+  @computed get proposalLength() {
+    return this.filteredProposals.length;
+  }
+
+  @computed get totalProposalPage() {
+    if (!this.proposals) return 1;
+    if (this.filteredProposals.length % this.itemsPerPage! == 0)
+      return this.filteredProposals.length / this.itemsPerPage!;
+    else return Math.floor(this.filteredProposals.length / this.itemsPerPage!) + 1;
+  }
 }

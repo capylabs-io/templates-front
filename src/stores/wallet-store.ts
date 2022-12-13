@@ -27,6 +27,7 @@ export class WalletStore {
 
   @observable jwt = "";
   @observable userId = "";
+  @observable userInfo: any;
 
   LPTokenContract?: any;
   private _balanceSubscription: Subscription | undefined;

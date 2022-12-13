@@ -22,44 +22,7 @@ export class CustomizeInterfaceViewmodel {
 
   @observable page?: number = 1;
   @observable totalPage?: number = 1;
-
   @observable drawer = true;
-  @observable primaryColor?: string;
-
-  @observable font?: string;
-  @observable layout: number = 1;
-  @observable tokenIcon?: any = null;
-  @observable brandLogo?: any = null;
-  @observable banner?: any = null;
-  @observable sideBanner?: any = null;
-
-  fetchApplication = flow(function* (this) {
-    try {
-      loadingController.increaseRequest();
-      const query = appProvider.router.currentRoute.query;
-      if (!walletStore.connected) this.pushBackHome("You need to connect wallet to manage application!");
-      if (!query || !query.appId || !query.type)
-        this.pushBackHome("Application Id and Service Type are required!");
-      const appId = query.appId;
-      const res = yield apiService.applications.find({
-        appId,
-        userId: walletStore.userId,
-      });
-      if (!res || !res.applications || res.applications.length == 0)
-        this.pushBackHome("Application does not exist!");
-      this.application = res.applications[0];
-      this.metadata = this.application.metadata;
-
-      if (!this.application.service || this.application.service != query.type)
-        this.pushBackHome(`Invalid service type!`);
-      if (!this.application.isCustomized) this.isChoosingTheme = true;
-      this.appType = query.type;
-    } catch (err: any) {
-      this.pushBackHome(`Error occurred, please try again later!`);
-    } finally {
-      loadingController.decreaseRequest();
-    }
-  });
 
   @action pushBackHome(error: any) {
     snackController.commonError(error);
@@ -73,6 +36,10 @@ export class CustomizeInterfaceViewmodel {
 
   @action setThemeConfig(value: any) {
     this.themeConfig = value;
+  }
+
+  @action setAppType(val: string) {
+    this.appType = val;
   }
 
   get appMainPages() {

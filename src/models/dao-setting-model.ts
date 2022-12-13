@@ -12,8 +12,8 @@ export interface DaoSettingModel {
   council?: any;
   totalSupply: FixedNumber;
   application: ApplicationModel;
-  updatedAt: Date;
-  createdAt: Date;
+  updatedAt: string;
+  createdAt: string;
   members: any;
   otherSetting: any;
 }

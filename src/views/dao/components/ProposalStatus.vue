@@ -36,16 +36,16 @@ export default class ProposalStatus extends Vue {
 
   get statusColor() {
     switch (this.status) {
-      case "succeeded":
-      case "completed":
+      case "passed":
         return "success";
-      case "defeated":
+      case "failed":
         return "error";
       case "voting":
       case "executing":
         return "white";
       case "cancelled":
-        return "gray13";
+      case "draft":
+        return "gray5";
       default:
         return "white";
     }
@@ -53,10 +53,9 @@ export default class ProposalStatus extends Vue {
 
   get statusIcon() {
     switch (this.status) {
-      case "succeeded":
-      case "completed":
+      case "passed":
         return "mdi-check";
-      case "defeated":
+      case "failed":
         return "mdi-close";
       case "voting":
       case "executing":
@@ -64,7 +63,7 @@ export default class ProposalStatus extends Vue {
       case "cancelled":
         return "mdi-cancel";
       default:
-        return "mdi-spin mdi-loading";
+        return "mdi-file-document";
     }
   }
 }

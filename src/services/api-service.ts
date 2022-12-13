@@ -161,6 +161,11 @@ export class ApiService {
     const res = await axios.post(`proposals`, proposal);
     return res.data;
   }
+
+  async getDefaultProposal() {
+    const res = await axios.get(`proposals/default`);
+    return res.data;
+  }
 }
 
 export const apiService = new ApiService();

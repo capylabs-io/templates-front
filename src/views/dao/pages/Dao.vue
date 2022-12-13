@@ -2,17 +2,17 @@
   <div>
     <DaoNavigationBar />
     <div class="dao-content">
-      <div v-if="daoVM.isReview">
-        <div v-if="daoVM.reviewPage == 'management'">
-          <DaoDetail :layout="daoVM.currentLayout" />
+      <div v-if="vm.isReview">
+        <div v-if="vm.reviewPage == 'management'">
+          <DaoDetail :layout="vm.currentLayout" />
         </div>
-        <div v-else-if="daoVM.reviewPage == 'proposal'">
-          <Proposal :layout="daoVM.currentLayout" />
+        <div v-else-if="vm.reviewPage == 'proposal'">
+          <Proposal :layout="vm.currentLayout" />
         </div>
       </div>
       <div v-else>
-        <DaoDetail :layout="daoVM.currentLayout" />
-        <Proposal :layout="daoVM.currentLayout" />
+        <DaoDetail :layout="vm.currentLayout" />
+        <Proposal :layout="vm.currentLayout" />
       </div>
     </div>
     <DaoFooter />
@@ -77,24 +77,25 @@ import AddProposal from "../components/Add-Proposal.vue";
   },
 })
 export default class Dao extends Vue {
-  @Provide() daoVM = new DaoViewModel();
+  @Provide() vm = new DaoViewModel();
   @Prop({ default: false }) isReview?: boolean;
   @Prop({ default: "management" }) reviewPage?: string;
 
   @Watch("reviewPage", { immediate: true }) onReviewPageChanged(val: string) {
-    this.daoVM.setReviewPage(val);
+    this.vm.setReviewPage(val);
   }
   @Watch("isReview", { immediate: true }) onIsReviewChanged(val: boolean) {
-    this.daoVM.setIsReview(val);
+    this.vm.setIsReview(val);
   }
 
   async created() {
-    if (this.isReview) return;
-    if (!this.$route.query || !this.$route.query.appId)
-      this.$router.replace("/home");
-    const query = this.$route.query;
-    if (!query.appId) this.$router.replace("/home");
-    await this.daoVM.fetchApplication();
+    if (!this.isReview) {
+      if (!this.$route.query || !this.$route.query.appId)
+        this.$router.replace("/home");
+      const query = this.$route.query;
+      if (!query.appId) this.$router.replace("/home");
+    }
+    await this.vm.fetchApplication();
   }
 }
 </script>

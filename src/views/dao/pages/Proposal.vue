@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts">
-import { CustomizeInterfaceViewmodel } from "@/views/customize-interface/models/customize-interface-viewmodel";
 import { Vue, Inject, Component } from "vue-property-decorator";
 import { DaoViewModel } from "../models/dao-viewmodels";
 
@@ -19,7 +18,6 @@ import { DaoViewModel } from "../models/dao-viewmodels";
   },
 })
 export default class ProposalDetail extends Vue {
-  @Inject() daoVM!: DaoViewModel;
-  @Inject() vm!: CustomizeInterfaceViewmodel;
+  @Inject() vm!: DaoViewModel;
 }
 </script>

@@ -2,12 +2,12 @@
   <div class="pa-4 box-gray-13 mt-4 text-sm font-weight-regular gray8--text">
     <div class="d-flex align-center">
       <v-text-field
-        v-model="daoVM.searchKey"
+        v-model="vm.searchKey"
         class="border-radius-8"
         prepend-inner-icon="mdi-magnify"
         placeholder="Search Proposals"
-        color="gray12"
-        solo
+        clearable
+        outlined
         dense
         hide-details
       ></v-text-field>
@@ -24,52 +24,53 @@
             <v-icon small color="gray6"> mdi-chevron-down</v-icon>
           </v-btn>
         </template>
-
         <v-list dense>
           <v-list-item>
             <v-checkbox
-              v-model="daoVM.filterCancelled"
+              v-model="vm.filterCancelled"
               label="Cancelled"
               hide-details
             ></v-checkbox>
           </v-list-item>
-
           <v-list-item>
             <v-checkbox
-              v-model="daoVM.filterCompleted"
-              label="Completed"
+              v-model="vm.filterPassed"
+              label="Passed"
               hide-details
             ></v-checkbox>
           </v-list-item>
-
           <v-list-item>
             <v-checkbox
-              v-model="daoVM.filterDefeated"
-              label="Defeated"
+              v-model="vm.filterFailed"
+              label="Failed"
               hide-details
             ></v-checkbox>
           </v-list-item>
-
           <v-list-item>
             <v-checkbox
-              v-model="daoVM.filterExecuting"
+              v-model="vm.filterExecuting"
               label="Executing"
               hide-details
             ></v-checkbox>
           </v-list-item>
-
           <v-list-item>
             <v-checkbox
-              v-model="daoVM.filterSucceeded"
+              v-model="vm.filterOnHold"
               label="Succeeded"
               hide-details
             ></v-checkbox>
           </v-list-item>
-
           <v-list-item>
             <v-checkbox
-              v-model="daoVM.filterVoting"
+              v-model="vm.filterVoting"
               label="Voting"
+              hide-details
+            ></v-checkbox>
+          </v-list-item>
+          <v-list-item>
+            <v-checkbox
+              v-model="vm.filterDraft"
+              label="Draft"
               hide-details
             ></v-checkbox>
           </v-list-item>
@@ -78,17 +79,17 @@
     </div>
 
     <div class="d-flex justify-space-between mt-4">
-      <div class="gray7--text">3 Proposals</div>
+      <div class="gray7--text">{{ vm.proposalLength }} Proposals</div>
       <div
         class="blueJeans--text d-flex align-center cursor-pointer"
-        @click="daoVM.changeAddProposalDialog()"
+        @click="vm.changeAddProposalDialog()"
       >
         <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
         <span class="ml-1 align-self-end">New Proposals</span>
       </div>
     </div>
 
-    <div>
+    <div v-for="proposal in vm.slicedProposals" :key="proposal.id">
       <Responsive :breakpoints="{ small: (el) => el.width <= 600 }">
         <div
           class="
@@ -101,7 +102,7 @@
             mt-3
             rounded-lg
           "
-          @click="daoVM.gotoProposalDetail()"
+          @click="vm.gotoProposalDetail()"
           slot-scope="el"
         >
           <div :class="el.is.small ? 'small-proposal-title' : 'proposal-title'">
@@ -112,8 +113,7 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  SLND3: Introduce Account Borrow Limit fdsafdas fdasfdsfds f
-                  fdasfdsa
+                  {{ proposal.title }}
                 </div>
               </template>
               <span>
@@ -121,10 +121,12 @@
                 fdasfdsa</span
               >
             </v-tooltip>
-            <div>Succeeded 3 months ago</div>
+            <div>
+              {{ new Date(proposal.updatedAt) | normalizeTimeDuration }}
+            </div>
           </div>
           <div class="d-flex align-center ml-4">
-            <proposal-status :isSmall="el.is.small" />
+            <proposal-status :status="proposal.status" :isSmall="el.is.small" />
             <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
           </div>
         </div>
@@ -133,8 +135,8 @@
 
     <div class="mt-3">
       <v-pagination
-        v-model="daoVM.proposalPage"
-        :length="1"
+        v-model="vm.proposalPage"
+        :length="vm.totalProposalPage"
         color="primary"
       ></v-pagination>
     </div>
@@ -154,7 +156,7 @@ import { Responsive } from "vue-responsive-components";
   },
 })
 export default class Proposals extends Vue {
-  @Inject() daoVM!: DaoViewModel;
+  @Inject() vm!: DaoViewModel;
 }
 </script>
 <style scoped>
