@@ -27,20 +27,13 @@ export default new Vuetify({
         gray11: "#3B3B3F",
         gray12: "#2A2A2D",
         gray13: "#1E1E20",
-        //Other
-        pigmentBlue: "#353897",
-        majorelleBlue: "#6A49E2",
-        blueJeans: "#4DAAF8",
-        emerald: "#65C77C",
-        mango: "#F6C453",
-        coral: "#F0845D",
-        paradisePink: "#E24E6E",
-        purplePizzazz: "#E569D9",
-        cottonCandy: "#F4C7F0",
-        wildBlueYondar: "#6F7488",
         // prime
         prime2: "#A0A1A2",
         prime7: "#3D3D3D",
+
+        //config theme
+        lightBackground: "#FFFFFF",
+        darkBackground: "#1E1E20",
       },
     },
   },

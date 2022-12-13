@@ -21,6 +21,7 @@
 
     <div class="drawer-content">
       <v-expansion-panels
+        v-model="panel"
         class="expansion-container d-flex flex-column"
         accordion
         flat
@@ -88,6 +89,8 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
 })
 export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
+
+  panel: number = 0;
 
   toggleDrawer() {
     this.vm.drawer = !this.vm.drawer;

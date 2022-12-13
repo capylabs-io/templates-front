@@ -50,7 +50,6 @@ export default class CustomizeInterface extends Vue {
   top: 0;
   width: 100vw;
   height: 100vh;
-  background: #121212 !important;
 }
 
 .customize-layout::before {
@@ -59,11 +58,6 @@ export default class CustomizeInterface extends Vue {
   width: 100vw;
   position: absolute;
   top: 0;
-  opacity: 0.3;
-  background-position: center;
-  background-repeat: no-repeat !important;
-  background-size: cover;
-  background: url("../../../assets/background.png") !important;
 }
 
 .layout-content {

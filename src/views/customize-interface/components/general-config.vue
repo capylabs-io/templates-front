@@ -1,23 +1,53 @@
 <template>
-  <div>
+  <div class="z-index-8">
+    <div class="mb-4">
+      <div class="text-sm font-weight-bold mb-2">Dark Mode</div>
+      <v-btn-toggle
+        v-model="layoutStore.isDarkTheme"
+        color="primary"
+        flat
+        dense
+        divided
+        mandatory
+      >
+        <v-btn :value="false">
+          <v-icon>mdi-weather-sunny</v-icon>
+        </v-btn>
+        <v-btn :value="true">
+          <v-icon>mdi-moon-waning-crescent</v-icon>
+        </v-btn>
+      </v-btn-toggle>
+    </div>
     <div>
       <div class="text-sm font-weight-bold">Primary Color</div>
       <div class="mt-2">
-        <SimpleSwatches :colors="sampleColors" />
+        <SimpleSwatches
+          :colors="vm.samplePrimaryColors"
+          @onColorClick="vm.setPrimaryColor($event)"
+        />
       </div>
     </div>
     <div class="mt-5">
       <div class="text-sm font-weight-bold mb-1">Font</div>
-      <v-select hide-details solo dense></v-select>
+      <v-select hide-details outlined dense></v-select>
     </div>
     <div class="mt-5">
       <div class="text-sm font-weight-bold mb-1">Layout</div>
-      <v-select hide-details solo dense></v-select>
+      <v-select
+        v-model="layoutStore.layout"
+        :items="vm.sampleLayouts"
+        item-text="title"
+        item-value="value"
+        hide-details
+        outlined
+        dense
+      ></v-select>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { layoutStore } from "@/stores/layout-store";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
 
@@ -30,13 +60,6 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
 export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
 
-  sampleColors = [
-    "#6A49E2",
-    "#353897",
-    "#4DAAF8",
-    "#DA1B44",
-    "#F6C453",
-    "#F0845D",
-  ];
+  layoutStore = layoutStore;
 }
 </script>

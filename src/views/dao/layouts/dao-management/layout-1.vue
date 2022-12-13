@@ -7,12 +7,12 @@
       <div class="dao-management ma-auto px-2 py-3">
         <v-row class="justify-center ma-auto">
           <v-col :cols="el.is.small ? 12 : 7">
-            <SolendDao />
+            <DaoDetail />
           </v-col>
           <v-col :cols="el.is.small ? 12 : 5">
             <YourAccount />
             <v-img
-              class="mt-6 border-radius-8"
+              class="mt-6 border-radius-16"
               src="@/assets/dao-front-banner.png"
             />
           </v-col>
@@ -30,7 +30,7 @@ import { layoutStore } from "@/stores/layout-store";
 
 @Component({
   components: {
-    SolendDao: () => import("../../components/ProposalList.vue"),
+    DaoDetail: () => import("../../components/DaoDetail.vue"),
     YourAccount: () => import("../../components/YourAccount.vue"),
     Responsive,
   },

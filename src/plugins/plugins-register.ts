@@ -1,3 +1,4 @@
+import vuetify from "@/plugins/vuetify";
 import _ from "lodash";
 import Vue from "vue";
 
@@ -7,6 +8,7 @@ import { VueResponsiveComponents } from "vue-responsive-components";
 export const pluginsRegister = () => {
   Vue.use({
     install: (Vue: any) => {
+      Vue.prototype.$vuetify = vuetify;
       Vue.prototype.$rules = rules;
       Vue.prototype.$appRules = appRules;
       Vue.prototype.$_empty = (any: any) => {

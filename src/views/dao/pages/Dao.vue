@@ -1,18 +1,22 @@
 <template>
   <div>
     <DaoNavigationBar />
-    <div class="dao-content">
+    <div
+      class="dao-content"
+      :style="'background: ' + layoutStore.pageBackground + ' !important'"
+      :class="layoutStore.isDarkTheme ? 'white--text' : 'black--text'"
+    >
       <div v-if="vm.isReview">
         <div v-if="vm.reviewPage == 'management'">
-          <DaoDetail :layout="vm.currentLayout" />
+          <DaoLayout />
         </div>
         <div v-else-if="vm.reviewPage == 'proposal'">
-          <Proposal :layout="vm.currentLayout" />
+          <ProposalLayout />
         </div>
       </div>
       <div v-else>
-        <DaoDetail :layout="vm.currentLayout" />
-        <Proposal :layout="vm.currentLayout" />
+        <DaoLayout />
+        <ProposalLayout />
       </div>
     </div>
     <DaoFooter />
@@ -48,7 +52,6 @@
 import { Component, Prop, Provide, Vue, Watch } from "vue-property-decorator";
 import SettingIcon from "@/components/svg/Settings-icon.vue";
 import { Observer } from "mobx-vue";
-import SolendDao from "../components/ProposalList.vue";
 import ProposalDetail from "../components/Detail-Proposals.vue";
 import ProposalDetailDiscussion from "../components/Detail-Proposals-Discussion.vue";
 import Voting from "../components/Voting.vue";
@@ -57,16 +60,16 @@ import Programs from "../components/_Programs.vue";
 import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import AddProposal from "../components/Add-Proposal.vue";
+import { layoutStore } from "@/stores/layout-store";
 
 @Observer
 @Component({
   components: {
-    DaoDetail: () => import("./DaoDetail.vue"),
-    Proposal: () => import("./Proposal.vue"),
+    DaoLayout: () => import("./DaoLayout.vue"),
+    ProposalLayout: () => import("./ProposalLayout.vue"),
     DaoNavigationBar: () => import("../components/NavigationBar.vue"),
     DaoFooter: () => import("../components/Footer.vue"),
     SettingIcon,
-    SolendDao,
     YourAccount,
     Programs,
     ProposalDetail,
@@ -80,6 +83,8 @@ export default class Dao extends Vue {
   @Provide() vm = new DaoViewModel();
   @Prop({ default: false }) isReview?: boolean;
   @Prop({ default: "management" }) reviewPage?: string;
+
+  layoutStore = layoutStore;
 
   @Watch("reviewPage", { immediate: true }) onReviewPageChanged(val: string) {
     this.vm.setReviewPage(val);

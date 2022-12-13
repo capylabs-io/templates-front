@@ -1,3 +1,4 @@
+import { layoutStore } from "./../../../stores/layout-store";
 import { ApplicationModel } from "./../../../models/application-model";
 import { action, flow, observable, runInAction } from "mobx";
 import { loadingController } from "@/components/global-loading/global-loading-controller";
@@ -12,17 +13,30 @@ export class CustomizeInterfaceViewmodel {
   @observable metadata?: any;
   @observable appType?: string;
 
+  @observable samplePrimaryColors = ["#F6C453", "#6A49E2", "#65C77C"];
+  @observable sampleLayouts = [
+    {
+      title: "Right Side Bar",
+      value: 1,
+    },
+    {
+      title: "Left Side Bar",
+      value: 2,
+    },
+  ];
+
   @observable selectedPage?: string = "management";
 
   @observable isChoosingTheme = true;
   @observable themeConfig?: any;
-
   @observable sortBy: any = ["All", "Free", "Premium"];
   @observable searchKey?: string;
 
   @observable page?: number = 1;
   @observable totalPage?: number = 1;
   @observable drawer = true;
+
+  layoutStore = layoutStore;
 
   @action pushBackHome(error: any) {
     snackController.commonError(error);
@@ -40,6 +54,10 @@ export class CustomizeInterfaceViewmodel {
 
   @action setAppType(val: string) {
     this.appType = val;
+  }
+
+  @action setPrimaryColor(val: string) {
+    this.layoutStore.setPrimaryColor(val);
   }
 
   get appMainPages() {

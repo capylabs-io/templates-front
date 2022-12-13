@@ -231,6 +231,16 @@ input[type="number"]::-webkit-outer-spin-button {
     inset 1px 1px 4px rgba(255, 255, 255, 0.05);
   border-radius: 8px !important;
 }
+
+.box-border-gray11 {
+  border: 1px solid var(--v-gray11-base);
+}
+.box-border-gray12 {
+  border: 1px solid var(--v-gray12-base);
+}
+.box-border-gray13 {
+  border: 1px solid var(--v-gray13-base);
+}
 .h-36 {
   height: 36px;
 }
@@ -253,12 +263,12 @@ input[type="number"]::-webkit-outer-spin-button {
   gap: 16px !important;
 }
 .theme--dark {
-  .input-field.v-text-field--solo > .v-input__control > fieldset {
-    color: var(--v-red-base) !important;
+  .v-btn--active::before {
+    opacity: 1 !important;
   }
-  .input-field.v-text-field--solo > .v-input__control > .v-input__slot {
-    background: var(--v-gray13-base) !important;
-  }
+}
+.z-index-8 {
+  z-index: 8 !important;
 }
 
 .footer {

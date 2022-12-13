@@ -1,13 +1,21 @@
 <template>
-  <div class="pa-4 box-gray-13 mt-4 text-sm font-weight-regular gray8--text">
+  <div
+    class="pa-4 border-radius-8 mt-4 text-sm font-weight-regular gray8--text"
+    :class="
+      layoutStore.isDarkTheme ? 'white--text box-border-gray11' : 'black--text'
+    "
+    :style="'background:' + layoutStore.pageBackground"
+  >
     <div class="d-flex align-center">
       <v-text-field
         v-model="vm.searchKey"
         class="border-radius-8"
         prepend-inner-icon="mdi-magnify"
         placeholder="Search Proposals"
+        :color="layoutStore.primaryColor"
+        :light="!layoutStore.isDarkTheme"
         clearable
-        outlined
+        solo
         dense
         hide-details
       ></v-text-field>
@@ -15,20 +23,27 @@
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             class="rounded-lg ml-4 text-none"
-            color="gray12"
+            :color="layoutStore.cardBackground"
+            :class="layoutStore.isDarkTheme ? 'white--text' : 'black--text'"
             elevation="0"
             v-bind="attrs"
             v-on="on"
           >
-            <span class="text-capitalize gray6--text mr-1">Filter</span>
+            <span class="text-capitalize mr-1">Filter</span>
             <v-icon small color="gray6"> mdi-chevron-down</v-icon>
           </v-btn>
         </template>
-        <v-list dense>
+        <v-list
+          :color="layoutStore.cardBackground"
+          :dark="layoutStore.isDarkTheme"
+          :light="!layoutStore.isDarkTheme"
+          dense
+        >
           <v-list-item>
             <v-checkbox
               v-model="vm.filterCancelled"
               label="Cancelled"
+              :color="layoutStore.primaryColor"
               hide-details
             ></v-checkbox>
           </v-list-item>
@@ -36,6 +51,7 @@
             <v-checkbox
               v-model="vm.filterPassed"
               label="Passed"
+              :color="layoutStore.primaryColor"
               hide-details
             ></v-checkbox>
           </v-list-item>
@@ -43,6 +59,7 @@
             <v-checkbox
               v-model="vm.filterFailed"
               label="Failed"
+              :color="layoutStore.primaryColor"
               hide-details
             ></v-checkbox>
           </v-list-item>
@@ -50,6 +67,7 @@
             <v-checkbox
               v-model="vm.filterExecuting"
               label="Executing"
+              :color="layoutStore.primaryColor"
               hide-details
             ></v-checkbox>
           </v-list-item>
@@ -57,6 +75,7 @@
             <v-checkbox
               v-model="vm.filterOnHold"
               label="Succeeded"
+              :color="layoutStore.primaryColor"
               hide-details
             ></v-checkbox>
           </v-list-item>
@@ -64,6 +83,7 @@
             <v-checkbox
               v-model="vm.filterVoting"
               label="Voting"
+              :color="layoutStore.primaryColor"
               hide-details
             ></v-checkbox>
           </v-list-item>
@@ -71,6 +91,7 @@
             <v-checkbox
               v-model="vm.filterDraft"
               label="Draft"
+              :color="layoutStore.primaryColor"
               hide-details
             ></v-checkbox>
           </v-list-item>
@@ -84,8 +105,14 @@
         class="blueJeans--text d-flex align-center cursor-pointer"
         @click="vm.changeAddProposalDialog()"
       >
-        <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
-        <span class="ml-1 align-self-end">New Proposals</span>
+        <v-icon small :color="layoutStore.primaryColor"
+          >mdi-plus-circle-outline</v-icon
+        >
+        <span
+          class="ml-1 align-self-end"
+          :style="'color:' + layoutStore.primaryColor"
+          >New Proposals</span
+        >
       </div>
     </div>
 
@@ -96,12 +123,12 @@
             d-flex
             justify-space-between
             pa-4
-            gray12
             cursor-pointer
             align-center
             mt-3
             rounded-lg
           "
+          :style="'background:' + layoutStore.cardBackground"
           @click="vm.gotoProposalDetail()"
           slot-scope="el"
         >
@@ -109,17 +136,17 @@
             <v-tooltip top>
               <template v-slot:activator="{ on, attrs }">
                 <div
-                  class="text-lg white--text text-truncate"
+                  class="text-lg text-truncate font-weight-bold"
+                  :class="
+                    layoutStore.isDarkTheme ? 'white--text' : 'black--text'
+                  "
                   v-bind="attrs"
                   v-on="on"
                 >
                   {{ proposal.title }}
                 </div>
               </template>
-              <span>
-                SLND3: Introduce Account Borrow Limit fdsafdas fdasfdsfds f
-                fdasfdsa</span
-              >
+              <span> {{ proposal.title }}</span>
             </v-tooltip>
             <div>
               {{ new Date(proposal.updatedAt) | normalizeTimeDuration }}
@@ -137,7 +164,9 @@
       <v-pagination
         v-model="vm.proposalPage"
         :length="vm.totalProposalPage"
-        color="primary"
+        :color="layoutStore.primaryColor"
+        :light="!layoutStore.isDarkTheme"
+        :dark="layoutStore.isDarkTheme"
       ></v-pagination>
     </div>
   </div>
@@ -147,6 +176,7 @@ import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { Responsive } from "vue-responsive-components";
+import { layoutStore } from "@/stores/layout-store";
 
 @Observer
 @Component({
@@ -157,6 +187,8 @@ import { Responsive } from "vue-responsive-components";
 })
 export default class Proposals extends Vue {
   @Inject() vm!: DaoViewModel;
+
+  layoutStore = layoutStore;
 }
 </script>
 <style scoped>
