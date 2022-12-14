@@ -22,7 +22,7 @@
     <div class="drawer-content">
       <v-expansion-panels
         v-model="panel"
-        class="expansion-container d-flex flex-column"
+        class="expansion-container d-flex flex-column z-index-8"
         accordion
         flat
       >
@@ -49,9 +49,14 @@
         <v-divider class="mt-2"></v-divider>
 
         <v-expansion-panel>
-          <v-expansion-panel-header class="font-weight-bold mt-2"
-            >Social Media</v-expansion-panel-header
-          >
+          <v-expansion-panel-header class="font-weight-bold mt-2">
+            <div>
+              Social Media
+              <v-chip color="primary" class="ml-1" small>{{
+                vm.socialMedias.length
+              }}</v-chip>
+            </div>
+          </v-expansion-panel-header>
           <v-expansion-panel-content class="mb-4 mt-2">
             <SocialMedia />
           </v-expansion-panel-content>

@@ -13,27 +13,21 @@ export class CustomizeInterfaceViewmodel {
   @observable metadata?: any;
   @observable appType?: string;
 
-  @observable samplePrimaryColors = ["#F6C453", "#6A49E2", "#65C77C"];
-  @observable sampleLayouts = [
+  @observable selectedPage?: string = "management";
+  @observable socialMedias?: any = [
     {
-      title: "Right Side Bar",
-      value: 1,
-    },
-    {
-      title: "Left Side Bar",
-      value: 2,
+      ...layoutStore.defaultLayoutConfig.mediaIcons.TelegramChannel,
+      url: "",
     },
   ];
-
-  @observable selectedPage?: string = "management";
 
   @observable isChoosingTheme = true;
   @observable themeConfig?: any;
   @observable sortBy: any = ["All", "Free", "Premium"];
   @observable searchKey?: string;
-
   @observable page?: number = 1;
   @observable totalPage?: number = 1;
+
   @observable drawer = true;
 
   layoutStore = layoutStore;
@@ -58,6 +52,17 @@ export class CustomizeInterfaceViewmodel {
 
   @action setPrimaryColor(val: string) {
     this.layoutStore.setPrimaryColor(val);
+  }
+
+  @action changeSocialMedia(index: number, val: any) {
+    this.socialMedias[index] = {
+      ...val,
+      url: this.socialMedias[index].url,
+    };
+  }
+
+  @action changeSocialMediaUrl(index: number, val: string) {
+    this.socialMedias[index].url = val;
   }
 
   get appMainPages() {

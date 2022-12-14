@@ -91,15 +91,9 @@ export default class App extends Vue {
   background-repeat: no-repeat !important;
   background-size: cover !important;
 }
-.v-application {
-  [class*="text-"] {
-    font-family: "DM Sans", sans-serif !important;
-  }
-  font-family: "DM Sans", sans-serif !important;
-  font-weight: 400;
-}
 body {
   font-family: "DM Sans", sans-serif !important;
+  font-weight: 400;
 }
 
 //Typography
@@ -189,7 +183,6 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 14px !important;
   line-height: 20px !important;
   color: var(--v-gray03-base) !important;
-  font-family: "DM Sans", sans-serif !important;
   letter-spacing: 0px !important;
 }
 .card-border {

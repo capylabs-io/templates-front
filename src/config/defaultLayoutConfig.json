@@ -1,0 +1,56 @@
+{
+  "primaryColors": ["#F6C453", "#6A49E2", "#65C77C"],
+  "layouts": [
+    {
+      "title": "Right Side Bar",
+      "value": 1
+    },
+    {
+      "title": "Left Side Bar",
+      "value": 2
+    }
+  ],
+  "fonts": ["Inter", "Lato", "Nunito", "Open Sans", "Raleway", "Roboto", "Source Sans Pro"],
+  "mediaIcons": {
+    "TelegramCommunity": {
+      "title": "Telegram Community",
+      "icon": "telegram.png"
+    },
+    "TelegramChannel": {
+      "title": "Telegram Channel",
+      "icon": "telegram1.png"
+    },
+    "Discord": {
+      "title": "Discord",
+      "icon": "discord.png"
+    },
+    "Facebook": {
+      "title": "Facebook",
+      "icon": "facebook.png"
+    },
+    "Github": {
+      "title": "Github",
+      "icon": "github.png"
+    },
+    "Instagram": {
+      "title": "Instagram",
+      "icon": "instagram.png"
+    },
+    "Linkedin": {
+      "title": "Linkedin",
+      "icon": "linkedin.png"
+    },
+    "Reddit": {
+      "title": "Reddit",
+      "icon": "reddit.png"
+    },
+    "Twitter": {
+      "title": "Twitter",
+      "icon": "twitter.png"
+    },
+    "Youtube": {
+      "title": "Youtube",
+      "icon": "youtube.png"
+    }
+  }
+}

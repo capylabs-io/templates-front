@@ -1,5 +1,9 @@
 <template>
-  <v-footer class="dao-footer top-border-gray5">
+  <v-footer
+    class="dao-footer"
+    :light="!layoutStore.isNavDarkTheme"
+    :dark="layoutStore.isNavDarkTheme"
+  >
     <v-row class="full-width d-flex justify-space-between px-2">
       <v-col cols="3"></v-col>
       <v-col cols="6" class="d-flex align-center justify-center">
@@ -11,7 +15,7 @@
       </v-col>
       <v-col cols="3">
         <div class="text-right text-sm">
-          Powered by <span class="font-weight-bold white--text">Cyberk</span>
+          Powered by <span class="font-weight-bold">Cyberk</span>
         </div>
       </v-col>
     </v-row>
@@ -19,6 +23,7 @@
 </template>
 
 <script lang="ts">
+import { layoutStore } from "@/stores/layout-store";
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component({
@@ -26,13 +31,12 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 })
 export default class DaoNavigationBar extends Vue {
   @Prop({ default: false }) isReview!: boolean;
+
+  layoutStore = layoutStore;
 }
 </script>
 
 <style scoped>
-.top-border-gray5 {
-  border-top: 1px solid var(--v-gray11-base);
-}
 .dao-footer {
   height: 52px;
 }

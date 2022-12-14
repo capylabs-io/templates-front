@@ -2,7 +2,7 @@
   <v-card
     class="pa-4 border-radius-16"
     :class="layoutStore.isDarkTheme ? 'white--text' : 'black--text'"
-    :style="'background:' + layoutStore.cardBackground + ' !important'"
+    :style="'background:' + layoutStore.cardBackground + ' !important;'"
     outlined
   >
     <div class="d-inline-flex justify-space-between full-width">

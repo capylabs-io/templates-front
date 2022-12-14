@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    :style="'font-family: \'' + layoutStore.font + '\', sans-serif !important;'"
+  >
     <DaoNavigationBar />
     <div
       class="dao-content"

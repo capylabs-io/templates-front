@@ -1,16 +1,20 @@
 import vuetify from "@/plugins/vuetify";
 import { action, computed, observable, runInAction, flow, makeAutoObservable } from "mobx";
+import defaultLayoutConfig from "@/config/defaultLayoutConfig.json";
 
 export class LayoutStore {
   @observable isDarkTheme = true;
+  @observable isNavDarkTheme = true;
   @observable _primaryColor?: string;
   @observable layout: number = 1;
-  @observable font?: string;
+  @observable font?: string = "Roboto";
 
   @observable tokenIcon?: any = null;
   @observable brandLogo?: any = null;
   @observable banner?: any = null;
   @observable sideBanner?: any = null;
+
+  defaultLayoutConfig = defaultLayoutConfig;
 
   @action setPrimaryColor(val: string) {
     this._primaryColor = val;
@@ -31,6 +35,14 @@ export class LayoutStore {
     return this.isDarkTheme
       ? vuetify.framework.theme.currentTheme["gray12"]?.toString()
       : vuetify.framework.theme.currentTheme["gray1"]?.toString();
+  }
+
+  @computed get socialMediaIcons() {
+    return Object.values(defaultLayoutConfig.mediaIcons);
+  }
+
+  socialMediaIcon(key: string) {
+    return defaultLayoutConfig.mediaIcons[key].icon;
   }
 }
 
