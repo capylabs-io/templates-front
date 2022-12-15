@@ -14,39 +14,75 @@
     <div class="font-weight-bold text-dp-lg align-self-center mt-12 mb-8 z-2">
       DAO Builder pioneers the optimal way for
     </div>
-    <div class="d-flex mt-12 justify-center col-gap-40 z-2">
-      <div class="d-flex flex-column align-center">
-        <div class="divider primary mb-5"></div>
-        <div class="font-weight-bold text-dp-md mb-2">Build</div>
-        <div class="text-lg sub-text mb-7">
+    <div class="d-flex mt-12 justify-center col-gap-40 z-2 mb-5">
+      <div
+        class="d-flex flex-column align-center active slide"
+        @click="slidedao(0), setImage(0)"
+      >
+        <div class="divider" />
+      </div>
+      <div
+        class="d-flex flex-column align-center slide"
+        @click="slidedao(1), setImage(1)"
+      >
+        <div class="divider" />
+      </div>
+      <div
+        class="d-flex flex-column align-center slide"
+        @click="slidedao(2), setImage(2)"
+      >
+        <div class="divider" />
+      </div>
+    </div>
+    <div class="d-flex mt-2 justify-center col-gap-40 z-2 gray6--text">
+      <div
+        class="d-flex flex-column align-center slide active"
+        @click="slidedao(0), setImage(0)"
+      >
+        <div class="font-weight-bold text-dp-md mb-2 aTitle">Build</div>
+        <div class="text-lg sub-title">
           Set up a full-function DAO with ease without any coding experience. We
           will get you ready in an instant.
         </div>
-        <v-card class="dao-card">
+        <v-card class="dao-card" v-show="indexImage == 0">
           <v-img
             class="image"
             :src="require(`@/assets/landing/dao-image.webp`)"
           ></v-img>
         </v-card>
       </div>
-      <div class="d-flex flex-column align-center">
-        <div class="divider mb-5"></div>
-        <div class="font-weight-bold text-dp-md mb-2 gray6--text">
-          Customize
-        </div>
-        <div class="text-lg sub-text mb-7 gray6--text">
+      <div
+        class="d-flex flex-column align-center slide"
+        @click="slidedao(1), setImage(1)"
+      >
+        <div class="font-weight-bold text-dp-md mb-2 aTitle">Customize</div>
+        <div class="text-lg sub-title">
           Tailor your DAO to the fullest with a wide range of options. It’s time
           to decentralize with style.
         </div>
+        <v-card class="dao-card" v-show="indexImage == 1">
+          <v-img
+            class="image"
+            :src="require(`@/assets/landing/dao-image.webp`)"
+          ></v-img>
+        </v-card>
       </div>
-      <div class="d-flex flex-column align-center">
-        <div class="divider mb-5"></div>
-        <div class="font-weight-bold text-dp-md mb-2 gray6--text">Grow</div>
-        <div class="text-lg sub-text mb-7 gray6--text">
+      <div
+        class="d-flex flex-column align-center slide"
+        @click="slidedao(2), setImage(2)"
+      >
+        <div class="font-weight-bold text-dp-md mb-2 aTitle">Grow</div>
+        <div class="text-lg sub-title">
           Our built-in system will help you manage and analyze your DAO to have
           better understanding of your community. Govern together, grow
           together.
         </div>
+        <v-card class="dao-card" v-show="indexImage == 2">
+          <v-img
+            class="image"
+            :src="require(`@/assets/landing/dao-image.webp`)"
+          ></v-img>
+        </v-card>
       </div>
     </div>
   </div>
@@ -56,8 +92,31 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  setup() {
-    return {};
+  data() {
+    return {
+      indexImage: 0,
+    };
+  },
+  methods: {
+    slidedao(index) {
+      let processBar;
+      let activeElement;
+      processBar = Array.from(document.getElementsByClassName("slide"));
+      activeElement = Array.from(
+        document.getElementsByClassName("slide active")
+      );
+
+      if (index >= 3) {
+        index = 0;
+      }
+      activeElement.forEach((item) => {
+        item.classList.remove("active");
+      });
+      processBar[index].classList.add("active");
+    },
+    setImage(index) {
+      this.indexImage = index;
+    },
   },
 });
 </script>
@@ -81,11 +140,15 @@ export default defineComponent({
   backdrop-filter: blur(12px);
   border-radius: 40px;
 }
-.sub-text {
+.sub-title {
   width: 411px;
+  height: 80px;
+  margin-bottom: 60px;
 }
 .dao-card {
   border-radius: 10px;
+}
+.active .dao-card {
 }
 image {
   max-height: 292px;
@@ -115,5 +178,15 @@ image {
 }
 .z-2 {
   z-index: 2;
+}
+.active .divider {
+  background-color: #6a49e2;
+  cursor: pointer;
+}
+
+.active .aTitle,
+.active .sub-title {
+  font-weight: 700;
+  color: white;
 }
 </style>
