@@ -157,6 +157,24 @@ export class ApiService {
     return res.data;
   }
 
+  async updateAppMetadata(model) {
+    const { appId, ...metadata } = model;
+    const res = await axios.post(`application/customize`, {
+      applicationId: appId,
+      metadata,
+    });
+    return res.data;
+  }
+
+  async uploadApplicationFile(formData: any) {
+    const res = await axios.post(`applications/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data;
+  }
+
   async addProposal(proposal: any) {
     const res = await axios.post(`proposals`, proposal);
     return res.data;

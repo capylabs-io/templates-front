@@ -1,17 +1,20 @@
 <template>
   <Responsive :breakpoints="{ small: (el) => el.width <= 960 }">
     <div slot-scope="el">
-      <div class="full-width">
+      <div class="full-width dao-banner">
         <v-img :src="bannerPath" cover />
       </div>
       <div class="dao-management ma-auto px-2 py-3">
         <v-row class="justify-center ma-auto">
           <v-col :cols="el.is.small ? 12 : 5">
             <YourAccount />
-            <v-img
-              class="mt-6 border-radius-16"
-              src="@/assets/dao-front-banner.png"
-            />
+            <div class="dao-side-banner">
+              <v-img
+                class="mt-6 border-radius-16"
+                :src="sideBannerPath"
+                cover
+              />
+            </div>
           </v-col>
           <v-col :cols="el.is.small ? 12 : 7">
             <DaoDetail />
@@ -41,14 +44,28 @@ export default class DaoManagementLayout2 extends Vue {
   layoutStore = layoutStore;
 
   bannerPath = "";
+  sideBannerPath = "";
 
-  @Watch("vm.banner", { immediate: true }) onBannerChanged(value: any) {
+  @Watch("layoutStore.banner", { immediate: true }) onBannerChanged(
+    value: any
+  ) {
     if (!this.vm.isReview) return;
     if (!value) {
-      this.bannerPath = require("@/assets/dao-banner.png");
+      this.bannerPath = require("@/assets/webservice/dao/default-banner.jpg");
       return;
     }
     this.bannerPath = URL.createObjectURL(this.layoutStore.banner);
+  }
+
+  @Watch("layoutStore.sideBanner", { immediate: true }) onSideBannerChanged(
+    value: any
+  ) {
+    if (!this.vm.isReview) return;
+    if (!value) {
+      this.sideBannerPath = require("@/assets/webservice/dao/default-side-banner.jpg");
+      return;
+    }
+    this.sideBannerPath = URL.createObjectURL(this.layoutStore.sideBanner);
   }
 }
 </script>

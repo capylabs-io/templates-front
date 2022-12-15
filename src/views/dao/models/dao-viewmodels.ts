@@ -1,3 +1,4 @@
+import { layoutStore } from "./../../../stores/layout-store";
 import { ProposalModel } from "./../../../models/proposal-model";
 import { DaoSettingModel } from "./../../../models/dao-setting-model";
 import { walletStore } from "@/stores/wallet-store";
@@ -11,13 +12,8 @@ import moment, { now } from "moment";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
 
 export class DaoViewModel {
-  @observable application?: ApplicationModel;
-  @observable metadata?: any;
-  @observable daoSetting?: DaoSettingModel;
-
   @observable isReview = false;
-  @observable reviewPage = "management";
-  @observable currentLayout = 1;
+  @observable reviewPage: string = "management";
 
   @observable searchKey = "";
   @observable filterCancelled = false;
@@ -89,6 +85,8 @@ export class DaoViewModel {
   // Member
   @observable openMemberFlag = false;
 
+  layoutStore = layoutStore;
+
   createApplication = flow(function* (this) {
     try {
       loadingController.increaseRequest();
@@ -125,22 +123,21 @@ export class DaoViewModel {
       if (!res || !res.applications || res.applications.length == 0)
         this.pushBackHome("Application does not exist!");
 
-      this.application = res.applications[0];
-      this.metadata = this.application.metadata;
-      this.daoSetting = this.application.dao_setting;
+      const application = res.applications[0];
+      this.layoutStore.application = application;
 
-      if (!this.application.service || !this.daoSetting) this.pushBackHome(`Invalid service type!`);
-      else if (!this.application.isCustomized && !this.isReview) {
+      if (!application.service || !application.dao_setting) this.pushBackHome(`Invalid service type!`);
+      else if (!application.isCustomized && !this.isReview) {
         appProvider.router.push(
-          `/customize-interface?type=${this.application?.service}&appId=${this.application?.appId}`
+          `/customize-interface?type=${application.service}&appId=${application.appId}`
         );
         return;
       }
 
-      if (!this.application.proposals || this.application.proposals.length == 0)
-        yield this.fetchDefaultProposals();
+      if (!application.proposals || application.proposals.length == 0) yield this.fetchDefaultProposals();
       else this.proposals = this.application.proposals;
     } catch (err: any) {
+      console.error("err", err);
       this.pushBackHome(`Error occurred, please try again later!`);
     } finally {
       loadingController.decreaseRequest();

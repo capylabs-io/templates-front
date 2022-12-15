@@ -7,7 +7,7 @@
   >
     <div class="d-inline-flex justify-space-between full-width">
       <div class="d-flex align-center dao-title">
-        <img class="mr-2" src="@/assets/axie-icon.png" />
+        <v-img class="token-icon mr-2" :src="tokenIconPath" />
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
             <div
@@ -15,10 +15,12 @@
               v-bind="attrs"
               v-on="on"
             >
-              {{ vm.application?.name }}
+              {{ layoutStore.application?.name }}
             </div>
           </template>
-          <span class="font-weight-bold"> {{ vm.application?.name }}</span>
+          <span class="font-weight-bold">
+            {{ layoutStore.application?.name }}</span
+          >
         </v-tooltip>
       </div>
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
@@ -74,7 +76,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Inject, Prop, Vue } from "vue-property-decorator";
+import { Component, Inject, Prop, Vue, Watch } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import Proposals from "./_Proposals.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
@@ -91,11 +93,33 @@ export default class SolendDao extends Vue {
 
   layoutStore = layoutStore;
   showProposals = true;
+  tokenIconPath = "";
+
+  @Watch("layoutStore.tokenIcon", { immediate: true }) onTokenIconChanged(
+    value: any
+  ) {
+    if (!this.vm.isReview) return;
+    if (!value) {
+      this.tokenIconPath = require("@/assets/axie-icon.png");
+      return;
+    }
+    this.tokenIconPath = URL.createObjectURL(this.layoutStore.tokenIcon);
+  }
 }
 </script>
 
-<style scoped>
+<style>
 .dao-title {
   width: calc(100% - 16px * 2 - 252px) !important;
+}
+.token-icon {
+  max-width: 24px;
+  max-height: 24px;
+}
+.dao-side-banner {
+  max-width: 432px;
+}
+.dao-banner {
+  max-height: 220px;
 }
 </style>

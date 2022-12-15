@@ -2,31 +2,31 @@
   <div>
     <div>
       <div class="d-flex align-center">
-        <div class="text-sm font-weight-bold mr-1 mb-1">Token Icon</div>
+        <div class="text-sm font-weight-bold mr-1 mb-1">Brand Logo</div>
         <v-icon small>mdi-information-outline</v-icon>
       </div>
       <v-file-input
-        v-model="vm.tokenIcon"
+        v-model="layoutStore.brandLogo"
         accept="image/*"
         placeholder="File input"
         append-icon="mdi-cloud-upload-outline"
         prepend-icon=""
-        @change="vm.changeTokenIcon"
-        clearable
         solo
         dense
       ></v-file-input>
     </div>
     <div>
       <div class="d-flex align-center">
-        <div class="text-sm font-weight-bold mr-1 mb-1">Brand Logo</div>
+        <div class="text-sm font-weight-bold mr-1 mb-1">Token Icon</div>
         <v-icon small>mdi-information-outline</v-icon>
       </div>
       <v-file-input
+        v-model="layoutStore.tokenIcon"
         accept="image/*"
         placeholder="File input"
         append-icon="mdi-cloud-upload-outline"
         prepend-icon=""
+        clearable
         solo
         dense
       ></v-file-input>
@@ -39,7 +39,7 @@
         <v-icon small>mdi-information-outline</v-icon>
       </div>
       <v-file-input
-        v-model="vm.banner"
+        v-model="layoutStore.banner"
         accept="image/*"
         placeholder="File input"
         append-icon="mdi-cloud-upload-outline"
@@ -56,6 +56,7 @@
         <v-icon small>mdi-information-outline</v-icon>
       </div>
       <v-file-input
+        v-model="layoutStore.sideBanner"
         accept="image/*"
         placeholder="File input"
         append-icon="mdi-cloud-upload-outline"
@@ -68,6 +69,7 @@
 </template>
   
   <script lang="ts">
+import { layoutStore } from "@/stores/layout-store";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
 
@@ -76,5 +78,7 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
 })
 export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
+
+  layoutStore = layoutStore;
 }
 </script>

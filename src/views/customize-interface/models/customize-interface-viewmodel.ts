@@ -9,17 +9,8 @@ import { snackController } from "@/components/snack-bar/snack-bar-controller";
 import { Watch } from "vue-property-decorator";
 
 export class CustomizeInterfaceViewmodel {
-  @observable application?: ApplicationModel;
-  @observable metadata?: any;
   @observable appType?: string;
-
   @observable selectedPage?: string = "management";
-  @observable socialMedias?: any = [
-    {
-      ...layoutStore.defaultLayoutConfig.mediaIcons.TelegramChannel,
-      url: "",
-    },
-  ];
 
   @observable isChoosingTheme = true;
   @observable themeConfig?: any;
@@ -28,9 +19,69 @@ export class CustomizeInterfaceViewmodel {
   @observable page?: number = 1;
   @observable totalPage?: number = 1;
 
-  @observable drawer = true;
+  @observable layoutForm?: boolean = false;
 
   layoutStore = layoutStore;
+
+  async uploadApplicationFile(file: any, name: string) {
+    if (!file) return;
+    const formdata = new FormData();
+    formdata.append("files", file);
+    formdata.append("appId", layoutStore.application!.appId.toString());
+    formdata.append("name", name);
+
+    return await apiService.uploadApplicationFile(formdata);
+  }
+
+  updateApplicationMetadata = flow(function* (this) {
+    try {
+      loadingController.increaseRequest();
+      const application = layoutStore.application;
+      const [tokenIconPath, bannerPath, sideBannerPath, brandLogoPath] = yield Promise.all([
+        this.uploadApplicationFile(layoutStore.tokenIcon, "TokenIcon"),
+        this.uploadApplicationFile(layoutStore.banner, "Banner"),
+        this.uploadApplicationFile(layoutStore.sideBanner, "SideBanner"),
+        this.uploadApplicationFile(layoutStore.brandLogo, "BrandLogo"),
+      ]);
+      const res = yield apiService.updateAppMetadata({
+        appId: application!!.appId,
+        isDarkTheme: layoutStore.isDarkTheme,
+        isNavDarkTheme: layoutStore.isNavDarkTheme,
+        primaryColor: layoutStore.primaryColor,
+        layout: layoutStore.layout,
+        font: layoutStore.font,
+        img: [
+          {
+            name: "tokenIcon",
+            url: tokenIconPath,
+          },
+          {
+            name: "banner",
+            url: bannerPath,
+          },
+          {
+            name: "sideBanner",
+            url: sideBannerPath,
+          },
+          {
+            name: "brandLogo",
+            url: brandLogoPath,
+          },
+        ],
+      });
+      snackController.success("Save config successfully!");
+      appProvider.router.push({
+        path: "/dao",
+        query: {
+          appId: application!!.appId.toString(),
+        },
+      });
+    } catch (err: any) {
+      snackController.error(`Error occured! Error: ${err}`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  });
 
   @action pushBackHome(error: any) {
     snackController.commonError(error);
@@ -54,15 +105,28 @@ export class CustomizeInterfaceViewmodel {
     this.layoutStore.setPrimaryColor(val);
   }
 
-  @action changeSocialMedia(index: number, val: any) {
-    this.socialMedias[index] = {
-      ...val,
-      url: this.socialMedias[index].url,
-    };
+  @action addSocialMedia() {
+    this.layoutStore.socialMedias.push({
+      ...this.layoutStore.defaultLayoutConfig.mediaIcons.TelegramCommunity,
+      url: "",
+    });
+  }
+
+  @action removeSocialMedia(index: number) {
+    console.log("Clicked");
+    this.layoutStore.socialMedias.splice(index, 1);
+  }
+
+  @action changeSocialMediaIcon(index: number, val: any) {
+    this.layoutStore.socialMedias.splice(index, 1, {
+      icon: val.icon || "",
+      title: val.title || "",
+      url: this.layoutStore.socialMedias[index].url,
+    });
   }
 
   @action changeSocialMediaUrl(index: number, val: string) {
-    this.socialMedias[index].url = val;
+    this.layoutStore.socialMedias[index].url = val;
   }
 
   get appMainPages() {

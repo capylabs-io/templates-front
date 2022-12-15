@@ -263,6 +263,9 @@ input[type="number"]::-webkit-outer-spin-button {
 .z-index-8 {
   z-index: 8 !important;
 }
+.z-index-10 {
+  z-index: 10 !important;
+}
 
 .footer {
   z-index: 1;

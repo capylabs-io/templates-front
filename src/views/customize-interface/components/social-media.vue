@@ -1,20 +1,19 @@
 <template>
   <div>
-    <div class="d-flex align-center">
-      <div
-        class="d-flex align-center"
-        v-for="(socialMedia, index) in vm.socialMedias"
-        :key="index"
-      >
+    <div
+      class="d-flex"
+      v-for="(socialMedia, index) in layoutStore.socialMedias"
+      :key="index"
+    >
+      <div class="d-flex align-center">
         <v-select
           class="media-select"
           color="primary"
-          :value="vm.socialMedias[index].title"
+          :value="layoutStore.socialMedias[index].title"
           :items="layoutStore.socialMediaIcons"
-          @change="vm.changeSocialMedia(index, $event)"
+          @input="vm.changeSocialMediaIcon(index, $event)"
           item-value="title"
           return-object
-          hide-details
           outlined
           dense
         >
@@ -35,17 +34,27 @@
         </v-select>
         <v-text-field
           @change="vm.changeSocialMediaUrl(index, $event)"
-          hide-details
+          :rules="[$rules.required, $rules.url]"
           outlined
           dense
         ></v-text-field>
       </div>
-      <v-btn icon>
+      <v-btn
+        @click.stop="vm.removeSocialMedia(index)"
+        :disabled="layoutStore.socialMedias.length <= 1"
+        icon
+      >
         <v-icon>mdi-trash-can</v-icon>
       </v-btn>
     </div>
-    <div class="mt-4">
-      <v-btn class="btn-text text-none" elevation="0" color="primary">
+    <div>
+      <v-btn
+        class="btn-text text-none"
+        elevation="0"
+        color="primary"
+        @click.stop="vm.addSocialMedia()"
+        v-if="layoutStore.socialMedias.length <= 9"
+      >
         Add
         <v-icon class="ml-1" small>mdi-plus</v-icon>
       </v-btn>

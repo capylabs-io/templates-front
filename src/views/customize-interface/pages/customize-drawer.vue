@@ -1,84 +1,93 @@
 <template>
-  <div
-    class="customize-drawer"
-    :class="vm.drawer ? 'open-drawer' : 'close-drawer'"
-  >
-    <div class="px-6 pt-4">
-      <div class="text-lg font-weight-bold">Customize Interface</div>
-      <div class="text-sm">Theme Name</div>
-      <v-select
-        v-model="vm.selectedPage"
-        :items="vm.appMainPages"
-        item-text="title"
-        item-value="value"
-        class="page-select mt-4"
-        hide-details
-        dense
-        outlined
-      ></v-select>
-    </div>
-    <v-divider class="mt-5"></v-divider>
+  <div class="customize-drawer">
+    <v-form class="full-height" v-model="vm.layoutForm" ref="layoutForm">
+      <div class="px-6 pt-4">
+        <div class="text-lg font-weight-bold">Customize Interface</div>
+        <div class="text-sm">Theme Name</div>
+        <v-select
+          v-model="vm.selectedPage"
+          :items="vm.appMainPages"
+          item-text="title"
+          item-value="value"
+          class="page-select mt-4"
+          hide-details
+          dense
+          outlined
+        ></v-select>
+      </div>
+      <v-divider class="mt-5"></v-divider>
 
-    <div class="drawer-content">
-      <v-expansion-panels
-        v-model="panel"
-        class="expansion-container d-flex flex-column z-index-8"
-        accordion
-        flat
-      >
-        <v-expansion-panel>
-          <v-expansion-panel-header class="font-weight-bold mt-2"
-            >General Config</v-expansion-panel-header
-          >
-          <v-expansion-panel-content class="mb-4 mt-2">
-            <GeneralConfig />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+      <div class="drawer-content">
+        <v-expansion-panels
+          v-model="panel"
+          class="expansion-container d-flex flex-column z-index-8"
+          accordion
+          flat
+        >
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold mt-2"
+              >General Config</v-expansion-panel-header
+            >
+            <v-expansion-panel-content class="mb-4 mt-2">
+              <GeneralConfig />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
 
-        <v-divider class="mt-2"></v-divider>
+          <v-divider class="mt-2"></v-divider>
 
-        <v-expansion-panel>
-          <v-expansion-panel-header class="font-weight-bold mt-2"
-            >Layout Config</v-expansion-panel-header
-          >
-          <v-expansion-panel-content class="mb-4 mt-2">
-            <LayoutConfig />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold mt-2"
+              >Custom Branding</v-expansion-panel-header
+            >
+            <v-expansion-panel-content class="mb-4 mt-2">
+              <BrandConfig />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
 
-        <v-divider class="mt-2"></v-divider>
+          <v-divider class="mt-2"></v-divider>
 
-        <v-expansion-panel>
-          <v-expansion-panel-header class="font-weight-bold mt-2">
-            <div>
-              Social Media
-              <v-chip color="primary" class="ml-1" small>{{
-                vm.socialMedias.length
-              }}</v-chip>
-            </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content class="mb-4 mt-2">
-            <SocialMedia />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold mt-2">
+              <div>
+                Social Media
+                <v-chip color="primary" class="ml-1" small>{{
+                  layoutStore.socialMedias.length
+                }}</v-chip>
+              </div>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content class="mb-4 mt-2">
+              <SocialMedia />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
 
-        <v-divider class="mt-2"></v-divider>
-      </v-expansion-panels>
-    </div>
+          <v-divider class="mt-2"></v-divider>
+        </v-expansion-panels>
+      </div>
 
-    <v-divider class="my-5"></v-divider>
-    <div class="d-flex flex-column align-center mb-4">
-      <v-btn class="button-action text-none btn-text" color="primary"
-        >Save and Deploy</v-btn
-      >
-      <v-btn class="button-action text-none btn-text mt-2" color="gray13"
-        >Cancel</v-btn
-      >
-    </div>
+      <v-divider class="my-5"></v-divider>
+
+      <div class="d-flex flex-column align-center mb-4">
+        <v-btn
+          class="button-action text-none btn-text"
+          color="primary"
+          elevation="0"
+          @click="onBtnSaveClicked"
+          :disabled="!vm.layoutForm"
+          >Save and Deploy</v-btn
+        >
+        <v-btn
+          class="button-action text-none btn-text mt-2"
+          color="gray13"
+          elevation="0"
+          >Cancel</v-btn
+        >
+      </div>
+    </v-form>
   </div>
 </template>
 
 <script lang="ts">
+import { layoutStore } from "@/stores/layout-store";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
 
@@ -88,7 +97,7 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
     SimpleSwatches: () =>
       import("@/components/create-service/simple-swatches.vue"),
     GeneralConfig: () => import("../components/general-config.vue"),
-    LayoutConfig: () => import("../components/layout-config.vue"),
+    BrandConfig: () => import("../components/brand-config.vue"),
     SocialMedia: () => import("../components/social-media.vue"),
   },
 })
@@ -96,9 +105,11 @@ export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
 
   panel: number = 0;
+  layoutStore = layoutStore;
 
-  toggleDrawer() {
-    this.vm.drawer = !this.vm.drawer;
+  onBtnSaveClicked() {
+    if (!(this.$refs.layoutForm as any).validate()) return;
+    this.vm.updateApplicationMetadata();
   }
 }
 </script>

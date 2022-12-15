@@ -1,8 +1,11 @@
 import vuetify from "@/plugins/vuetify";
 import { action, computed, observable, runInAction, flow, makeAutoObservable } from "mobx";
 import defaultLayoutConfig from "@/config/defaultLayoutConfig.json";
+import { ApplicationModel } from "@/models/application-model";
 
 export class LayoutStore {
+  @observable application?: ApplicationModel;
+
   @observable isDarkTheme = true;
   @observable isNavDarkTheme = true;
   @observable _primaryColor?: string;
@@ -13,6 +16,13 @@ export class LayoutStore {
   @observable brandLogo?: any = null;
   @observable banner?: any = null;
   @observable sideBanner?: any = null;
+
+  @observable socialMedias?: any = [
+    {
+      ...defaultLayoutConfig.mediaIcons.TelegramCommunity,
+      url: "",
+    },
+  ];
 
   defaultLayoutConfig = defaultLayoutConfig;
 

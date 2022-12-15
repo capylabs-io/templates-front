@@ -112,5 +112,7 @@ export default class Dao extends Vue {
 }
 .dao-content {
   height: calc(100vh - 52px - 64px) !important;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>
