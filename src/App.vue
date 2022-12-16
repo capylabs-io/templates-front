@@ -2,20 +2,21 @@
   <v-app>
     <SnackBar />
     <GlobalLoading />
-    <NavigationBar v-if="$vuetify.breakpoint.mdAndUp" />
-    <MobileNavigationBar v-else />
-    <v-main>
-      <v-scroll-x-reverse-transition mode="out-in" appear>
-        <router-view> </router-view>
-      </v-scroll-x-reverse-transition>
+    <NavigationBar v-if="!isEndUser" />
+    <v-main style="overflow-y: hidden">
+      <div>
+        <v-scroll-x-reverse-transition mode="out-in" appear>
+          <router-view> </router-view>
+        </v-scroll-x-reverse-transition>
+      </div>
     </v-main>
-    <Footer class="footer" />
+    <Footer class="footer" v-if="!isEndUser" />
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
 import { Observer } from "mobx-vue";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { appProvider } from "./app-providers";
 import { walletStore } from "./stores/wallet-store";
 
@@ -30,16 +31,23 @@ import { walletStore } from "./stores/wallet-store";
       import("@/components/confirm-dialog/confirm-dialog.vue"),
     // Nav bar and Footer
     NavigationBar: () => import("@/components/NavigationBar.vue"),
-    MobileNavigationBar: () => import("@/components/MobileNavigationBar.vue"),
+    // MobileNavigationBar: () => import("@/components/MobileNavigationBar.vue"),
     // NavigationDrawer: () => import("@/components/NavigationDrawer.vue"),
     Footer: () => import("@/components/Footer.vue"),
     // NotifyDialog: () => import("@/components/NotifyDialog.vue"),
   },
 })
 export default class App extends Vue {
+  isEndUser = false;
+
   async created() {
     await walletStore.start();
     appProvider.setVueRouter(this.$router);
+  }
+
+  @Watch("$route", { deep: true, immediate: true }) onRouteChange(val) {
+    if (val) this.isEndUser = val.meta.isEndUser;
+    if (!this.isEndUser) this.isEndUser = false;
   }
 }
 </script>

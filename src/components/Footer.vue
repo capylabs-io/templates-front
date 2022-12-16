@@ -1,5 +1,5 @@
 <template>
-  <v-footer height="52px" color="gray12" class="px-12">
+  <v-footer height="52px" color="gray12" class="px-12" app>
     <div class="d-flex justify-space-between gray5--text text-s full-width">
       <div class="d-flex">
         <div

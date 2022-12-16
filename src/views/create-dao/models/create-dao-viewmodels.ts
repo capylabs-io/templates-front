@@ -103,7 +103,7 @@ export class CreateDaoViewModel {
       });
       //TODO: Add to localstorage
       snackController.success("Create Application successfully!");
-      appProvider.router.push("/customize-interface");
+      appProvider.router.push("/dao/" + application.appId);
     } catch (err: any) {
       snackController.commonError(err);
     } finally {

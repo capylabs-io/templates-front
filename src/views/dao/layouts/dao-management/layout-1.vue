@@ -11,7 +11,7 @@
           </v-col>
           <v-col :cols="el.is.small ? 12 : 5">
             <YourAccount />
-            <div class="dao-side-banner mt-6">
+            <div class="full-width mt-6">
               <v-img class="border-radius-16" :src="sideBannerPath" cover />
             </div>
           </v-col>
@@ -45,7 +45,6 @@ export default class DaoManagementLayout1 extends Vue {
   @Watch("layoutStore.banner", { immediate: true }) onBannerChanged(
     value: any
   ) {
-    if (!this.vm.isReview) return;
     if (!value) {
       this.bannerPath = require("@/assets/webservice/dao/default-banner.jpg");
       return;
@@ -56,7 +55,6 @@ export default class DaoManagementLayout1 extends Vue {
   @Watch("layoutStore.sideBanner", { immediate: true }) onSideBannerChanged(
     value: any
   ) {
-    if (!this.vm.isReview) return;
     if (!value) {
       this.sideBannerPath = require("@/assets/webservice/dao/default-side-banner.jpg");
       return;

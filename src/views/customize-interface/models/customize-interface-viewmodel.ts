@@ -50,31 +50,16 @@ export class CustomizeInterfaceViewmodel {
         primaryColor: layoutStore.primaryColor,
         layout: layoutStore.layout,
         font: layoutStore.font,
-        img: [
-          {
-            name: "tokenIcon",
-            url: tokenIconPath ? tokenIconPath.url : "",
-          },
-          {
-            name: "banner",
-            url: bannerPath ? bannerPath.url : "",
-          },
-          {
-            name: "sideBanner",
-            url: sideBannerPath ? sideBannerPath.url : "",
-          },
-          {
-            name: "brandLogo",
-            url: brandLogoPath ? brandLogoPath.url : "",
-          },
-        ],
+        img: {
+          tokenIcon: tokenIconPath ? tokenIconPath.url : "",
+          banner: bannerPath ? bannerPath.url : "",
+          sideBanner: sideBannerPath ? sideBannerPath.url : "",
+          brandLogo: brandLogoPath ? brandLogoPath.url : "",
+        },
       });
       snackController.success("Save config successfully!");
       appProvider.router.push({
-        path: "/dao",
-        query: {
-          appId: application!!.appId.toString(),
-        },
+        path: "/dao/" + application!!.appId.toString(),
       });
     } catch (err: any) {
       snackController.error(`Error occured! Error: ${err}`);
@@ -82,12 +67,6 @@ export class CustomizeInterfaceViewmodel {
       loadingController.decreaseRequest();
     }
   });
-
-  @action pushBackHome(error: any) {
-    snackController.commonError(error);
-    if (walletStore.connected) appProvider.router.replace("/management");
-    else appProvider.router.replace("/home");
-  }
 
   @action setChoosingTheme(value: boolean) {
     this.isChoosingTheme = value;
@@ -113,7 +92,6 @@ export class CustomizeInterfaceViewmodel {
   }
 
   @action removeSocialMedia(index: number) {
-    console.log("Clicked");
     this.layoutStore.socialMedias.splice(index, 1);
   }
 

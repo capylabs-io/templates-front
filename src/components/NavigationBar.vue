@@ -2,10 +2,9 @@
   <v-app-bar
     class=""
     height="64px"
+    color="gray12"
     style="z-index: 99,max-width:100%"
     app
-    flat
-    color="gray12"
   >
     <div
       class="nav-container text-s font-weight-regular"

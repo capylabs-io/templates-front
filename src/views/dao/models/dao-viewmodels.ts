@@ -24,10 +24,13 @@ export class DaoViewModel {
   @observable filterVoting = false;
   @observable filterDraft = false;
 
+  @observable metadata: any;
+  @observable daoSetting?: DaoSettingModel;
   @observable proposals: ProposalModel[] = [];
   @observable itemsPerPage = 8;
   @observable proposalPage = 1;
 
+  @observable isProposalDetail = false;
   @observable proposal?: ProposalModel;
 
   @observable instructionList = ["Instruction 1", "Instruction 2", "Instruction 3", "Instruction 3"];
@@ -112,12 +115,9 @@ export class DaoViewModel {
     }
   });
 
-  fetchApplication = flow(function* (this) {
+  fetchApplication = flow(function* (this, appId) {
     try {
       loadingController.increaseRequest();
-      const query = appProvider.router.currentRoute.query;
-      if (!query || !query.appId) this.pushBackHome("Application Id is required!");
-      const appId = query.appId;
       const res = yield apiService.applications.find({
         appId,
         userId: walletStore.userId,
@@ -127,17 +127,30 @@ export class DaoViewModel {
 
       const application = res.applications[0];
       this.layoutStore.application = application;
+      this.metadata = application.metadata;
+      this.daoSetting = application.dao_setting;
 
-      if (!application.service || !application.dao_setting) this.pushBackHome(`Invalid service type!`);
+      if (!application || !application.service || !application.dao_setting)
+        this.pushBackHome(`Invalid service type!`);
       else if (!application.isCustomized && !this.isReview) {
-        appProvider.router.push(
+        appProvider.router.replace(
           `/customize-interface?type=${application.service}&appId=${application.appId}`
         );
         return;
       }
 
-      if (!application.proposals || application.proposals.length == 0) yield this.fetchDefaultProposals();
-      else this.proposals = this.application.proposals;
+      this.layoutStore.setupLayoutConfig(application.metadata);
+
+      if ((!application.proposals || application.proposals.length == 0) && this.isReview)
+        yield this.fetchDefaultProposals();
+      else this.proposals = application.proposals;
+
+      const proposalId = appProvider.router.currentRoute.params.proposalId;
+      if (!proposalId) this.isProposalDetail = false;
+      else {
+        this.proposal = this.proposals.find((proposal) => proposal.id == proposalId);
+        this.isProposalDetail = true;
+      }
     } catch (err: any) {
       console.error("err", err);
       this.pushBackHome(`Error occurred, please try again later!`);
@@ -163,7 +176,8 @@ export class DaoViewModel {
   });
 
   @action pushBackHome(error: any) {
-    snackController.commonError(error);
+    snackController.error(error);
+    console.log("pushBackHome");
     if (walletStore.connected) appProvider.router.replace("/management");
     else appProvider.router.replace("/home");
   }
@@ -174,11 +188,9 @@ export class DaoViewModel {
   @action setReviewPage(val: string) {
     this.reviewPage = val;
   }
-
-  @action setCurrentProposal(index: number) {
-    this.proposal = this.proposals[index];
+  @action setCurrentProposal(val: ProposalModel) {
+    this.proposal = val;
   }
-
   @action changeAddProposalDialog() {
     this.isOpenAddProposal = !this.isOpenAddProposal;
   }
@@ -266,7 +278,7 @@ export class DaoViewModel {
   }
 
   @computed get totalProposalPage() {
-    if (!this.proposals) return 1;
+    if (!this.proposals || this.proposals.length == 0) return 1;
     if (this.filteredProposals.length % this.itemsPerPage! == 0)
       return this.filteredProposals.length / this.itemsPerPage!;
     else return Math.floor(this.filteredProposals.length / this.itemsPerPage!) + 1;
@@ -274,7 +286,7 @@ export class DaoViewModel {
 
   @computed get currentProposal() {
     if (!this.proposals) return;
-    else if (!this.proposal) return this.proposals[0];
+    else if (this.isReview) return this.proposals[0];
     return this.proposal;
   }
 }

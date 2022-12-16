@@ -17,8 +17,12 @@
         </div>
       </div>
       <div v-else>
-        <DaoLayout />
-        <ProposalLayout />
+        <div v-if="!vm.isProposalDetail">
+          <DaoLayout />
+        </div>
+        <div v-else>
+          <ProposalLayout />
+        </div>
       </div>
     </div>
     <DaoFooter />
@@ -97,12 +101,12 @@ export default class Dao extends Vue {
 
   async created() {
     if (!this.isReview) {
-      if (!this.$route.query || !this.$route.query.appId)
-        this.$router.replace("/home");
-      const query = this.$route.query;
-      if (!query.appId) this.$router.replace("/home");
+      console.log("params", this.$route.params);
+
+      if (!this.$route.params || !this.$route.params.appId)
+        this.$router.push("/home");
     }
-    await this.vm.fetchApplication();
+    await this.vm.fetchApplication(this.$route.params.appId);
   }
 }
 </script>

@@ -2,7 +2,7 @@ import vuetify from "@/plugins/vuetify";
 import { action, computed, observable, runInAction, flow, makeAutoObservable } from "mobx";
 import defaultLayoutConfig from "@/config/defaultLayoutConfig.json";
 import { ApplicationModel } from "@/models/application-model";
-
+import { get } from "lodash";
 export class LayoutStore {
   @observable application?: ApplicationModel;
 
@@ -28,6 +28,14 @@ export class LayoutStore {
 
   @action setPrimaryColor(val: string) {
     this._primaryColor = val;
+  }
+
+  @action setupLayoutConfig(metadata: any) {
+    this.isDarkTheme = get(metadata.isDarkTheme, true);
+    this.isNavDarkTheme = get(metadata.isNavDarkTheme, true);
+    this.layout = get(metadata.layout, 1);
+    this._primaryColor = get(metadata.primaryColor, "");
+    this.font = get(metadata.font, "Roboto");
   }
 
   @computed get primaryColor() {

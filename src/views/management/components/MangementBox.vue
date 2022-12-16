@@ -84,10 +84,7 @@ export default class ManagementBox extends Vue {
     if (!this.application || !this.application.service) return;
     if (this.application.service != "dao") return; //TODO: Remove this
     this.$router.push({
-      path: "/dao",
-      query: {
-        appId: this.application.appId.toString(),
-      },
+      path: "/dao/" + this.application.appId.toString(),
     });
   }
 

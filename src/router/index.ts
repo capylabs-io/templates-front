@@ -26,12 +26,19 @@ const routes: Array<RouteConfig> = [
     component: ManagementView,
   },
   {
-    path: "/dao",
+    path: "/dao/:appId",
     name: "DAO Dashboard",
     component: () => import("../views/dao/pages/Dao.vue"),
     meta: {
       title: "DAO Dashboard",
+      isEndUser: true,
     },
+    children: [
+      {
+        path: "/:proposalId",
+        name: "Proprosal Detail",
+      },
+    ],
   },
   {
     path: "/select-service",

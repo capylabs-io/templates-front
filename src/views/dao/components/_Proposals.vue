@@ -160,6 +160,13 @@
       </Responsive>
     </div>
 
+    <div
+      class="d-flex justify-center py-16 text-dp-xs"
+      v-if="!vm.proposals || vm.proposals.length == 0"
+    >
+      No Proposal Found!
+    </div>
+
     <div class="mt-3">
       <v-pagination
         v-model="vm.proposalPage"
