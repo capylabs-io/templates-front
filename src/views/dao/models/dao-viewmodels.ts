@@ -28,6 +28,8 @@ export class DaoViewModel {
   @observable itemsPerPage = 8;
   @observable proposalPage = 1;
 
+  @observable proposal?: ProposalModel;
+
   @observable instructionList = ["Instruction 1", "Instruction 2", "Instruction 3", "Instruction 3"];
   @observable transactionList = ["none", "Transfer Token", "Mint Token"];
   @observable proposalID = 0;
@@ -173,6 +175,10 @@ export class DaoViewModel {
     this.reviewPage = val;
   }
 
+  @action setCurrentProposal(index: number) {
+    this.proposal = this.proposals[index];
+  }
+
   @action changeAddProposalDialog() {
     this.isOpenAddProposal = !this.isOpenAddProposal;
   }
@@ -264,5 +270,11 @@ export class DaoViewModel {
     if (this.filteredProposals.length % this.itemsPerPage! == 0)
       return this.filteredProposals.length / this.itemsPerPage!;
     else return Math.floor(this.filteredProposals.length / this.itemsPerPage!) + 1;
+  }
+
+  @computed get currentProposal() {
+    if (!this.proposals) return;
+    else if (!this.proposal) return this.proposals[0];
+    return this.proposal;
   }
 }

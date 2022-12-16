@@ -3,12 +3,20 @@
     <div class="dao-management ma-auto pa-6" slot-scope="el">
       <v-row>
         <v-col :cols="el.is.small ? 12 : 7">
-          <ProposalDetail />
-          <ProposalDetailDiscussion />
+          <div>
+            <ProposalDetail />
+          </div>
+          <div class="mt-6">
+            <ProposalDetailDiscussion />
+          </div>
         </v-col>
         <v-col :cols="el.is.small ? 12 : 5">
-          <YourAccount />
-          <Voting />
+          <div>
+            <YourAccount />
+          </div>
+          <div class="mt-6">
+            <Voting />
+          </div>
         </v-col>
       </v-row>
     </div>

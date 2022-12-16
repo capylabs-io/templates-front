@@ -14,7 +14,9 @@
         :style="'color:' + layoutStore.primaryColor"
       >
         <span>View</span>
-        <v-icon :color="layoutStore.primaryColor"> mdi-chevron-right</v-icon>
+        <v-icon :color="layoutStore.primaryColor" small>
+          mdi-chevron-right</v-icon
+        >
       </div>
     </div>
     <div

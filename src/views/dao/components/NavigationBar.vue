@@ -2,6 +2,7 @@
   <v-app-bar
     :light="!layoutStore.isNavDarkTheme"
     :dark="layoutStore.isNavDarkTheme"
+    elevation="0"
   >
     <div class="full-width d-flex align-center justify-space-between px-2">
       <div class="font-weight-bold" v-if="!brandLogoPath">Your Logo Here</div>

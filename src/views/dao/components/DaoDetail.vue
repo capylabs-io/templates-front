@@ -1,7 +1,9 @@
 <template>
   <v-card
     class="pa-4 border-radius-16"
-    :class="layoutStore.isDarkTheme ? 'white--text' : 'black--text'"
+    :class="
+      layoutStore.isDarkTheme ? 'box-border-gray11 white--text' : 'black--text'
+    "
     :style="'background:' + layoutStore.cardBackground + ' !important;'"
     outlined
   >
