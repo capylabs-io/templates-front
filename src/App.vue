@@ -1,5 +1,7 @@
 <template>
   <v-app>
+    <SnackBar />
+    <GlobalLoading />
     <NavigationBar v-if="$vuetify.breakpoint.mdAndUp" />
     <MobileNavigationBar v-else />
     <v-main>
@@ -158,8 +160,7 @@ body {
 
 //Scrollbar
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 8px var(--v-gray13-base);
   background-color: transparent !important;
 }
 ::-webkit-scrollbar {
@@ -168,8 +169,8 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 8px var(--v-primary-base);
-  background-color: var(--v-gray13-base);
+  -webkit-box-shadow: 0 0 8px var(--v-gray13-base);
+  background-color: var(--v-primary-base);
 }
 
 //Others

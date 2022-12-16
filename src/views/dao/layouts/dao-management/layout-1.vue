@@ -11,12 +11,8 @@
           </v-col>
           <v-col :cols="el.is.small ? 12 : 5">
             <YourAccount />
-            <div class="dao-side-banner">
-              <v-img
-                class="mt-6 border-radius-16"
-                :src="sideBannerPath"
-                cover
-              />
+            <div class="dao-side-banner mt-6">
+              <v-img class="border-radius-16" :src="sideBannerPath" cover />
             </div>
           </v-col>
         </v-row>

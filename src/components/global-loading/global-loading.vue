@@ -1,16 +1,16 @@
 <template>
-  <v-overlay z-index="998" :value="controller.requesting">
+  <v-overlay z-index="998" :value="controller.requesting" style="z-index: 999">
     <v-progress-circular indeterminate size="32"></v-progress-circular>
   </v-overlay>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { loadingController } from './global-loading-controller'
+import { Component, Vue } from "vue-property-decorator";
+import { loadingController } from "./global-loading-controller";
 
 @Component
 export default class extends Vue {
-  controller = loadingController
+  controller = loadingController;
 }
 </script>
 

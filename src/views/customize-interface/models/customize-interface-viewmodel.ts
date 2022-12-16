@@ -53,19 +53,19 @@ export class CustomizeInterfaceViewmodel {
         img: [
           {
             name: "tokenIcon",
-            url: tokenIconPath,
+            url: tokenIconPath ? tokenIconPath.url : "",
           },
           {
             name: "banner",
-            url: bannerPath,
+            url: bannerPath ? bannerPath.url : "",
           },
           {
             name: "sideBanner",
-            url: sideBannerPath,
+            url: sideBannerPath ? sideBannerPath.url : "",
           },
           {
             name: "brandLogo",
-            url: brandLogoPath,
+            url: brandLogoPath ? brandLogoPath.url : "",
           },
         ],
       });

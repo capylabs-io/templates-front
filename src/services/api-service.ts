@@ -159,7 +159,7 @@ export class ApiService {
 
   async updateAppMetadata(model) {
     const { appId, ...metadata } = model;
-    const res = await axios.post(`application/customize`, {
+    const res = await axios.post(`applications/customize`, {
       appId,
       metadata,
     });

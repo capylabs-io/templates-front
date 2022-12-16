@@ -17,6 +17,9 @@
           <div class="mt-6">
             <Voting />
           </div>
+          <div class="dao-side-banner mt-6">
+            <v-img class="border-radius-16" :src="sideBannerPath" cover />
+          </div>
         </v-col>
       </v-row>
     </div>
@@ -24,9 +27,10 @@
 </template>
   
   <script lang="ts">
-import { Vue, Component, Inject } from "vue-property-decorator";
+import { Vue, Component, Inject, Watch } from "vue-property-decorator";
 import { DaoViewModel } from "../../models/dao-viewmodels";
 import { Responsive } from "vue-responsive-components";
+import { layoutStore } from "@/stores/layout-store";
 
 @Component({
   components: {
@@ -40,5 +44,19 @@ import { Responsive } from "vue-responsive-components";
 })
 export default class ProposalDaoLayout1 extends Vue {
   @Inject() vm!: DaoViewModel;
+
+  sideBannerPath = "";
+  layoutStore = layoutStore;
+
+  @Watch("layoutStore.sideBanner", { immediate: true }) onSideBannerChanged(
+    value: any
+  ) {
+    if (!this.vm.isReview) return;
+    if (!value) {
+      this.sideBannerPath = require("@/assets/webservice/dao/default-side-banner.jpg");
+      return;
+    }
+    this.sideBannerPath = URL.createObjectURL(this.layoutStore.sideBanner);
+  }
 }
 </script>
