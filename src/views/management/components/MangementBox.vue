@@ -13,7 +13,10 @@
       :class="{ 'on-hover cursor-pointer': hover }"
       @click="goToDomain()"
     >
-      <CoverImage :imageUrl="applicationCoverImage" />
+      <CoverImage
+        :imageUrl="applicationCoverImage"
+        :defaultImageUrl="require('@/assets/ManagementBox/default.png')"
+      />
       <div class="d-flex justify-space-between px-4 py-3">
         <div class="flex-grow-1 application-title">
           <div class="d-flex">

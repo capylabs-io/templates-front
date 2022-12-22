@@ -29,13 +29,16 @@ const routes: Array<RouteConfig> = [
     path: "/dao/:appId",
     name: "DAO Dashboard",
     component: () => import("../views/dao/pages/Dao.vue"),
+    props: {
+      isReview: false,
+    },
     meta: {
       title: "DAO Dashboard",
       isEndUser: true,
     },
     children: [
       {
-        path: "/:proposalId",
+        path: ":proposalId",
         name: "Proprosal Detail",
       },
     ],

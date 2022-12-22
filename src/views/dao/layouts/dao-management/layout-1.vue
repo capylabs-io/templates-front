@@ -1,9 +1,12 @@
 <template>
   <Responsive :breakpoints="{ small: (el) => el.width <= 960 }">
-    <div slot-scope="el">
-      <div class="full-width dao-banner">
-        <v-img :src="bannerPath" cover />
-      </div>
+    <div class="d-flex flex-column" slot-scope="el">
+      <CoverImage
+        class="full-width dao-banner"
+        :imageUrl="layoutStore.banner"
+        :defaultImageUrl="require('@/assets/webservice/dao/default-banner.jpg')"
+        cover
+      />
       <div class="dao-management ma-auto px-2 py-3">
         <v-row class="justify-center ma-auto">
           <v-col :cols="el.is.small ? 12 : 7">
@@ -11,9 +14,14 @@
           </v-col>
           <v-col :cols="el.is.small ? 12 : 5">
             <YourAccount />
-            <div class="full-width mt-6">
-              <v-img class="border-radius-16" :src="sideBannerPath" cover />
-            </div>
+            <CoverImage
+              class="border-radius-16 full-width mt-6"
+              :imageUrl="layoutStore.sideBanner"
+              :defaultImageUrl="
+                require('@/assets/webservice/dao/default-side-banner.jpg')
+              "
+              cover
+            />
           </v-col>
         </v-row>
       </div>
@@ -22,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Inject, Watch } from "vue-property-decorator";
+import { Vue, Component, Inject } from "vue-property-decorator";
 import { DaoViewModel } from "../../models/dao-viewmodels";
 import { Responsive } from "vue-responsive-components";
 import { layoutStore } from "@/stores/layout-store";
@@ -31,6 +39,7 @@ import { layoutStore } from "@/stores/layout-store";
   components: {
     DaoDetail: () => import("../../components/DaoDetail.vue"),
     YourAccount: () => import("../../components/YourAccount.vue"),
+    CoverImage: () => import("@/components/CoverImage.vue"),
     Responsive,
   },
 })
@@ -38,28 +47,5 @@ export default class DaoManagementLayout1 extends Vue {
   @Inject() vm!: DaoViewModel;
 
   layoutStore = layoutStore;
-
-  bannerPath = "";
-  sideBannerPath = "";
-
-  @Watch("layoutStore.banner", { immediate: true }) onBannerChanged(
-    value: any
-  ) {
-    if (!value) {
-      this.bannerPath = require("@/assets/webservice/dao/default-banner.jpg");
-      return;
-    }
-    this.bannerPath = URL.createObjectURL(this.layoutStore.banner);
-  }
-
-  @Watch("layoutStore.sideBanner", { immediate: true }) onSideBannerChanged(
-    value: any
-  ) {
-    if (!value) {
-      this.sideBannerPath = require("@/assets/webservice/dao/default-side-banner.jpg");
-      return;
-    }
-    this.sideBannerPath = URL.createObjectURL(this.layoutStore.sideBanner);
-  }
 }
 </script>

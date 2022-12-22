@@ -31,11 +31,18 @@ export class LayoutStore {
   }
 
   @action setupLayoutConfig(metadata: any) {
-    this.isDarkTheme = get(metadata.isDarkTheme, true);
-    this.isNavDarkTheme = get(metadata.isNavDarkTheme, true);
-    this.layout = get(metadata.layout, 1);
-    this._primaryColor = get(metadata.primaryColor, "");
-    this.font = get(metadata.font, "Roboto");
+    this.isDarkTheme = get(metadata, "isDarkTheme", true);
+    this.isNavDarkTheme = get(metadata, "isNavDarkTheme", true);
+    this.layout = get(metadata, "layout", 1);
+    this._primaryColor = get(metadata, "primaryColor", "");
+    this.font = get(metadata, "font", "Roboto");
+
+    this.tokenIcon = get(metadata, "img.tokenIcon", null);
+    this.brandLogo = get(metadata, "img.brandLogo", null);
+    this.banner = get(metadata, "img.banner", null);
+    this.sideBanner = get(metadata, "img.sideBanner", null);
+
+    this.socialMedias = get(metadata, "socialMedias", []);
   }
 
   @computed get primaryColor() {

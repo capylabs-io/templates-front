@@ -87,22 +87,20 @@ import { layoutStore } from "@/stores/layout-store";
 })
 export default class Dao extends Vue {
   @Provide() vm = new DaoViewModel();
-  @Prop({ default: false }) isReview?: boolean;
+  @Prop({ default: true }) isReview?: boolean;
   @Prop({ default: "management" }) reviewPage?: string;
 
   layoutStore = layoutStore;
 
-  @Watch("reviewPage", { immediate: true }) onReviewPageChanged(val: string) {
-    this.vm.setReviewPage(val);
-  }
   @Watch("isReview", { immediate: true }) onIsReviewChanged(val: boolean) {
     this.vm.setIsReview(val);
   }
 
-  async created() {
-    if (!this.isReview) {
-      console.log("params", this.$route.params);
+  async mounted() {
+    console.log("this.isReview", this.isReview);
+    console.log("this.$route.params", this.$route.params);
 
+    if (!this.isReview) {
       if (!this.$route.params || !this.$route.params.appId)
         this.$router.push("/home");
     }

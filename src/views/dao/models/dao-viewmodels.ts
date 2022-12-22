@@ -177,7 +177,6 @@ export class DaoViewModel {
 
   @action pushBackHome(error: any) {
     snackController.error(error);
-    console.log("pushBackHome");
     if (walletStore.connected) appProvider.router.replace("/management");
     else appProvider.router.replace("/home");
   }

@@ -7,7 +7,7 @@
       <CustomizeDrawer />
       <div class="layout-content">
         <div v-if="vm.appType == 'dao'">
-          <DaoInterface :isReview="true" :reviewPage="vm.selectedPage" />
+          <DaoInterface :isReview="true" />
         </div>
       </div>
     </div>

@@ -9,7 +9,11 @@
   >
     <div class="d-inline-flex justify-space-between full-width">
       <div class="d-flex align-center dao-title">
-        <v-img class="token-icon mr-2" :src="tokenIconPath" />
+        <CoverImage
+          class="token-icon mr-2"
+          :imageUrl="layoutStore.tokenIcon"
+          :defaultImageUrl="require('@/assets/axie-icon.png')"
+        />
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
             <div
@@ -26,9 +30,9 @@
         </v-tooltip>
       </div>
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
-        <v-icon color="gray6">mdi-account-multiple</v-icon>
-        <span class="mx-1">Members (194)</span>
-        <img class="ml-3 mr-1" src="@/assets/cog.svg" />
+        <v-icon class="mr-1" color="gray6" small>mdi-account-multiple</v-icon>
+        <span>Members (194)</span>
+        <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
         <span>Params</span>
         <v-icon class="ml-4" :color="layoutStore.primaryColor"
           >mdi-launch</v-icon
@@ -78,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Inject, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Inject, Prop, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import Proposals from "./_Proposals.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
@@ -87,6 +91,7 @@ import { layoutStore } from "@/stores/layout-store";
 @Component({
   components: {
     Proposals,
+    CoverImage: () => import("@/components/CoverImage.vue"),
   },
 })
 export default class SolendDao extends Vue {
@@ -95,18 +100,6 @@ export default class SolendDao extends Vue {
 
   layoutStore = layoutStore;
   showProposals = true;
-  tokenIconPath = "";
-
-  @Watch("layoutStore.tokenIcon", { immediate: true }) onTokenIconChanged(
-    value: any
-  ) {
-    if (!this.vm.isReview) return;
-    if (!value) {
-      this.tokenIconPath = require("@/assets/axie-icon.png");
-      return;
-    }
-    this.tokenIconPath = URL.createObjectURL(this.layoutStore.tokenIcon);
-  }
 }
 </script>
 

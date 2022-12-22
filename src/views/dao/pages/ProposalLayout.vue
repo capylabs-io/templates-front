@@ -18,7 +18,6 @@ import { DaoViewModel } from "../models/dao-viewmodels";
   components: {
     Layout1: () => import("../layouts/proposal-detail/layout-1.vue"),
     Layout2: () => import("../layouts/proposal-detail/layout-2.vue"),
-    Layout3: () => import("../layouts/proposal-detail/layout-3.vue"),
   },
 })
 export default class ProposalDetail extends Vue {

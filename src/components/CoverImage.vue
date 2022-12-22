@@ -1,8 +1,9 @@
 <template>
   <v-img
     class="image"
-    @click="$emit('click', $event)"
     :src="url"
+    v-bind="$attrs"
+    @click="$emit('click', $event)"
     @error="onLoadImgError"
     cover
   />
@@ -10,8 +11,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { fileHelpers } from "@/helper/file-helper";
-import { apiService } from "@/services/api-service";
 import { IReactionDisposer } from "mobx";
 import { Observer } from "mobx-vue";
 
@@ -19,6 +18,7 @@ import { Observer } from "mobx-vue";
 @Component
 export default class CoverImage extends Vue {
   @Prop() imageUrl: any;
+  @Prop() defaultImageUrl!: any;
 
   url: string | null = null;
   _disposers: IReactionDisposer[] = [];
@@ -39,18 +39,13 @@ export default class CoverImage extends Vue {
   async updateImage() {
     try {
       const val = this.imageUrl;
-      this.url = require(`@/assets/ManagementBox/default.png`);
+      this.url = this.defaultImageUrl;
       if (val instanceof File) {
         this.url = URL.createObjectURL(val);
       } else if (typeof val === "string") {
         if (val && val.toLowerCase().startsWith("http")) {
           this.url = val;
-        } else if (val) {
-          const model = await apiService.getFile(val);
-          this.url = fileHelpers.getApiFileUrl(model);
         }
-      } else if (val) {
-        this.url = fileHelpers.getApiFileUrl(val);
       }
     } catch (error) {
       console.error("onAvatarChanged", error);
@@ -58,7 +53,7 @@ export default class CoverImage extends Vue {
   }
 
   onLoadImgError() {
-    this.url = require(`@/assets/ManagementBox/default.png`);
+    this.url = require("@/assets/ManagementBox/default.png");
   }
 }
 </script>

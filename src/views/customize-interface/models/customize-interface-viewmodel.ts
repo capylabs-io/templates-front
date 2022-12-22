@@ -56,6 +56,7 @@ export class CustomizeInterfaceViewmodel {
           sideBanner: sideBannerPath ? sideBannerPath.url : "",
           brandLogo: brandLogoPath ? brandLogoPath.url : "",
         },
+        socialMedias: layoutStore.socialMedias,
       });
       snackController.success("Save config successfully!");
       appProvider.router.push({
