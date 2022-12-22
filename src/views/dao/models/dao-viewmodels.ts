@@ -129,6 +129,10 @@ export class DaoViewModel {
       this.layoutStore.application = application;
       this.metadata = application.metadata;
       this.daoSetting = application.dao_setting;
+      if (application.themeConfig) {
+        layoutStore.themeConfig = application.themeConfig;
+        this.isChoosingTheme = false;
+      }
 
       if (!application || !application.service || !application.dao_setting)
         this.pushBackHome(`Invalid service type!`);

@@ -96,10 +96,11 @@ export default class Dao extends Vue {
     this.vm.setIsReview(val);
   }
 
-  async mounted() {
-    console.log("this.isReview", this.isReview);
-    console.log("this.$route.params", this.$route.params);
+  @Watch("reviewPage", { immediate: true }) onReviewPageChanged(val: string) {
+    this.vm.setReviewPage(val);
+  }
 
+  async created() {
     if (!this.isReview) {
       if (!this.$route.params || !this.$route.params.appId)
         this.$router.push("/home");

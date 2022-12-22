@@ -5,8 +5,8 @@
     :dark="layoutStore.isNavDarkTheme"
   >
     <v-row class="full-width d-flex justify-space-between px-2 align-center">
-      <v-col cols="2"></v-col>
-      <v-col cols="8" class="d-flex align-center justify-center">
+      <v-col cols="3"></v-col>
+      <v-col cols="6" class="d-flex align-center justify-center">
         <div :key="key">
           <v-btn
             v-for="(socialMedia, index) in layoutStore.socialMedias"
@@ -22,9 +22,14 @@
           </v-btn>
         </div>
       </v-col>
-      <v-col cols="2">
+      <v-col cols="3">
         <div class="text-right text-sm">
-          Powered by <span class="font-weight-bold">Cyberk</span>
+          Powered by
+          <span
+            class="font-weight-bold cursor-pointer"
+            @click="openLink('https://cyberk.io/')"
+            >Cyberk.io</span
+          >
         </div>
       </v-col>
     </v-row>
@@ -55,6 +60,10 @@ export default class DaoNavigationBar extends Vue {
 
   forceRender() {
     this.key += 1;
+  }
+
+  openLink(url: string) {
+    window.open(url);
   }
 }
 </script>

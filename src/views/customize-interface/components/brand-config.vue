@@ -6,11 +6,12 @@
         <v-icon small>mdi-information-outline</v-icon>
       </div>
       <v-file-input
-        v-model="layoutStore.brandLogo"
+        :placeholder="layoutStore.brandLogoName"
+        @change="vm.changeBrandLogo($event)"
         accept="image/*"
-        placeholder="File input"
         append-icon="mdi-cloud-upload-outline"
         prepend-icon=""
+        clearable
         solo
         dense
       ></v-file-input>
@@ -21,9 +22,9 @@
         <v-icon small>mdi-information-outline</v-icon>
       </div>
       <v-file-input
-        v-model="layoutStore.tokenIcon"
+        :placeholder="layoutStore.tokenIconName"
+        @change="vm.changeTokenIcon($event)"
         accept="image/*"
-        placeholder="File input"
         append-icon="mdi-cloud-upload-outline"
         prepend-icon=""
         clearable
@@ -39,11 +40,12 @@
         <v-icon small>mdi-information-outline</v-icon>
       </div>
       <v-file-input
-        v-model="layoutStore.banner"
+        :placeholder="layoutStore.bannerName"
+        @change="vm.changeBanner($event)"
         accept="image/*"
-        placeholder="File input"
         append-icon="mdi-cloud-upload-outline"
         prepend-icon=""
+        clearable
         solo
         dense
       ></v-file-input>
@@ -56,11 +58,12 @@
         <v-icon small>mdi-information-outline</v-icon>
       </div>
       <v-file-input
-        v-model="layoutStore.sideBanner"
+        :placeholder="layoutStore.sideBannerName"
+        @change="vm.changeSideBanner($event)"
         accept="image/*"
-        placeholder="File input"
         append-icon="mdi-cloud-upload-outline"
         prepend-icon=""
+        clearable
         solo
         dense
       ></v-file-input>

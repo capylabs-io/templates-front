@@ -19,7 +19,7 @@ export class CustomizeInterfaceViewmodel {
   @observable page?: number = 1;
   @observable totalPage?: number = 1;
 
-  @observable layoutForm?: boolean = false;
+  @observable socialMediaForm?: boolean = false;
 
   layoutStore = layoutStore;
 
@@ -38,10 +38,10 @@ export class CustomizeInterfaceViewmodel {
       loadingController.increaseRequest();
       const application = layoutStore.application;
       const [tokenIconPath, bannerPath, sideBannerPath, brandLogoPath] = yield Promise.all([
-        this.uploadApplicationFile(layoutStore.tokenIcon, "TokenIcon"),
-        this.uploadApplicationFile(layoutStore.banner, "Banner"),
-        this.uploadApplicationFile(layoutStore.sideBanner, "SideBanner"),
-        this.uploadApplicationFile(layoutStore.brandLogo, "BrandLogo"),
+        this.uploadApplicationFile(layoutStore.tokenIconFile, "TokenIcon"),
+        this.uploadApplicationFile(layoutStore.bannerFile, "Banner"),
+        this.uploadApplicationFile(layoutStore.sideBannerFile, "SideBanner"),
+        this.uploadApplicationFile(layoutStore.brandLogoFile, "BrandLogo"),
       ]);
       const res = yield apiService.updateAppMetadata({
         appId: application!!.appId,
@@ -51,12 +51,13 @@ export class CustomizeInterfaceViewmodel {
         layout: layoutStore.layout,
         font: layoutStore.font,
         img: {
-          tokenIcon: tokenIconPath ? tokenIconPath.url : "",
-          banner: bannerPath ? bannerPath.url : "",
-          sideBanner: sideBannerPath ? sideBannerPath.url : "",
-          brandLogo: brandLogoPath ? brandLogoPath.url : "",
+          tokenIcon: tokenIconPath ? tokenIconPath.url : layoutStore.tokenIconPath,
+          banner: bannerPath ? bannerPath.url : layoutStore.bannerPath,
+          sideBanner: sideBannerPath ? sideBannerPath.url : layoutStore.sideBannerPath,
+          brandLogo: brandLogoPath ? brandLogoPath.url : layoutStore.brandLogoPath,
         },
         socialMedias: layoutStore.socialMedias,
+        theme: this.themeConfig,
       });
       snackController.success("Save config successfully!");
       appProvider.router.push({
@@ -106,6 +107,19 @@ export class CustomizeInterfaceViewmodel {
 
   @action changeSocialMediaUrl(index: number, val: string) {
     this.layoutStore.socialMedias[index].url = val;
+  }
+
+  @action changeBrandLogo(file: any) {
+    layoutStore.brandLogoFile = file;
+  }
+  @action changeTokenIcon(file: any) {
+    layoutStore.tokenIconFile = file;
+  }
+  @action changeBanner(file: any) {
+    layoutStore.bannerFile = file;
+  }
+  @action changeSideBanner(file: any) {
+    layoutStore.sideBannerFile = file;
   }
 
   get appMainPages() {

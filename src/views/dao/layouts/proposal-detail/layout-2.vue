@@ -9,9 +9,14 @@
           <div class="mt-6">
             <Voting />
           </div>
-          <div class="dao-side-banner mt-6">
-            <v-img class="border-radius-16" :src="sideBannerPath" cover />
-          </div>
+          <CoverImage
+            class="dao-side-banner mt-6 border-radius-16"
+            :imageUrl="layoutStore.sideBanner"
+            :defaultImageUrl="
+              require('@/assets/webservice/dao/default-side-banner.jpg')
+            "
+            cover
+          />
         </v-col>
         <v-col :cols="el.is.small ? 12 : 7">
           <div>
@@ -27,13 +32,14 @@
 </template>
   
   <script lang="ts">
-import { Vue, Component, Inject, Watch } from "vue-property-decorator";
+import { Vue, Component, Inject } from "vue-property-decorator";
 import { DaoViewModel } from "../../models/dao-viewmodels";
 import { Responsive } from "vue-responsive-components";
 import { layoutStore } from "@/stores/layout-store";
 
 @Component({
   components: {
+    CoverImage: () => import("@/components/CoverImage.vue"),
     ProposalDetail: () => import("../../components/Detail-Proposals.vue"),
     ProposalDetailDiscussion: () =>
       import("../../components/Detail-Proposals-Discussion.vue"),
@@ -45,18 +51,6 @@ import { layoutStore } from "@/stores/layout-store";
 export default class ProposalDaoLayout2 extends Vue {
   @Inject() vm!: DaoViewModel;
 
-  sideBannerPath = "";
   layoutStore = layoutStore;
-
-  @Watch("layoutStore.sideBanner", { immediate: true }) onSideBannerChanged(
-    value: any
-  ) {
-    if (!this.vm.isReview) return;
-    if (!value) {
-      this.sideBannerPath = require("@/assets/webservice/dao/default-side-banner.jpg");
-      return;
-    }
-    this.sideBannerPath = URL.createObjectURL(this.layoutStore.sideBanner);
-  }
 }
 </script>

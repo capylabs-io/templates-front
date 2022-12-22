@@ -5,7 +5,10 @@
     elevation="0"
   >
     <div class="full-width d-flex align-center justify-space-between px-2">
-      <div class="font-weight-bold" v-if="!layoutStore.brandLogo">
+      <div
+        class="font-weight-bold"
+        v-if="!layoutStore.brandLogoFile && !layoutStore.brandLogoPath"
+      >
         Your Logo Here
       </div>
       <CoverImage
@@ -15,7 +18,6 @@
         contain
         v-else
       />
-      <!-- <img class="brand-logo" :src="brandLogoPath" contain v-else /> -->
       <v-btn
         class="text-none"
         elevation="0"

@@ -1,6 +1,6 @@
 <template>
   <Responsive :breakpoints="{ small: (el) => el.width <= 960 }">
-    <div slot-scope="el">
+    <div class="d-flex flex-column" slot-scope="el">
       <CoverImage
         class="full-width dao-banner"
         :imageUrl="layoutStore.banner"
