@@ -4,7 +4,7 @@
     :class="
       layoutStore.isDarkTheme ? 'white--text box-border-gray11' : 'black--text'
     "
-    :style="'background:' + layoutStore.pageBackground"
+    :style="'background:' + layoutStore.accentColor"
   >
     <div class="d-flex align-center">
       <v-text-field
@@ -23,7 +23,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             class="rounded-lg ml-4 text-none"
-            :color="layoutStore.cardBackground"
+            :color="layoutStore.cardColor"
             :class="layoutStore.isDarkTheme ? 'white--text' : 'black--text'"
             elevation="0"
             v-bind="attrs"
@@ -34,7 +34,7 @@
           </v-btn>
         </template>
         <v-list
-          :color="layoutStore.cardBackground"
+          :color="layoutStore.cardColor"
           :dark="layoutStore.isDarkTheme"
           :light="!layoutStore.isDarkTheme"
           dense
@@ -128,7 +128,7 @@
             mt-3
             rounded-lg
           "
-          :style="'background:' + layoutStore.cardBackground"
+          :style="'background:' + layoutStore.cardColor"
           @click="vm.gotoProposalDetail()"
           slot-scope="el"
         >

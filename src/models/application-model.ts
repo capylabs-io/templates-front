@@ -1,3 +1,4 @@
+import { ThemeModel } from "./theme-model";
 import { ProposalModel } from "./proposal-model";
 import { UserModel } from "./user-model";
 import { DaoSettingModel } from "./dao-setting-model";
@@ -16,4 +17,5 @@ export interface ApplicationModel {
   createdAt: string;
   status: string;
   proposals: ProposalModel[];
+  theme: ThemeModel;
 }

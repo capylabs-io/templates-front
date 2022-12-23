@@ -1,5 +1,6 @@
 <template>
   <v-app-bar
+    :style="'background:' + layoutStore.navColor + ' !important'"
     :light="!layoutStore.isNavDarkTheme"
     :dark="layoutStore.isNavDarkTheme"
     elevation="0"

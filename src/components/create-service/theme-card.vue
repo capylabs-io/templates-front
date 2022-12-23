@@ -3,15 +3,19 @@
     <v-card
       elevation="10"
       class="theme-card border-gray-11 border-radius-16"
-      :class="{ 'on-hover cursor-pointer': hover }"
+      :class="{
+        'on-hover cursor-pointer': hover,
+        'on-hover': layoutStore.themeConfig?.id == theme?.id,
+      }"
       @click="chooseTheme()"
     >
-      <v-img
+      <!-- <v-img
         class="white--text align-end"
         height="200px"
         :src="require('@/assets/CardService/card-bg2.png')"
       >
-      </v-img>
+      </v-img> -->
+      <CoverImage :imageUrl="theme?.coverImage" />
       <div class="d-flex justify-space-between align-center pa-4">
         <div>
           <div class="font-weight-bold">{{ themeName }}</div>
@@ -34,18 +38,24 @@
 </template>
 
 <script lang="ts">
+import { ThemeModel } from "@/models/theme-model";
+import { layoutStore } from "@/stores/layout-store";
 import { CustomizeInterfaceViewmodel } from "@/views/customize-interface/models/customize-interface-viewmodel";
 import { Vue, Component, Prop, Inject } from "vue-property-decorator";
 
 @Component({
-  components: {},
+  components: {
+    CoverImage: () => import("@/components/CoverImage.vue"),
+  },
 })
 export default class ThemeCard extends Vue {
-  @Prop() theme: any;
+  @Prop() theme!: ThemeModel;
   @Inject() vm!: CustomizeInterfaceViewmodel;
 
+  layoutStore = layoutStore;
+
   chooseTheme() {
-    this.vm.setThemeConfig(this.theme);
+    layoutStore.setupThemeConfig(this.theme);
     this.vm.setChoosingTheme(false);
   }
 
@@ -55,12 +65,11 @@ export default class ThemeCard extends Vue {
   }
 
   get themeAuthor() {
-    if (!this.theme || !this.theme.author) return "Cyberk Team";
-    return this.theme.author;
+    return "Cyberk Team";
   }
 
   get themeType() {
-    if (!this.theme || !this.theme.isFree) return "Free Theme";
+    if (!this.theme || this.theme.type == "free") return "Free Theme";
     return "Premium";
   }
 }

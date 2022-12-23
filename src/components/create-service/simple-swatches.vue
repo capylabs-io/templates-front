@@ -1,18 +1,20 @@
 <template>
-  <div class="swatches d-flex flex-wrap justify-start align-center">
+  <div
+    class="swatches d-flex flex-wrap justify-start align-center"
+    :key="componentKey"
+  >
     <div
       class="swatch d-flex justify-center align-center"
       v-for="color in colors"
       :class="{ active: color == currentColor }"
       :key="color"
-      :style="{ background: `${color}` }"
+      :style="{ background: `${color} !important` }"
       @click="onColorClick(color)"
     ></div>
   </div>
 </template>
 
 <script lang="ts">
-import { layoutStore } from "@/stores/layout-store";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
@@ -20,20 +22,19 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 })
 export default class CustomizeInterface extends Vue {
   @Prop() colors!: string[];
+  @Prop() currentColor?: string;
 
-  currentColor = "#FFFFFF";
-  layoutStore = layoutStore;
+  componentKey = 1;
 
-  @Watch("layoutStore.primaryColor", {
+  @Watch("colors", {
     immediate: true,
   })
-  onCurrentColorChanged(val: string) {
-    if (!val)
-      this.currentColor = this.$vuetify.theme.currentTheme.primary!.toString();
-    else this.currentColor = val;
+  onColorsChanged(val: any) {
+    if (!val) return;
+    if (!this.currentColor) this.$emit("onColorClick", this.colors[0]);
+    this.componentKey += 1;
   }
   onColorClick(chosenColor: string) {
-    this.currentColor = chosenColor;
     this.$emit("onColorClick", chosenColor);
   }
 }

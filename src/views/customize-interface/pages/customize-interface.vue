@@ -37,6 +37,11 @@ export default class CustomizeInterface extends Vue {
     const appType = this.$route.query.type.toString();
     this.vm.setAppType(appType);
   }
+  mounted() {
+    if (!layoutStore.application?.theme) {
+      this.vm.setChoosingTheme(true);
+    }
+  }
 }
 </script>
 

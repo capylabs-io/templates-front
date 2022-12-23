@@ -41,7 +41,7 @@
 
           <div class="mt-2">
             <div class="gray5--text text-xs">
-              <span class="text-caplitalize">{{ applicationStatus }}</span>
+              <span class="text-capitalize">{{ applicationStatus }}</span>
               - {{ applicationUpdatedAt | normalizeTimeDuration }}
             </div>
           </div>
@@ -86,6 +86,8 @@ export default class ManagementBox extends Vue {
   goToDomain() {
     if (!this.application || !this.application.service) return;
     if (this.application.service != "dao") return; //TODO: Remove this
+    console.log("route", "/dao/" + this.application.appId.toString());
+
     this.$router.push({
       path: "/dao/" + this.application.appId.toString(),
     });

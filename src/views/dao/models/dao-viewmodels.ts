@@ -24,7 +24,6 @@ export class DaoViewModel {
   @observable filterVoting = false;
   @observable filterDraft = false;
 
-  @observable metadata: any;
   @observable daoSetting?: DaoSettingModel;
   @observable proposals: ProposalModel[] = [];
   @observable itemsPerPage = 8;
@@ -127,23 +126,16 @@ export class DaoViewModel {
 
       const application = res.applications[0];
       this.layoutStore.application = application;
-      this.metadata = application.metadata;
       this.daoSetting = application.dao_setting;
-      if (application.themeConfig) {
-        layoutStore.themeConfig = application.themeConfig;
-        this.isChoosingTheme = false;
-      }
 
       if (!application || !application.service || !application.dao_setting)
         this.pushBackHome(`Invalid service type!`);
-      else if (!application.isCustomized && !this.isReview) {
+      else if ((!application.isCustomized || !application.theme) && !this.isReview) {
         appProvider.router.replace(
           `/customize-interface?type=${application.service}&appId=${application.appId}`
         );
         return;
       }
-
-      this.layoutStore.setupLayoutConfig(application.metadata);
 
       if ((!application.proposals || application.proposals.length == 0) && this.isReview)
         yield this.fetchDefaultProposals();
@@ -155,6 +147,9 @@ export class DaoViewModel {
         this.proposal = this.proposals.find((proposal) => proposal.id == proposalId);
         this.isProposalDetail = true;
       }
+
+      this.layoutStore.setupThemeConfig(application.theme);
+      this.layoutStore.setupMetadata(application.metadata);
     } catch (err: any) {
       console.error("err", err);
       this.pushBackHome(`Error occurred, please try again later!`);

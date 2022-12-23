@@ -4,7 +4,7 @@
     :class="
       layoutStore.isDarkTheme ? 'box-border-gray11 white--text' : 'black--text'
     "
-    :style="'background:' + layoutStore.cardBackground + ' !important'"
+    :style="'background:' + layoutStore.cardColor + ' !important'"
     outlined
   >
     <div class="d-flex justify-space-between">
@@ -20,8 +20,13 @@
       </div>
     </div>
     <div
-      class="pa-4 mt-3 border-radius-4"
-      :style="'background:' + layoutStore.pageBackground + ' !important'"
+      class="pa-4 mt-3 border-radius-8"
+      :class="
+        layoutStore.isDarkTheme
+          ? 'white--text box-border-gray11'
+          : 'black--text'
+      "
+      :style="'background:' + layoutStore.accentColor + ' !important'"
     >
       <div>DAO Token Votes</div>
       <div class="font-weight-bold text-dp-xs">$$$</div>

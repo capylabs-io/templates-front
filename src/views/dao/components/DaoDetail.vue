@@ -4,8 +4,9 @@
     :class="
       layoutStore.isDarkTheme ? 'box-border-gray11 white--text' : 'black--text'
     "
-    :style="'background:' + layoutStore.cardBackground + ' !important;'"
-    outlined
+    :style="'background:' + layoutStore.cardColor + ' !important;'"
+    :outlined="layoutStore.isDarkTheme"
+    elevation="0"
   >
     <div class="d-inline-flex justify-space-between full-width">
       <div class="d-flex align-center dao-title">
@@ -42,7 +43,7 @@
     <div
       class="pa-1 w-fit-content text-capitalize border-radius-8 mt-3"
       :class="{ 'box-border-gray11': layoutStore.isDarkTheme }"
-      :style="'background:' + layoutStore.pageBackground + ' !important'"
+      :style="'background:' + layoutStore.accentColor + ' !important'"
     >
       <v-btn
         text

@@ -9,8 +9,6 @@
       "value": 2
     }
   ],
-  "primaryColors": ["#F6C453", "#6A49E2", "#65C77C"],
-  "fonts": ["Inter", "Lato", "Nunito", "Open Sans", "Raleway", "Roboto", "Source Sans Pro"],
   "mediaIcons": {
     "TelegramCommunity": {
       "title": "Telegram Community",
@@ -53,10 +51,12 @@
       "icon": "youtube.png"
     }
   },
-  "defaultImage": {
-    "banner": "@/assets/webservice/dao/default-banner.jpg",
-    "sideBanner": "@/assets/webservice/dao/default-side-banner.jpg",
-    "tokenIcon": "@/assets/axie-icon.png",
-    "brandLogo": ""
-  }
+  "defaultColors": {
+    "lightBackground": "#FFFFFF",
+    "darkBackground": "#1E1E20",
+    "lightCardBackground": "#F4F4F5",
+    "darkCardBackground": "#2A2A2D"
+  },
+  "defaultPrimaryColors": ["#F6C453", "#6A49E2", "#65C77C"],
+  "defaultFonts": ["Inter", "Lato", "Nunito", "Open Sans", "Raleway", "Roboto", "Source Sans Pro"]
 }

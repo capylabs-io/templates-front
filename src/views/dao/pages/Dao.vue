@@ -5,7 +5,10 @@
     <DaoNavigationBar />
     <div
       class="dao-content"
-      :style="'background: ' + layoutStore.pageBackground + ' !important'"
+      :style="{
+        'background-color': layoutStore.pageBackground + ' !important',
+        'background-image': 'url(' + layoutStore.backgroundUrl + ') !important',
+      }"
       :class="layoutStore.isDarkTheme ? 'white--text' : 'black--text'"
     >
       <div v-if="vm.isReview">
@@ -117,5 +120,8 @@ export default class Dao extends Vue {
   height: calc(100vh - 52px - 64px) !important;
   overflow-x: hidden;
   overflow-y: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 </style>

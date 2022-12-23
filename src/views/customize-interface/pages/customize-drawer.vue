@@ -83,6 +83,7 @@
         class="button-action text-none btn-text mt-2"
         color="gray13"
         elevation="0"
+        @click="onBtnCancelClicked"
         >Cancel</v-btn
       >
     </div>
@@ -113,6 +114,10 @@ export default class CustomizeInterface extends Vue {
   onBtnSaveClicked() {
     // if (!(this.$refs.layoutForm as any).validate()) return;
     this.vm.updateApplicationMetadata();
+  }
+
+  onBtnCancelClicked() {
+    this.$router.go(-1);
   }
 
   backToThemeSelector() {

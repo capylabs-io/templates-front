@@ -117,9 +117,18 @@
                   </div>
                 </template>
                 <v-list>
-                  <v-list-item :to="'/management'"
-                    >Application Dashboard</v-list-item
-                  >
+                  <v-list-item class="d-flex align-center" :to="'/management'">
+                    <v-icon>mdi-view-dashboard</v-icon>
+                    <v-list-item-title class="ml-3"
+                      >Application Dashboard</v-list-item-title
+                    >
+                  </v-list-item>
+                  <v-list-item :to="'/trash'">
+                    <v-icon>mdi-trash-can</v-icon>
+                    <v-list-item-title class="ml-3"
+                      >Recent Deleted</v-list-item-title
+                    >
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </ConnectMetamask>

@@ -1,6 +1,8 @@
+import { get } from "lodash-es";
+import { ThemeModel } from "./../../../models/theme-model";
 import { layoutStore } from "./../../../stores/layout-store";
 import { ApplicationModel } from "./../../../models/application-model";
-import { action, flow, observable, runInAction } from "mobx";
+import { action, computed, flow, observable, runInAction } from "mobx";
 import { loadingController } from "@/components/global-loading/global-loading-controller";
 import { appProvider } from "@/app-providers";
 import { walletStore } from "@/stores/wallet-store";
@@ -12,16 +14,37 @@ export class CustomizeInterfaceViewmodel {
   @observable appType?: string;
   @observable selectedPage?: string = "management";
 
-  @observable isChoosingTheme = true;
-  @observable themeConfig?: any;
-  @observable sortBy: any = ["All", "Free", "Premium"];
+  @observable isChoosingTheme = false;
+  @observable themeConfig?: ThemeModel;
+
+  @observable themes?: ThemeModel[];
+  @observable themeTypes: any = ["All", "Free", "Paid"];
+  @observable sortBy?: string = "All";
   @observable searchKey?: string;
-  @observable page?: number = 1;
-  @observable totalPage?: number = 1;
+  @observable themePage?: number = 1;
+  @observable themePerPage?: number = 9;
 
   @observable socialMediaForm?: boolean = false;
 
   layoutStore = layoutStore;
+
+  fetchThemes = flow(function* (this) {
+    try {
+      loadingController.increaseRequest();
+      const themes = yield apiService.themes.find({
+        _limit: -1,
+      });
+      if (!themes) {
+        snackController.error(`No Themes Found!`);
+        return;
+      }
+      this.themes = themes;
+    } catch (err: any) {
+      snackController.error(`Error occured! Error: ${err}`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  });
 
   async uploadApplicationFile(file: any, name: string) {
     if (!file) return;
@@ -43,7 +66,7 @@ export class CustomizeInterfaceViewmodel {
         this.uploadApplicationFile(layoutStore.sideBannerFile, "SideBanner"),
         this.uploadApplicationFile(layoutStore.brandLogoFile, "BrandLogo"),
       ]);
-      const res = yield apiService.updateAppMetadata({
+      yield apiService.updateAppMetadata({
         appId: application!!.appId,
         isDarkTheme: layoutStore.isDarkTheme,
         isNavDarkTheme: layoutStore.isNavDarkTheme,
@@ -57,7 +80,9 @@ export class CustomizeInterfaceViewmodel {
           brandLogo: brandLogoPath ? brandLogoPath.url : layoutStore.brandLogoPath,
         },
         socialMedias: layoutStore.socialMedias,
-        theme: this.themeConfig,
+      });
+      yield apiService.applications.update(application!.id, {
+        theme: layoutStore.themeConfig?.id,
       });
       snackController.success("Save config successfully!");
       appProvider.router.push({
@@ -74,8 +99,8 @@ export class CustomizeInterfaceViewmodel {
     this.isChoosingTheme = value;
   }
 
-  @action setThemeConfig(value: any) {
-    this.themeConfig = value;
+  @action setThemeConfig(value: ThemeModel) {
+    this.layoutStore.themeConfig = value;
   }
 
   @action setAppType(val: string) {
@@ -137,5 +162,32 @@ export class CustomizeInterfaceViewmodel {
           },
         ];
     }
+  }
+
+  @computed get filteredThemes() {
+    let filteredThemes = this.themes;
+    if (!this.themes) return [];
+    if (this.sortBy != "All")
+      filteredThemes = filteredThemes!.filter(
+        (theme) => theme.type.toLowerCase() == this.sortBy?.toLowerCase()
+      );
+    if (this.searchKey)
+      filteredThemes = this.themes.filter((app) =>
+        app.name.toLowerCase().includes(this.searchKey!.toLowerCase())
+      );
+    return filteredThemes;
+  }
+
+  @computed get slicedThemes() {
+    return this.filteredThemes!.slice(
+      (this.themePage! - 1) * this.themePerPage!,
+      this.themePage! * this.themePerPage!
+    );
+  }
+
+  @computed get totalThemePage() {
+    if (!this.themes) return 1;
+    if (this.themes.length % this.themePerPage! == 0) return this.themes.length / this.themePerPage!;
+    else return Math.floor(this.themes.length / this.themePerPage!) + 1;
   }
 }

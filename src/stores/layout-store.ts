@@ -1,3 +1,4 @@
+import { ThemeModel } from "./../models/theme-model";
 import vuetify from "@/plugins/vuetify";
 import { action, computed, observable, runInAction, flow, makeAutoObservable } from "mobx";
 import defaultLayoutConfig from "@/config/defaultLayoutConfig.json";
@@ -5,24 +6,28 @@ import { ApplicationModel } from "@/models/application-model";
 import { get } from "lodash";
 export class LayoutStore {
   @observable application?: ApplicationModel;
-  @observable themeConfig?: any;
+  @observable themeConfig?: ThemeModel;
+  @observable metadata?: any;
 
+  //Theme Config
   @observable isDarkTheme = true;
   @observable isNavDarkTheme = true;
-  @observable _primaryColor?: string;
+
+  @observable backgroundUrl?: string;
+  @observable cardColor?: string;
+  @observable accentColor?: string;
+  @observable navColor?: string;
+  @observable primaryColors?: string[];
+  @observable fonts?: string[];
+
+  //Metadata
+  @observable primaryColor!: string;
   @observable layout: number = 1;
-  @observable font?: string = "Roboto";
-
-  @observable tokenIconFile?: any = null;
-  @observable brandLogoFile?: any = null;
-  @observable bannerFile?: any = null;
-  @observable sideBannerFile?: any = null;
-
+  @observable font?: string;
   @observable tokenIconPath?: string;
   @observable brandLogoPath?: string;
   @observable bannerPath?: string;
   @observable sideBannerPath?: string;
-
   @observable socialMedias?: any = [
     {
       ...defaultLayoutConfig.mediaIcons.TelegramCommunity,
@@ -30,42 +35,78 @@ export class LayoutStore {
     },
   ];
 
+  //Temp files
+  @observable tokenIconFile?: any = null;
+  @observable brandLogoFile?: any = null;
+  @observable bannerFile?: any = null;
+  @observable sideBannerFile?: any = null;
+
   defaultLayoutConfig = defaultLayoutConfig;
 
   @action setPrimaryColor(val: string) {
-    this._primaryColor = val;
+    this.primaryColor = val;
   }
 
-  @action setupLayoutConfig(metadata: any) {
-    this.isDarkTheme = get(metadata, "isDarkTheme", true);
-    this.isNavDarkTheme = get(metadata, "isNavDarkTheme", true);
+  @action setupThemeConfig(theme: ThemeModel) {
+    this.themeConfig = theme;
+
+    this.isDarkTheme = get(theme, "isDarkTheme", true);
+    this.isNavDarkTheme = get(theme, "isDarkNav", true);
+    this.fonts = get(theme, "fonts", layoutStore.defaultLayoutConfig.defaultFonts);
+    this.primaryColors = get(theme, "primaryColors", layoutStore.defaultLayoutConfig.defaultPrimaryColors);
+
+    this.backgroundUrl = get(
+      theme,
+      "backgroundUrl",
+      this.isDarkTheme
+        ? defaultLayoutConfig.defaultColors.darkBackground
+        : defaultLayoutConfig.defaultColors.lightBackground
+    );
+    this.cardColor = get(
+      theme,
+      "cardColor",
+      this.isDarkTheme
+        ? defaultLayoutConfig.defaultColors.darkCardBackground
+        : defaultLayoutConfig.defaultColors.lightCardBackground
+    );
+    this.navColor = get(
+      theme,
+      "navColor",
+      this.isDarkTheme
+        ? defaultLayoutConfig.defaultColors.darkCardBackground
+        : defaultLayoutConfig.defaultColors.lightCardBackground
+    );
+    this.accentColor = get(
+      theme,
+      "accentColor",
+      this.isDarkTheme
+        ? defaultLayoutConfig.defaultColors.darkBackground
+        : defaultLayoutConfig.defaultColors.lightBackground
+    );
+  }
+
+  @action setupMetadata(metadata: any) {
+    this.metadata = metadata;
+
     this.layout = get(metadata, "layout", 1);
-    this._primaryColor = get(metadata, "primaryColor", "");
-    this.font = get(metadata, "font", "Roboto");
+    this.primaryColor = get(metadata, "primaryColor", this.primaryColors![0]);
+    if (this.primaryColors && this.primaryColors.findIndex((color) => color == this.primaryColor) == -1)
+      this.primaryColor = this.primaryColors![0];
+
+    this.font = get(metadata, "font", this.fonts![0]);
+    if (this.fonts && this.fonts.findIndex((font) => font == this.font) == -1) this.font = this.fonts![0];
 
     this.tokenIconPath = get(metadata, "img.tokenIcon", null);
     this.brandLogoPath = get(metadata, "img.brandLogo", null);
     this.bannerPath = get(metadata, "img.banner", null);
     this.sideBannerPath = get(metadata, "img.sideBanner", null);
-
     this.socialMedias = get(metadata, "socialMedias", []);
-  }
-
-  @computed get primaryColor() {
-    if (!this._primaryColor) return vuetify.framework.theme.currentTheme.primary!.toString();
-    return this._primaryColor;
   }
 
   @computed get pageBackground() {
     return this.isDarkTheme
-      ? vuetify.framework.theme.currentTheme.darkBackground
-      : vuetify.framework.theme.currentTheme.lightBackground;
-  }
-
-  @computed get cardBackground() {
-    return this.isDarkTheme
-      ? vuetify.framework.theme.currentTheme["gray12"]?.toString()
-      : vuetify.framework.theme.currentTheme["gray1"]?.toString();
+      ? defaultLayoutConfig.defaultColors.darkBackground
+      : defaultLayoutConfig.defaultColors.lightBackground;
   }
 
   @computed get socialMediaIcons() {
@@ -120,10 +161,6 @@ export class LayoutStore {
   }
   @computed get brandLogo() {
     return this.brandLogoFile || this.brandLogoPath;
-  }
-
-  @computed get defaultBanner() {
-    return this.defaultLayoutConfig.defaultImage.banner;
   }
 }
 

@@ -1,8 +1,9 @@
 <template>
   <v-footer
-    class="dao-footer"
+    :style="'background:' + layoutStore.navColor + ' !important'"
     :light="!layoutStore.isNavDarkTheme"
     :dark="layoutStore.isNavDarkTheme"
+    class="dao-footer"
   >
     <v-row class="full-width d-flex justify-space-between px-2 align-center">
       <v-col cols="3"></v-col>

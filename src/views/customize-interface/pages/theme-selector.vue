@@ -8,7 +8,8 @@
         <div>Sort by</div>
         <v-select
           class="sort-box ml-4"
-          :items="vm.sortBy"
+          v-model="vm.sortBy"
+          :items="vm.themeTypes"
           hide-details
           solo
           dense
@@ -31,12 +32,21 @@
     </div>
 
     <v-row class="mt-6">
-      <v-col cols="12" md="4" sm="6">
-        <ThemeCard />
+      <v-col
+        cols="12"
+        md="4"
+        sm="6"
+        v-for="theme in vm.slicedThemes"
+        :key="theme.id"
+      >
+        <ThemeCard :theme="theme" />
       </v-col>
     </v-row>
     <div class="my-6">
-      <v-pagination v-model="vm.page" :length="vm.totalPage"></v-pagination>
+      <v-pagination
+        v-model="vm.themePage"
+        :length="vm.totalThemePage"
+      ></v-pagination>
     </div>
   </div>
 </template>
@@ -52,6 +62,10 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
 })
 export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
+
+  async created() {
+    await this.vm.fetchThemes();
+  }
 }
 </script>
 

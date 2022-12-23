@@ -1,7 +1,7 @@
 import { walletStore } from "@/stores/wallet-store";
 import Axios from "axios";
 import moment from "moment";
-export type ApiRouteType = "applications";
+export type ApiRouteType = "applications" | "themes";
 
 const axios = Axios.create({ baseURL: process.env.VUE_APP_API_ENDPOINT });
 
@@ -135,6 +135,7 @@ export class ApiHandlerJWT<T> {
 
 export class ApiService {
   applications = new ApiHandler<any>(axios, "applications");
+  themes = new ApiHandler<any>(axios, "themes");
 
   async signUp(publicAddress: string) {
     const res = await axios.post(`auth/local/register`, { publicAddress });
