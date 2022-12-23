@@ -19,19 +19,28 @@
         class="d-flex flex-column align-center active slide cursor"
         @click="slidedao(0), setImage(0)"
       >
-        <div class="divider" />
+        <div class="process-bar">
+          <div class="complete-bar"></div>
+        </div>
+        <!-- <div class="divider" /> -->
       </div>
       <div
         class="d-flex flex-column align-center slide cursor"
         @click="slidedao(1), setImage(1)"
       >
-        <div class="divider" />
+        <div class="process-bar">
+          <div class="complete-bar"></div>
+        </div>
+        <!-- <div class="divider" /> -->
       </div>
       <div
         class="d-flex flex-column align-center slide cursor"
         @click="slidedao(2), setImage(2)"
       >
-        <div class="divider" />
+        <div class="process-bar">
+          <div class="complete-bar"></div>
+        </div>
+        <!-- <div class="divider" /> -->
       </div>
     </div>
     <div class="d-flex mt-2 justify-center col-gap-40 z-2 gray6--text">
@@ -88,34 +97,50 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
 
 export default defineComponent({
   data() {
     return {
       indexImage: 0,
+      slide: null,
+      index: 0,
     };
+  },
+
+  mounted() {
+    this.slide = setInterval(() => {
+      if (this.index >= 3) {
+        this.slidedao(0);
+      }
+      this.slidedao(this.index);
+      this.index++;
+    }, 5000);
   },
   methods: {
     slidedao(index) {
       let processBar;
       let activeElement;
+      const slideLength = 3;
       processBar = Array.from(document.getElementsByClassName("slide"));
       activeElement = Array.from(
         document.getElementsByClassName("slide active")
       );
 
-      if (index >= 3) {
+      if (index >= slideLength) {
         index = 0;
       }
       activeElement.forEach((item) => {
         item.classList.remove("active");
       });
       processBar[index].classList.add("active");
-      processBar[index + 3].classList.add("active");
+      processBar[index + slideLength].classList.add("active");
     },
     setImage(index) {
+      if (index >= 3) {
+        this.indexImage = 0;
+      }
       this.indexImage = index;
     },
   },
@@ -200,12 +225,55 @@ image {
 .slide-left {
   animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
+
+.process-bar {
+  width: 411px;
+  height: 5px;
+  background: linear-gradient(
+    109.92deg,
+    rgba(255, 255, 255, 0.102) 0%,
+    rgba(255, 255, 255, 0.1) 52.78%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+}
+.complete-bar {
+  height: 5px;
+  border-radius: 16px;
+  background: #6a49e2;
+  transition: transform;
+  animation: processing-reverse 0.2s forwards;
+}
+.active .complete-bar {
+  animation-name: processing;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+}
 @keyframes slide-left {
   0% {
     transform: translateX(100px);
   }
   100% {
     transform: translateX(0);
+  }
+}
+@keyframes processing {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes processing-reverse {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
   }
 }
 </style>

@@ -45,8 +45,8 @@ export default {};
 .intro {
   max-width: 100%;
   height: 800px;
-  background-position: center;
-  background-repeat: none;
+  background-position: cover;
+  background-repeat: no-repeat;
   background-size: 100%;
   position: relative;
 }
