@@ -26,4 +26,20 @@ import { Vue, Component } from "vue-property-decorator";
 export default class LandingPage extends Vue {}
 </script>
 
-<style scoped></style>
+<style>
+.display-transation {
+  transition: transform 0.6s ease;
+}
+.from-bottom {
+  opacity: 0;
+  transform: translateY(50%);
+}
+.from-bottom.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+.display-transation.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>
