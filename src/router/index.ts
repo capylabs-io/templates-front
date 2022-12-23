@@ -21,6 +21,14 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    path: "/landing",
+    name: "LandingPage",
+    component: () => import("../views/landing/pages/LandingPage.vue"),
+    meta: {
+      title: "Landing Page",
+    },
+  },
+  {
     path: "/management",
     name: "Management",
     component: ManagementView,
