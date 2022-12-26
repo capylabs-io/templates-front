@@ -1,11 +1,11 @@
 <template>
-  <v-img
+  <img
     class="image"
     :src="url"
+    :style="{ 'object-fit': contain ? 'contain' : 'cover' }"
     v-bind="$attrs"
     @click="$emit('click', $event)"
     @error="onLoadImgError"
-    cover
   />
 </template>
 
@@ -19,8 +19,9 @@ import { Observer } from "mobx-vue";
 export default class CoverImage extends Vue {
   @Prop() imageUrl: any;
   @Prop() defaultImageUrl!: any;
+  @Prop({ default: false }) contain!: boolean;
 
-  url: string | null = null;
+  url: string = "";
   _disposers: IReactionDisposer[] = [];
 
   mounted() {
@@ -60,7 +61,7 @@ export default class CoverImage extends Vue {
 
 <style scoped>
 .image {
-  object-fit: contain;
-  float: left;
+  height: 100%;
+  width: 100%;
 }
 </style>

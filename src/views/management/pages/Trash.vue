@@ -36,22 +36,6 @@
             placeholder="Search"
           ></v-text-field>
         </div>
-        <v-btn
-          class="
-            rounded-lg
-            px-3
-            py-5
-            text-sm
-            boder-majorelleBlue
-            text-capitalize
-            font-weight-bold
-          "
-          @click="$router.push('/select-service')"
-          color="primary"
-          large
-        >
-          Create New Application
-        </v-btn>
       </div>
     </div>
     <v-row class="mt-4">
@@ -64,7 +48,8 @@
       >
         <ManagementBox
           :application="application"
-          @deleteApplication="onDeleteApplication($event)"
+          :trash="true"
+          @restoreApplication="onRestoreApplication($event)"
         ></ManagementBox>
       </v-col>
     </v-row>
@@ -78,17 +63,17 @@
     >
     </v-pagination>
     <div class="text-dp-md text-center gray4--text py-16 my-16" v-else>
-      No Application Found!
+      No Application in Trash Bin
     </div>
   </div>
 </template>
-
-<script lang="ts">
+  
+  <script lang="ts">
 import { ApplicationModel } from "@/models/application-model";
 import { walletStore } from "@/stores/wallet-store";
 import { Observer } from "mobx-vue";
 import { Vue, Component, Provide } from "vue-property-decorator";
-import { ManagementViewModel } from "../viewmodel/management-viewmodel";
+import { TrashViewModel } from "../viewmodel/trash-viewmodel";
 
 @Observer
 @Component({
@@ -96,8 +81,8 @@ import { ManagementViewModel } from "../viewmodel/management-viewmodel";
     ManagementBox: () => import("../components/MangementBox.vue"),
   },
 })
-export default class Management extends Vue {
-  @Provide() vm = new ManagementViewModel();
+export default class TrashManagement extends Vue {
+  @Provide() vm = new TrashViewModel();
   walletStore = walletStore;
 
   async created() {
@@ -105,13 +90,13 @@ export default class Management extends Vue {
     await this.vm.fetchApplications();
   }
 
-  onDeleteApplication(application: ApplicationModel) {
-    this.vm.confirmDeleteApplication(application);
+  async onRestoreApplication(application: ApplicationModel) {
+    await this.vm.confirmRestoreApplication(application);
   }
 }
 </script>
-
-<style scoped>
+  
+  <style scoped>
 .boder-gray-10 {
   background-color: #3b3b3f !important;
   border: 1px solid #4f4f54 !important;
@@ -134,3 +119,4 @@ export default class Management extends Vue {
   max-width: 1440px;
 }
 </style>
+  

@@ -1,12 +1,12 @@
-import { confirmDialogController } from "./../../../components/confirm-dialog/confirm-dialog-controller";
-import { ApplicationModel } from "@/models/application-model";
 import { walletStore } from "@/stores/wallet-store";
 import { apiService } from "@/services/api-service";
 import { loadingController } from "@/components/global-loading/global-loading-controller";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
 import { computed, flow, observable } from "mobx";
+import { ApplicationModel } from "@/models/application-model";
+import { confirmDialogController } from "@/components/confirm-dialog/confirm-dialog-controller";
 
-export class ManagementViewModel {
+export class TrashViewModel {
   @observable applications: any;
   @observable searchKey?: string;
   @observable page?: number = 1;
@@ -17,7 +17,7 @@ export class ManagementViewModel {
       loadingController.increaseRequest();
       const res = yield apiService.applications.find({
         userId: walletStore.userId,
-        status_ne: "deleted",
+        status: "deleted",
       });
       if (!res || !res.applications) {
         this.applications = [];
@@ -31,20 +31,19 @@ export class ManagementViewModel {
     }
   });
 
-  confirmDeleteApplication = (application: ApplicationModel) => {
+  confirmRestoreApplication = (application: ApplicationModel) => {
     try {
       confirmDialogController.confirm({
-        title: "Confirm Delete Application",
-        content: `Are you sure you want to remove application <span class='font-weight-bold white--text'>${
+        title: "Confirm Restore Application",
+        content: `<div>Are you sure you want to restore application <span class='font-weight-bold white--text'>${
           application.name
-        }</span>? 
-        <br/> This application will be in your trash bin for <span class='font-weight-bold white--text'>30 days</span> after removing, in case you want to restore it. 
+        }?</span></div>
         <div class='error--text mt-1'>After ${this.getDeletedDate(
           application.updatedAt
-        )}, this application will be deleted pernamently!</div>`,
-        doneText: "Remove",
+        )}, this application will be deleted pernamently if you do not restore it!</div>`,
+        doneText: "Restore",
         doneCallback: async () => {
-          await this.deleteApplication(application);
+          await this.restoreApplication(application);
         },
       });
     } catch (err: any) {
@@ -54,15 +53,13 @@ export class ManagementViewModel {
     }
   };
 
-  deleteApplication = async (application: ApplicationModel) => {
+  restoreApplication = async (application: ApplicationModel) => {
     try {
       if (!application || !application.appId) return;
       loadingController.increaseRequest();
-      await apiService.deleteApplication(application.appId + "");
+      await apiService.restoreApplication(application.appId + "");
       await this.fetchApplications();
-      snackController.success(
-        "Remove application successfully! Please check your trash bin to restore removed applications!"
-      );
+      snackController.success("Restore application successfully! Please check your application dashboard!");
     } catch (err: any) {
       snackController.commonError(err);
     } finally {
@@ -84,7 +81,7 @@ export class ManagementViewModel {
   }
 
   @computed get totalPage() {
-    if (!this.applications || this.applications.length == 0) return 1;
+    if (!this.applications) return 1;
     if (this.applications.length % this.itemsPerPage! == 0)
       return this.applications.length / this.itemsPerPage!;
     else return Math.floor(this.applications.length / this.itemsPerPage!) + 1;

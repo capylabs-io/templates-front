@@ -2,9 +2,11 @@
   <v-card
     class="pa-4 border-radius-16"
     :class="
-      layoutStore.isDarkTheme ? 'box-border-gray11 white--text' : 'black--text'
+      applicationStore.isDarkTheme
+        ? 'box-border-gray11 white--text'
+        : 'black--text'
     "
-    :style="'background:' + layoutStore.cardBackground + ' !important'"
+    :style="'background:' + applicationStore.cardBackground + ' !important'"
     elevation="0"
     outlined
   >
@@ -21,7 +23,7 @@
         text-center
         border-radius-8
       "
-      :style="'background: ' + layoutStore.pageBackground + ' !important'"
+      :style="'background: ' + applicationStore.pageBackground + ' !important'"
     >
       <div>You can share your thoughts after connecting your wallet</div>
       <div class="mt-4">
@@ -30,20 +32,22 @@
     </div>
     <div
       class="pa-4 mt-4 text-sm font-weight-regular border-radius-8"
-      :style="'background: ' + layoutStore.pageBackground + ' !important'"
+      :style="'background: ' + applicationStore.pageBackground + ' !important'"
     >
       <div class="d-flex justify-space-between align-center">
         <div class="d-flex align-center">
           <div
             class="rounded-circle mr-2"
-            :style="'background: ' + layoutStore.primaryColor + ' !important'"
+            :style="
+              'background: ' + applicationStore.primaryColor + ' !important'
+            "
           >
             <v-icon>mdi-account-circle</v-icon>
           </div>
           <div>
             <div class="d-flex">
               <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-              <v-icon small class="ml-2" :color="layoutStore.primaryColor"
+              <v-icon small class="ml-2" :color="applicationStore.primaryColor"
                 >mdi-launch</v-icon
               >
             </div>
@@ -61,11 +65,11 @@
     </div>
     <div class="mt-4">
       <v-pagination
-        :color="layoutStore.primaryColor"
+        :color="applicationStore.primaryColor"
         :length="vm.totalPage"
         :total-visible="vm.pageSize"
-        :dark="layoutStore.isDarkTheme"
-        :light="!layoutStore.isDarkTheme"
+        :dark="applicationStore.isDarkTheme"
+        :light="!applicationStore.isDarkTheme"
         v-model="vm.currentPage"
       >
       </v-pagination>
@@ -77,7 +81,7 @@ import { Observer } from "mobx-vue";
 import { Component, Inject, Vue } from "vue-property-decorator";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import ConnectMetamask from "@/components/wallet/ConnectMetamask.vue";
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 
 @Observer
 @Component({
@@ -89,7 +93,7 @@ import { layoutStore } from "@/stores/layout-store";
 export default class DetailProposalDiscussion extends Vue {
   @Inject() vm!: DaoViewModel;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 }
 </script>
 <style scoped>

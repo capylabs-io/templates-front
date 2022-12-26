@@ -15,10 +15,13 @@
 </template>
 
 <script lang="ts">
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 import { walletStore } from "@/stores/wallet-store";
 import { Vue, Component, Provide } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
+import { waitUntil } from "async-wait-until";
+import { loadingController } from "@/components/global-loading/global-loading-controller";
+import { snackController } from "@/components/snack-bar/snack-bar-controller";
 
 @Component({
   components: {
@@ -31,15 +34,21 @@ export default class CustomizeInterface extends Vue {
   @Provide() vm = new CustomizeInterfaceViewmodel();
 
   walletStore = walletStore;
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 
-  created() {
-    const appType = this.$route.query.type.toString();
-    this.vm.setAppType(appType);
-  }
-  mounted() {
-    if (!layoutStore.application?.theme) {
-      this.vm.setChoosingTheme(true);
+  async created() {
+    loadingController.increaseRequest();
+    try {
+      const appType = this.$route.query.type.toString();
+      this.vm.setAppType(appType);
+      await waitUntil(() => applicationStore.application != null);
+      if (!applicationStore.application?.theme) {
+        this.vm.setChoosingTheme(true);
+      }
+    } catch (error) {
+      snackController.error(error);
+    } finally {
+      loadingController.decreaseRequest();
     }
   }
 }

@@ -1,6 +1,6 @@
 import { get } from "lodash-es";
 import { ThemeModel } from "./../../../models/theme-model";
-import { layoutStore } from "./../../../stores/layout-store";
+import { applicationStore } from "../../../stores/application-store";
 import { ApplicationModel } from "./../../../models/application-model";
 import { action, computed, flow, observable, runInAction } from "mobx";
 import { loadingController } from "@/components/global-loading/global-loading-controller";
@@ -26,7 +26,7 @@ export class CustomizeInterfaceViewmodel {
 
   @observable socialMediaForm?: boolean = false;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 
   fetchThemes = flow(function* (this) {
     try {
@@ -50,7 +50,7 @@ export class CustomizeInterfaceViewmodel {
     if (!file) return;
     const formdata = new FormData();
     formdata.append("files", file);
-    formdata.append("appId", layoutStore.application!.appId.toString());
+    formdata.append("appId", applicationStore.application!.appId.toString());
     formdata.append("name", name);
 
     return await apiService.uploadApplicationFile(formdata);
@@ -59,30 +59,30 @@ export class CustomizeInterfaceViewmodel {
   updateApplicationMetadata = flow(function* (this) {
     try {
       loadingController.increaseRequest();
-      const application = layoutStore.application;
+      const application = applicationStore.application;
       const [tokenIconPath, bannerPath, sideBannerPath, brandLogoPath] = yield Promise.all([
-        this.uploadApplicationFile(layoutStore.tokenIconFile, "TokenIcon"),
-        this.uploadApplicationFile(layoutStore.bannerFile, "Banner"),
-        this.uploadApplicationFile(layoutStore.sideBannerFile, "SideBanner"),
-        this.uploadApplicationFile(layoutStore.brandLogoFile, "BrandLogo"),
+        this.uploadApplicationFile(applicationStore.tokenIconFile, "TokenIcon"),
+        this.uploadApplicationFile(applicationStore.bannerFile, "Banner"),
+        this.uploadApplicationFile(applicationStore.sideBannerFile, "SideBanner"),
+        this.uploadApplicationFile(applicationStore.brandLogoFile, "BrandLogo"),
       ]);
       yield apiService.updateAppMetadata({
         appId: application!!.appId,
-        isDarkTheme: layoutStore.isDarkTheme,
-        isNavDarkTheme: layoutStore.isNavDarkTheme,
-        primaryColor: layoutStore.primaryColor,
-        layout: layoutStore.layout,
-        font: layoutStore.font,
+        isDarkTheme: applicationStore.isDarkTheme,
+        isNavDarkTheme: applicationStore.isNavDarkTheme,
+        primaryColor: applicationStore.primaryColor,
+        layout: applicationStore.layout,
+        font: applicationStore.font,
         img: {
-          tokenIcon: tokenIconPath ? tokenIconPath.url : layoutStore.tokenIconPath,
-          banner: bannerPath ? bannerPath.url : layoutStore.bannerPath,
-          sideBanner: sideBannerPath ? sideBannerPath.url : layoutStore.sideBannerPath,
-          brandLogo: brandLogoPath ? brandLogoPath.url : layoutStore.brandLogoPath,
+          tokenIcon: tokenIconPath ? tokenIconPath.url : applicationStore.tokenIconPath,
+          banner: bannerPath ? bannerPath.url : applicationStore.bannerPath,
+          sideBanner: sideBannerPath ? sideBannerPath.url : applicationStore.sideBannerPath,
+          brandLogo: brandLogoPath ? brandLogoPath.url : applicationStore.brandLogoPath,
         },
-        socialMedias: layoutStore.socialMedias,
+        socialMedias: applicationStore.socialMedias,
       });
       yield apiService.applications.update(application!.id, {
-        theme: layoutStore.themeConfig?.id,
+        theme: applicationStore.themeConfig?.id,
       });
       snackController.success("Save config successfully!");
       appProvider.router.push({
@@ -100,7 +100,7 @@ export class CustomizeInterfaceViewmodel {
   }
 
   @action setThemeConfig(value: ThemeModel) {
-    this.layoutStore.themeConfig = value;
+    this.applicationStore.themeConfig = value;
   }
 
   @action setAppType(val: string) {
@@ -108,43 +108,43 @@ export class CustomizeInterfaceViewmodel {
   }
 
   @action setPrimaryColor(val: string) {
-    this.layoutStore.setPrimaryColor(val);
+    this.applicationStore.setPrimaryColor(val);
   }
 
   @action addSocialMedia() {
-    this.layoutStore.socialMedias.push({
-      ...this.layoutStore.defaultLayoutConfig.mediaIcons.TelegramCommunity,
+    this.applicationStore.socialMedias.push({
+      ...this.applicationStore.defaultLayoutConfig.mediaIcons.TelegramCommunity,
       url: "",
     });
   }
 
   @action removeSocialMedia(index: number) {
-    this.layoutStore.socialMedias.splice(index, 1);
+    this.applicationStore.socialMedias.splice(index, 1);
   }
 
   @action changeSocialMediaIcon(index: number, val: any) {
-    this.layoutStore.socialMedias.splice(index, 1, {
+    this.applicationStore.socialMedias.splice(index, 1, {
       icon: val.icon || "",
       title: val.title || "",
-      url: this.layoutStore.socialMedias[index].url,
+      url: this.applicationStore.socialMedias[index].url,
     });
   }
 
   @action changeSocialMediaUrl(index: number, val: string) {
-    this.layoutStore.socialMedias[index].url = val;
+    this.applicationStore.socialMedias[index].url = val;
   }
 
   @action changeBrandLogo(file: any) {
-    layoutStore.brandLogoFile = file;
+    applicationStore.brandLogoFile = file;
   }
   @action changeTokenIcon(file: any) {
-    layoutStore.tokenIconFile = file;
+    applicationStore.tokenIconFile = file;
   }
   @action changeBanner(file: any) {
-    layoutStore.bannerFile = file;
+    applicationStore.bannerFile = file;
   }
   @action changeSideBanner(file: any) {
-    layoutStore.sideBannerFile = file;
+    applicationStore.sideBannerFile = file;
   }
 
   get appMainPages() {

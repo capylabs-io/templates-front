@@ -2,17 +2,19 @@
   <v-card
     class="pa-4 border-radius-16"
     :class="
-      layoutStore.isDarkTheme ? 'box-border-gray11 white--text' : 'black--text'
+      applicationStore.isDarkTheme
+        ? 'box-border-gray11 white--text'
+        : 'black--text'
     "
-    :style="'background:' + layoutStore.cardColor + ' !important;'"
-    :outlined="layoutStore.isDarkTheme"
+    :style="'background:' + applicationStore.cardColor + ' !important;'"
+    :outlined="applicationStore.isDarkTheme"
     elevation="0"
   >
     <div class="d-inline-flex justify-space-between full-width">
       <div class="d-flex align-center dao-title">
         <CoverImage
           class="token-icon mr-2"
-          :imageUrl="layoutStore.tokenIcon"
+          :imageUrl="applicationStore.tokenIcon"
           :defaultImageUrl="require('@/assets/axie-icon.png')"
         />
         <v-tooltip top>
@@ -22,11 +24,11 @@
               v-bind="attrs"
               v-on="on"
             >
-              {{ layoutStore.application?.name }}
+              {{ applicationStore.application?.name }}
             </div>
           </template>
           <span class="font-weight-bold">
-            {{ layoutStore.application?.name }}</span
+            {{ applicationStore.application?.name }}</span
           >
         </v-tooltip>
       </div>
@@ -35,26 +37,26 @@
         <span>Members (194)</span>
         <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
         <span>Params</span>
-        <v-icon class="ml-4" :color="layoutStore.primaryColor"
+        <v-icon class="ml-4" :color="applicationStore.primaryColor"
           >mdi-launch</v-icon
         >
       </div>
     </div>
     <div
       class="pa-1 w-fit-content text-capitalize border-radius-8 mt-3"
-      :class="{ 'box-border-gray11': layoutStore.isDarkTheme }"
-      :style="'background:' + layoutStore.accentColor + ' !important'"
+      :class="{ 'box-border-gray11': applicationStore.isDarkTheme }"
+      :style="'background:' + applicationStore.accentColor + ' !important'"
     >
       <v-btn
         text
         class="text-capitalize"
         :class="{
-          'white--text': layoutStore.isDarkTheme,
-          'black--text': !layoutStore.isDarkTheme && !showProposals,
+          'white--text': applicationStore.isDarkTheme,
+          'black--text': !applicationStore.isDarkTheme && !showProposals,
         }"
         :style="
           showProposals
-            ? 'background:' + layoutStore.primaryColor + ' !important'
+            ? 'background:' + applicationStore.primaryColor + ' !important'
             : ''
         "
         @click="showProposals = true"
@@ -64,12 +66,12 @@
         text
         class="text-capitalize"
         :class="{
-          'white--text': layoutStore.isDarkTheme,
-          'black--text': !layoutStore.isDarkTheme && showProposals,
+          'white--text': applicationStore.isDarkTheme,
+          'black--text': !applicationStore.isDarkTheme && showProposals,
         }"
         :style="
           !showProposals
-            ? 'background:' + layoutStore.primaryColor + ' !important'
+            ? 'background:' + applicationStore.primaryColor + ' !important'
             : ''
         "
         @click="showProposals = false"
@@ -87,7 +89,7 @@ import { Component, Inject, Prop, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import Proposals from "./_Proposals.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 @Observer
 @Component({
   components: {
@@ -99,7 +101,7 @@ export default class SolendDao extends Vue {
   @Inject() vm!: DaoViewModel;
   @Prop({ default: false }) isSmall!: boolean;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
   showProposals = true;
 }
 </script>

@@ -11,7 +11,7 @@
           </div>
           <CoverImage
             class="dao-side-banner mt-6 border-radius-16"
-            :imageUrl="layoutStore.sideBanner"
+            :imageUrl="applicationStore.sideBanner"
             :defaultImageUrl="
               require('@/assets/webservice/dao/default-side-banner.jpg')
             "
@@ -35,7 +35,7 @@
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { DaoViewModel } from "../../models/dao-viewmodels";
 import { Responsive } from "vue-responsive-components";
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 
 @Component({
   components: {
@@ -51,6 +51,6 @@ import { layoutStore } from "@/stores/layout-store";
 export default class ProposalDaoLayout2 extends Vue {
   @Inject() vm!: DaoViewModel;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 }
 </script>

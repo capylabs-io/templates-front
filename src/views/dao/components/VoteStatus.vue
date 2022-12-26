@@ -1,14 +1,14 @@
 <template>
   <div
     class="d-flex align-center border-radius-16"
-    :style="'background:' + layoutStore.cardBackground + ' !important'"
+    :style="'background:' + applicationStore.cardBackground + ' !important'"
   >
     <div class="d-flex align-center pa-2">
       <v-icon color="success" small>mdi-thumb-up</v-icon>
       <div class="ml-2">Yes</div>
     </div>
     <v-divider
-      :color="layoutStore.isDarkTheme ? 'black' : 'white'"
+      :color="applicationStore.isDarkTheme ? 'black' : 'white'"
       vertical
     ></v-divider>
     <div class="pa-2">999999 SLND</div>
@@ -19,7 +19,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { Responsive } from "vue-responsive-components";
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 
 @Observer
 @Component({
@@ -31,6 +31,6 @@ export default class VoteStatus extends Vue {
   @Prop({ default: "executing" }) status?: string;
   @Prop({ default: "0" }) voteAmount?: string;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 }
 </script>

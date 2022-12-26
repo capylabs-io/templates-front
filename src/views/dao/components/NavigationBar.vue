@@ -1,28 +1,30 @@
 <template>
   <v-app-bar
-    :style="'background:' + layoutStore.navColor + ' !important'"
-    :light="!layoutStore.isNavDarkTheme"
-    :dark="layoutStore.isNavDarkTheme"
+    :style="'background:' + applicationStore.navColor + ' !important'"
+    :light="!applicationStore.isNavDarkTheme"
+    :dark="applicationStore.isNavDarkTheme"
     elevation="0"
   >
     <div class="full-width d-flex align-center justify-space-between px-2">
       <div
         class="font-weight-bold"
-        v-if="!layoutStore.brandLogoFile && !layoutStore.brandLogoPath"
+        v-if="
+          !applicationStore.brandLogoFile && !applicationStore.brandLogoPath
+        "
       >
         Your Logo Here
       </div>
       <CoverImage
         class="brand-logo"
-        :imageUrl="layoutStore.brandLogo"
+        :imageUrl="applicationStore.brandLogo"
+        :contain="true"
         defaultImageUrl=""
-        contain
         v-else
       />
       <v-btn
         class="text-none"
         elevation="0"
-        :color="layoutStore.primaryColor"
+        :color="applicationStore.primaryColor"
         dark
         >Connect Wallet</v-btn
       >
@@ -31,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { DaoViewModel } from "../models/dao-viewmodels";
 
@@ -42,7 +44,7 @@ import { DaoViewModel } from "../models/dao-viewmodels";
 })
 export default class DaoNavigationBar extends Vue {
   @Inject() vm!: DaoViewModel;
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 }
 </script>
 

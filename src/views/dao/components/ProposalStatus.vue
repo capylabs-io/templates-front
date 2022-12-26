@@ -23,7 +23,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { Responsive } from "vue-responsive-components";
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 
 @Observer
 @Component({
@@ -35,7 +35,7 @@ export default class ProposalStatus extends Vue {
   @Prop({ default: "executing" }) status!: string;
   @Prop({ default: false }) isSmall!: boolean;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 
   get statusColor() {
     switch (this.status) {
@@ -45,12 +45,12 @@ export default class ProposalStatus extends Vue {
         return "error";
       case "voting":
       case "executing":
-        return layoutStore.isDarkTheme ? "white" : "black";
+        return applicationStore.isDarkTheme ? "white" : "black";
       case "cancelled":
       case "draft":
         return "gray5";
       default:
-        return layoutStore.isDarkTheme ? "white" : "black";
+        return applicationStore.isDarkTheme ? "white" : "black";
     }
   }
 

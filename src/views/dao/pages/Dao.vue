@@ -1,15 +1,18 @@
 <template>
   <div
-    :style="'font-family: \'' + layoutStore.font + '\', sans-serif !important;'"
+    :style="
+      'font-family: \'' + applicationStore.font + '\', sans-serif !important;'
+    "
   >
     <DaoNavigationBar />
     <div
       class="dao-content"
       :style="{
-        'background-color': layoutStore.pageBackground + ' !important',
-        'background-image': 'url(' + layoutStore.backgroundUrl + ') !important',
+        'background-color': applicationStore.pageBackground + ' !important',
+        'background-image':
+          'url(' + applicationStore.backgroundUrl + ') !important',
       }"
-      :class="layoutStore.isDarkTheme ? 'white--text' : 'black--text'"
+      :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
     >
       <div v-if="vm.isReview">
         <div v-if="vm.reviewPage == 'management'">
@@ -69,7 +72,7 @@ import Programs from "../components/_Programs.vue";
 import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import AddProposal from "../components/Add-Proposal.vue";
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 
 @Observer
 @Component({
@@ -93,7 +96,7 @@ export default class Dao extends Vue {
   @Prop({ default: true }) isReview?: boolean;
   @Prop({ default: "management" }) reviewPage?: string;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 
   @Watch("isReview", { immediate: true }) onIsReviewChanged(val: boolean) {
     this.vm.setIsReview(val);

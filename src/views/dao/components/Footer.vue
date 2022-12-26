@@ -1,8 +1,8 @@
 <template>
   <v-footer
-    :style="'background:' + layoutStore.navColor + ' !important'"
-    :light="!layoutStore.isNavDarkTheme"
-    :dark="layoutStore.isNavDarkTheme"
+    :style="'background:' + applicationStore.navColor + ' !important'"
+    :light="!applicationStore.isNavDarkTheme"
+    :dark="applicationStore.isNavDarkTheme"
     class="dao-footer"
   >
     <v-row class="full-width d-flex justify-space-between px-2 align-center">
@@ -10,7 +10,7 @@
       <v-col cols="6" class="d-flex align-center justify-center">
         <div :key="key">
           <v-btn
-            v-for="(socialMedia, index) in layoutStore.socialMedias"
+            v-for="(socialMedia, index) in applicationStore.socialMedias"
             @click="onSocialMediaClicked(socialMedia.url)"
             :key="index"
             icon
@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
@@ -47,7 +47,7 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 export default class DaoNavigationBar extends Vue {
   @Prop({ default: false }) isReview!: boolean;
 
-  @Watch("layoutStore.socialMedias", { immediate: true, deep: true })
+  @Watch("applicationStore.socialMedias", { immediate: true, deep: true })
   onSocialMediaChanged() {
     this.forceRender();
   }
@@ -57,7 +57,7 @@ export default class DaoNavigationBar extends Vue {
   }
 
   key = 1;
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 
   forceRender() {
     this.key += 1;

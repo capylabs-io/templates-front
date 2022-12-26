@@ -5,16 +5,10 @@
       class="theme-card border-gray-11 border-radius-16"
       :class="{
         'on-hover cursor-pointer': hover,
-        'on-hover': layoutStore.themeConfig?.id == theme?.id,
+        'on-hover': applicationStore.themeConfig?.id == theme?.id,
       }"
       @click="chooseTheme()"
     >
-      <!-- <v-img
-        class="white--text align-end"
-        height="200px"
-        :src="require('@/assets/CardService/card-bg2.png')"
-      >
-      </v-img> -->
       <CoverImage :imageUrl="theme?.coverImage" />
       <div class="d-flex justify-space-between align-center pa-4">
         <div>
@@ -39,7 +33,7 @@
 
 <script lang="ts">
 import { ThemeModel } from "@/models/theme-model";
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 import { CustomizeInterfaceViewmodel } from "@/views/customize-interface/models/customize-interface-viewmodel";
 import { Vue, Component, Prop, Inject } from "vue-property-decorator";
 
@@ -50,12 +44,14 @@ import { Vue, Component, Prop, Inject } from "vue-property-decorator";
 })
 export default class ThemeCard extends Vue {
   @Prop() theme!: ThemeModel;
-  @Inject() vm!: CustomizeInterfaceViewmodel;
+  @Prop({ default: false }) contain?: boolean;
+  @Inject()
+  vm!: CustomizeInterfaceViewmodel;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 
   chooseTheme() {
-    layoutStore.setupThemeConfig(this.theme);
+    applicationStore.setupThemeConfig(this.theme);
     this.vm.setChoosingTheme(false);
   }
 

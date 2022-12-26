@@ -2,11 +2,13 @@
   <v-card
     class="pa-4 border-radius-16 text-sm font-weight-regular"
     :class="
-      layoutStore.isDarkTheme ? 'box-border-gray11 white--text' : 'black--text'
+      applicationStore.isDarkTheme
+        ? 'box-border-gray11 white--text'
+        : 'black--text'
     "
     :style="{
-      background: layoutStore.cardBackground + ' !important',
-      color: layoutStore.isDarkTheme ? 'white' : 'black',
+      background: applicationStore.cardBackground + ' !important',
+      color: applicationStore.isDarkTheme ? 'white' : 'black',
     }"
     elevation="0"
     outlined
@@ -19,7 +21,9 @@
           </div>
           <div
             class="align-center px-2 py-1 border-radius-8 ml-3"
-            :style="'background:' + layoutStore.pageBackground + ' !important'"
+            :style="
+              'background:' + applicationStore.pageBackground + ' !important'
+            "
             v-if="!vm.isVoteDone"
           >
             <Countdown :targetDate="vm.voteEnd" />
@@ -27,17 +31,17 @@
         </div>
         <div
           class="d-flex cursor-pointer align-center text-sm"
-          :style="'color:' + layoutStore.primaryColor"
+          :style="'color:' + applicationStore.primaryColor"
         >
           <span>View</span>
-          <v-icon :color="layoutStore.primaryColor" small>
+          <v-icon :color="applicationStore.primaryColor" small>
             mdi-chevron-right</v-icon
           >
         </div>
       </div>
       <div
         class="vote-info pa-4 mt-4"
-        :style="'background:' + layoutStore.pageBackground + ' !important'"
+        :style="'background:' + applicationStore.pageBackground + ' !important'"
       >
         <div class="d-flex justify-space-between">
           <div class="text-left">
@@ -47,7 +51,7 @@
               <div>1,500,232</div>
               <div
                 class="text-sm ml-2"
-                :style="{ color: layoutStore.primaryColor }"
+                :style="{ color: applicationStore.primaryColor }"
               >
                 (75%)
               </div>
@@ -59,7 +63,7 @@
             <div class="d-flex align-center text-xl font-weight-bold">
               <div
                 class="text-sm mr-2"
-                :style="{ color: layoutStore.primaryColor }"
+                :style="{ color: applicationStore.primaryColor }"
               >
                 (25%)
               </div>
@@ -77,7 +81,7 @@
       </div>
       <div
         class="vote-info pa-4 mt-4"
-        :style="'background:' + layoutStore.pageBackground + ' !important'"
+        :style="'background:' + applicationStore.pageBackground + ' !important'"
         v-if="!vm.isVoteDone"
       >
         <div class="d-flex justify-space-between align-center">
@@ -89,7 +93,7 @@
           height="12px"
           class="rounded-xl mt-2"
           value="100"
-          :color="layoutStore.primaryColor"
+          :color="applicationStore.primaryColor"
         ></v-progress-linear>
       </div>
       <div class="text-lg text-center mt-4" v-if="!vm.isVoted">
@@ -100,9 +104,9 @@
           <v-btn
             class="full-width border-radius-8 text-none py-5"
             @click="vm.changeVoteConfirmDialog(true)"
-            :color="layoutStore.isDarkTheme ? 'gray11' : 'gray2'"
-            :light="!layoutStore.isDarkTheme"
-            :dark="layoutStore.isDarkTheme"
+            :color="applicationStore.isDarkTheme ? 'gray11' : 'gray2'"
+            :light="!applicationStore.isDarkTheme"
+            :dark="applicationStore.isDarkTheme"
             elevation="0"
           >
             <div class="d-flex align-center">
@@ -117,9 +121,9 @@
           <v-btn
             class="full-width border-radius-8 text-none py-5"
             @click="vm.changeVoteConfirmDialog(false)"
-            :color="layoutStore.isDarkTheme ? 'gray11' : 'gray2'"
-            :light="!layoutStore.isDarkTheme"
-            :dark="layoutStore.isDarkTheme"
+            :color="applicationStore.isDarkTheme ? 'gray11' : 'gray2'"
+            :light="!applicationStore.isDarkTheme"
+            :dark="applicationStore.isDarkTheme"
             elevation="0"
           >
             <div class="d-flex align-center">
@@ -146,7 +150,7 @@ import { Observer } from "mobx-vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import Countdown from "@/components/Countdown.vue";
 import VoteConfrimDialog from "../dialog/Vote-Confirm-Dialog.vue";
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 @Observer
 @Component({
   components: {
@@ -157,7 +161,7 @@ import { layoutStore } from "@/stores/layout-store";
 export default class Voting extends Vue {
   @Inject() vm!: DaoViewModel;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 }
 </script>
 <style scoped>

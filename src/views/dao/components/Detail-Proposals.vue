@@ -2,24 +2,26 @@
   <v-card
     class="pa-4 border-radius-16"
     :class="
-      layoutStore.isDarkTheme ? 'box-border-gray11 white--text' : 'black--text'
+      applicationStore.isDarkTheme
+        ? 'box-border-gray11 white--text'
+        : 'black--text'
     "
-    :style="'background:' + layoutStore.cardBackground + ' !important'"
+    :style="'background:' + applicationStore.cardBackground + ' !important'"
     elevation="0"
     outlined
   >
     <div class="d-flex justify-space-between align-center">
       <v-btn class="px-0 ml-n2 btn-text" @click="vm.backSolendDao()" text>
-        <v-icon :color="layoutStore.primaryColor" small>
+        <v-icon :color="applicationStore.primaryColor" small>
           mdi-chevron-left</v-icon
         >
         <span
           class="text-capitalize"
-          :style="'color:' + layoutStore.primaryColor + ' !important'"
+          :style="'color:' + applicationStore.primaryColor + ' !important'"
           >Back</span
         >
       </v-btn>
-      <v-btn :color="layoutStore.primaryColor" icon>
+      <v-btn :color="applicationStore.primaryColor" icon>
         <v-icon class="ml-4">mdi-launch</v-icon>
       </v-btn>
     </div>
@@ -33,7 +35,7 @@
     </div>
     <div
       class="pa-4 mt-4 text-sm font-weight-regular border-radius-8"
-      :style="'background:' + layoutStore.pageBackground + ' !important'"
+      :style="'background:' + applicationStore.pageBackground + ' !important'"
     >
       {{ vm.currentProposal?.description }}
     </div>
@@ -77,7 +79,7 @@
   </v-card>
 </template>
 <script lang="ts">
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 import { Observer } from "mobx-vue";
 import { Component, Inject, Vue } from "vue-property-decorator";
 import { DaoViewModel } from "../models/dao-viewmodels";
@@ -91,7 +93,7 @@ import { DaoViewModel } from "../models/dao-viewmodels";
 export default class DetailProposal extends Vue {
   @Inject() vm!: DaoViewModel;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 }
 </script>
 <style scoped>

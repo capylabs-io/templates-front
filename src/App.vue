@@ -2,13 +2,13 @@
   <v-app>
     <SnackBar />
     <GlobalLoading />
+    <ConfirmDialog />
+
     <NavigationBar v-if="!isEndUser" />
     <v-main style="overflow-y: hidden">
-      <div>
-        <v-scroll-x-reverse-transition mode="out-in" appear>
-          <router-view> </router-view>
-        </v-scroll-x-reverse-transition>
-      </div>
+      <v-scroll-x-reverse-transition mode="out-in" appear>
+        <router-view> </router-view>
+      </v-scroll-x-reverse-transition>
     </v-main>
     <Footer class="footer" v-if="!isEndUser" />
   </v-app>
@@ -61,6 +61,9 @@ export default class App extends Vue {
 }
 .full-height {
   height: 100% !important;
+}
+.fill {
+  flex: 1 0 100%;
 }
 .cursor-pointer {
   cursor: pointer;

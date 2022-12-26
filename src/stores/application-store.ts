@@ -1,10 +1,10 @@
-import { ThemeModel } from "./../models/theme-model";
+import { ThemeModel } from "../models/theme-model";
 import vuetify from "@/plugins/vuetify";
 import { action, computed, observable, runInAction, flow, makeAutoObservable } from "mobx";
 import defaultLayoutConfig from "@/config/defaultLayoutConfig.json";
 import { ApplicationModel } from "@/models/application-model";
 import { get } from "lodash";
-export class LayoutStore {
+export class ApplicationStore {
   @observable application?: ApplicationModel;
   @observable themeConfig?: ThemeModel;
   @observable metadata?: any;
@@ -52,8 +52,12 @@ export class LayoutStore {
 
     this.isDarkTheme = get(theme, "isDarkTheme", true);
     this.isNavDarkTheme = get(theme, "isDarkNav", true);
-    this.fonts = get(theme, "fonts", layoutStore.defaultLayoutConfig.defaultFonts);
-    this.primaryColors = get(theme, "primaryColors", layoutStore.defaultLayoutConfig.defaultPrimaryColors);
+    this.fonts = get(theme, "fonts", applicationStore.defaultLayoutConfig.defaultFonts);
+    this.primaryColors = get(
+      theme,
+      "primaryColors",
+      applicationStore.defaultLayoutConfig.defaultPrimaryColors
+    );
 
     this.backgroundUrl = get(
       theme,
@@ -164,4 +168,4 @@ export class LayoutStore {
   }
 }
 
-export const layoutStore = new LayoutStore();
+export const applicationStore = new ApplicationStore();

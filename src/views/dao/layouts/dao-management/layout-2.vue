@@ -3,7 +3,7 @@
     <div class="d-flex flex-column" slot-scope="el">
       <CoverImage
         class="full-width dao-banner"
-        :imageUrl="layoutStore.banner"
+        :imageUrl="applicationStore.banner"
         :defaultImageUrl="require('@/assets/webservice/dao/default-banner.jpg')"
         cover
       />
@@ -14,7 +14,7 @@
             <div class="dao-side-banner">
               <CoverImage
                 class="border-radius-16 full-width mt-6"
-                :imageUrl="layoutStore.sideBanner"
+                :imageUrl="applicationStore.sideBanner"
                 :defaultImageUrl="
                   require('@/assets/webservice/dao/default-side-banner.jpg')
                 "
@@ -35,7 +35,7 @@
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { DaoViewModel } from "../../models/dao-viewmodels";
 import { Responsive } from "vue-responsive-components";
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 
 @Component({
   components: {
@@ -48,7 +48,7 @@ import { layoutStore } from "@/stores/layout-store";
 export default class DaoManagementLayout2 extends Vue {
   @Inject() vm!: DaoViewModel;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 }
 </script>
 

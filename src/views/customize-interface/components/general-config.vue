@@ -3,7 +3,7 @@
     <!-- <div class="mb-4">
       <div class="text-sm font-weight-bold mb-2">Content Theme Mode</div>
       <v-btn-toggle
-        v-model="layoutStore.isDarkTheme"
+        v-model="applicationStore.isDarkTheme"
         color="primary"
         flat
         dense
@@ -21,7 +21,7 @@
     <div class="mb-4">
       <div class="text-sm font-weight-bold mb-2">Header & Footer Mode</div>
       <v-btn-toggle
-        v-model="layoutStore.isNavDarkTheme"
+        v-model="applicationStore.isNavDarkTheme"
         color="primary"
         flat
         dense
@@ -40,8 +40,8 @@
       <div class="text-sm font-weight-bold">Primary Color</div>
       <div class="mt-2">
         <SimpleSwatches
-          :colors="layoutStore.primaryColors"
-          :currentColor="layoutStore.primaryColor"
+          :colors="applicationStore.primaryColors"
+          :currentColor="applicationStore.primaryColor"
           @onColorClick="vm.setPrimaryColor($event)"
         />
       </div>
@@ -49,8 +49,8 @@
     <div class="mt-5">
       <div class="text-sm font-weight-bold mb-1">Font</div>
       <v-select
-        v-model="layoutStore.font"
-        :items="layoutStore.fonts"
+        v-model="applicationStore.font"
+        :items="applicationStore.fonts"
         hide-details
         outlined
         dense
@@ -59,8 +59,8 @@
     <div class="mt-5">
       <div class="text-sm font-weight-bold mb-1">Layout</div>
       <v-select
-        v-model="layoutStore.layout"
-        :items="layoutStore.defaultLayoutConfig.layouts"
+        v-model="applicationStore.layout"
+        :items="applicationStore.defaultLayoutConfig.layouts"
         item-text="title"
         item-value="value"
         hide-details
@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts">
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
 
@@ -85,6 +85,6 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
 export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 }
 </script>

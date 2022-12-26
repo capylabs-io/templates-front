@@ -2,8 +2,6 @@ import { walletStore } from "@/stores/wallet-store";
 import { when } from "mobx";
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import HomeView from "../views/home/pages/Home.vue";
-import ManagementView from "../views/management/pages/Management.vue";
 
 Vue.use(VueRouter);
 
@@ -30,8 +28,19 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/management",
-    name: "Management",
-    component: ManagementView,
+    name: "ApplicationManagement",
+    component: () => import("@/views/management/pages/Management.vue"),
+    meta: {
+      title: "Application Management",
+    },
+  },
+  {
+    path: "/trash",
+    name: "TrashManagement",
+    component: () => import("@/views/management/pages/Trash.vue"),
+    meta: {
+      title: "Trash Management",
+    },
   },
   {
     path: "/dao/:appId",

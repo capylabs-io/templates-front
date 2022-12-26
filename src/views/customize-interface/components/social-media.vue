@@ -3,15 +3,15 @@
     <v-form v-model="vm.socialMediaForm" ref="socialMediaForm">
       <div
         class="d-flex"
-        v-for="(socialMedia, index) in layoutStore.socialMedias"
+        v-for="(socialMedia, index) in applicationStore.socialMedias"
         :key="index"
       >
         <div class="d-flex align-center">
           <v-select
             class="media-select"
             color="primary"
-            :value="layoutStore.socialMedias[index].title"
-            :items="layoutStore.socialMediaIcons"
+            :value="applicationStore.socialMedias[index].title"
+            :items="applicationStore.socialMediaIcons"
             @input="vm.changeSocialMediaIcon(index, $event)"
             item-value="title"
             return-object
@@ -35,7 +35,7 @@
           </v-select>
           <v-text-field
             @change="vm.changeSocialMediaUrl(index, $event)"
-            :value="layoutStore.socialMedias[index].url"
+            :value="applicationStore.socialMedias[index].url"
             :rules="[$rules.required, $rules.url]"
             outlined
             dense
@@ -43,7 +43,7 @@
         </div>
         <v-btn
           @click.stop="vm.removeSocialMedia(index)"
-          :disabled="layoutStore.socialMedias.length <= 1"
+          :disabled="applicationStore.socialMedias.length <= 1"
           icon
         >
           <v-icon>mdi-trash-can</v-icon>
@@ -55,7 +55,7 @@
           elevation="0"
           color="primary"
           @click.stop="vm.addSocialMedia()"
-          v-if="layoutStore.socialMedias.length <= 9"
+          v-if="applicationStore.socialMedias.length <= 9"
         >
           Add
           <v-icon class="ml-1" small>mdi-plus</v-icon>
@@ -66,7 +66,7 @@
 </template>
   
   <script lang="ts">
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
 
@@ -76,7 +76,7 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
 export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 }
 </script>
 

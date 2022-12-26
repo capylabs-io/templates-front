@@ -1,4 +1,4 @@
-import { layoutStore } from "./../../../stores/layout-store";
+import { applicationStore } from "../../../stores/application-store";
 import { ProposalModel } from "./../../../models/proposal-model";
 import { DaoSettingModel } from "./../../../models/dao-setting-model";
 import { walletStore } from "@/stores/wallet-store";
@@ -89,7 +89,7 @@ export class DaoViewModel {
   // Member
   @observable openMemberFlag = false;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 
   createApplication = flow(function* (this) {
     try {
@@ -125,7 +125,7 @@ export class DaoViewModel {
         this.pushBackHome("Application does not exist!");
 
       const application = res.applications[0];
-      this.layoutStore.application = application;
+      this.applicationStore.application = application;
       this.daoSetting = application.dao_setting;
 
       if (!application || !application.service || !application.dao_setting)
@@ -148,8 +148,8 @@ export class DaoViewModel {
         this.isProposalDetail = true;
       }
 
-      this.layoutStore.setupThemeConfig(application.theme);
-      this.layoutStore.setupMetadata(application.metadata);
+      if (!this.applicationStore.themeConfig) this.applicationStore.setupThemeConfig(application.theme);
+      this.applicationStore.setupMetadata(application.metadata);
     } catch (err: any) {
       console.error("err", err);
       this.pushBackHome(`Error occurred, please try again later!`);

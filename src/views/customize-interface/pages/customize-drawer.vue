@@ -55,7 +55,7 @@
             <div>
               Social Media
               <v-chip color="primary" class="ml-1" small>{{
-                layoutStore.socialMedias.length
+                applicationStore.socialMedias.length
               }}</v-chip>
             </div>
           </v-expansion-panel-header>
@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
 
@@ -109,7 +109,7 @@ export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
 
   panel: number = 0;
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 
   onBtnSaveClicked() {
     // if (!(this.$refs.layoutForm as any).validate()) return;
