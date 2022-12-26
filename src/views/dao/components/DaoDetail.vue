@@ -36,8 +36,8 @@
         <v-icon class="mr-1" color="gray6" small>mdi-account-multiple</v-icon>
         <span>Members (194)</span>
         <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
-        <span>Params</span>
-        <v-icon class="ml-4" :color="applicationStore.primaryColor"
+        <a>Params</a>
+        <v-icon class="ml-4" :color="layoutStore.primaryColor"
           >mdi-launch</v-icon
         >
       </div>

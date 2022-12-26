@@ -15,6 +15,7 @@ export class CustomizeInterfaceViewmodel {
   @observable selectedPage?: string = "management";
 
   @observable isChoosingTheme = false;
+  @observable isChoosingParams = false;
   @observable themeConfig?: ThemeModel;
 
   @observable themes?: ThemeModel[];
