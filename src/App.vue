@@ -5,9 +5,11 @@
     <ConfirmDialog />
     <NavigationBar v-if="!isEndUser" />
     <v-main style="overflow-y: hidden">
-      <v-scroll-x-reverse-transition mode="out-in" appear>
-        <router-view> </router-view>
-      </v-scroll-x-reverse-transition>
+      <div class="full-width full-height">
+        <v-scroll-x-reverse-transition mode="out-in" appear>
+          <router-view> </router-view>
+        </v-scroll-x-reverse-transition>
+      </div>
     </v-main>
     <Footer class="footer" v-if="!isEndUser" />
   </v-app>
