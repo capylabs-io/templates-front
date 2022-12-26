@@ -1,5 +1,10 @@
 <template>
-  <v-overlay z-index="998" :value="controller.requesting" style="z-index: 999">
+  <v-overlay
+    z-index="998"
+    :value="controller.requesting"
+    style="z-index: 999"
+    opacity="0.8"
+  >
     <v-progress-circular indeterminate size="32"></v-progress-circular>
   </v-overlay>
 </template>

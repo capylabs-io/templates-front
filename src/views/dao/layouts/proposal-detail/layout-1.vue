@@ -17,15 +17,15 @@
           <div class="mt-6">
             <Voting />
           </div>
-          <!-- <v-img class="border-radius-16" :src="sideBannerPath" cover /> -->
-          <CoverImage
-            class="dao-side-banner mt-6 border-radius-16"
-            :imageUrl="applicationStore.sideBanner"
-            :defaultImageUrl="
-              require('@/assets/webservice/dao/default-side-banner.jpg')
-            "
-            cover
-          />
+          <div class="mt-6">
+            <CoverImage
+              class="dao-side-banner border-radius-16 full-width"
+              :imageUrl="applicationStore.sideBanner"
+              :defaultImageUrl="
+                require('@/assets/webservice/dao/default-side-banner.jpg')
+              "
+            />
+          </div>
         </v-col>
       </v-row>
     </div>

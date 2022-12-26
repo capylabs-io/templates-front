@@ -6,7 +6,7 @@
         ? 'box-border-gray11 white--text'
         : 'black--text'
     "
-    :style="'background:' + applicationStore.cardBackground + ' !important'"
+    :style="'background:' + applicationStore.cardColor + ' !important'"
     elevation="0"
     outlined
   >
@@ -35,7 +35,12 @@
     </div>
     <div
       class="pa-4 mt-4 text-sm font-weight-regular border-radius-8"
-      :style="'background:' + applicationStore.pageBackground + ' !important'"
+      :style="'background:' + applicationStore.accentColor + ' !important'"
+      :class="
+        applicationStore.isDarkTheme
+          ? 'white--text box-border-gray11'
+          : 'black--text'
+      "
     >
       {{ vm.currentProposal?.description }}
     </div>

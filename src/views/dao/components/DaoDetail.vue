@@ -115,9 +115,11 @@ export default class SolendDao extends Vue {
   max-height: 24px;
 }
 .dao-side-banner {
-  max-width: 432px;
+  /* max-width: 432px; */
+  aspect-ratio: 3 / 4;
 }
 .dao-banner {
   max-height: 220px;
+  aspect-ratio: 8 / 1;
 }
 </style>

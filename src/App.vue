@@ -3,7 +3,6 @@
     <SnackBar />
     <GlobalLoading />
     <ConfirmDialog />
-
     <NavigationBar v-if="!isEndUser" />
     <v-main style="overflow-y: hidden">
       <v-scroll-x-reverse-transition mode="out-in" appear>

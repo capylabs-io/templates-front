@@ -7,7 +7,7 @@
         : 'black--text'
     "
     :style="{
-      background: applicationStore.cardBackground + ' !important',
+      background: applicationStore.cardColor + ' !important',
       color: applicationStore.isDarkTheme ? 'white' : 'black',
     }"
     elevation="0"
@@ -22,7 +22,12 @@
           <div
             class="align-center px-2 py-1 border-radius-8 ml-3"
             :style="
-              'background:' + applicationStore.pageBackground + ' !important'
+              'background:' + applicationStore.accentColor + ' !important'
+            "
+            :class="
+              applicationStore.isDarkTheme
+                ? 'white--text box-border-gray11'
+                : 'black--text'
             "
             v-if="!vm.isVoteDone"
           >
@@ -41,7 +46,12 @@
       </div>
       <div
         class="vote-info pa-4 mt-4"
-        :style="'background:' + applicationStore.pageBackground + ' !important'"
+        :style="'background:' + applicationStore.accentColor + ' !important'"
+        :class="
+          applicationStore.isDarkTheme
+            ? 'white--text box-border-gray11'
+            : 'black--text'
+        "
       >
         <div class="d-flex justify-space-between">
           <div class="text-left">
@@ -81,7 +91,12 @@
       </div>
       <div
         class="vote-info pa-4 mt-4"
-        :style="'background:' + applicationStore.pageBackground + ' !important'"
+        :style="'background:' + applicationStore.accentColor + ' !important'"
+        :class="
+          applicationStore.isDarkTheme
+            ? 'white--text box-border-gray11'
+            : 'black--text'
+        "
         v-if="!vm.isVoteDone"
       >
         <div class="d-flex justify-space-between align-center">

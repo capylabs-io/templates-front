@@ -36,7 +36,7 @@
     <v-row class="justify-center mt-2">
       <v-col cols="6 pr-2"
         ><v-btn
-          class="text-none full-width border-radius-4"
+          class="text-none full-width border-radius-8"
           elevation="0"
           :color="applicationStore.primaryColor"
           >Deposit</v-btn
@@ -44,7 +44,7 @@
       >
       <v-col cols="6 pl-2"
         ><v-btn
-          class="text-none full-width border-radius-4"
+          class="text-none full-width border-radius-8"
           elevation="0"
           :color="applicationStore.isDarkTheme ? 'gray11' : 'gray2'"
           :light="!applicationStore.isDarkTheme"
