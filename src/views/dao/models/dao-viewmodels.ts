@@ -104,6 +104,7 @@ export class DaoViewModel {
           transactions: this.transactions,
         },
       });
+      yield this.fetchApplication();
       //TODO: Add to localstorage
       snackController.success("Add Proposal successfully!");
     } catch (err: any) {

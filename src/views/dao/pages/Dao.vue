@@ -73,6 +73,7 @@ import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import AddProposal from "../components/Add-Proposal.vue";
 import { applicationStore } from "@/stores/application-store";
+import { walletStore } from "@/stores/wallet-store";
 
 @Observer
 @Component({
@@ -112,6 +113,7 @@ export default class Dao extends Vue {
         this.$router.push("/home");
     }
     await this.vm.fetchApplication(this.$route.params.appId);
+    await walletStore.start();
   }
 }
 </script>

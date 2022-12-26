@@ -30,6 +30,8 @@ export default new Vuetify({
         // prime
         prime2: "#A0A1A2",
         prime7: "#3D3D3D",
+        // paradise-pink
+        paradisePink: "#E24E6E",
 
         //config theme
         lightBackground: "#FFFFFF",

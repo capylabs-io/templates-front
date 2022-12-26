@@ -1,23 +1,45 @@
 <template>
-  <div class="pa-4 box-gray-12 rounded-lg">
-    <div class="d-flex justify-space-between">
+  <v-card
+    class="pa-4 border-radius-16"
+    :class="
+      applicationStore.isDarkTheme
+        ? 'box-border-gray11 white--text'
+        : 'black--text'
+    "
+    :style="'background:' + applicationStore.cardColor + ' !important;'"
+    :outlined="applicationStore.isDarkTheme"
+    elevation="0"
+  >
+    <div class="d-inline-flex justify-space-between full-width">
       <div
         class="pa-0 cursor-pointer"
         text
         @click="vm.changeAddProposalDialog()"
       >
-        <v-icon small color="blueJeans"> mdi-chevron-left</v-icon>
-        <span class="text-capitalize blueJeans--text">Back</span>
+        <v-icon small :color="applicationStore.primaryColor">
+          mdi-chevron-left</v-icon
+        >
+        <span
+          class="text-capitalize"
+          :style="'color:' + applicationStore.primaryColor"
+          >Back</span
+        >
       </div>
       <div class="pa-0">
-        <v-icon class="ml-4" color="blueJeans">mdi-launch</v-icon>
+        <v-icon class="ml-4" :color="applicationStore.primaryColor"
+          >mdi-launch</v-icon
+        >
       </div>
     </div>
-    <div class="text-dp-xs white--text font-weight-bold">
+    <div class="mt-2 text-dp-xs white--text font-weight-bold">
       Add a proposal to SolenDAO
     </div>
-    <div class="mt-3 text-sm font-weight-regular white--text">
-      <div class="mt-3">Title</div>
+    <div
+      class="pa-4 text-capitalize border-radius-8 mt-3"
+      :class="{ 'box-border-gray11': applicationStore.isDarkTheme }"
+      :style="'background:' + applicationStore.accentColor + ' !important'"
+    >
+      <div>Title</div>
       <div class="mt-2">
         <v-text-field
           class="input-field border-radius-8 elevation-0 h-36 max-width-428"
@@ -51,7 +73,7 @@
           no-resize
         ></v-textarea>
       </div>
-      <div class="mt-3">Quorum</div>
+      <div>Quorum</div>
       <div class="mt-2">
         <v-text-field
           class="input-field border-radius-8 elevation-0 h-36 max-width-428"
@@ -65,9 +87,16 @@
           clearable
         ></v-text-field>
       </div>
-      <div class="text-lg font-weight-bold">Transaction</div>
+      <div class="mt-4 text-lg font-weight-bold">Transaction</div>
       <div
-        class="mt-3 pa-4 transaction-box"
+        class="mt-2 pa-4 border-radius-16"
+        :class="
+          applicationStore.isDarkTheme
+            ? 'box-border-gray11 white--text'
+            : 'black--text'
+        "
+        :style="'background:' + applicationStore.cardColor + ' !important;'"
+        :outlined="applicationStore.isDarkTheme"
         v-for="(transaction, index) in vm.transactions"
         :key="index"
       >
@@ -80,13 +109,25 @@
             hide-details
             class="max-width-428"
           ></v-select>
-          <div class="blueJeans--text d-flex align-seft-center cursor-pointer my-5">
-        <span class="ml-1">Inspect Transaction</span>
-      </div>
-      <div class="paradisePink--text d-flex align-seft-center cursor-pointer my-5" @click="vm.removeTransaction(index)">
-        <v-icon small color="paradisePink">mdi-delete</v-icon>
-        <span class="ml-1">Remove</span>
-      </div>
+          <div
+            :style="'color:' + applicationStore.primaryColor"
+            class="d-flex align-seft-center cursor-pointer my-5"
+          >
+            <span class="ml-1">Inspect Transaction</span>
+          </div>
+          <div
+            class="
+              paradisePink--text
+              d-flex
+              align-seft-center
+              cursor-pointer
+              my-5
+            "
+            @click="vm.removeTransaction(index)"
+          >
+            <v-icon small color="paradisePink">mdi-delete</v-icon>
+            <span class="ml-1">Remove</span>
+          </div>
         </div>
         <div class="mt-3">Source account</div>
         <div class="mt-2">
@@ -115,33 +156,41 @@
           ></v-text-field>
         </div>
       </div>
-      <div class="blueJeans--text d-flex justify-center cursor-pointer my-5" @click="vm.addTransaction()">
-        <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
-        <span class="ml-1">Add Transaction</span>
+      <div
+        class="d-flex justify-center cursor-pointer my-5"
+        @click="vm.addTransaction()"
+      >
+        <v-icon small :color="applicationStore.primaryColor"
+          >mdi-plus-circle-outline</v-icon
+        >
+        <span class="ml-1" :style="'color:' + applicationStore.primaryColor"
+          >Add Transaction</span
+        >
       </div>
       <div class="straight-line"></div>
       <div class="mt-3 d-flex flex-row align-center justify-space-between">
         <div class="d-flex">
-          <v-btn color="gray60" class="btn-gray-11 px-4 mr-4"
+          <v-btn color="gray6" class="font-weight-bold gray11 text-capitalize px-4 mr-4"
             >Preview instruction</v-btn
           >
-          <v-btn color="gray60" class="btn-gray-11 px-4">Save as Draft</v-btn>
+          <v-btn color="gray6" class="font-weight-bold gray11 text-capitalize px-4">Save as Draft</v-btn>
         </div>
         <v-btn
-          color="majorelleBlue"
-          class="white--text font-weight-bold text-capitalize rounded-lg px-4"
+          :color="applicationStore.primaryColor"
+          class="font-weight-bold text-capitalize rounded-lg px-4"
           @click="vm.createApplication()"
           >Add proposal</v-btn
         >
       </div>
     </div>
-  </div>
+  </v-card>
 </template>
 <script lang="ts">
 import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { observable } from "mobx";
 import { DaoViewModel } from "../models/dao-viewmodels";
+import { applicationStore } from "@/stores/application-store";
 @Observer
 @Component({
   components: {},
@@ -150,6 +199,7 @@ export default class AddProposal extends Vue {
   @observable checkbox;
   @observable isFilter = false;
   @Inject() vm!: DaoViewModel;
+  applicationStore = applicationStore;
 }
 </script>
 <style scoped>
