@@ -168,17 +168,37 @@
         >
       </div>
       <div class="straight-line"></div>
+      <div class="d-flex justify-center mt-4">
+        <VueRecaptcha
+          sitekey="6LeHpK8jAAAAAOOfNAcZI-ayzWxQ5R1Dzf1swXjB"
+          :loadRecaptchaScript="true"
+          @render="onCaptchaRender"
+          @verify="onCaptchaVerify"
+          @expired="onCaptchaExpired"
+          ref="recaptcha"
+        >
+        </VueRecaptcha>
+      </div>
       <div class="mt-3 d-flex flex-row align-center justify-space-between">
         <div class="d-flex">
-          <v-btn color="gray6" class="font-weight-bold gray11 text-capitalize px-4 mr-4"
+          <v-btn
+            color="gray6"
+            class="font-weight-bold gray11 text-capitalize px-4 mr-4"
+            :disabled="!confirmCaptcha"
             >Preview instruction</v-btn
           >
-          <v-btn color="gray6" class="font-weight-bold gray11 text-capitalize px-4">Save as Draft</v-btn>
+          <v-btn
+            color="gray6"
+            class="font-weight-bold gray11 text-capitalize px-4"
+            :disabled="!confirmCaptcha"
+            >Save as Draft</v-btn
+          >
         </div>
         <v-btn
           :color="applicationStore.primaryColor"
           class="font-weight-bold text-capitalize rounded-lg px-4"
           @click="vm.createApplication()"
+          :disabled="!confirmCaptcha"
           >Add proposal</v-btn
         >
       </div>
@@ -191,15 +211,34 @@ import { Observer } from "mobx-vue";
 import { observable } from "mobx";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { applicationStore } from "@/stores/application-store";
+import { VueRecaptcha } from "vue-recaptcha";
+import { snackController } from "@/components/snack-bar/snack-bar-controller";
 @Observer
 @Component({
-  components: {},
+  components: { VueRecaptcha },
 })
 export default class AddProposal extends Vue {
   @observable checkbox;
   @observable isFilter = false;
   @Inject() vm!: DaoViewModel;
   applicationStore = applicationStore;
+
+  confirmCaptcha = false;
+  reset() {
+    this.confirmCaptcha = false;
+  }
+  onCaptchaError(error) {
+    snackController.error(error);
+  }
+  onCaptchaRender() {
+    (this.$refs.recaptcha as any).reset();
+  }
+  onCaptchaVerify(response) {
+    if (response) this.confirmCaptcha = true;
+  }
+  onCaptchaExpired() {
+    (this.$refs.recaptcha as any).reset();
+  }
 }
 </script>
 <style scoped>

@@ -23,7 +23,8 @@
             </div>
           </v-col>
           <v-col :cols="el.is.small ? 12 : 7">
-            <DaoDetail />
+            <DaoDetail v-if="!vm.isOpenAddProposal"/>
+            <AddProposals v-else/>
           </v-col>
         </v-row>
       </div>
@@ -43,6 +44,7 @@ import { applicationStore } from "@/stores/application-store";
     YourAccount: () => import("../../components/YourAccount.vue"),
     CoverImage: () => import("@/components/CoverImage.vue"),
     Responsive,
+    AddProposals: () => import("../../components/Add-Proposal.vue"),
   },
 })
 export default class DaoManagementLayout2 extends Vue {
