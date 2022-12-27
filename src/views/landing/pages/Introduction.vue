@@ -31,7 +31,7 @@
       </div>
     </div>
     <v-img
-      class="intro-image align-self-center"
+      class="intro-image align-self-center slide-down"
       :src="require(`@/assets/landing/coin-image.webp`)"
     ></v-img>
   </div>
@@ -44,7 +44,7 @@ export default {};
 <style lang="scss" scoped>
 .intro {
   max-width: 100%;
-  height: 800px;
+  height: 100vh;
   background-position: cover;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -68,5 +68,17 @@ export default {};
 }
 .btn-connect {
   border-radius: 10px;
+}
+.slide-down {
+  animation: slide-down 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(-120px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 </style>

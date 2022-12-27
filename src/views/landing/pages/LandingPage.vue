@@ -16,7 +16,7 @@ import { Vue, Component } from "vue-property-decorator";
 @Component({
   components: {
     Introduction: () => import("./Introduction.vue"),
-    Partner: () => import("./Partners.vue"),
+    Partner: () => import("./Demo.vue"),
     Dao: () => import("./Dao.vue"),
     Service: () => import("./Service.vue"),
     Feature: () => import("./Feature.vue"),
