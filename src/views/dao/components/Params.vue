@@ -1,9 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="d-flex flex-column">
-    <div class="params-management ma-auto px-12 py-3">
-      <v-row class="justify-center">
-        <v-col>
+    <div class="ma-auto px-8 py-3 params-management">
+      <v-row>
+        <v-col cols="12" class="ma-auto">
           <Detail />
         </v-col>
       </v-row>
@@ -15,7 +15,7 @@
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { Responsive } from "vue-responsive-components";
-import { layoutStore } from "@/stores/layout-store";
+import { applicationStore } from "@/stores/application-store";
 
 @Component({
   components: {
@@ -26,12 +26,12 @@ import { layoutStore } from "@/stores/layout-store";
 export default class DaoManagementParams extends Vue {
   @Inject() vm!: DaoViewModel;
 
-  layoutStore = layoutStore;
+  applicationStore = applicationStore;
 }
 </script>
 
 <style scoped>
 .params-management {
-  width: 1800px !important;
+  width: 1900px;
 }
 </style>

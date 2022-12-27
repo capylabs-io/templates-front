@@ -98,9 +98,7 @@
               </div>
             </div>
             <div class="params-btn">
-              <v-btn color="gray60" class="btn-gray-11 px-4"
-                >Change Config</v-btn
-              >
+              <v-btn color="gray60" class="btn-gray-11">Change Config</v-btn>
             </div>
           </div>
         </div>
@@ -135,5 +133,6 @@ export default class ParamsDetail extends Vue {
 }
 .params-btn {
   padding: 18px;
+  padding-left: 44%;
 }
 </style>
