@@ -53,7 +53,7 @@
           Set up a full-function DAO with ease without any coding experience. We
           will get you ready in an instant.
         </div>
-        <v-card class="dao-card slide-left" v-show="indexImage == 0">
+        <v-card class="dao-card" v-show="indexImage == 0">
           <v-img
             class="image"
             :src="require(`@/assets/landing/dao-image.webp`)"
@@ -69,7 +69,7 @@
           Tailor your DAO to the fullest with a wide range of options. It’s time
           to decentralize with style.
         </div>
-        <v-card class="dao-card slide-left" v-show="indexImage == 1">
+        <v-card class="dao-card" v-show="indexImage == 1">
           <v-img
             class="image"
             :src="require(`@/assets/landing/dao-image.webp`)"
@@ -86,7 +86,7 @@
           better understanding of your community. Govern together, grow
           together.
         </div>
-        <v-card class="dao-card slide-left" v-show="indexImage == 2">
+        <v-card class="dao-card" v-show="indexImage == 2">
           <v-img
             class="image"
             :src="require(`@/assets/landing/dao-image.webp`)"
@@ -105,18 +105,20 @@ export default defineComponent({
     return {
       indexImage: 0,
       slide: null,
-      index: 0,
+      index: 1,
     };
   },
 
   mounted() {
     this.slide = setInterval(() => {
       if (this.index >= 3) {
-        this.slidedao(0);
+        this.index = 0;
       }
       this.slidedao(this.index);
+      this.setImage(this.index);
+
       this.index++;
-    }, 5000);
+    }, 6000);
   },
   methods: {
     slidedao(index) {
@@ -181,7 +183,12 @@ export default defineComponent({
   font-weight: 700;
   color: white;
 }
-
+.active .image {
+  animation: tran-opacity 0.4s forwards;
+}
+.image {
+  animation: tran-opacity-reverse 1s forwards;
+}
 .active .aTitle {
   font-weight: 700;
   color: white;
@@ -247,9 +254,26 @@ image {
 }
 .active .complete-bar {
   animation-name: processing;
-  animation-duration: 5s;
+  animation-duration: 6s;
   animation-iteration-count: infinite;
   animation-timing-function: ease;
+}
+@keyframes tran-opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes tran-opacity-reverse {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 @keyframes slide-left {
   0% {
