@@ -8,27 +8,23 @@
       <v-card
         class="service-card d-flex flex-column align-center justify-center"
       >
-        <div class="font-weight-bold text-dp-xl slide-down">100+</div>
-        <div class="text-dp-sm gray6--text slide-down">hours</div>
+        <div class="font-weight-bold text-dp-xl">100+</div>
+        <div class="text-dp-sm gray6--text">hours</div>
         <div class="text-dp-xxs gray6--text">of manual tasks</div>
       </v-card>
       <v-card
         class="service-card d-flex flex-column align-center justify-center"
       >
-        <div class="font-weight-bold text-dp-xl slide-down">>75k</div>
-        <div class="text-dp-sm gray6--text slide-down">US dollar</div>
-        <div class="text-dp-xxs gray6--text slide-down">
-          in development costs
-        </div>
+        <div class="font-weight-bold text-dp-xl">>75k</div>
+        <div class="text-dp-sm gray6--text">US dollar</div>
+        <div class="text-dp-xxs gray6--text">in development costs</div>
       </v-card>
       <v-card
         class="service-card d-flex flex-column align-center justify-center"
       >
-        <div class="font-weight-bold text-dp-xl slide-down">2-3</div>
-        <div class="text-dp-sm gray6--text slide-down">months</div>
-        <div class="text-dp-xxs gray6--text slide-down">
-          working with stakeholders
-        </div>
+        <div class="font-weight-bold text-dp-xl">2-3</div>
+        <div class="text-dp-sm gray6--text">months</div>
+        <div class="text-dp-xxs gray6--text">working with stakeholders</div>
       </v-card>
     </div>
     <div class="text-lg mt-10 text-center service-text">
@@ -77,17 +73,5 @@ export default defineComponent({
 }
 .btn-service {
   border-radius: 8px;
-}
-.slide-down {
-  animation: slide-down 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-@keyframes slide-down {
-  0% {
-    transform: translateY(-50px);
-  }
-  100% {
-    transform: translateY(0);
-  }
 }
 </style>

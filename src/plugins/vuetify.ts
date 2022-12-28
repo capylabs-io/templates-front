@@ -30,16 +30,7 @@ export default new Vuetify({
         // prime
         prime2: "#A0A1A2",
         prime7: "#3D3D3D",
-        pigmentBlue: "#353897",
-        majorelleBlue: "#6A49E2",
-        blueJeans: "#4DAAF8",
-        emerald: "#65C77C",
-        mango: "#F6C453",
-        coral: "#F0845D",
-        paradisePink: "#E24E6E",
-        purplePizzazz: "#E569D9",
-        cottonCandy: "#F4C7F0",
-        wildBlueYondar: "#6F7488",
+
         //config theme
         lightBackground: "#FFFFFF",
         darkBackground: "#1E1E20",
