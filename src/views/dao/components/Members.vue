@@ -1,9 +1,15 @@
 <template>
-  <div class="pa-4 box-gray-12 rounded-lg member-page">
+  <div class="pa-4 ma-5 box-gray-12 rounded-lg member-page">
     <div class="d-flex">
       <div class="pa-0 cursor-pointer" text @click="vm.changeMemberFlag()">
-        <v-icon small color="blueJeans"> mdi-chevron-left</v-icon>
-        <span class="text-capitalize blueJeans--text">Back</span>
+        <v-icon :color="applicationStore.primaryColor" small>
+          mdi-chevron-left</v-icon
+        >
+        <span
+          class="text-capitalize"
+          :style="'color:' + applicationStore.primaryColor + ' !important'"
+          >Back</span
+        >
       </div>
     </div>
     <div class="d-flex align-center mt-3">
@@ -124,6 +130,7 @@
           </div>
         </div>
       </v-col>
+
       <v-col cols="12" md="8" class="pa-2">
         <div class="gray13 border-radius-12 pa-4 overflow-y-auto">
           <div class="d-flex justify-space-between">
@@ -191,66 +198,105 @@
               <div>Succeeded 3 months ago</div>
             </div>
             <div class="d-flex align-center ml-4">
-              <MemberStatus :color="'#4F4F54'" />
+              <MemberStatus :color="'#3B3B3F'" />
               <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
             </div>
           </div>
+
           <div
-            class="d-flex justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-100"
+            class="d-flex flex-column justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-100"
             :style="'background: #2A2A2D'"
           >
-            <div :class="'small-proposal-title'">
-              <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                  <div
-                    class="text-lg text-truncate font-weight-bold"
-                    :class="
-                      applicationStore.isDarkTheme
-                        ? 'white--text'
-                        : 'black--text'
-                    "
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    SLND3: Introduce Account Borrow Limit
-                  </div>
-                </template>
-                <span>SLND3: Introduce Account Borrow Limit</span>
-              </v-tooltip>
-              <div>Succeeded 3 months ago</div>
+            <div class="d-flex justify-space-between">
+              <div :class="'small-proposal-title'">
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <div
+                      class="text-lg text-truncate font-weight-bold"
+                      :class="
+                        applicationStore.isDarkTheme
+                          ? 'white--text'
+                          : 'black--text'
+                      "
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      SLND3: Introduce Account Borrow Limit
+                    </div>
+                  </template>
+                  <span>SLND3: Introduce Account Borrow Limit</span>
+                </v-tooltip>
+                <div>Succeeded 3 months ago</div>
+              </div>
+              <div class="d-flex align-center ml-4">
+                <MemberStatus :color="'#3B3B3F'" />
+                <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
+              </div>
             </div>
-            <div class="d-flex align-center ml-4">
-              <MemberStatus :color="'#4F4F54'" />
-              <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
+            <div
+              class="d-flex gap-20 pa-4 rounded-lg mt-2"
+              :style="'background:' + applicationStore.accentColor"
+            >
+              <div>
+                <v-icon class="ml-4" color="gray6"> mdi-chat-outline </v-icon>
+              </div>
+              <div>
+                Lorem ipsum dolor sit amet consectetur. Condimentum eu ornare
+                odio neque viverra mattis facilisi nisi urna.Condimentum eu
+                ornare odio neque viverra mattis facilisi nisi urna.
+              </div>
+            </div>
+            <div
+              class="d-flex gap-20 pa-4 rounded-lg mt-2"
+              :style="'background:' + applicationStore.accentColor"
+            >
+              <div>
+                <v-icon class="ml-4" color="gray6"> mdi-chat-outline </v-icon>
+              </div>
+              <div>What are thoseeeeee</div>
             </div>
           </div>
           <div
-            class="d-flex justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-100"
+            class="d-flex flex-column pa-4 cursor-pointer mt-3 rounded-lg w-100"
             :style="'background: #2A2A2D'"
           >
-            <div :class="'small-proposal-title'">
-              <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                  <div
-                    class="text-lg text-truncate font-weight-bold"
-                    :class="
-                      applicationStore.isDarkTheme
-                        ? 'white--text'
-                        : 'black--text'
-                    "
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    SLND3: Introduce Account Borrow Limit
-                  </div>
-                </template>
-                <span>SLND3: Introduce Account Borrow Limit</span>
-              </v-tooltip>
-              <div>Succeeded 3 months ago</div>
+            <div class="d-flex justify-space-between">
+              <div :class="'small-proposal-title'">
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <div
+                      class="text-lg text-truncate font-weight-bold"
+                      :class="
+                        applicationStore.isDarkTheme
+                          ? 'white--text'
+                          : 'black--text'
+                      "
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      SLND3: Introduce Account Borrow Limit
+                    </div>
+                  </template>
+                  <span>SLND3: Introduce Account Borrow Limit</span>
+                </v-tooltip>
+                <div>Succeeded 3 months ago</div>
+              </div>
+              <div class="d-flex align-center ml-4">
+                <MemberStatus :color="'#3B3B3F'" />
+                <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
+              </div>
             </div>
-            <div class="d-flex align-center ml-4">
-              <MemberStatus :color="'#4F4F54'" />
-              <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
+            <div
+              class="d-flex gap-20 pa-4 rounded-lg mt-2"
+              :style="'background:' + applicationStore.accentColor"
+            >
+              <div>
+                <v-icon class="ml-4" color="gray6"> mdi-chat-outline </v-icon>
+              </div>
+              <div>
+                Lorem ipsum dolor sit amet consectetur. Condimentum eu ornare
+                odio neque viverra mattis facilisi nisi urna.
+              </div>
             </div>
           </div>
         </div>
