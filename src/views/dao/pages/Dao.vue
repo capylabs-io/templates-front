@@ -14,6 +14,13 @@
       }"
       :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
     >
+      <div v-show="vm.pickParameters">
+        <Parameters></Parameters>
+      </div>
+      <div v-show="vm.pickMembers">
+        <Member></Member>
+      </div>
+      <template></template>
       <div v-if="vm.isReview">
         <div v-if="vm.reviewPage == 'management'">
           <DaoLayout />
@@ -29,12 +36,6 @@
         <div v-else>
           <ProposalLayout />
         </div>
-      </div>
-      <div v-show="!vm.pickParameters">
-        <Parameters :daoSettingModel="vm.daoSettingModel"></Parameters>
-      </div>
-      <div>
-        <Member></Member>
       </div>
     </div>
     <DaoFooter />
@@ -114,11 +115,11 @@ export default class Dao extends Vue {
     this.vm.setReviewPage(val);
   }
 
-  @Watch("pickParameters", { immediate: true }) onpickParametersChanged(
-    val: boolean
-  ) {
-    this.vm.setpickParameters(val);
-  }
+  // @Watch("pickParameters", { immediate: true }) onpickParametersChanged(
+  //   val: boolean
+  // ) {
+  //   this.vm.setpickParameters(val);
+  // }
 
   async created() {
     if (!this.isReview) {

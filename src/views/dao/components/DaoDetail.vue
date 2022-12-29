@@ -34,12 +34,22 @@
       </div>
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
         <v-icon class="mr-1" color="gray6" small>mdi-account-multiple</v-icon>
-        <span>Members (194)</span>
-        <a>
-          <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
-          <span>Params</span>
-        </a>
-        <v-icon class="ml-4" :color="applicationStore.primaryColor"
+        <span
+          >Members ({{
+            vm.daoSetting?.members === undefined
+              ? "0"
+              : vm.daoSetting?.members?.length
+          }})</span
+        >
+        <v-icon
+          class="ml-3 mr-1"
+          color="gray6"
+          small
+          @click="vm.pickParameters = !vm.pickParameters"
+          >mdi-cog</v-icon
+        >
+        <span>Params</span>
+        <v-icon class="ml-4" :color="applicationStore.primaryColor" @click="vm.pickMembers = !vm.pickMembers"
           >mdi-launch</v-icon
         >
       </div>
@@ -87,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Inject, Prop, Vue } from "vue-property-decorator";
+import { Component, Inject, Prop, Vue, Watch } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import Proposals from "./_Proposals.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
@@ -102,7 +112,11 @@ import { applicationStore } from "@/stores/application-store";
 export default class SolendDao extends Vue {
   @Inject() vm!: DaoViewModel;
   @Prop({ default: false }) isSmall!: boolean;
-
+  @Watch("pickParameters", { immediate: true }) onpickParametersChanged(
+    val: boolean
+  ) {
+    this.vm.setpickParameters(val);
+  }
   applicationStore = applicationStore;
   showProposals = true;
 }
