@@ -18,7 +18,7 @@
             <div class="pa-0">2 members</div>
             <div class="blueJeans--text d-flex justify-center cursor-pointer">
               <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
-              <span class="ml-1">Add Member</span>
+              <span class="ml-1">New Member</span>
             </div>
           </div>
           <div class="overflow-y-auto mt-3">
@@ -129,16 +129,128 @@
           <div class="d-flex justify-space-between">
             <div class="pa-0">3Q3ph8KiL...RGvG8</div>
             <div
-              class="
-                blueJeans--text
-                d-flex
-                justify-center
-                cursor-pointer
-                gray6--text
-              "
+              class="blueJeans--text d-flex justify-center cursor-pointer gray6--text"
             >
               <span class="ml-1">Explore</span>
               <v-icon small color="blueJeans">mdi-launch</v-icon>
+            </div>
+          </div>
+          <div class="d-flex gap-20">
+            <div
+              class="d-flex flex-column justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-50"
+              :style="'background: #2A2A2D'"
+            >
+              <div class="font-weight-bold text-md">Votes</div>
+              <div class="font-weight-bold text-dp-xs pb-10">300</div>
+            </div>
+            <div
+              class="d-flex flex-column justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-50 row-gap-10"
+              :style="'background: #2A2A2D'"
+            >
+              <div class="font-weight-bold text-md">Votes</div>
+              <div class="font-weight-bold text-dp-xs">3</div>
+              <div class="d-flex gap-20">
+                <div class="d-flex align-center">
+                  <v-icon color="success" class="mr-2 align-center"
+                    >mdi-thumb-up</v-icon
+                  >
+                  <div>Yes: 2</div>
+                </div>
+                <div class="d-flex align-center">
+                  <v-icon color="error" class="mr-2 align-center"
+                    >mdi-thumb-down</v-icon
+                  >
+                  <div>No: 1</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pa-0 gray-12">3 recent votes</div>
+          <div
+            class="d-flex justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-100"
+            :style="'background: #2A2A2D'"
+          >
+            <div :class="'small-proposal-title'">
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <div
+                    class="text-lg text-truncate font-weight-bold"
+                    :class="
+                      applicationStore.isDarkTheme
+                        ? 'white--text'
+                        : 'black--text'
+                    "
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    SLND3: Introduce Account Borrow Limit
+                  </div>
+                </template>
+                <span>SLND3: Introduce Account Borrow Limit</span>
+              </v-tooltip>
+              <div>Succeeded 3 months ago</div>
+            </div>
+            <div class="d-flex align-center ml-4">
+              <MemberStatus :color="'#4F4F54'" />
+              <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
+            </div>
+          </div>
+          <div
+            class="d-flex justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-100"
+            :style="'background: #2A2A2D'"
+          >
+            <div :class="'small-proposal-title'">
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <div
+                    class="text-lg text-truncate font-weight-bold"
+                    :class="
+                      applicationStore.isDarkTheme
+                        ? 'white--text'
+                        : 'black--text'
+                    "
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    SLND3: Introduce Account Borrow Limit
+                  </div>
+                </template>
+                <span>SLND3: Introduce Account Borrow Limit</span>
+              </v-tooltip>
+              <div>Succeeded 3 months ago</div>
+            </div>
+            <div class="d-flex align-center ml-4">
+              <MemberStatus :color="'#4F4F54'" />
+              <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
+            </div>
+          </div>
+          <div
+            class="d-flex justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-100"
+            :style="'background: #2A2A2D'"
+          >
+            <div :class="'small-proposal-title'">
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <div
+                    class="text-lg text-truncate font-weight-bold"
+                    :class="
+                      applicationStore.isDarkTheme
+                        ? 'white--text'
+                        : 'black--text'
+                    "
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    SLND3: Introduce Account Borrow Limit
+                  </div>
+                </template>
+                <span>SLND3: Introduce Account Borrow Limit</span>
+              </v-tooltip>
+              <div>Succeeded 3 months ago</div>
+            </div>
+            <div class="d-flex align-center ml-4">
+              <MemberStatus :color="'#4F4F54'" />
+              <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
             </div>
           </div>
         </div>
@@ -150,12 +262,17 @@
 import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
+import { applicationStore } from "@/stores/application-store";
 @Observer
 @Component({
-  components: {},
+  components: {
+    MemberStatus: () => import("./MemberStatus.vue"),
+    VoteStatus: () => import("./VoteStatus.vue"),
+  },
 })
 export default class Members extends Vue {
   @Inject() vm!: DaoViewModel;
+  applicationStore = applicationStore;
 }
 </script>
 <style lang="scss">
@@ -170,5 +287,20 @@ export default class Members extends Vue {
       color: white !important;
     }
   }
+}
+.w-50 {
+  width: 50%;
+}
+.w-100 {
+  width: 100%;
+}
+.gap-20 {
+  column-gap: 20px;
+}
+.row-gap-10 {
+  row-gap: 10px;
+}
+.gray-12 {
+  color: #77777e;
 }
 </style>

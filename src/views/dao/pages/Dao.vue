@@ -30,6 +30,12 @@
           <ProposalLayout />
         </div>
       </div>
+      <div v-show="!vm.pickParameters">
+        <Parameters :daoSettingModel="vm.daoSettingModel"></Parameters>
+      </div>
+      <div>
+        <Member></Member>
+      </div>
     </div>
     <DaoFooter />
     <!-- <div v-if="!vm.showVoteResult && vm.proposalID == 0">
@@ -81,6 +87,8 @@ import { applicationStore } from "@/stores/application-store";
     ProposalLayout: () => import("./ProposalLayout.vue"),
     DaoNavigationBar: () => import("../components/NavigationBar.vue"),
     DaoFooter: () => import("../components/Footer.vue"),
+    Parameters: () => import("../components/Params.vue"),
+    Member: () => import("../components/Members.vue"),
     SettingIcon,
     YourAccount,
     Programs,
@@ -104,6 +112,12 @@ export default class Dao extends Vue {
 
   @Watch("reviewPage", { immediate: true }) onReviewPageChanged(val: string) {
     this.vm.setReviewPage(val);
+  }
+
+  @Watch("pickParameters", { immediate: true }) onpickParametersChanged(
+    val: boolean
+  ) {
+    this.vm.setpickParameters(val);
   }
 
   async created() {

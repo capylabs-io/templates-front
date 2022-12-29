@@ -35,9 +35,11 @@
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
         <v-icon class="mr-1" color="gray6" small>mdi-account-multiple</v-icon>
         <span>Members (194)</span>
-        <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
-        <a>Params</a>
-        <v-icon class="ml-4" :color="layoutStore.primaryColor"
+        <a>
+          <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
+          <span>Params</span>
+        </a>
+        <v-icon class="ml-4" :color="applicationStore.primaryColor"
           >mdi-launch</v-icon
         >
       </div>

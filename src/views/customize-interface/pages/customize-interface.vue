@@ -4,17 +4,12 @@
       <ThemeSelector />
     </div>
     <div class="customize-layout d-flex" v-else>
-      <template v-if="!vm.isChoosingParams">
-        <Params />
-      </template>
-      <template v-else>
         <CustomizeDrawer />
         <div class="layout-content">
           <div v-if="vm.appType == 'dao'">
             <DaoInterface :isReview="true" :reviewPage="vm.selectedPage" />
           </div>
         </div>
-      </template>
     </div>
   </div>
 </template>
@@ -33,7 +28,6 @@ import { snackController } from "@/components/snack-bar/snack-bar-controller";
     ThemeSelector: () => import("./theme-selector.vue"),
     CustomizeDrawer: () => import("./customize-drawer.vue"),
     DaoInterface: () => import("../../dao/pages/Dao.vue"),
-    Params: () => import("../../dao/components/Params.vue"),
   },
 })
 export default class CustomizeInterface extends Vue {
