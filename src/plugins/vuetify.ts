@@ -31,6 +31,14 @@ export default new Vuetify({
         prime2: "#A0A1A2",
         prime7: "#3D3D3D",
 
+        mango: "#F6C453",
+        blueJean: "#4DAAF8",
+
+        silver: "#D3D3D3",
+        gold: "#FFDF00",
+        platinum: "#00CED1",
+        diamond: "#B9F2FF",
+
         //config theme
         lightBackground: "#FFFFFF",
         darkBackground: "#1E1E20",

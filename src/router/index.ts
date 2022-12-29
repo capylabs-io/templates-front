@@ -10,20 +10,36 @@ const routes: Array<RouteConfig> = [
     path: "/",
     redirect: "/home",
   },
+  // {
+  //   path: "/home",
+  //   name: "home",
+  //   component: () => import("../views/home/pages/Home.vue"),
+  //   meta: {
+  //     title: "Home",
+  //   },
+  // },
   {
     path: "/home",
-    name: "home",
-    component: () => import("../views/home/pages/Home.vue"),
+    name: "Home",
+    component: () => import("../views/landing/pages/LandingPage.vue"),
     meta: {
       title: "Home",
     },
   },
   {
-    path: "/landing",
-    name: "LandingPage",
-    component: () => import("../views/landing/pages/LandingPage.vue"),
+    path: "/theme-market",
+    name: "Theme Market",
+    component: () => import("../views/theme-market/pages/theme-market.vue"),
     meta: {
-      title: "Landing Page",
+      title: "Theme Market",
+    },
+  },
+  {
+    path: "/theme/:themeId",
+    name: "Theme Detail",
+    component: () => import("../views/theme-market/pages/theme-detail.vue"),
+    meta: {
+      title: "Theme Detail",
     },
   },
   {

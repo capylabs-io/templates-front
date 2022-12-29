@@ -33,6 +33,19 @@
             <div class="text-none">Home</div>
           </router-link>
           <router-link
+            to="/theme-market"
+            class="
+              white--text
+              text-decoration-none
+              cursor-pointer
+              px-3
+              align-self-center
+            "
+            active-class="active"
+          >
+            <div class="text-none">Market</div>
+          </router-link>
+          <router-link
             to="/select-service"
             class="
               white--text

@@ -4,9 +4,9 @@
     :key="componentKey"
   >
     <div
-      class="swatch d-flex justify-center align-center"
       v-for="color in colors"
-      :class="{ active: color == currentColor }"
+      class="swatch d-flex justify-center align-center"
+      :class="{ active: color == currentColor && !list, small: small }"
       :key="color"
       :style="{ background: `${color} !important` }"
       @click="onColorClick(color)"
@@ -23,6 +23,8 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 export default class CustomizeInterface extends Vue {
   @Prop() colors!: string[];
   @Prop() currentColor?: string;
+  @Prop({ default: false }) list!: boolean;
+  @Prop({ default: false }) small!: boolean;
 
   componentKey = 1;
 
@@ -35,6 +37,7 @@ export default class CustomizeInterface extends Vue {
     this.componentKey += 1;
   }
   onColorClick(chosenColor: string) {
+    if (this.list) return;
     this.$emit("onColorClick", chosenColor);
   }
 }
@@ -50,6 +53,10 @@ export default class CustomizeInterface extends Vue {
   position: relative;
   height: 28px;
   width: 28px;
+}
+.small {
+  height: 20px !important;
+  width: 20px !important;
 }
 .swatch.active {
   border: #ffffff 2px solid;

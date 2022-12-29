@@ -182,6 +182,14 @@ export class ApiService {
     return res.data;
   }
 
+  async purchaseTheme(model: ThemeModel) {
+    const { id, ...theme } = model;
+    const res = await axios.post(`theme/purchase`, {
+      themeId: id,
+    });
+    return res.data;
+  }
+
   async uploadApplicationFile(formData: any) {
     const res = await axios.post(`applications/upload`, formData, {
       headers: {
