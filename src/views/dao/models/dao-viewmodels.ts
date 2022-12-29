@@ -25,7 +25,6 @@ export class DaoViewModel {
   @observable filterDraft = false;
 
   @observable daoSetting?: DaoSettingModel;
-  @observable dateformat?: string;
   @observable pickParameters = false;
   @observable proposals: ProposalModel[] = [];
   @observable itemsPerPage = 8;
@@ -129,9 +128,6 @@ export class DaoViewModel {
       const application = res.applications[0];
       this.applicationStore.application = application;
       this.daoSetting = application.dao_setting;
-      this.dateformat = moment(String(application.dao_setting?.createdAt)).format(
-        "MM/DD/YYYY hh:mm"
-      ).toString()
       if (!application || !application.service || !application.dao_setting)
         this.pushBackHome(`Invalid service type!`);
       else if ((!application.isCustomized || !application.theme) && !this.isReview) {

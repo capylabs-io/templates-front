@@ -147,8 +147,7 @@
                           createdAt
                         </div>
                         <div class="font-weight-bold">
-                          {{ vm.daoSetting?.createdAt }}
-                          {{ vm.datefomat }}
+                          {{ vm.daoSetting?.createdAt | ddmmyyyyhhmmss}}
                         </div>
                       </div>
                     </div>
