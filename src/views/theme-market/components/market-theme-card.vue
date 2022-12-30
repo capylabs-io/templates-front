@@ -51,7 +51,7 @@
               darksmall
               >mdi-check</v-icon
             >
-            <v-btn color="blueJean" v-else icon small>
+            <v-btn color="blueJeans" v-else icon small>
               <v-icon>mdi-cart-outline</v-icon>
             </v-btn>
           </v-card>
