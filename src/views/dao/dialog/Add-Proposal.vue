@@ -73,19 +73,11 @@
           <v-btn color="gray60" class="btn-gray-11 px-4 mr-4"
             >Preview instruction</v-btn
           >
-          <v-btn color="gray60" class="btn-gray-11 px-4"
-            >Save as Draft</v-btn
-          >
+          <v-btn color="gray60" class="btn-gray-11 px-4">Save as Draft</v-btn>
         </div>
         <v-btn
           color="majorelleBlue"
-          class="
-            white--text
-            font-weight-bold
-            text-capitalize
-            rounded-lg
-            px-4
-          "
+          class="white--text font-weight-bold text-capitalize rounded-lg px-4"
           >Add proposal</v-btn
         >
       </v-card-actions>

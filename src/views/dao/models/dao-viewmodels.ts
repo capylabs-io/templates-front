@@ -75,14 +75,7 @@ export class DaoViewModel {
       explorer: null,
       config: {},
       token: "1",
-    },
-    {
-      type: "none",
-      source: "0x00",
-      destination: "0x00",
-      explorer: null,
-      config: {},
-      token: "1",
+      amount: 0,
     },
   ];
 
@@ -229,6 +222,7 @@ export class DaoViewModel {
       explorer: null,
       config: {},
       token: "1",
+      amount: 0,
     });
   }
   // computed

@@ -10,8 +10,7 @@
       <div class="dao-management ma-auto px-2 py-3 full-width">
         <v-row class="justify-center ma-auto">
           <v-col :cols="el.is.small ? 12 : 7">
-            <DaoDetail v-if="!vm.isOpenAddProposal"/>
-            <AddProposals v-else/>
+            <DaoDetail />
           </v-col>
           <v-col :cols="el.is.small ? 12 : 5">
             <YourAccount />
@@ -42,7 +41,6 @@ import { applicationStore } from "@/stores/application-store";
     YourAccount: () => import("../../components/YourAccount.vue"),
     CoverImage: () => import("@/components/CoverImage.vue"),
     Responsive,
-    AddProposals: () => import("../../components/Add-Proposal.vue"),
   },
 })
 export default class DaoManagementLayout1 extends Vue {
