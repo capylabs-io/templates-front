@@ -37,13 +37,11 @@
           class="mr-1"
           color="gray6"
           small
-          @click="(vm.pickMembers = !vm.pickMembers), vm.setpickDao(false)"
+          @click="vm.pickMembers = !vm.pickMembers"
         >
           mdi-account-multiple</v-icon
         >
         <span
-          class="onCursor"
-          @click="(vm.pickMembers = !vm.pickMembers), vm.setpickDao(false)"
           >Members ({{
             vm.daoSetting?.members === undefined
               ? "0"
@@ -54,16 +52,10 @@
           class="ml-3 mr-1"
           color="gray6"
           small
-          @click="
-            (vm.pickParameters = !vm.pickParameters), vm.setpickDao(false)
-          "
+          @click="vm.pickParameters = !vm.pickParameters"
           >mdi-cog</v-icon
         >
-        <span
-          @click="(vm.pickMembers = !vm.pickMembers), vm.setpickDao(false)"
-          class="onCursor"
-          >Params</span
-        >
+        <span>Params</span>
         <v-icon class="ml-4" :color="applicationStore.primaryColor"
           >mdi-launch</v-icon
         >
@@ -152,8 +144,5 @@ export default class SolendDao extends Vue {
 .dao-banner {
   max-height: 220px;
   aspect-ratio: 8 / 1;
-}
-.onCursor {
-  cursor: pointer;
 }
 </style>

@@ -20,24 +20,23 @@
       <div v-show="vm.pickMembers">
         <Member></Member>
       </div>
-      <template v-if="vm.pickDao">
-        <div v-if="vm.isReview">
-          <div v-if="vm.reviewPage == 'management'">
-            <DaoLayout />
-          </div>
-          <div v-else-if="vm.reviewPage == 'proposal'">
-            <ProposalLayout />
-          </div>
+      <template></template>
+      <div v-if="vm.isReview">
+        <div v-if="vm.reviewPage == 'management'">
+          <DaoLayout />
+        </div>
+        <div v-else-if="vm.reviewPage == 'proposal'">
+          <ProposalLayout />
+        </div>
+      </div>
+      <div v-else>
+        <div v-if="!vm.isProposalDetail">
+          <DaoLayout />
         </div>
         <div v-else>
-          <div v-if="!vm.isProposalDetail">
-            <DaoLayout />
-          </div>
-          <div v-else>
-            <ProposalLayout />
-          </div>
+          <ProposalLayout />
         </div>
-      </template>
+      </div>
     </div>
     <DaoFooter />
     <!-- <div v-if="!vm.showVoteResult && vm.proposalID == 0">

@@ -2,16 +2,11 @@
   <div class="pa-4 ma-5 box-gray-12 rounded-lg member-page">
     <div class="d-flex">
       <div class="pa-0 cursor-pointer" text @click="vm.changeMemberFlag()">
-        <v-icon
-          :color="applicationStore.primaryColor"
-          small
-          @click="vm.setpickMembers(false), vm.setpickDao(true)"
-        >
+        <v-icon :color="applicationStore.primaryColor" small>
           mdi-chevron-left</v-icon
         >
         <span
-          @click="vm.setpickMembers(false), vm.setpickDao(true)"
-          class="text-capitalize onCursor"
+          class="text-capitalize"
           :style="'color:' + applicationStore.primaryColor + ' !important'"
           >Back</span
         >
@@ -353,8 +348,5 @@ export default class Members extends Vue {
 }
 .gray-12 {
   color: #77777e;
-}
-.onCursor {
-  cursor: pointer;
 }
 </style>
