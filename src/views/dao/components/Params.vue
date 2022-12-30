@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="d-flex flex-column">
+  <div class="">
     <div class="ma-auto my-5 px-4 params-management">
       <v-row>
         <v-col cols="12" class="ma-auto">
@@ -10,16 +10,16 @@
                 <v-icon
                   :color="applicationStore.primaryColor"
                   small
-                  @click="vm.setpickParameters(false)"
+                  @click="vm.setpickParameters(false), vm.setpickDao(true)"
                 >
                   mdi-chevron-left</v-icon
                 >
                 <span
-                  class="text-capitalize"
                   :style="
                     'color:' + applicationStore.primaryColor + ' !important'
                   "
-                  @click="vm.setpickParameters(false)"
+                  @click="vm.setpickParameters(false), vm.setpickDao(true)"
+                  class="text-capitalize onCursor"
                   >Back</span
                 >
               </div>
@@ -190,10 +190,6 @@ export default class DaoManagementParams extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.params-management {
-  width: 1900px;
-}
-
 .parameters-page {
   .w-16 {
     width: 16px;
@@ -208,6 +204,9 @@ export default class DaoManagementParams extends Vue {
 }
 .params-btn {
   padding: 18px;
-  padding-left: 44%;
+  padding-left: 42%;
+}
+.onCursor {
+  cursor: pointer;
 }
 </style>

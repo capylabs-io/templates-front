@@ -2,11 +2,16 @@
   <div class="pa-4 ma-5 box-gray-12 rounded-lg member-page">
     <div class="d-flex">
       <div class="pa-0 cursor-pointer" text @click="vm.changeMemberFlag()">
-        <v-icon :color="applicationStore.primaryColor" small>
+        <v-icon
+          :color="applicationStore.primaryColor"
+          small
+          @click="vm.setpickMembers(false), vm.setpickDao(true)"
+        >
           mdi-chevron-left</v-icon
         >
         <span
-          class="text-capitalize"
+          @click="vm.setpickMembers(false), vm.setpickDao(true)"
+          class="text-capitalize onCursor"
           :style="'color:' + applicationStore.primaryColor + ' !important'"
           >Back</span
         >
@@ -27,7 +32,11 @@
               <span class="ml-1">New Member</span>
             </div>
           </div>
-          <div class="overflow-y-auto mt-3">
+          <div
+            class="overflow-y-auto mt-3"
+            v-for="member in vm.daoSetting.members"
+            :key="member.wallet"
+          >
             <div class="d-flex pa-4 active">
               <div>
                 <div class="prime7 pa-1 rounded-circle mr-2">
@@ -35,95 +44,7 @@
                 </div>
               </div>
               <div class="gray3--text">
-                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-                <div class="text-overline-1">Votes Cast: 3</div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div>
-                <div class="prime7 pa-1 rounded-circle mr-2">
-                  <v-icon color="prime2">mdi-account-circle</v-icon>
-                </div>
-              </div>
-              <div class="gray3--text">
-                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-                <div class="text-overline-1">Votes Cast: 3</div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div>
-                <div class="prime7 pa-1 rounded-circle mr-2">
-                  <v-icon color="prime2">mdi-account-circle</v-icon>
-                </div>
-              </div>
-              <div class="gray3--text">
-                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-                <div class="text-overline-1">Votes Cast: 3</div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div>
-                <div class="prime7 pa-1 rounded-circle mr-2">
-                  <v-icon color="prime2">mdi-account-circle</v-icon>
-                </div>
-              </div>
-              <div class="gray3--text">
-                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-                <div class="text-overline-1">Votes Cast: 3</div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div>
-                <div class="prime7 pa-1 rounded-circle mr-2">
-                  <v-icon color="prime2">mdi-account-circle</v-icon>
-                </div>
-              </div>
-              <div class="gray3--text">
-                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-                <div class="text-overline-1">Votes Cast: 3</div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div>
-                <div class="prime7 pa-1 rounded-circle mr-2">
-                  <v-icon color="prime2">mdi-account-circle</v-icon>
-                </div>
-              </div>
-              <div class="gray3--text">
-                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-                <div class="text-overline-1">Votes Cast: 3</div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div>
-                <div class="prime7 pa-1 rounded-circle mr-2">
-                  <v-icon color="prime2">mdi-account-circle</v-icon>
-                </div>
-              </div>
-              <div class="gray3--text">
-                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-                <div class="text-overline-1">Votes Cast: 3</div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div>
-                <div class="prime7 pa-1 rounded-circle mr-2">
-                  <v-icon color="prime2">mdi-account-circle</v-icon>
-                </div>
-              </div>
-              <div class="gray3--text">
-                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-                <div class="text-overline-1">Votes Cast: 3</div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div>
-                <div class="prime7 pa-1 rounded-circle mr-2">
-                  <v-icon color="prime2">mdi-account-circle</v-icon>
-                </div>
-              </div>
-              <div class="gray3--text">
-                <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
+                <div class="font-weight-bold">{{ member.wallet }}</div>
                 <div class="text-overline-1">Votes Cast: 3</div>
               </div>
             </div>
@@ -348,5 +269,8 @@ export default class Members extends Vue {
 }
 .gray-12 {
   color: #77777e;
+}
+.onCursor {
+  cursor: pointer;
 }
 </style>

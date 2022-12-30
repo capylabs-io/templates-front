@@ -27,6 +27,7 @@ export class DaoViewModel {
   @observable daoSetting?: DaoSettingModel;
   @observable pickParameters = false;
   @observable pickMembers = false;
+  @observable pickDao = true;
   @observable proposals: ProposalModel[] = [];
   @observable itemsPerPage = 8;
   @observable proposalPage = 1;
@@ -190,6 +191,9 @@ export class DaoViewModel {
   }
   @action setpickMembers(val: boolean) {
     this.pickMembers = val;
+  }
+  @action setpickDao(val: boolean) {
+    this.pickDao = val;
   }
   @action setReviewPage(val: string) {
     this.reviewPage = val;
