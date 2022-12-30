@@ -1,3 +1,4 @@
+import { walletStore } from "@/stores/wallet-store";
 import { appProvider } from "./../../../app-providers";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
 import { apiService } from "./../../../services/api-service";
@@ -10,7 +11,7 @@ export class ThemeDetailViewmodel {
   @observable theme?: ThemeModel;
 
   @observable confirmPurchaseDialog?: boolean = false;
-  @observable purchaseResultDialog?: boolean = true;
+  @observable purchaseResultDialog?: boolean = false;
 
   @observable purchaseResult?: boolean = false;
 
@@ -43,7 +44,10 @@ export class ThemeDetailViewmodel {
         snackController.error(`Error occurred! Please try again later!`);
         return;
       }
-      yield apiService.purchaseTheme(this.theme);
+      yield apiService.purchaseTheme({
+        userId: walletStore.userId,
+        themeId: this.theme.id,
+      });
       this.purchaseResult = true;
       this.purchaseResultDialog = true;
       snackController.success("Purchased successfully!");
@@ -107,5 +111,13 @@ export class ThemeDetailViewmodel {
   @computed get themeThumbnails() {
     if (!this.theme || !this.theme.metadata || !this.theme.metadata.thumbnails) return [];
     return this.theme.metadata.thumbnails;
+  }
+
+  @computed get isThemeOwned() {
+    if (!this.theme) return false;
+    return (
+      this.theme.type == "free" ||
+      (walletStore.connected && walletStore.userThemes!.findIndex((theme) => theme.id == this.theme!.id) >= 0)
+    );
   }
 }

@@ -30,20 +30,28 @@
         <div class="d-flex justify-space-between align-center mt-3">
           <div>
             <div class="text-xl font-weight-bold">
+              <span v-if="isThemeFree">Free</span>
               <span
                 :class="{
                   'text-decoration-line-through gray6--text': isThemeOnSale,
                 }"
+                v-else
                 >{{ themePrice | usd }}</span
               >
-              <span class="ml-2" v-if="isThemeOnSale">{{
+              <span class="ml-2" v-if="!isThemeFree && isThemeOnSale">{{
                 themeDiscountPrice | usd
               }}</span>
             </div>
             <div class="gray5--text text-xs">{{ theme?.count || 0 }} Sales</div>
           </div>
           <v-card class="btn-cart border-radius-8 pa-2" outlined>
-            <v-btn color="blueJean" icon small>
+            <v-icon
+              color="success"
+              v-if="isThemeFree || isThemeOwned(theme.id)"
+              darksmall
+              >mdi-check</v-icon
+            >
+            <v-btn color="blueJean" v-else icon small>
               <v-icon>mdi-cart-outline</v-icon>
             </v-btn>
           </v-card>
@@ -55,6 +63,7 @@
 
 <script lang="ts">
 import { ThemeModel } from "@/models/theme-model";
+import { walletStore } from "@/stores/wallet-store";
 import { FixedNumber } from "@ethersproject/bignumber";
 import { Vue, Component, Prop, Inject } from "vue-property-decorator";
 import { ThemeMarketViewmodel } from "../models/theme-market-viewmodel";
@@ -66,8 +75,17 @@ import { ThemeMarketViewmodel } from "../models/theme-market-viewmodel";
   },
 })
 export default class ThemeCard extends Vue {
-  @Prop() theme?: ThemeModel;
+  @Prop() theme!: ThemeModel;
   @Inject() vm!: ThemeMarketViewmodel;
+
+  walletStore = walletStore;
+
+  isThemeOwned(themeId: string) {
+    if (!walletStore.connected) return false;
+    return (
+      walletStore.userPaidThemes.findIndex((theme) => theme.id == themeId) >= 0
+    );
+  }
 
   get themeName() {
     if (!this.theme || !this.theme.name) return "Default Theme";
@@ -81,14 +99,19 @@ export default class ThemeCard extends Vue {
   }
 
   get themePrice() {
-    if (!this.theme || !this.theme.price) return "Free";
-    else if (FixedNumber.from(this.theme.price).isZero()) return "Free";
+    if (!this.theme || !this.theme.price) return 0;
+    else if (FixedNumber.from(this.theme.price).isZero()) return 0;
     return FixedNumber.from(this.theme.price).toString();
   }
 
   get isThemeOnSale() {
     if (!this.theme || !this.theme.discount) return false;
     return this.theme.discount != 0;
+  }
+
+  get isThemeFree() {
+    if (!this.theme || !this.theme.type) return true;
+    return this.theme.type == "free";
   }
 
   get themeDiscountPrice() {

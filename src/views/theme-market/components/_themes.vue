@@ -4,7 +4,7 @@
       <div class="d-flex align-center">
         <span class="text-overline text-uppercase gray6--text">Result:</span>
         <span class="font-weight-bold ml-1"
-          >{{ vm.themes?.length || 0 }} items</span
+          >{{ vm.filteredThemes?.length || 0 }} items</span
         >
       </div>
       <div class="d-flex align-center">
@@ -19,10 +19,28 @@
       </div>
     </div>
     <v-row class="mt-4">
-      <v-col cols="12" lg="4" md="6" v-for="theme in vm.themes" :key="theme.id">
+      <v-col
+        cols="12"
+        lg="4"
+        md="6"
+        v-for="theme in vm.slicedThemes"
+        :key="theme.id"
+      >
         <MarketThemeCard :theme="theme" />
       </v-col>
     </v-row>
+    <div
+      class="my-16 text-center text-dp-sm"
+      v-if="!vm.themes || vm.filteredThemes.length == 0"
+    >
+      No Theme Found!
+    </div>
+    <v-pagination
+      class="mt-6"
+      :length="vm.totalThemePage"
+      v-model="vm.themePage"
+      v-else
+    ></v-pagination>
   </div>
 </template>
 

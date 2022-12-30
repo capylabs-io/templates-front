@@ -3,7 +3,7 @@
     <ConfirmPurchaseDialog
       :isOpen="vm.confirmPurchaseDialog"
       :themeName="vm.themeName"
-      :themePrice="vm.themePrice"
+      :themePrice="vm.isThemeOnSale ? vm.themeDiscountPrice : vm.themePrice"
       @onCancel="vm.confirmPurchaseDialog = !vm.confirmPurchaseDialog"
       @onConfirm="vm.progressPurchase()"
     />
@@ -139,9 +139,30 @@
           <v-divider class="my-4"></v-divider>
           <v-btn
             class="border-radius-8 text-none"
+            color="success"
+            elevation="0"
+            v-if="vm.isThemeOwned"
+            block
+          >
+            <v-icon class="mr-1">mdi-check-circle-outline</v-icon>
+            Owned
+          </v-btn>
+          <v-btn
+            class="border-radius-8 text-none"
+            elevation="0"
+            v-else-if="!walletStore.connected"
+            @click="vm.openConfirmPurchase(true)"
+            disabled
+            block
+          >
+            Connect Wallet to Purchase
+          </v-btn>
+          <v-btn
+            class="border-radius-8 text-none"
             color="primary"
             elevation="0"
             @click="vm.openConfirmPurchase(true)"
+            v-else
             block
           >
             <v-icon class="mr-1">mdi-cart-outline</v-icon>
@@ -228,6 +249,7 @@ import { ThemeDetailViewmodel } from "../models/theme-detail-viewmodel";
 import { Sync, Arrow } from "@egjs/flicking-plugins";
 import { Flicking } from "@egjs/vue-flicking";
 import { applicationStore } from "@/stores/application-store";
+import { walletStore } from "@/stores/wallet-store";
 
 @Observer
 @Component({
@@ -248,6 +270,7 @@ export default class ThemeMarket extends Vue {
   thumbnailPlugins: any = [];
 
   applicationStore = applicationStore;
+  walletStore = walletStore;
 
   async created() {
     if (!this.$route.params || !this.$route.params.themeId) {

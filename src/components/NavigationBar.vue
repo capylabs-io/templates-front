@@ -9,8 +9,8 @@
     <div
       class="nav-container text-s font-weight-regular"
       :class="{
-        'px-12': $vuetify.breakpoint.lgAndUp,
-        'px-4': $vuetify.breakpoint.mdAndDown,
+        'px-4': $vuetify.breakpoint.lgAndUp,
+        'px-2': $vuetify.breakpoint.mdAndDown,
       }"
     >
       <v-row class="d-flex align-center justify-space-between">
@@ -134,6 +134,15 @@
                     <v-icon>mdi-view-dashboard</v-icon>
                     <v-list-item-title class="ml-3"
                       >Application Dashboard</v-list-item-title
+                    >
+                  </v-list-item>
+                  <v-list-item
+                    class="d-flex align-center"
+                    :to="'/theme-management'"
+                  >
+                    <v-icon>mdi-developer-board</v-icon>
+                    <v-list-item-title class="ml-3"
+                      >Theme Management</v-list-item-title
                     >
                   </v-list-item>
                   <v-list-item :to="'/trash'">

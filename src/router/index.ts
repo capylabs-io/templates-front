@@ -24,6 +24,7 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/landing/pages/LandingPage.vue"),
     meta: {
       title: "Home",
+      canAccess: true,
     },
   },
   {
@@ -32,6 +33,7 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/theme-market/pages/theme-market.vue"),
     meta: {
       title: "Theme Market",
+      canAccess: true,
     },
   },
   {
@@ -40,6 +42,7 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/theme-market/pages/theme-detail.vue"),
     meta: {
       title: "Theme Detail",
+      canAccess: true,
     },
   },
   {
@@ -48,6 +51,16 @@ const routes: Array<RouteConfig> = [
     component: () => import("@/views/management/pages/Management.vue"),
     meta: {
       title: "Application Management",
+      canAccess: false,
+    },
+  },
+  {
+    path: "/theme-management",
+    name: "ThemeManagement",
+    component: () => import("@/views/management/pages/ThemeManagement.vue"),
+    meta: {
+      title: "Theme Management",
+      canAccess: false,
     },
   },
   {
@@ -56,6 +69,7 @@ const routes: Array<RouteConfig> = [
     component: () => import("@/views/management/pages/Trash.vue"),
     meta: {
       title: "Trash Management",
+      canAccess: false,
     },
   },
   {
@@ -82,6 +96,7 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/service-selector.vue"),
     meta: {
       title: "Service Selector",
+      canAccess: false,
     },
   },
   {
@@ -90,6 +105,7 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/create-dao/pages/dao-selector.vue"),
     meta: {
       title: "DAO Selector",
+      canAccess: false,
     },
   },
   {
@@ -98,6 +114,7 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/create-dao/pages/create-dao.vue"),
     meta: {
       title: "Create DAO",
+      canAccess: false,
     },
   },
   {
@@ -106,6 +123,7 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/customize-interface/pages/customize-interface.vue"),
     meta: {
       title: "Customize Interface",
+      canAccess: false,
     },
   },
 ];
@@ -117,7 +135,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  await when(() => walletStore.loaded);
+  if (to.meta && !to.meta.canAccess && !walletStore.connected) {
+    await walletStore.start();
+  }
   next(); //TODO: uncomment below
   // if (!to.name || !to) next("/my-character");
   // else next();

@@ -2,7 +2,7 @@
   <v-dialog
     transition="dialog-bottom-transition"
     v-model="isOpen"
-    max-width="360px"
+    max-width="420px"
     :overlay-opacity="0.9"
     persistent
   >

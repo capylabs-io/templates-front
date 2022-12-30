@@ -1,18 +1,23 @@
 <template>
   <v-card
-    class="market-filter border-radius-16 pa-6"
+    class="market-filter border-radius-16 pa-6 full-height"
     color="gray12"
     elevation="0"
   >
     <div class="d-flex justify-space-between align-center">
       <div class="text-lg font-weight-bold">Filter</div>
-      <v-btn class="text-btn text-none px-0" color="primary" text>
+      <v-btn
+        class="text-btn text-none px-0"
+        color="primary"
+        @click="vm.resetFilters()"
+        text
+      >
         <v-icon class="mr-1" small>mdi-replay</v-icon>
         Reset Filter
       </v-btn>
     </div>
     <v-expansion-panels
-      class="d-flex flex-column"
+      class="d-flex flex-column mt-2"
       v-model="panel"
       accordion
       flat
@@ -23,18 +28,18 @@
         >
         <v-expansion-panel-content class="mb-6">
           <v-checkbox
+            v-model="vm.isDao"
             class="mt-0"
-            value="dao"
             label="DAO"
             hide-details
           ></v-checkbox>
           <v-checkbox
-            value="minter"
+            v-model="vm.isNFTMinter"
             label="NFT Minter"
             hide-details
           ></v-checkbox>
           <v-checkbox
-            value="staking"
+            v-model="vm.isNFTStaking"
             label="NFT Staking"
             hide-details
           ></v-checkbox>
@@ -50,6 +55,7 @@
         <v-expansion-panel-content class="mb-6">
           <div class="d-flex align-center justify-space-between">
             <v-text-field
+              v-model="vm.minPrice"
               class="border-radius-8"
               type="number"
               prefix="$"
@@ -59,6 +65,7 @@
             ></v-text-field>
             <div class="text-dp-xs gray5--text mx-2">-</div>
             <v-text-field
+              v-model="vm.maxPrice"
               class="border-radius-8"
               type="number"
               prefix="$"
@@ -66,9 +73,6 @@
               solo
               dense
             ></v-text-field>
-            <v-btn class="text-none btn-text rounded-lg ml-3" color="primary"
-              >Apply</v-btn
-            >
           </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -81,18 +85,33 @@
         >
         <v-expansion-panel-content class="mb-6">
           <v-checkbox
+            v-model="vm.isOwned"
             class="mt-0"
-            value="free"
+            label="Owned"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="vm.isFree"
             label="Free"
             hide-details
           ></v-checkbox>
           <v-checkbox
-            value="new"
+            v-model="vm.isNew"
             label="New Arrivals"
             hide-details
           ></v-checkbox>
-          <v-checkbox value="sale" label="On Sale" hide-details></v-checkbox>
-          <v-checkbox value="top" label="Top Seller" hide-details></v-checkbox>
+          <v-checkbox
+            v-model="vm.isOnSale"
+            value="sale"
+            label="On Sale"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="vm.isTopSeller"
+            value="top"
+            label="Top Seller"
+            hide-details
+          ></v-checkbox>
         </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -103,16 +122,24 @@
         >
         <v-expansion-panel-content class="mb-6">
           <v-checkbox
+            v-model="vm.isSilver"
             class="mt-0"
-            value="silver"
             label="Silver"
             hide-details
           ></v-checkbox>
-          <v-checkbox value="gold" label="Gold" hide-details></v-checkbox>
-          <v-checkbox value="diamond" label="Diamond" hide-details></v-checkbox>
           <v-checkbox
-            value="platinum"
+            v-model="vm.isGold"
+            label="Gold"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="vm.isPlatinum"
             label="Platinum"
+            hide-details
+          ></v-checkbox>
+          <v-checkbox
+            v-model="vm.isDiamond"
+            label="Diamond"
             hide-details
           ></v-checkbox>
         </v-expansion-panel-content>

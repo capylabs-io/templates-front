@@ -17,7 +17,7 @@
 import { Observer } from "mobx-vue";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { appProvider } from "./app-providers";
-import { walletStore } from "./stores/wallet-store";
+// import { walletStore } from "./stores/wallet-store";
 
 @Observer
 @Component({
@@ -40,7 +40,7 @@ export default class App extends Vue {
   isEndUser = false;
 
   async created() {
-    await walletStore.start();
+    // await walletStore.start();
     appProvider.setVueRouter(this.$router);
   }
 

@@ -182,10 +182,11 @@ export class ApiService {
     return res.data;
   }
 
-  async purchaseTheme(model: ThemeModel) {
-    const { id, ...theme } = model;
-    const res = await axios.post(`theme/purchase`, {
-      themeId: id,
+  async purchaseTheme(params) {
+    const { userId, themeId } = params;
+    const res = await axios.post(`themes/purchase`, {
+      userId,
+      themeId,
     });
     return res.data;
   }
