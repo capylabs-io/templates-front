@@ -14,7 +14,10 @@
       }"
       :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
     >
-      <div v-if="vm.isReview">
+      <div class="add-proposal mx-auto mt-6" v-if="vm.isOpenAddProposal">
+        <AddProposal />
+      </div>
+      <div v-else-if="vm.isReview">
         <div v-if="vm.reviewPage == 'management'">
           <DaoLayout />
         </div>
@@ -71,7 +74,6 @@ import YourAccount from "../components/YourAccount.vue";
 import Programs from "../components/_Programs.vue";
 import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
-import AddProposal from "../components/Add-Proposal.vue";
 import { applicationStore } from "@/stores/application-store";
 
 @Observer
@@ -81,6 +83,8 @@ import { applicationStore } from "@/stores/application-store";
     ProposalLayout: () => import("./ProposalLayout.vue"),
     DaoNavigationBar: () => import("../components/NavigationBar.vue"),
     DaoFooter: () => import("../components/Footer.vue"),
+    AddProposal: () => import("../components/Add-Proposal.vue"),
+
     SettingIcon,
     YourAccount,
     Programs,
@@ -88,7 +92,6 @@ import { applicationStore } from "@/stores/application-store";
     ProposalDetailDiscussion,
     Voting,
     VoteResult,
-    AddProposal,
   },
 })
 export default class Dao extends Vue {
@@ -126,5 +129,8 @@ export default class Dao extends Vue {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+}
+.add-proposal {
+  max-width: 640px;
 }
 </style>
