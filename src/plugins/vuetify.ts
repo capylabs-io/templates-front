@@ -30,7 +30,7 @@ export default new Vuetify({
         // prime
         prime2: "#A0A1A2",
         prime7: "#3D3D3D",
-        
+
         pigmentBlue: "#353897",
         majorelleBlue: "#6A49E2",
         blueJeans: "#4DAAF8",
@@ -41,7 +41,6 @@ export default new Vuetify({
         purplePizzazz: "#E569D9",
         cottonCandy: "#F4C7F0",
         wildBlueYondar: "#6F7488",
-        mango: "#F6C453",
         blueJean: "#4DAAF8",
 
         silver: "#D3D3D3",

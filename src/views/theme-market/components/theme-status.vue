@@ -62,7 +62,7 @@
     <v-chip
       class="border-radius-8 black--text"
       v-if="theme?.category == 'staking'"
-      color="blueJean"
+      color="blueJeans"
       small
       >NFT Staking</v-chip
     >
