@@ -17,7 +17,21 @@
     <div class="relative d-flex gap-20 pt-130 partner-list">
       <v-card
         class="partner-card-1 d-flex right-to-left-1 px-10 py-8"
-        v-for="partners in 9"
+        v-for="partners in 15"
+        :key="partners.image"
+      >
+        <v-img
+          contain
+          class="card-image align-self-center"
+          :src="require(`@/assets/landing/partner-logo.webp`)"
+        >
+        </v-img>
+      </v-card>
+    </div>
+    <div class="relative d-flex gap-20 pt-130 partner-list">
+      <v-card
+        class="partner-card-1 d-flex left-to-right-2 px-10 py-8"
+        v-for="partners in 15"
         :key="partners.image"
       >
         <v-img
@@ -29,7 +43,7 @@
       </v-card>
     </div>
 
-    <div class="relative d-flex mt-5 justify-center pt-130 gap-20">
+    <!-- <div class="relative d-flex mt-5 justify-center pt-130 gap-20">
       <v-card
         class="partner-card-2 d-flex left-to-right-2 px-10 py-8"
         v-for="partners in 9"
@@ -42,7 +56,7 @@
         >
         </v-img>
       </v-card>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -111,6 +125,31 @@ export default class Partners extends Vue {}
 }
 
 .right-to-left-1 {
+  animation: right-to-left-1 15s linear infinite;
+}
+@keyframes right-to-left-1 {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-1000px);
+  }
+}
+
+.left-to-right-2 {
+  animation: left-to-right-2 15s linear infinite;
+}
+
+@keyframes left-to-right-2 {
+  0% {
+    transform: translateX(-1000px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+/* 
+.right-to-left-1 {
   animation: right-to-left-1 27s linear infinite;
 }
 @keyframes right-to-left-1 {
@@ -121,7 +160,7 @@ export default class Partners extends Vue {}
     right: 100%;
   }
 }
-/* .partner-card.left-to-right-2 {
+.partner-card.left-to-right-2 {
   left: -230px;
 }
 .partner-card.right-to-left-1 {
