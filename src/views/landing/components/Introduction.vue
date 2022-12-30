@@ -45,9 +45,9 @@ export default {};
 .intro {
   max-width: 100%;
   height: 100vh;
-  background-position: cover;
+  background-size: 100% 100%;
+  background-position: center bottom;
   background-repeat: no-repeat;
-  background-size: 100%;
   position: relative;
 }
 .intro-image {
