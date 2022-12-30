@@ -17,7 +17,7 @@
 import { Observer } from "mobx-vue";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { appProvider } from "./app-providers";
-import { walletStore } from "./stores/wallet-store";
+// import { walletStore } from "./stores/wallet-store";
 
 @Observer
 @Component({
@@ -40,7 +40,7 @@ export default class App extends Vue {
   isEndUser = false;
 
   async created() {
-    await walletStore.start();
+    // await walletStore.start();
     appProvider.setVueRouter(this.$router);
   }
 
@@ -218,7 +218,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .box-gray-12 {
   background: #2a2a2d !important;
-  border: 1px solid #3b3b3f !important;
+  // border: 1px solid #3b3b3f !important;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4) !important;
 }
 .box-gray-13 {
@@ -266,6 +266,12 @@ input[type="number"]::-webkit-outer-spin-button {
 .gap-16 {
   gap: 16px !important;
 }
+.gap-8 {
+  gap: 8px !important;
+}
+.gap-4 {
+  gap: 4px !important;
+}
 .theme--dark {
   .v-btn--active::before {
     opacity: 1 !important;
@@ -282,4 +288,133 @@ input[type="number"]::-webkit-outer-spin-button {
   z-index: 1;
 }
 //Animations
+
+//Flicking
+.flicking-panel {
+  align-items: flex-end;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.flicking-arrow-prev,
+.flicking-arrow-next {
+  position: absolute;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.flicking-arrow-prev.is-circle,
+.flicking-arrow-next.is-circle {
+  background-color: var(--v-primary-base);
+  border-radius: 50%;
+}
+
+.flicking-arrow-disabled.is-circle {
+  background-color: var(--v-gray11-base);
+}
+
+.flicking-arrow-prev.is-circle::before,
+.flicking-arrow-prev.is-circle::after,
+.flicking-arrow-next.is-circle::before,
+.flicking-arrow-next.is-circle::after {
+  background-color: white;
+}
+
+.flicking-arrow-prev {
+  left: 6px;
+}
+.flicking-arrow-next {
+  right: 6px;
+}
+
+.flicking-arrow-prev.is-outside {
+  left: -74px;
+}
+.flicking-arrow-next.is-outside {
+  right: -74px;
+}
+
+.flicking-arrow-prev::before,
+.flicking-arrow-prev::after,
+.flicking-arrow-next::before,
+.flicking-arrow-next::after {
+  content: "";
+  width: 10px;
+  height: 2px;
+  position: absolute;
+  background-color: var(--v-gray11-base);
+  border-radius: 50% !important;
+}
+.flicking-arrow-prev::before {
+  top: calc(50% - 1px);
+  left: 8px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform-origin: 0% 50%;
+  -ms-transform-origin: 0% 50%;
+  transform-origin: 0% 50%;
+}
+.flicking-arrow-prev::after {
+  top: calc(50% - 1px);
+  left: 8px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transform-origin: 0% 50%;
+  -ms-transform-origin: 0% 50%;
+  transform-origin: 0% 50%;
+}
+.flicking-arrow-next::before {
+  top: calc(50% - 1px);
+  right: 8px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transform-origin: 100% 50%;
+  -ms-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
+}
+.flicking-arrow-next::after {
+  top: calc(50% - 1px);
+  right: 8px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform-origin: 100% 50%;
+  -ms-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
+}
+
+.flicking-arrow-disabled,
+.flicking-arrow-disabled {
+  cursor: default;
+}
+
+.flicking-arrow-disabled::before,
+.flicking-arrow-disabled::after,
+.flicking-arrow-disabled::before,
+.flicking-arrow-disabled::after {
+  background-color: #e6e6e6;
+}
+
+.flicking-arrow-prev.is-thin::before,
+.flicking-arrow-prev.is-thin::after,
+.flicking-arrow-next.is-thin::before,
+.flicking-arrow-next.is-thin::after {
+  height: 3px;
+}
+
+.flicking-arrow-prev.is-thin::after,
+.flicking-arrow-next.is-thin::after {
+  top: calc(50% - 2px);
+}
 </style>

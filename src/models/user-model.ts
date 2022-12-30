@@ -1,6 +1,7 @@
 import { ProposalModel } from "./proposal-model";
 import { CommentModel } from "./comment-model";
 import { ApplicationModel } from "./application-model";
+import { ThemeModel } from "./theme-model";
 
 export interface UserModel {
   id: string;
@@ -18,4 +19,5 @@ export interface UserModel {
   applications: ApplicationModel[];
   comments: CommentModel[];
   proposals: ProposalModel[];
+  themes: ThemeModel[];
 }

@@ -1,3 +1,4 @@
+import { FixedNumber } from "@ethersproject/bignumber";
 export interface ThemeModel {
   id: string;
   backgroundUrl: string;
@@ -11,4 +12,13 @@ export interface ThemeModel {
   name: string;
   isDarkTheme: boolean;
   isDarkNav: boolean;
+  rating: string;
+  description: string;
+  metadata: any;
+  data: any;
+  status: string;
+  price: FixedNumber;
+  discount: number;
+  category: string;
+  count: number;
 }

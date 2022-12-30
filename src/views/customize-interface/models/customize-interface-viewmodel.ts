@@ -33,6 +33,7 @@ export class CustomizeInterfaceViewmodel {
       loadingController.increaseRequest();
       const themes = yield apiService.themes.find({
         _limit: -1,
+        category: this.appType || "dao",
       });
       if (!themes) {
         snackController.error(`No Themes Found!`);

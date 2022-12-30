@@ -1,8 +1,5 @@
 <template>
   <div class="container mx-auto px-8">
-    <div class="text-dp-lg text-center font-weight-bold my-12">
-      Select the theme for you DAO
-    </div>
     <div class="d-flex align-center justify-space-between">
       <div class="d-flex align-center">
         <div>Sort by</div>
@@ -50,34 +47,31 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
+  
+  <script lang="ts">
 import { ThemeModel } from "@/models/theme-model";
-import { applicationStore } from "@/stores/application-store";
-import { Vue, Component, Inject } from "vue-property-decorator";
-import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
+import { Vue, Component, Provide } from "vue-property-decorator";
+import { ThemeManagementViewmodel } from "../viewmodel/theme-management-viewmodel";
 
 @Component({
   components: {
     ThemeCard: () => import("@/components/create-service/theme-card.vue"),
   },
 })
-export default class CustomizeInterface extends Vue {
-  @Inject() vm!: CustomizeInterfaceViewmodel;
-  applicationStore = applicationStore;
+export default class ThemeManagement extends Vue {
+  @Provide() vm = new ThemeManagementViewmodel();
 
   async created() {
     await this.vm.fetchThemes();
   }
 
   chooseTheme(theme: ThemeModel) {
-    applicationStore.setupThemeConfig(theme);
-    this.vm.setChoosingTheme(false);
+    this.$router.push(`/theme/${theme.id}`);
   }
 }
 </script>
-
-<style scoped>
+  
+  <style scoped>
 .container {
   max-width: 1400px;
 }

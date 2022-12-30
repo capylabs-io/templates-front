@@ -5,7 +5,6 @@
       class="theme-card border-gray-11 border-radius-16"
       :class="{
         'on-hover cursor-pointer': hover,
-        'on-hover': applicationStore.themeConfig?.id == theme?.id,
       }"
       @click="chooseTheme()"
     >
@@ -33,9 +32,7 @@
 
 <script lang="ts">
 import { ThemeModel } from "@/models/theme-model";
-import { applicationStore } from "@/stores/application-store";
-import { CustomizeInterfaceViewmodel } from "@/views/customize-interface/models/customize-interface-viewmodel";
-import { Vue, Component, Prop, Inject } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component({
   components: {
@@ -45,14 +42,9 @@ import { Vue, Component, Prop, Inject } from "vue-property-decorator";
 export default class ThemeCard extends Vue {
   @Prop() theme!: ThemeModel;
   @Prop({ default: false }) contain?: boolean;
-  @Inject()
-  vm!: CustomizeInterfaceViewmodel;
-
-  applicationStore = applicationStore;
 
   chooseTheme() {
-    applicationStore.setupThemeConfig(this.theme);
-    this.vm.setChoosingTheme(false);
+    this.$emit("onChooseTheme", this.theme);
   }
 
   get themeName() {
