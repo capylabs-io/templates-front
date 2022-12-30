@@ -10,16 +10,16 @@
                 <v-icon
                   :color="applicationStore.primaryColor"
                   small
-                  @click="vm.setpickParameters(false)"
+                  @click="vm.setpickParameters(false), vm.setpickDao(true)"
                 >
                   mdi-chevron-left</v-icon
                 >
                 <span
-                  class="text-capitalize"
+                  @click="vm.setpickParameters(false), vm.setpickDao(true)"
+                  class="text-capitalize onCursor"
                   :style="
                     'color:' + applicationStore.primaryColor + ' !important'
                   "
-                  @click="vm.setpickParameters(false)"
                   >Back</span
                 >
               </div>
@@ -209,5 +209,8 @@ export default class DaoManagementParams extends Vue {
 .params-btn {
   padding: 18px;
   padding-left: 44%;
+}
+.onCursor {
+  cursor: pointer;
 }
 </style>
