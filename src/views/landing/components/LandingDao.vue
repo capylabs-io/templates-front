@@ -120,6 +120,12 @@ export default defineComponent({
       this.index++;
     }, 6000);
   },
+  beforeMount() {
+    clearInterval(this.slide);
+  },
+  destroyed() {
+    clearInterval(this.slide);
+  },
   methods: {
     slidedao(index) {
       let processBar;
