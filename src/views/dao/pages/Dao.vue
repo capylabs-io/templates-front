@@ -1,16 +1,51 @@
 <template>
-  <div>
-    <div v-if="!vm.showVoteResult && vm.proposalID == 0">
+  <div
+    :style="
+      'font-family: \'' + applicationStore.font + '\', sans-serif !important;'
+    "
+  >
+    <DaoNavigationBar />
+    <div
+      class="dao-content"
+      :style="{
+        'background-color': applicationStore.pageBackground + ' !important',
+        'background-image':
+          'url(' + applicationStore.backgroundUrl + ') !important',
+      }"
+      :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
+    >
+      <div v-if="vm.isReview">
+        <div v-if="vm.reviewPage == 'management'">
+          <DaoLayout />
+        </div>
+        <div v-else-if="vm.reviewPage == 'proposal'">
+          <ProposalLayout />
+        </div>
+      </div>
+      <div v-else>
+        <div v-if="!vm.isProposalDetail">
+          <DaoLayout />
+        </div>
+        <div v-else>
+          <ProposalLayout />
+        </div>
+      </div>
+    </div>
+    <DaoFooter />
+    <!-- <div v-if="!vm.showVoteResult && vm.proposalID == 0">
       <img class="screen-width" src="@/assets/dao-banner.png" />
     </div>
     <div class="dao-management mt-4 ma-auto">
-      <v-row class="justify-center ma-auto" v-if="!vm.showVoteResult">
+      <Members v-if="vm.openMemberFlag" />
+      <VoteResult v-else-if="vm.showVoteResult" />
+      <v-row class="justify-center ma-auto" v-else>
         <v-col cols="10" md="7">
-          <SolendDao v-if="vm.proposalID == 0" />
-          <div v-else>
+          <div v-if="vm.proposalID != 0">
             <ProposalDetail />
             <ProposalDetailDiscussion />
           </div>
+          <AddProposal v-else-if="vm.isOpenAddProposal" />
+          <SolendDao v-else />
         </v-col>
         <v-col cols="10" md="4">
           <YourAccount />
@@ -22,43 +57,74 @@
           <Voting v-else />
         </v-col>
       </v-row>
-      <div v-else>
-        <VoteResult />
-      </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script lang="ts">
-import { Component, Provide, Vue } from "vue-property-decorator";
+import { Component, Prop, Provide, Vue, Watch } from "vue-property-decorator";
 import SettingIcon from "@/components/svg/Settings-icon.vue";
 import { Observer } from "mobx-vue";
-import SolendDao from "../components/Solend-Dao.vue";
 import ProposalDetail from "../components/Detail-Proposals.vue";
 import ProposalDetailDiscussion from "../components/Detail-Proposals-Discussion.vue";
+import Voting from "../components/Voting.vue";
 import YourAccount from "../components/YourAccount.vue";
 import Programs from "../components/_Programs.vue";
-import Voting from "../components/Voting.vue";
 import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
+import AddProposal from "../components/Add-Proposal.vue";
+import { applicationStore } from "@/stores/application-store";
+
 @Observer
 @Component({
   components: {
+    DaoLayout: () => import("./DaoLayout.vue"),
+    ProposalLayout: () => import("./ProposalLayout.vue"),
+    DaoNavigationBar: () => import("../components/NavigationBar.vue"),
+    DaoFooter: () => import("../components/Footer.vue"),
     SettingIcon,
-    SolendDao,
     YourAccount,
     Programs,
     ProposalDetail,
     ProposalDetailDiscussion,
     Voting,
     VoteResult,
+    AddProposal,
   },
 })
 export default class Dao extends Vue {
   @Provide() vm = new DaoViewModel();
+  @Prop({ default: true }) isReview?: boolean;
+  @Prop({ default: "management" }) reviewPage?: string;
+
+  applicationStore = applicationStore;
+
+  @Watch("isReview", { immediate: true }) onIsReviewChanged(val: boolean) {
+    this.vm.setIsReview(val);
+  }
+
+  @Watch("reviewPage", { immediate: true }) onReviewPageChanged(val: string) {
+    this.vm.setReviewPage(val);
+  }
+
+  async created() {
+    if (!this.isReview) {
+      if (!this.$route.params || !this.$route.params.appId)
+        this.$router.push("/home");
+    }
+    await this.vm.fetchApplication(this.$route.params.appId);
+  }
 }
 </script>
-<style scoped>
+<style>
 .dao-management {
   max-width: 1440px;
+}
+.dao-content {
+  height: calc(100vh - 52px - 64px) !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 </style>

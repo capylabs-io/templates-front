@@ -1,7 +1,9 @@
+import { ThemeModel } from "./../models/theme-model";
 import { walletStore } from "@/stores/wallet-store";
 import Axios from "axios";
 import moment from "moment";
-export type ApiRouteType = "applications";
+import { ApplicationModel } from "@/models/application-model";
+export type ApiRouteType = "applications" | "themes";
 
 const axios = Axios.create({ baseURL: process.env.VUE_APP_API_ENDPOINT });
 
@@ -29,6 +31,7 @@ export class ApiHandler<T> {
   ): Promise<T[]> {
     const settingDefault = { _sort: "createdAt:DESC", _limit: -1, _start: 0 };
     params = { ...settingDefault, ...settings, ...(params ?? {}) };
+
     const res = await this.axios.get(this.route, { params });
     const lst = res.data;
     return lst;
@@ -135,6 +138,7 @@ export class ApiHandlerJWT<T> {
 
 export class ApiService {
   applications = new ApiHandler<any>(axios, "applications");
+  themes = new ApiHandler<any>(axios, "themes");
 
   async signUp(publicAddress: string) {
     const res = await axios.post(`auth/local/register`, { publicAddress });
@@ -154,6 +158,55 @@ export class ApiService {
 
   async getFile(id: any) {
     const res = await axios.get(`upload/files/${id}`);
+    return res.data;
+  }
+
+  async deleteApplication(appId: string) {
+    const res = await axios.delete(`applications/delete/${appId}`);
+    return res.data;
+  }
+
+  async restoreApplication(appId: string) {
+    const res = await axios.post(`applications/restore`, {
+      appId,
+    });
+    return res.data;
+  }
+
+  async updateAppMetadata(model) {
+    const { appId, ...metadata } = model;
+    const res = await axios.post(`applications/customize`, {
+      appId,
+      metadata,
+    });
+    return res.data;
+  }
+
+  async purchaseTheme(params) {
+    const { userId, themeId } = params;
+    const res = await axios.post(`themes/purchase`, {
+      userId,
+      themeId,
+    });
+    return res.data;
+  }
+
+  async uploadApplicationFile(formData: any) {
+    const res = await axios.post(`applications/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data;
+  }
+
+  async addProposal(proposal: any) {
+    const res = await axios.post(`proposals`, proposal);
+    return res.data;
+  }
+
+  async getDefaultProposal() {
+    const res = await axios.get(`proposals/default`);
     return res.data;
   }
 }

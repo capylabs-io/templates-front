@@ -17,9 +17,7 @@ class Application {
     } else {
       if (!this.test) {
         this.isMetamask = false;
-        throw new Error(
-          "Please Use an Ethereum Enabled Browser like Metamask or Coinbase Wallet"
-        );
+        throw new Error("Please Use an Ethereum Enabled Browser like Metamask or Coinbase Wallet");
       }
     }
   };

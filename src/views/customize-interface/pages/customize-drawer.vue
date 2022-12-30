@@ -2,134 +2,88 @@
   <div class="customize-drawer">
     <div class="px-6 pt-4">
       <div class="text-lg font-weight-bold">Customize Interface</div>
-      <div class="text-sm">Theme Name</div>
+      <div class="d-flex align-center">
+        <div class="text-sm">Theme Name</div>
+        <v-btn @click="backToThemeSelector()" icon>
+          <v-icon color="primary" small>mdi-launch</v-icon>
+        </v-btn>
+      </div>
+      <v-select
+        v-model="vm.selectedPage"
+        :items="vm.appMainPages"
+        item-text="title"
+        item-value="value"
+        class="page-select mt-4"
+        hide-details
+        dense
+        outlined
+      ></v-select>
     </div>
-    <div class="drawer-content mt-8 px-6">
-      <div>
-        <div class="text-sm font-weight-bold">Primary Color</div>
-        <div class="mt-2">
-          <SimpleSwatches @onColorClick="changeBackground" />
-        </div>
-      </div>
-      <v-divider class="my-5"></v-divider>
-      <div>
-        <div class="text-sm font-weight-bold mb-1">Font</div>
-        <v-select hide-details solo dense></v-select>
-      </div>
-      <div class="mt-5">
-        <div class="text-sm font-weight-bold mb-1">Layout</div>
-        <v-select hide-details solo dense></v-select>
-      </div>
-      <v-divider class="my-5"></v-divider>
-      <div>
-        <div class="d-flex align-center">
-          <div class="text-sm font-weight-bold mr-1 mb-1">Token Icon</div>
-          <v-icon small>mdi-information-outline</v-icon>
-        </div>
-        <v-file-input
-          accept="image/*"
-          placeholder="File input"
-          append-icon="mdi-cloud-upload-outline"
-          prepend-icon=""
-          solo
-          dense
-        ></v-file-input>
-      </div>
-      <div>
-        <div class="d-flex align-center">
-          <div class="text-sm font-weight-bold mr-1 mb-1">Brand Logo</div>
-          <v-icon small>mdi-information-outline</v-icon>
-        </div>
-        <v-file-input
-          accept="image/*"
-          placeholder="File input"
-          append-icon="mdi-cloud-upload-outline"
-          prepend-icon=""
-          solo
-          dense
-        ></v-file-input>
-      </div>
-      <div>
-        <div class="d-flex align-center">
-          <div class="text-sm font-weight-bold mr-1 mb-1">
-            Banner <span class="text-sm gray6--text">(7.2:1)</span>
-          </div>
-          <v-icon small>mdi-information-outline</v-icon>
-        </div>
-        <v-file-input
-          accept="image/*"
-          placeholder="File input"
-          append-icon="mdi-cloud-upload-outline"
-          prepend-icon=""
-          solo
-          dense
-        ></v-file-input>
-      </div>
-      <div>
-        <div class="d-flex align-center">
-          <div class="mr-1">
-            Side Banner <span class="text-sm gray6--text">(4:3)</span>
-          </div>
-          <v-icon small>mdi-information-outline</v-icon>
-        </div>
-        <v-file-input
-          accept="image/*"
-          placeholder="File input"
-          append-icon="mdi-cloud-upload-outline"
-          prepend-icon=""
-          solo
-          dense
-        ></v-file-input>
-      </div>
-      <v-divider class="mb-3"></v-divider>
-      <div>
-        <div class="d-flex align-center justify-space-between">
-          <div>Social</div>
-          <v-btn icon>
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </div>
-        <div>
-          <div class="d-flex align-center">
-            <div class="d-flex align-center">
-              <v-select
-                class="media-select"
-                :items="vm.mediaIcons"
-                hide-details
-                outlined
-                dense
-              >
-                <template #selection="{ item }">
-                  <v-icon>{{ item.icon }}</v-icon>
-                </template>
-                <template #item="{ item }">
-                  <div class="media-select-item">
-                    <v-icon>{{ item.icon }}</v-icon>
-                  </div>
-                </template>
-              </v-select>
-              <v-divider vertical></v-divider>
-              <v-text-field hide-details outlined dense></v-text-field>
+    <v-divider class="mt-5"></v-divider>
+
+    <div class="drawer-content">
+      <v-expansion-panels
+        v-model="panel"
+        class="expansion-container d-flex flex-column z-index-8"
+        accordion
+        flat
+      >
+        <v-expansion-panel>
+          <v-expansion-panel-header class="font-weight-bold mt-2"
+            >General Config</v-expansion-panel-header
+          >
+          <v-expansion-panel-content class="mb-4 mt-2">
+            <GeneralConfig />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-divider class="mt-2"></v-divider>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="font-weight-bold mt-2"
+            >Custom Branding</v-expansion-panel-header
+          >
+          <v-expansion-panel-content class="mb-4 mt-2">
+            <BrandConfig />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-divider class="mt-2"></v-divider>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header class="font-weight-bold mt-2">
+            <div>
+              Social Media
+              <v-chip color="primary" class="ml-1" small>{{
+                applicationStore.socialMedias.length
+              }}</v-chip>
             </div>
-            <v-btn icon>
-              <v-icon>mdi-trash-can</v-icon>
-            </v-btn>
-          </div>
-        </div>
-      </div>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content class="mb-4 mt-2">
+            <SocialMedia />
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-divider class="mt-2"></v-divider>
+      </v-expansion-panels>
     </div>
+
     <v-divider class="my-5"></v-divider>
-    <div class="d-flex flex-column align-center pb-5">
+
+    <div class="d-flex flex-column align-center mb-4">
       <v-btn
         class="button-action text-none btn-text"
         color="primary"
-        elevation="10"
+        elevation="0"
+        @click="onBtnSaveClicked"
+        :disabled="!vm.socialMediaForm"
         >Save and Deploy</v-btn
       >
       <v-btn
         class="button-action text-none btn-text mt-2"
         color="gray13"
-        elevation="10"
+        elevation="0"
+        @click="onBtnCancelClicked"
         >Cancel</v-btn
       >
     </div>
@@ -137,6 +91,7 @@
 </template>
 
 <script lang="ts">
+import { applicationStore } from "@/stores/application-store";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
 
@@ -145,13 +100,28 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
     ThemeSelector: () => import("./theme-selector.vue"),
     SimpleSwatches: () =>
       import("@/components/create-service/simple-swatches.vue"),
+    GeneralConfig: () => import("../components/general-config.vue"),
+    BrandConfig: () => import("../components/brand-config.vue"),
+    SocialMedia: () => import("../components/social-media.vue"),
   },
 })
 export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
 
-  changeBackground(data: any) {
-    this.vm.setBackgroundColor(data);
+  panel: number = 0;
+  applicationStore = applicationStore;
+
+  onBtnSaveClicked() {
+    // if (!(this.$refs.layoutForm as any).validate()) return;
+    this.vm.updateApplicationMetadata();
+  }
+
+  onBtnCancelClicked() {
+    this.$router.go(-1);
+  }
+
+  backToThemeSelector() {
+    this.vm.setChoosingTheme(true);
   }
 }
 </script>
@@ -159,6 +129,12 @@ export default class CustomizeInterface extends Vue {
 <style scoped>
 .button-action {
   width: 150px;
+}
+
+.button-close {
+  position: absolute;
+  right: -44px;
+  top: 12px;
 }
 .media-select {
   max-width: 76px;
@@ -168,12 +144,22 @@ export default class CustomizeInterface extends Vue {
   max-width: 48px;
 }
 .customize-drawer {
-  max-width: 312px !important;
+  flex: 1 0 312px !important;
   background: var(--v-gray12-base);
+  z-index: 10 !important;
+  transition: margin-left 0.5s;
+  position: relative;
 }
 .drawer-content {
-  height: calc(100% - 140px - 64px - 32px);
+  height: calc(100% - 140px - 120px - 16px) !important;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.theme--dark .expansion-container.v-expansion-panels .v-expansion-panel {
+  background: var(--v-gray12-base) !important;
+}
+.active-header {
+  color: var(--v-primary-base) !important;
 }
 </style>

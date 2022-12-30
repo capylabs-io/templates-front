@@ -1,4 +1,4 @@
-import { action, computed, observable, runInAction, flow, makeAutoObservable } from "mobx";
+import { action, computed, observable, runInAction, flow, toJS } from "mobx";
 // import { actionAsync, asyncAction } from "mobx-utils";
 import Application from "@/libs/models";
 import Web3 from "web3";
@@ -8,6 +8,8 @@ import { Zero } from "@/constants";
 import { FixedNumber } from "@ethersproject/bignumber";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
 import { apiService } from "@/services/api-service";
+import { UserModel } from "@/models/user-model";
+import { ThemeModel } from "@/models/theme-model";
 
 export class WalletStore {
   ethereum: any = (window as any).ethereum;
@@ -27,21 +29,23 @@ export class WalletStore {
 
   @observable jwt = "";
   @observable userId = "";
+  @observable userInfo?: UserModel | null;
+  @observable userThemes?: ThemeModel[] | null;
 
   LPTokenContract?: any;
   private _balanceSubscription: Subscription | undefined;
 
-  constructor() {
-    makeAutoObservable(this);
-  }
-
-  @action.bound setAuth(jwt: string, userId: string) {
+  @action.bound setAuth(jwt: string, user: UserModel) {
     this.jwt = jwt;
-    this.userId = userId;
+    this.userId = user.id;
+    this.userInfo = user;
+    this.userThemes = user.themes;
   }
   @action.bound resetAuth() {
     this.jwt = "";
     this.userId = "";
+    this.userInfo = null;
+    this.userThemes = [];
   }
 
   // @action *getAvaxBalance() {
@@ -61,7 +65,7 @@ export class WalletStore {
   //   this.hvgBalance = FixedNumber.from(`${this.web3?.utils.fromWei(balance)}`);
   // }
 
-  @flow.bound *start() {
+  start = flow(function* (this) {
     try {
       this.app.start();
       this.isMetamask = this.app.isMetamask;
@@ -71,11 +75,12 @@ export class WalletStore {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      this.loaded = true;
     }
-    this.loaded = true;
-  }
+  });
 
-  @flow.bound *connect() {
+  connect = flow(function* (this) {
     loadingController.increaseRequest();
     try {
       const ok = yield this.app.login();
@@ -97,7 +102,7 @@ export class WalletStore {
           signature,
         });
         if (!res) return;
-        this.setAuth(res.jwt, res.user.id);
+        this.setAuth(res.jwt, res.user);
       }
       return ok;
     } catch (error) {
@@ -106,9 +111,9 @@ export class WalletStore {
     } finally {
       loadingController.decreaseRequest();
     }
-  }
+  });
 
-  *signMessage(account, nonce) {
+  async signMessage(account, nonce) {
     if (!account) return "";
     const message = `Sign message with accont: ${account} and one time nonce: ${nonce}`;
     if (typeof window === "undefined") {
@@ -116,7 +121,7 @@ export class WalletStore {
     }
     if (this.ethereum) {
       const request = { method: "personal_sign", params: [message, account] };
-      return yield this.ethereum.request(request);
+      return await this.ethereum.request(request);
     } else {
       throw new Error("Plugin Metamask is not installed!");
     }
@@ -159,8 +164,8 @@ export class WalletStore {
                   chainId: Web3.utils.toHex(chainId),
                   chainName: "Goerli Testnet",
                   nativeCurrency: {
-                    name: "Avax",
-                    symbol: "AVAX",
+                    name: "eth",
+                    symbol: "ETH",
                     decimals: 18,
                   },
                   rpcUrls: ["https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],
@@ -195,6 +200,11 @@ export class WalletStore {
   //#region computed
   @computed get connected() {
     return !!this.account && !!this.jwt;
+  }
+
+  @computed get userPaidThemes() {
+    if (!this.connected || !this.userThemes) return [];
+    return this.userThemes;
   }
 
   // @computed get shortAccount() {

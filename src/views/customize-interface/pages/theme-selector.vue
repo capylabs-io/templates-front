@@ -8,7 +8,8 @@
         <div>Sort by</div>
         <v-select
           class="sort-box ml-4"
-          :items="vm.sortBy"
+          v-model="vm.sortBy"
+          :items="vm.themeTypes"
           hide-details
           solo
           dense
@@ -29,18 +30,30 @@
         ></v-text-field>
       </div>
     </div>
-    <div class="gap-24 d-flex flex-wrap mt-6">
-      <div class="flex-grow-1" v-for="n in 9" :key="n">
-        <ThemeCard />
-      </div>
-    </div>
+
+    <v-row class="mt-6">
+      <v-col
+        cols="12"
+        md="4"
+        sm="6"
+        v-for="theme in vm.slicedThemes"
+        :key="theme.id"
+      >
+        <ThemeCard :theme="theme" @onChooseTheme="chooseTheme($event)" />
+      </v-col>
+    </v-row>
     <div class="my-6">
-      <v-pagination v-model="vm.page" :length="vm.totalPage"></v-pagination>
+      <v-pagination
+        v-model="vm.themePage"
+        :length="vm.totalThemePage"
+      ></v-pagination>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { ThemeModel } from "@/models/theme-model";
+import { applicationStore } from "@/stores/application-store";
 import { Vue, Component, Inject } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
 
@@ -51,6 +64,16 @@ import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewm
 })
 export default class CustomizeInterface extends Vue {
   @Inject() vm!: CustomizeInterfaceViewmodel;
+  applicationStore = applicationStore;
+
+  async created() {
+    await this.vm.fetchThemes();
+  }
+
+  chooseTheme(theme: ThemeModel) {
+    applicationStore.setupThemeConfig(theme);
+    this.vm.setChoosingTheme(false);
+  }
 }
 </script>
 

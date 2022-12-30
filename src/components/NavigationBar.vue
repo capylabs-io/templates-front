@@ -2,16 +2,15 @@
   <v-app-bar
     class=""
     height="64px"
+    color="gray12"
     style="z-index: 99,max-width:100%"
     app
-    flat
-    color="gray12"
   >
     <div
       class="nav-container text-s font-weight-regular"
       :class="{
-        'px-12': $vuetify.breakpoint.lgAndUp,
-        'px-4': $vuetify.breakpoint.mdAndDown,
+        'px-4': $vuetify.breakpoint.lgAndUp,
+        'px-2': $vuetify.breakpoint.mdAndDown,
       }"
     >
       <v-row class="d-flex align-center justify-space-between">
@@ -32,6 +31,19 @@
             active-class="active"
           >
             <div class="text-none">Home</div>
+          </router-link>
+          <router-link
+            to="/theme-market"
+            class="
+              white--text
+              text-decoration-none
+              cursor-pointer
+              px-3
+              align-self-center
+            "
+            active-class="active"
+          >
+            <div class="text-none">Market</div>
           </router-link>
           <router-link
             to="/select-service"
@@ -118,9 +130,27 @@
                   </div>
                 </template>
                 <v-list>
-                  <v-list-item :to="'/management'"
-                    >Application Dashboard</v-list-item
+                  <v-list-item class="d-flex align-center" :to="'/management'">
+                    <v-icon>mdi-view-dashboard</v-icon>
+                    <v-list-item-title class="ml-3"
+                      >Application Dashboard</v-list-item-title
+                    >
+                  </v-list-item>
+                  <v-list-item
+                    class="d-flex align-center"
+                    :to="'/theme-management'"
                   >
+                    <v-icon>mdi-developer-board</v-icon>
+                    <v-list-item-title class="ml-3"
+                      >Theme Management</v-list-item-title
+                    >
+                  </v-list-item>
+                  <v-list-item :to="'/trash'">
+                    <v-icon>mdi-trash-can</v-icon>
+                    <v-list-item-title class="ml-3"
+                      >Recent Deleted</v-list-item-title
+                    >
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </ConnectMetamask>

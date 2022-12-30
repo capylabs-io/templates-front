@@ -33,23 +33,24 @@
             flat
             solo
             class="mr-2 ml-5 text-field-contain"
-            placeholder="Search Theme or Creator"
+            placeholder="Search"
           ></v-text-field>
         </div>
         <v-btn
           class="
             rounded-lg
-            px-2
+            px-3
             py-5
             text-sm
             boder-majorelleBlue
             text-capitalize
             font-weight-bold
           "
-          color="majorelleBlue"
+          @click="$router.push('/select-service')"
+          color="primary"
           large
         >
-          Create New Service
+          Create New Application
         </v-btn>
       </div>
     </div>
@@ -61,21 +62,29 @@
         v-for="application in vm.slicedApplications"
         :key="application.id"
       >
-        <ManagementBox :application="application"></ManagementBox>
+        <ManagementBox
+          :application="application"
+          @deleteApplication="onDeleteApplication($event)"
+        ></ManagementBox>
       </v-col>
     </v-row>
     <v-pagination
       class="my-4"
       color="primary"
       v-model="vm.page"
+      v-if="vm.applications && vm.applications.length > 0"
       :length="vm.totalPage"
       circle
     >
     </v-pagination>
+    <div class="text-dp-md text-center gray4--text py-16 my-16" v-else>
+      No Application Found!
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import { ApplicationModel } from "@/models/application-model";
 import { walletStore } from "@/stores/wallet-store";
 import { Observer } from "mobx-vue";
 import { Vue, Component, Provide } from "vue-property-decorator";
@@ -92,8 +101,12 @@ export default class Management extends Vue {
   walletStore = walletStore;
 
   async created() {
-    // if (!walletStore.connected) this.$router.push("/home");
+    if (!walletStore.connected) this.$router.replace("/home");
     await this.vm.fetchApplications();
+  }
+
+  onDeleteApplication(application: ApplicationModel) {
+    this.vm.confirmDeleteApplication(application);
   }
 }
 </script>

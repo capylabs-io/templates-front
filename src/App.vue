@@ -1,21 +1,23 @@
 <template>
   <v-app>
-    <NavigationBar v-if="$vuetify.breakpoint.mdAndUp" />
-    <MobileNavigationBar v-else />
-    <v-main>
+    <SnackBar />
+    <GlobalLoading />
+    <ConfirmDialog />
+    <NavigationBar v-if="!isEndUser" />
+    <v-main style="overflow-y: hidden">
       <v-scroll-x-reverse-transition mode="out-in" appear>
         <router-view> </router-view>
       </v-scroll-x-reverse-transition>
     </v-main>
-    <Footer />
+    <Footer class="footer" v-if="!isEndUser" />
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
 import { Observer } from "mobx-vue";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { appProvider } from "./app-providers";
-import { walletStore } from "./stores/wallet-store";
+// import { walletStore } from "./stores/wallet-store";
 
 @Observer
 @Component({
@@ -28,16 +30,23 @@ import { walletStore } from "./stores/wallet-store";
       import("@/components/confirm-dialog/confirm-dialog.vue"),
     // Nav bar and Footer
     NavigationBar: () => import("@/components/NavigationBar.vue"),
-    MobileNavigationBar: () => import("@/components/MobileNavigationBar.vue"),
+    // MobileNavigationBar: () => import("@/components/MobileNavigationBar.vue"),
     // NavigationDrawer: () => import("@/components/NavigationDrawer.vue"),
     Footer: () => import("@/components/Footer.vue"),
     // NotifyDialog: () => import("@/components/NotifyDialog.vue"),
   },
 })
 export default class App extends Vue {
+  isEndUser = false;
+
   async created() {
-    await walletStore.start();
+    // await walletStore.start();
     appProvider.setVueRouter(this.$router);
+  }
+
+  @Watch("$route", { deep: true, immediate: true }) onRouteChange(val) {
+    if (val) this.isEndUser = val.meta.isEndUser;
+    if (!this.isEndUser) this.isEndUser = false;
   }
 }
 </script>
@@ -51,6 +60,9 @@ export default class App extends Vue {
 }
 .full-height {
   height: 100% !important;
+}
+.fill {
+  flex: 1 0 100%;
 }
 .cursor-pointer {
   cursor: pointer;
@@ -91,15 +103,9 @@ export default class App extends Vue {
   background-repeat: no-repeat !important;
   background-size: cover !important;
 }
-.v-application {
-  [class*="text-"] {
-    font-family: "DM Sans", sans-serif !important;
-  }
-  font-family: "DM Sans", sans-serif !important;
-  font-weight: 400;
-}
 body {
   font-family: "DM Sans", sans-serif !important;
+  font-weight: 400;
 }
 
 //Typography
@@ -164,8 +170,7 @@ body {
 
 //Scrollbar
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 8px var(--v-gray13-base);
   background-color: transparent !important;
 }
 ::-webkit-scrollbar {
@@ -174,8 +179,8 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 8px var(--v-primary-base);
-  background-color: var(--v-gray13-base);
+  -webkit-box-shadow: 0 0 8px var(--v-gray13-base);
+  background-color: var(--v-primary-base);
 }
 
 //Others
@@ -189,7 +194,6 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 14px !important;
   line-height: 20px !important;
   color: var(--v-gray03-base) !important;
-  font-family: "DM Sans", sans-serif !important;
   letter-spacing: 0px !important;
 }
 .card-border {
@@ -214,7 +218,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .box-gray-12 {
   background: #2a2a2d !important;
-  border: 1px solid #3b3b3f !important;
+  // border: 1px solid #3b3b3f !important;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4) !important;
 }
 .box-gray-13 {
@@ -230,6 +234,16 @@ input[type="number"]::-webkit-outer-spin-button {
     inset -1px -1px 4px rgba(0, 0, 0, 0.25),
     inset 1px 1px 4px rgba(255, 255, 255, 0.05);
   border-radius: 8px !important;
+}
+
+.box-border-gray11 {
+  border: 1px solid var(--v-gray11-base);
+}
+.box-border-gray12 {
+  border: 1px solid var(--v-gray12-base);
+}
+.box-border-gray13 {
+  border: 1px solid var(--v-gray13-base);
 }
 .h-36 {
   height: 36px;
@@ -252,13 +266,155 @@ input[type="number"]::-webkit-outer-spin-button {
 .gap-16 {
   gap: 16px !important;
 }
+.gap-8 {
+  gap: 8px !important;
+}
+.gap-4 {
+  gap: 4px !important;
+}
 .theme--dark {
-  .input-field.v-text-field--solo > .v-input__control > fieldset {
-    color: var(--v-red-base) !important;
-  }
-  .input-field.v-text-field--solo > .v-input__control > .v-input__slot {
-    background: var(--v-gray13-base) !important;
+  .v-btn--active::before {
+    opacity: 1 !important;
   }
 }
+.z-index-8 {
+  z-index: 8 !important;
+}
+.z-index-10 {
+  z-index: 10 !important;
+}
+
+.footer {
+  z-index: 1;
+}
 //Animations
+
+//Flicking
+.flicking-panel {
+  align-items: flex-end;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.flicking-arrow-prev,
+.flicking-arrow-next {
+  position: absolute;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.flicking-arrow-prev.is-circle,
+.flicking-arrow-next.is-circle {
+  background-color: var(--v-primary-base);
+  border-radius: 50%;
+}
+
+.flicking-arrow-disabled.is-circle {
+  background-color: var(--v-gray11-base);
+}
+
+.flicking-arrow-prev.is-circle::before,
+.flicking-arrow-prev.is-circle::after,
+.flicking-arrow-next.is-circle::before,
+.flicking-arrow-next.is-circle::after {
+  background-color: white;
+}
+
+.flicking-arrow-prev {
+  left: 6px;
+}
+.flicking-arrow-next {
+  right: 6px;
+}
+
+.flicking-arrow-prev.is-outside {
+  left: -74px;
+}
+.flicking-arrow-next.is-outside {
+  right: -74px;
+}
+
+.flicking-arrow-prev::before,
+.flicking-arrow-prev::after,
+.flicking-arrow-next::before,
+.flicking-arrow-next::after {
+  content: "";
+  width: 10px;
+  height: 2px;
+  position: absolute;
+  background-color: var(--v-gray11-base);
+  border-radius: 50% !important;
+}
+.flicking-arrow-prev::before {
+  top: calc(50% - 1px);
+  left: 8px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform-origin: 0% 50%;
+  -ms-transform-origin: 0% 50%;
+  transform-origin: 0% 50%;
+}
+.flicking-arrow-prev::after {
+  top: calc(50% - 1px);
+  left: 8px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transform-origin: 0% 50%;
+  -ms-transform-origin: 0% 50%;
+  transform-origin: 0% 50%;
+}
+.flicking-arrow-next::before {
+  top: calc(50% - 1px);
+  right: 8px;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transform-origin: 100% 50%;
+  -ms-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
+}
+.flicking-arrow-next::after {
+  top: calc(50% - 1px);
+  right: 8px;
+  -webkit-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-transform-origin: 100% 50%;
+  -ms-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
+}
+
+.flicking-arrow-disabled,
+.flicking-arrow-disabled {
+  cursor: default;
+}
+
+.flicking-arrow-disabled::before,
+.flicking-arrow-disabled::after,
+.flicking-arrow-disabled::before,
+.flicking-arrow-disabled::after {
+  background-color: #e6e6e6;
+}
+
+.flicking-arrow-prev.is-thin::before,
+.flicking-arrow-prev.is-thin::after,
+.flicking-arrow-next.is-thin::before,
+.flicking-arrow-next.is-thin::after {
+  height: 3px;
+}
+
+.flicking-arrow-prev.is-thin::after,
+.flicking-arrow-next.is-thin::after {
+  top: calc(50% - 2px);
+}
 </style>

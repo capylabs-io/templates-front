@@ -1,0 +1,62 @@
+{
+  "layouts": [
+    {
+      "title": "Right Side Bar",
+      "value": 1
+    },
+    {
+      "title": "Left Side Bar",
+      "value": 2
+    }
+  ],
+  "mediaIcons": {
+    "TelegramCommunity": {
+      "title": "Telegram Community",
+      "icon": "telegram.png"
+    },
+    "TelegramChannel": {
+      "title": "Telegram Channel",
+      "icon": "telegram1.png"
+    },
+    "Discord": {
+      "title": "Discord",
+      "icon": "discord.png"
+    },
+    "Facebook": {
+      "title": "Facebook",
+      "icon": "facebook.png"
+    },
+    "Github": {
+      "title": "Github",
+      "icon": "github.png"
+    },
+    "Instagram": {
+      "title": "Instagram",
+      "icon": "instagram.png"
+    },
+    "Linkedin": {
+      "title": "Linkedin",
+      "icon": "linkedin.png"
+    },
+    "Reddit": {
+      "title": "Reddit",
+      "icon": "reddit.png"
+    },
+    "Twitter": {
+      "title": "Twitter",
+      "icon": "twitter.png"
+    },
+    "Youtube": {
+      "title": "Youtube",
+      "icon": "youtube.png"
+    }
+  },
+  "defaultColors": {
+    "lightBackground": "#FFFFFF",
+    "darkBackground": "#1E1E20",
+    "lightCardBackground": "#F4F4F5",
+    "darkCardBackground": "#2A2A2D"
+  },
+  "defaultPrimaryColors": ["#F6C453", "#6A49E2", "#65C77C"],
+  "defaultFonts": ["Inter", "Lato", "Nunito", "Open Sans", "Raleway", "Roboto", "Source Sans Pro"]
+}

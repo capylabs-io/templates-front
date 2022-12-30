@@ -29,7 +29,7 @@ export class ConfirmDialogController {
     if (this.config.cancelCallback) this.config.cancelCallback();
     this.dialog = false;
   }
-  @action.bound confirm(config) {
+  @action.bound confirm(config: any) {
     this.config = { ...this.config, ...config };
     this.dialog = true;
   }

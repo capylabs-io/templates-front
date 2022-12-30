@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="elevation-0 FRL-font d-flex"
-    v-bind="$attrs"
-  >
+  <div class="elevation-0 FRL-font d-flex" v-bind="$attrs">
     <div class="text-center">
       <div class="number">
         <span>{{ days }}</span>
@@ -39,13 +36,11 @@
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.02em;
-  color: #ffffff;
 }
 .text {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  color: #bfc2c5;
 }
 .line {
   width: 1px;

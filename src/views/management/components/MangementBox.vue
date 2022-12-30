@@ -5,40 +5,58 @@
       class="
         card
         gray12
-        border-radius-16
-        boder-gray-10
+        border-radius-16 border-gray-11
         d-flex
         flex-column
         overflow-hidden
       "
       :class="{ 'on-hover cursor-pointer': hover }"
+      @click="goToDomain()"
     >
-      <CoverImage :imageUrl="applicationCoverImage" />
+      <v-chip
+        class="online-status font-weight-bold"
+        v-if="application?.status && application.status == 'running'"
+        color="success"
+        small
+      >
+        Online
+      </v-chip>
+      <CoverImage
+        :imageUrl="applicationCoverImage"
+        :defaultImageUrl="require('@/assets/ManagementBox/default.png')"
+      />
       <div class="d-flex justify-space-between px-4 py-3">
         <div class="flex-grow-1 application-title">
-          <div class="d-flex">
-            <v-img
-              :src="require('@/assets/web-icon.png')"
-              max-width="18px"
-              contain
-            ></v-img>
-            <div
-              class="
-                ml-2
-                white--text
-                text-sm
-                font-weight-medium
-                application-name
-                text-truncate
-              "
-            >
-              {{ applicationName }}
-            </div>
+          <div class="d-flex align-center">
+            <CoverImage
+              class="application-token-icon"
+              :imageUrl="applicationTokenIcon"
+              :defaultImageUrl="require('@/assets/web-icon.png')"
+            />
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <div
+                  class="
+                    ml-2
+                    white--text
+                    text-sm
+                    font-weight-medium
+                    application-name
+                    text-truncate
+                  "
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  {{ applicationName }}
+                </div>
+              </template>
+              <span class="font-weight-bold"> {{ application?.name }}</span>
+            </v-tooltip>
           </div>
 
           <div class="mt-2">
             <div class="gray5--text text-xs">
-              <span class="text-caplitalize">{{ applicationStatus }}</span>
+              <span class="text-capitalize">{{ applicationStatus }}</span>
               - {{ applicationUpdatedAt | normalizeTimeDuration }}
             </div>
           </div>
@@ -52,12 +70,19 @@
               </v-btn>
             </div>
           </template>
-          <v-list class="gray12">
-            <v-list-item>
+          <v-list class="gray12" v-if="!trash">
+            <v-list-item
+              :to="`/customize-interface?type=${application?.service}&appId=${application?.appId}`"
+            >
               <v-list-item-title>Edit</v-list-item-title>
             </v-list-item>
-            <v-list-item>
+            <v-list-item @click="onBtnDeleteClick">
               <v-list-item-title>Delete</v-list-item-title>
+            </v-list-item>
+          </v-list>
+          <v-list class="gray12" v-else>
+            <v-list-item @click="onBtnRestoreClick">
+              <v-list-item-title>Restore</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -77,6 +102,24 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 })
 export default class ManagementBox extends Vue {
   @Prop() application?: ApplicationModel;
+  @Prop({ default: false }) trash!: boolean;
+
+  goToDomain() {
+    if (!this.application || !this.application.service) return;
+    if (this.trash) return;
+    if (this.application.service != "dao") return; //TODO: Remove this
+    this.$router.push({
+      path: "/dao/" + this.application.appId.toString(),
+    });
+  }
+
+  onBtnDeleteClick() {
+    this.$emit("deleteApplication", this.application);
+  }
+
+  onBtnRestoreClick() {
+    this.$emit("restoreApplication", this.application);
+  }
 
   get applicationName() {
     if (!this.application || !this.application.name) return "Your Application";
@@ -89,8 +132,25 @@ export default class ManagementBox extends Vue {
   }
 
   get applicationCoverImage() {
-    if (!this.application || !this.application.metadata) return "";
-    return this.application.metadata.coverImage;
+    if (
+      !this.application ||
+      !this.application.metadata ||
+      !this.application.metadata.img ||
+      !this.application.metadata.img.banner
+    )
+      return "";
+    return this.application.metadata.img.banner;
+  }
+
+  get applicationTokenIcon() {
+    if (
+      !this.application ||
+      !this.application.metadata ||
+      !this.application.metadata.img ||
+      !this.application.metadata.img.tokenIcon
+    )
+      return "";
+    return this.application.metadata.img.tokenIcon;
   }
 
   get applicationStatus() {
@@ -106,8 +166,8 @@ export default class ManagementBox extends Vue {
 </script>
 
 <style scoped>
-.boder-gray-10 {
-  border: 1px solid #4f4f54 !important;
+.border-gray-11 {
+  border: 1px solid var(--v-gray11-base) !important;
 }
 .card {
   white-space: nowrap;
@@ -120,5 +180,14 @@ export default class ManagementBox extends Vue {
 }
 .application-title {
   width: calc(100% - 26px - 16px * 2) !important;
+}
+.application-token-icon {
+  max-width: 16px;
+  max-height: 16px;
+}
+.online-status {
+  position: absolute;
+  right: 8px;
+  top: 8px;
 }
 </style>
