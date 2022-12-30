@@ -7,7 +7,11 @@
           <div class="pa-4 box-gray-12 rounded-lg parameters-page">
             <div class="d-flex">
               <div class="pa-0 cursor-pointer" text>
-                <v-icon :color="applicationStore.primaryColor" small>
+                <v-icon
+                  :color="applicationStore.primaryColor"
+                  small
+                  @click="vm.setpickParameters(false)"
+                >
                   mdi-chevron-left</v-icon
                 >
                 <span
@@ -15,6 +19,7 @@
                   :style="
                     'color:' + applicationStore.primaryColor + ' !important'
                   "
+                  @click="vm.setpickParameters(false)"
                   >Back</span
                 >
               </div>
@@ -147,7 +152,7 @@
                           createdAt
                         </div>
                         <div class="font-weight-bold">
-                          {{ vm.daoSetting?.createdAt | ddmmyyyyhhmmss}}
+                          {{ vm.daoSetting?.createdAt | ddmmyyyyhhmmss }}
                         </div>
                       </div>
                     </div>

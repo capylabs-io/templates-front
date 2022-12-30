@@ -33,7 +33,14 @@
         </v-tooltip>
       </div>
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
-        <v-icon class="mr-1" color="gray6" small>mdi-account-multiple</v-icon>
+        <v-icon
+          class="mr-1"
+          color="gray6"
+          small
+          @click="vm.pickMembers = !vm.pickMembers"
+        >
+          mdi-account-multiple</v-icon
+        >
         <span
           >Members ({{
             vm.daoSetting?.members === undefined
@@ -49,7 +56,7 @@
           >mdi-cog</v-icon
         >
         <span>Params</span>
-        <v-icon class="ml-4" :color="applicationStore.primaryColor" @click="vm.pickMembers = !vm.pickMembers"
+        <v-icon class="ml-4" :color="applicationStore.primaryColor"
           >mdi-launch</v-icon
         >
       </div>
