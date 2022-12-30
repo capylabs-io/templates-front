@@ -15,12 +15,12 @@ import { Vue, Component } from "vue-property-decorator";
 @Observer
 @Component({
   components: {
-    Introduction: () => import("./Introduction.vue"),
-    Partner: () => import("./Partners.vue"),
-    Dao: () => import("./Dao.vue"),
-    Service: () => import("./Service.vue"),
-    Feature: () => import("./Feature.vue"),
-    Question: () => import("./Question.vue"),
+    Introduction: () => import("../components/Introduction.vue"),
+    Partner: () => import("../components/Partners.vue"),
+    Dao: () => import("../components/LandingDao.vue"),
+    Service: () => import("../components/Service.vue"),
+    Feature: () => import("../components/Feature.vue"),
+    Question: () => import("../components/Question.vue"),
   },
 })
 export default class LandingPage extends Vue {}
