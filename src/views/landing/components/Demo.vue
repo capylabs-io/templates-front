@@ -28,7 +28,7 @@
         </v-img>
       </v-card>
     </div>
-    <div class="relative d-flex gap-20 pt-130 partner-list">
+    <div class="relative d-flex gap-20 pt-12 partner-list">
       <v-card
         class="partner-card-1 d-flex left-to-right-2 px-10 py-8"
         v-for="partners in 15"

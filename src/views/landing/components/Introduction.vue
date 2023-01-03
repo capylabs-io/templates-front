@@ -79,12 +79,12 @@ export default {};
   background: transparent;
 }
 .image1 {
-  height: 160px;
-  max-width: 160px;
+  height: 140px;
+  max-width: 140px;
   top: 23%;
   right: 35%;
   position: absolute;
-  z-index: 4;
+  z-index: 3;
 }
 .image2 {
   height: 100px;
@@ -92,44 +92,44 @@ export default {};
   top: 55%;
   right: 38%;
   position: absolute;
-  z-index: 4;
+  z-index: 3;
 }
 .image3 {
   height: 130px;
   max-width: 130px;
   right: 18%;
   position: absolute;
-  z-index: 4;
+  z-index: 3;
 }
 .image4 {
-  height: 200px;
-  max-width: 200px;
+  height: 160px;
+  max-width: 160px;
   position: absolute;
   top: 62%;
   right: 18%;
-  z-index: 4;
+  z-index: 3;
 }
 .intro-image {
   height: 350px;
   max-width: 350px;
 }
 
-.image1:hover {
-  animation: loader 4s infinite;
+.image1 {
+  animation: rotate-float 4s infinite;
 }
-.image2:hover {
-  animation: loader 4s infinite;
+.image2 {
+  animation: rotate-float 4s infinite;
 }
-.image3:hover {
-  animation: loader 4s infinite;
+.image3 {
+  animation: rotate-float 4s infinite;
 }
-.image4:hover {
-  animation: loader 4s infinite;
+.image4 {
+  animation: rotate-float 4s infinite;
 }
 
-.intro-image:hover {
+.intro-image {
   animation: float 3s ease-in-out infinite;
-  z-index: 5;
+  z-index: 4;
 }
 .intro-left {
   width: 30%;
@@ -161,21 +161,6 @@ export default {};
     transform: translatey(0px);
   }
 }
-/*
-@keyframes float {
-  0% {
-    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
-    transform: translatey(0px);
-  }
-  50% {
-    box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
-    transform: translatey(-20px);
-  }
-  100% {
-    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
-    transform: translatey(0px);
-  }
-}*/
 
 @keyframes wiggle {
   0%,
@@ -220,6 +205,31 @@ export default {};
   }
   100% {
     rotate: 360deg;
+  }
+}
+@keyframes rotate-float {
+  0% {
+    rotate: 0deg;
+    transform: translatey(0px);
+  }
+  25% {
+    rotate: y 90deg;
+    transform: translatey(-10px);
+    scale: 0.8;
+  }
+  50% {
+    rotate: y 180deg;
+    transform: translatey(-20px);
+    scale: 1;
+  }
+  75% {
+    rotate: y 270deg;
+    transform: translatey(-10px);
+    scale: 0.8;
+  }
+  100% {
+    rotate: y 360deg;
+    transform: translatey(0px);
   }
 }
 </style>
