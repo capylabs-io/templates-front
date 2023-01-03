@@ -15,15 +15,16 @@ export class ManagementViewModel {
   fetchApplications = flow(function* (this) {
     try {
       loadingController.increaseRequest();
-      const res = yield apiService.applications.find({
-        userId: walletStore.userId,
+      const applications = yield apiService.applications.find({
         status_ne: "deleted",
+        user: walletStore.userId,
+        _limit: -1,
       });
-      if (!res || !res.applications) {
-        this.applications = [];
+      if (!applications) {
+        snackController.error("Error occurred! Please try again later");
         return;
       }
-      this.applications = res.applications;
+      this.applications = applications;
     } catch (err: any) {
       snackController.commonError(err);
     } finally {

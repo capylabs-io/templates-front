@@ -11,7 +11,7 @@
     outlined
   >
     <div class="d-flex justify-space-between align-center">
-      <v-btn class="px-0 ml-n2 btn-text" @click="vm.backSolendDao()" text>
+      <v-btn class="px-0 ml-n2 btn-text" @click="backToDao()" text>
         <v-icon :color="applicationStore.primaryColor" small>
           mdi-chevron-left</v-icon
         >
@@ -27,7 +27,7 @@
     </div>
     <div class="d-flex justify-space-between mt-3">
       <div class="text-dp-xs font-weight-bold text-capitalize">
-        {{ vm.currentProposal?.title }}
+        {{ vm.proposal?.title }}
       </div>
       <div>
         <ProposalStatus />
@@ -42,18 +42,13 @@
           : 'black--text'
       "
     >
-      {{ vm.currentProposal?.description }}
+      {{ vm.proposal?.description }}
     </div>
     <div
       class="d-flex justify-space-between pt-3"
       v-if="vm.isVoted && !vm.isVoteDone"
     >
-      <v-btn
-        color="gray60"
-        height="34px"
-        outlined
-        class="px-4 text-capitalize"
-        @click="vm.voteExcute()"
+      <v-btn color="gray60" height="34px" outlined class="px-4 text-capitalize"
         >Inspect</v-btn
       >
       <v-btn
@@ -65,7 +60,6 @@
           rounded-lg
           px-4
         "
-        @click="vm.voteExcute()"
         :loading="vm.loading"
         >Execute</v-btn
       >
@@ -87,7 +81,7 @@
 import { applicationStore } from "@/stores/application-store";
 import { Observer } from "mobx-vue";
 import { Component, Inject, Vue } from "vue-property-decorator";
-import { DaoViewModel } from "../models/dao-viewmodels";
+import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
 
 @Observer
 @Component({
@@ -96,9 +90,12 @@ import { DaoViewModel } from "../models/dao-viewmodels";
   },
 })
 export default class DetailProposal extends Vue {
-  @Inject() vm!: DaoViewModel;
+  @Inject() vm!: ProposalDetailViewmodel;
 
   applicationStore = applicationStore;
+  backToDao() {
+    this.$router.push(`/dao/${applicationStore.application?.appId}`);
+  }
 }
 </script>
 <style scoped>

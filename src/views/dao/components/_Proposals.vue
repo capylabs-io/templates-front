@@ -133,7 +133,7 @@
             rounded-lg
           "
           :style="'background:' + applicationStore.cardColor"
-          @click="vm.gotoProposalDetail()"
+          @click="gotoProposalDetail(proposal.id)"
           slot-scope="el"
         >
           <div :class="el.is.small ? 'small-proposal-title' : 'proposal-title'">
@@ -152,7 +152,7 @@
               </template>
               <span> {{ proposal.title }}</span>
             </v-tooltip>
-            <div>
+            <div class="text-capitalize">
               {{ new Date(proposal.updatedAt) | normalizeTimeDuration }}
             </div>
           </div>
@@ -200,6 +200,11 @@ export default class Proposals extends Vue {
   @Inject() vm!: DaoViewModel;
 
   applicationStore = applicationStore;
+
+  gotoProposalDetail(proposalId: string) {
+    if (this.vm.isReview) return;
+    this.$router.push(`/proposal/${proposalId}`);
+  }
 }
 </script>
 <style scoped>
