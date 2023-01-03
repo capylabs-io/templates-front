@@ -46,6 +46,30 @@ export class CustomizeInterfaceViewmodel {
     }
   });
 
+  fetchApplication = flow(function* (this, appId) {
+    try {
+      loadingController.increaseRequest();
+      const applications = yield apiService.applications.find({
+        appId,
+        service: this.appType,
+        _limit: -1,
+      });
+      if (!applications || applications.length === 0) {
+        snackController.error(`Application Not Available!`);
+        this.appProvider.router.push("/management");
+        return;
+      }
+      const application = applications[0];
+      applicationStore.application = application;
+      if (!this.applicationStore.themeConfig) this.applicationStore.setupThemeConfig(application.theme);
+      this.applicationStore.setupMetadata(application.metadata);
+    } catch (err: any) {
+      snackController.error(`Error occured! Error: ${err}`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  });
+
   async uploadApplicationFile(file: any, name: string) {
     if (!file) return;
     const formdata = new FormData();

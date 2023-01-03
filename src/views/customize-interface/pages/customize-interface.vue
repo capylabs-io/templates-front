@@ -7,7 +7,12 @@
       <CustomizeDrawer />
       <div class="layout-content">
         <div v-if="vm.appType == 'dao'">
-          <DaoInterface :isReview="true" :reviewPage="vm.selectedPage" />
+          <div v-if="vm.selectedPage == 'management'">
+            <DaoInterface :isReview="true" />
+          </div>
+          <div v-else>
+            <ProposalInterface :isReview="true" />
+          </div>
         </div>
       </div>
     </div>
@@ -19,7 +24,6 @@ import { applicationStore } from "@/stores/application-store";
 import { walletStore } from "@/stores/wallet-store";
 import { Vue, Component, Provide } from "vue-property-decorator";
 import { CustomizeInterfaceViewmodel } from "../models/customize-interface-viewmodel";
-import { waitUntil } from "async-wait-until";
 import { loadingController } from "@/components/global-loading/global-loading-controller";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
 
@@ -28,6 +32,7 @@ import { snackController } from "@/components/snack-bar/snack-bar-controller";
     ThemeSelector: () => import("./theme-selector.vue"),
     CustomizeDrawer: () => import("./customize-drawer.vue"),
     DaoInterface: () => import("../../dao/pages/Dao.vue"),
+    ProposalInterface: () => import("../../dao/pages/Proposal.vue"),
   },
 })
 export default class CustomizeInterface extends Vue {
@@ -41,7 +46,7 @@ export default class CustomizeInterface extends Vue {
     try {
       const appType = this.$route.query.type.toString();
       this.vm.setAppType(appType);
-      await waitUntil(() => applicationStore.application != null);
+      await this.vm.fetchApplication(this.$route.query.appId);
       if (!applicationStore.application?.theme) {
         this.vm.setChoosingTheme(true);
       }

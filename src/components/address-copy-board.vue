@@ -1,6 +1,7 @@
 <template>
   <div
-    class="container-frame d-flex align-center primary--text"
+    class="container-frame d-flex align-center"
+    :style="{ color: textColor }"
     :class="alignRight ? 'text-right' : ''"
     @mouseleave="onMouseLeave"
   >
@@ -63,7 +64,8 @@ export default class extends Vue {
   @Prop({ default: "TBA" }) address;
   @Prop({ default: false }) alignRight;
   @Prop({ default: 14 }) iconSize;
-  @Prop({ default: "" }) iconColor;
+  @Prop({ default: "primary" }) textColor;
+  @Prop({ default: "primary" }) iconColor;
   @Prop({ default: false }) isShortAddress;
   @Prop({ default: 6 }) shortStartAmount;
   @Prop({ default: 10 }) shortEndAmount;
