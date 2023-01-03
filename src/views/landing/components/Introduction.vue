@@ -30,10 +30,34 @@
         >
       </div>
     </div>
-    <v-img
-      class="intro-image align-self-center slide-down"
+    <div class="align-self-center intro-image-group d-flex flex-column">
+      <div>
+        <v-img
+          class="intro-image align-self-center"
+          :src="require(`@/assets/bitcoin.webp`)"
+        ></v-img>
+      </div>
+      <v-img
+        class="image1 align-self-center"
+        :src="require(`@/assets/bitcoin.webp`)"
+      ></v-img>
+      <v-img
+        class="image2 align-self-center"
+        :src="require(`@/assets/bitcoin.webp`)"
+      ></v-img>
+      <v-img
+        class="image3 align-self-center"
+        :src="require(`@/assets/bitcoin.webp`)"
+      ></v-img>
+      <v-img
+        class="image4 align-self-center"
+        :src="require(`@/assets/bitcoin.webp`)"
+      ></v-img>
+    </div>
+    <!-- <v-img
+      class="intro-image align-self-center wiggle"
       :src="require(`@/assets/landing/coin-image.webp`)"
-    ></v-img>
+    ></v-img> -->
   </div>
 </template>
 
@@ -50,15 +74,68 @@ export default {};
   background-repeat: no-repeat;
   position: relative;
 }
+.intro-image-group {
+  width: max-content;
+  background: transparent;
+}
+.image1 {
+  height: 160px;
+  max-width: 160px;
+  top: 23%;
+  right: 35%;
+  position: absolute;
+  z-index: 4;
+}
+.image2 {
+  height: 100px;
+  max-width: 100px;
+  top: 55%;
+  right: 38%;
+  position: absolute;
+  z-index: 4;
+}
+.image3 {
+  height: 130px;
+  max-width: 130px;
+  right: 18%;
+  position: absolute;
+  z-index: 4;
+}
+.image4 {
+  height: 200px;
+  max-width: 200px;
+  position: absolute;
+  top: 62%;
+  right: 18%;
+  z-index: 4;
+}
 .intro-image {
-  height: 587px;
-  max-width: 584px;
+  height: 350px;
+  max-width: 350px;
+}
+
+.image1:hover {
+  animation: loader 4s infinite;
+}
+.image2:hover {
+  animation: loader 4s infinite;
+}
+.image3:hover {
+  animation: loader 4s infinite;
+}
+.image4:hover {
+  animation: loader 4s infinite;
+}
+
+.intro-image:hover {
+  animation: float 3s ease-in-out infinite;
+  z-index: 5;
 }
 .intro-left {
   width: 30%;
 }
 .col-gap-45 {
-  column-gap: 45px;
+  column-gap: 150px;
 }
 .col-gap-20 {
   column-gap: 20px;
@@ -69,16 +146,80 @@ export default {};
 .btn-connect {
   border-radius: 10px;
 }
-.slide-down {
-  animation: slide-down 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+.wiggle {
+  animation: wiggle 5s linear infinite;
 }
 
-@keyframes slide-down {
+@keyframes float {
   0% {
-    transform: translateY(-120px);
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
   }
   100% {
-    transform: translateY(0);
+    transform: translatey(0px);
+  }
+}
+/*
+@keyframes float {
+  0% {
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+    transform: translatey(0px);
+  }
+  50% {
+    box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+    transform: translatey(-20px);
+  }
+  100% {
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+    transform: translatey(0px);
+  }
+}*/
+
+@keyframes wiggle {
+  0%,
+  7% {
+    transform: rotateZ(0);
+  }
+  15% {
+    transform: rotateZ(-15deg);
+  }
+  20% {
+    transform: rotateZ(10deg);
+  }
+  25% {
+    transform: rotateZ(-10deg);
+  }
+  30% {
+    transform: rotateZ(6deg);
+  }
+  35% {
+    transform: rotateZ(-4deg);
+  }
+  40%,
+  100% {
+    transform: rotateZ(0);
+  }
+}
+
+@keyframes loader {
+  0% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: y 90deg;
+    scale: 0.5;
+  }
+  50% {
+    rotate: 180deg;
+  }
+  75% {
+    rotate: x 270deg;
+    border-radius: 50%;
+  }
+  100% {
+    rotate: 360deg;
   }
 }
 </style>

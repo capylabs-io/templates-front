@@ -123,9 +123,28 @@ export default class Partners extends Vue {}
   left: 1050px;
   top: 50px;
 }
-
+.active {
+  animation: tran-opacity 0.4s forwards;
+}
 .right-to-left-1 {
   animation: right-to-left-1 15s linear infinite;
+}
+@keyframes tran-opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes tran-opacity-reverse {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 @keyframes right-to-left-1 {
   0% {
