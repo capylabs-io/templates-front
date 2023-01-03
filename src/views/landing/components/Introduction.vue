@@ -38,6 +38,22 @@
         ></v-img>
       </div>
       <v-img
+        class="blink1 align-self-center"
+        :src="require(`@/assets/coin-blink.webp`)"
+      ></v-img>
+      <v-img
+        class="blink2 align-self-center"
+        :src="require(`@/assets/coin-blink.webp`)"
+      ></v-img>
+      <v-img
+        class="blink3 align-self-center"
+        :src="require(`@/assets/coin-blink.webp`)"
+      ></v-img>
+      <v-img
+        class="blink4 align-self-center"
+        :src="require(`@/assets/coin-blink.webp`)"
+      ></v-img>
+      <v-img
         class="image1 align-self-center"
         :src="require(`@/assets/bitcoin.webp`)"
       ></v-img>
@@ -78,9 +94,49 @@ export default {};
   width: max-content;
   background: transparent;
 }
+.blink1 {
+  height: 60px;
+  max-width: 60px;
+  position: absolute;
+  z-index: 5;
+  top: 25%;
+  right: 25%;
+  animation: blink 4s infinite;
+}
+.blink2 {
+  height: 60px;
+  max-width: 60px;
+  position: absolute;
+  z-index: 3;
+  top: 40%;
+  right: 40%;
+  animation: blink 4s infinite;
+  animation-delay: 1s;
+}
+.blink3 {
+  height: 60px;
+  max-width: 60px;
+  position: absolute;
+  top: 67%;
+  right: 33%;
+  z-index: 3;
+  animation: blink 4s infinite;
+  animation-delay: 2.5s;
+}
+.blink4 {
+  height: 60px;
+  max-width: 60px;
+  position: absolute;
+  top: 52%;
+  right: 18%;
+  z-index: 3;
+  animation: blink 4s infinite;
+  animation-delay: 1.5s;
+}
+
 .image1 {
-  height: 140px;
-  max-width: 140px;
+  height: 130px;
+  max-width: 130px;
   top: 23%;
   right: 35%;
   position: absolute;
@@ -95,18 +151,18 @@ export default {};
   z-index: 3;
 }
 .image3 {
-  height: 130px;
-  max-width: 130px;
+  height: 120px;
+  max-width: 120px;
   right: 18%;
   position: absolute;
   z-index: 3;
 }
 .image4 {
-  height: 160px;
-  max-width: 160px;
+  height: 140px;
+  max-width: 140px;
   position: absolute;
-  top: 62%;
-  right: 18%;
+  top: 60%;
+  right: 19%;
   z-index: 3;
 }
 .intro-image {
@@ -115,16 +171,19 @@ export default {};
 }
 
 .image1 {
-  animation: rotate-float 4s infinite;
+  animation: rotate-float-left 4s infinite;
 }
 .image2 {
-  animation: rotate-float 4s infinite;
+  animation: rotate-float-left 4s infinite;
+  animation-delay: 1s;
 }
 .image3 {
-  animation: rotate-float 4s infinite;
+  animation: rotate-float-right 4s infinite;
+  animation-delay: 1.5s;
 }
 .image4 {
-  animation: rotate-float 4s infinite;
+  animation: rotate-float-right 4s infinite;
+  animation-delay: 2.5s;
 }
 
 .intro-image {
@@ -207,7 +266,7 @@ export default {};
     rotate: 360deg;
   }
 }
-@keyframes rotate-float {
+@keyframes rotate-float-left {
   0% {
     rotate: 0deg;
     transform: translatey(0px);
@@ -230,6 +289,42 @@ export default {};
   100% {
     rotate: y 360deg;
     transform: translatey(0px);
+  }
+}
+@keyframes rotate-float-right {
+  0% {
+    rotate: 0deg;
+    transform: translatey(0px);
+  }
+  25% {
+    rotate: y -90deg;
+    transform: translatey(-10px);
+    scale: 0.8;
+  }
+  50% {
+    rotate: y -180deg;
+    transform: translatey(-20px);
+    scale: 1;
+  }
+  75% {
+    rotate: y -270deg;
+    transform: translatey(-10px);
+    scale: 0.8;
+  }
+  100% {
+    rotate: y -360deg;
+    transform: translatey(0px);
+  }
+}
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 </style>
