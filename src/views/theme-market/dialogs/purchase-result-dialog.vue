@@ -4,7 +4,6 @@
     v-model="isOpen"
     max-width="320px"
     :overlay-opacity="0.9"
-    persistent
   >
     <v-card class="box-gray-12 border-radius-16 pa-6" v-if="success">
       <div class="d-flex flex-column align-center">

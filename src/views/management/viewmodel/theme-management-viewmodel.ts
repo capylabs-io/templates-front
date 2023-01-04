@@ -22,11 +22,17 @@ export class ThemeManagementViewmodel {
         _limit: -1,
         type: "free",
       });
-      const userThemes = walletStore.userPaidThemes;
 
+      const userInfo = yield apiService.fetchMyInfo();
+      console.log("user", userInfo);
+
+      walletStore.setAuth(walletStore.jwt, userInfo);
+
+      const userThemes = walletStore.userPaidThemes;
       this.themes = freeThemes.concat(
         userThemes.filter((theme) => freeThemes.findIndex((item) => item.id == theme.id) < 0)
       );
+      console.log("themes", this.themes);
     } catch (err: any) {
       snackController.error(`Error occured! Error: ${err}`);
     } finally {

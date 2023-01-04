@@ -16,8 +16,8 @@ export class TrashViewModel {
     try {
       loadingController.increaseRequest();
       const res = yield apiService.applications.find({
-        userId: walletStore.userId,
         status: "deleted",
+        user: walletStore.userId,
       });
       if (!res || !res.applications) {
         this.applications = [];

@@ -15,10 +15,15 @@
       :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
     >
       <div class="add-proposal mx-auto mt-6" v-if="vm.isOpenAddProposal">
-        <AddProposal />
+        <v-fade-transition mode="out-in" appear>
+          <AddProposal />
+        </v-fade-transition>
       </div>
-
-      <DaoLayout />
+      <div v-else>
+        <v-fade-transition mode="out-in" appear>
+          <DaoLayout />
+        </v-fade-transition>
+      </div>
     </div>
     <DaoFooter />
     <!-- <div v-if="!vm.showVoteResult && vm.proposalID == 0">

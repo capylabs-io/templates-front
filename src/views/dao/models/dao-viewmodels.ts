@@ -100,8 +100,9 @@ export class DaoViewModel {
           //type:
           //endTimeVote:
           //tokenQuorum:
-          //onHold:
-          //voteType:
+
+          //voteType: => if vote equally => need requiredTokenAmount to vote
+          //Draft => Deploy
           status: "draft",
           quorum: this.proposalQuorum,
           user: walletStore.userId,
@@ -142,17 +143,13 @@ export class DaoViewModel {
       this.applicationStore.application = application;
       this.daoSetting = application.dao_setting;
 
-      console.log("isApplicationOwner", this.applicationStore.isApplicationOwner);
-
       if (!application || !application.service || !application.dao_setting) {
         this.pushBackHome(`Invalid service type!`);
         return;
-      }
-      // else if (!applicationStore.isApplicationOwner && application.status == "draft") {
-      //   this.pushBackHome(`Appplication not available!`);
-      //   return;
-      // }
-      else if ((!application.isCustomized || !application.theme) && !this.isReview) {
+      } else if (!applicationStore.isApplicationOwner && application.status == "draft") {
+        this.pushBackHome(`Appplication not available!`);
+        return;
+      } else if ((!application.isCustomized || !application.theme) && !this.isReview) {
         appProvider.router.replace(
           `/customize-interface?type=${application.service}&appId=${application.appId}`
         );
@@ -296,5 +293,19 @@ export class DaoViewModel {
   @computed get currentProposal() {
     if (!this.proposals) return;
     return this.proposals[0];
+  }
+
+  @computed get daoType() {
+    if (!this.daoSetting) return "";
+    switch (this.daoSetting.type) {
+      case "multi-sig":
+        return "Multi-Signature Wallet";
+      case "nft-dao":
+        return "NFT Community DAO";
+      case "community-dao":
+        return "Community Token DAO";
+      default:
+        return "";
+    }
   }
 }

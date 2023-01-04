@@ -164,6 +164,13 @@ export class ApiService {
     return res.data;
   }
 
+  async fetchMyInfo() {
+    const res = await axios.get(`/users/me`, {
+      headers: { Authorization: `Bearer ${walletStore.jwt}` },
+    });
+    return res.data;
+  }
+
   async deleteApplication(appId: string) {
     const res = await axios.delete(`applications/delete/${appId}`);
     return res.data;

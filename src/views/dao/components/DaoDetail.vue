@@ -10,7 +10,7 @@
     :outlined="applicationStore.isDarkTheme"
     elevation="0"
   >
-    <div class="d-inline-flex justify-space-between full-width">
+    <div class="d-inline-flex justify-space-between full-width flex-wrap">
       <div class="d-flex align-center dao-title">
         <CoverImage
           class="token-icon mr-2"
@@ -80,6 +80,7 @@
     </div>
     <div>
       <Proposals v-if="showProposals" />
+      <DaoAbout v-else />
     </div>
   </v-card>
 </template>
@@ -87,13 +88,13 @@
 <script lang="ts">
 import { Component, Inject, Prop, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
-import Proposals from "./_Proposals.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { applicationStore } from "@/stores/application-store";
 @Observer
 @Component({
   components: {
-    Proposals,
+    Proposals: () => import("./_Proposals.vue"),
+    DaoAbout: () => import("./DaoAbout.vue"),
     CoverImage: () => import("@/components/CoverImage.vue"),
   },
 })
@@ -118,5 +119,8 @@ export default class SolendDao extends Vue {
 .dao-banner {
   max-height: 220px;
   aspect-ratio: 8 / 1;
+}
+.dao-title {
+  width: calc(100% - 236px - 16px);
 }
 </style>

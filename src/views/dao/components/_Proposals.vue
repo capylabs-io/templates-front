@@ -108,6 +108,7 @@
       <div
         class="blueJeans--text d-flex align-center cursor-pointer"
         @click="vm.changeAddProposalDialog()"
+        v-if="applicationStore.isApplicationOwner"
       >
         <v-icon small :color="applicationStore.primaryColor"
           >mdi-plus-circle-outline</v-icon
@@ -115,7 +116,7 @@
         <span
           class="ml-1 align-self-end"
           :style="'color:' + applicationStore.primaryColor"
-          >New Proposals</span
+          >Add Proposal</span
         >
       </div>
     </div>
