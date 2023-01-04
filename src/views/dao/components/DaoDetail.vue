@@ -33,10 +33,39 @@
         </v-tooltip>
       </div>
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
-        <v-icon class="mr-1" color="gray6" small>mdi-account-multiple</v-icon>
-        <span>Members (194)</span>
-        <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
-        <span>Params</span>
+        <v-icon
+          class="mr-1"
+          color="gray6"
+          small
+          @click="(vm.pickMembers = !vm.pickMembers), vm.setpickDao(false)"
+        >
+          mdi-account-multiple</v-icon
+        >
+        <span
+          class="cursor-pointer"
+          @click="(vm.pickMembers = !vm.pickMembers), vm.setpickDao(false)"
+          >Members ({{
+            vm.daoSetting?.members === undefined
+              ? "0"
+              : vm.daoSetting?.members?.length
+          }})</span
+        >
+        <v-icon
+          class="ml-3 mr-1"
+          color="gray6"
+          small
+          @click="
+            (vm.pickParameters = !vm.pickParameters), vm.setpickDao(false)
+          "
+          >mdi-cog</v-icon
+        >
+        <span
+          @click="
+            (vm.pickParameters = !vm.pickParameters), vm.setpickDao(false)
+          "
+          class="cursor-pointer"
+          >Params</span
+        >
         <v-icon class="ml-4" :color="applicationStore.primaryColor"
           >mdi-launch</v-icon
         >
@@ -86,7 +115,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Inject, Prop, Vue } from "vue-property-decorator";
+import { Component, Inject, Prop, Vue, Watch } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { applicationStore } from "@/stores/application-store";
@@ -101,7 +130,11 @@ import { applicationStore } from "@/stores/application-store";
 export default class SolendDao extends Vue {
   @Inject() vm!: DaoViewModel;
   @Prop({ default: false }) isSmall!: boolean;
-
+  @Watch("pickParameters", { immediate: true }) onpickParametersChanged(
+    val: boolean
+  ) {
+    this.vm.setpickParameters(val);
+  }
   applicationStore = applicationStore;
   showProposals = true;
 }

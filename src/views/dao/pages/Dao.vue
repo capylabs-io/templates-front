@@ -14,7 +14,17 @@
       }"
       :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
     >
-      <div class="add-proposal mx-auto mt-6" v-if="vm.isOpenAddProposal">
+      <div v-if="vm.pickParameters">
+        <v-fade-transition mode="out-in" appear>
+          <Parameters></Parameters>
+        </v-fade-transition>
+      </div>
+      <div v-else-if="vm.pickMembers">
+        <v-fade-transition mode="out-in" appear>
+          <Member></Member>
+        </v-fade-transition>
+      </div>
+      <div class="add-proposal mx-auto mt-6" v-else-if="vm.isOpenAddProposal">
         <v-fade-transition mode="out-in" appear>
           <AddProposal />
         </v-fade-transition>
@@ -75,6 +85,8 @@ import { applicationStore } from "@/stores/application-store";
     DaoFooter: () => import("../components/Footer.vue"),
     AddProposal: () => import("../components/Add-Proposal.vue"),
 
+    Parameters: () => import("../components/Params.vue"),
+    Member: () => import("../components/Members.vue"),
     SettingIcon,
     YourAccount,
     Programs,
@@ -93,6 +105,10 @@ export default class Dao extends Vue {
 
   @Watch("isReview", { immediate: true }) onIsReviewChanged(val: boolean) {
     this.vm.setIsReview(val);
+  }
+
+  @Watch("reviewPage", { immediate: true }) onReviewPageChanged(val: string) {
+    this.vm.setReviewPage(val);
   }
 
   async created() {
