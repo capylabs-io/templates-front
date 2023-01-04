@@ -19,9 +19,9 @@
         outlined
       ></v-select>
     </div>
-    <v-divider class="mt-5"></v-divider>
 
-    <div class="drawer-content">
+    <div class="drawer-content mt-8">
+      <v-divider></v-divider>
       <v-expansion-panels
         v-model="panel"
         class="expansion-container d-flex flex-column z-index-8"

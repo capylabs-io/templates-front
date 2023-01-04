@@ -14,11 +14,26 @@
       }"
       :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
     >
-      <div class="add-proposal mx-auto mt-6" v-if="vm.isOpenAddProposal">
-        <AddProposal />
+      <div v-if="vm.pickParameters">
+        <v-fade-transition mode="out-in" appear>
+          <Parameters></Parameters>
+        </v-fade-transition>
       </div>
-
-      <DaoLayout />
+      <div v-else-if="vm.pickMembers">
+        <v-fade-transition mode="out-in" appear>
+          <Member></Member>
+        </v-fade-transition>
+      </div>
+      <div class="add-proposal mx-auto mt-6" v-else-if="vm.isOpenAddProposal">
+        <v-fade-transition mode="out-in" appear>
+          <AddProposal />
+        </v-fade-transition>
+      </div>
+      <div v-else>
+        <v-fade-transition mode="out-in" appear>
+          <DaoLayout />
+        </v-fade-transition>
+      </div>
     </div>
     <DaoFooter />
     <!-- <div v-if="!vm.showVoteResult && vm.proposalID == 0">
@@ -61,7 +76,6 @@ import Programs from "../components/_Programs.vue";
 import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { applicationStore } from "@/stores/application-store";
-import { waitUntil } from "async-wait-until";
 
 @Observer
 @Component({
@@ -71,6 +85,8 @@ import { waitUntil } from "async-wait-until";
     DaoFooter: () => import("../components/Footer.vue"),
     AddProposal: () => import("../components/Add-Proposal.vue"),
 
+    Parameters: () => import("../components/Params.vue"),
+    Member: () => import("../components/Members.vue"),
     SettingIcon,
     YourAccount,
     Programs,
@@ -91,15 +107,17 @@ export default class Dao extends Vue {
     this.vm.setIsReview(val);
   }
 
+  @Watch("reviewPage", { immediate: true }) onReviewPageChanged(val: string) {
+    this.vm.setReviewPage(val);
+  }
+
   async created() {
     if (!this.isReview) {
       if (!this.$route.params || !this.$route.params.appId)
         this.$router.push("/home");
       await this.vm.fetchApplication(this.$route.params.appId);
     } else {
-      await waitUntil(() => applicationStore.application != null);
-      if (!this.vm.proposals || this.vm.proposals.length == 0)
-        await this.vm.fetchDefaultProposals();
+      await this.vm.fetchDefaultProposals();
     }
   }
 }

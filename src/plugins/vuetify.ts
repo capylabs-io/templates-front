@@ -33,6 +33,22 @@ export default new Vuetify({
         // paradise-pink
         paradisePink: "#E24E6E",
 
+        pigmentBlue: "#353897",
+        majorelleBlue: "#6A49E2",
+        blueJeans: "#4DAAF8",
+        emerald: "#65C77C",
+        mango: "#F6C453",
+        coral: "#F0845D",
+        purplePizzazz: "#E569D9",
+        cottonCandy: "#F4C7F0",
+        wildBlueYondar: "#6F7488",
+        blueJean: "#4DAAF8",
+
+        silver: "#D3D3D3",
+        gold: "#FFDF00",
+        platinum: "#00CED1",
+        diamond: "#B9F2FF",
+
         //config theme
         lightBackground: "#FFFFFF",
         darkBackground: "#1E1E20",

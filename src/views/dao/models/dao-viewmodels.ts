@@ -26,6 +26,9 @@ export class DaoViewModel {
   @observable filterDraft = false;
 
   @observable daoSetting?: DaoSettingModel;
+  @observable pickParameters = false;
+  @observable pickMembers = false;
+  @observable pickDao = true;
   @observable proposals: ProposalModel[] = [];
   @observable itemsPerPage = 8;
   @observable proposalPage = 1;
@@ -71,7 +74,7 @@ export class DaoViewModel {
       type: "None",
       source: "0x00",
       destination: "0x00",
-      explorer: null,
+      explorer: "",
       config: {},
       token: "",
       amount: 0,
@@ -90,34 +93,39 @@ export class DaoViewModel {
     }
     try {
       loadingController.increaseRequest();
-      const createdProposal = yield apiService.addProposal({
+      const createdProposal = yield apiService.proposals.create({
+        appId: applicationStore.application!.appId,
         userId: walletStore.userId,
-        appId: applicationStore.application.appId,
-        data: {
-          application: applicationStore.application!.id,
-          title: this.proposalTitle,
-          description: this.proposalDescription,
-          //type:
-          //endTimeVote:
-          //tokenQuorum:
-          //onHold:
-          //voteType:
-          status: "draft",
-          quorum: this.proposalQuorum,
-          user: walletStore.userId,
-        },
+        application: applicationStore.application!.id,
+        title: this.proposalTitle,
+        description: this.proposalDescription,
+        //type:
+        //endTimeVote:
+        //tokenQuorum:
+
+        //voteType: => if vote equally => need requiredTokenAmount to vote
+        //Draft => Deploy
+        status: "draft",
+        quorum: this.proposalQuorum,
+        creator: walletStore.userId,
       });
+
       const promises = this.proposalTransactions.map(async (transaction) => {
-        return await apiService.transactions.create({
+        if (transaction.type == "None") return;
+        return apiService.transactions.create({
           ...transaction,
+          appId: applicationStore.application!.appId,
+          userId: walletStore.userId,
           amount: FixedNumber.from(transaction.amount).toString(),
-          proposal: createdProposal.id,
+          proposalId: createdProposal.id,
         });
       });
       yield Promise.all(promises);
-      yield this.fetchApplication();
+
+      yield this.fetchApplication(applicationStore.application!.appId);
       //TODO: Add to localstorage
       snackController.success("Add Proposal successfully!");
+
       this.isOpenAddProposal = false;
     } catch (err: any) {
       snackController.commonError(err);
@@ -142,27 +150,20 @@ export class DaoViewModel {
       this.applicationStore.application = application;
       this.daoSetting = application.dao_setting;
 
-      console.log("isApplicationOwner", this.applicationStore.isApplicationOwner);
-
       if (!application || !application.service || !application.dao_setting) {
         this.pushBackHome(`Invalid service type!`);
         return;
-      }
-      // else if (!applicationStore.isApplicationOwner && application.status == "draft") {
-      //   this.pushBackHome(`Appplication not available!`);
-      //   return;
-      // }
-      else if ((!application.isCustomized || !application.theme) && !this.isReview) {
+      } else if (!applicationStore.isApplicationOwner && application.status == "draft") {
+        this.pushBackHome(`Appplication not available!`);
+        return;
+      } else if ((!application.isCustomized || !application.theme) && !this.isReview) {
         appProvider.router.replace(
           `/customize-interface?type=${application.service}&appId=${application.appId}`
         );
         return;
       }
 
-      if ((!application.proposals || application.proposals.length == 0) && this.isReview)
-        yield this.fetchDefaultProposals();
-      else this.proposals = application.proposals;
-
+      this.proposals = application.proposals;
       if (this.isReview) return;
       if (!this.applicationStore.themeConfig) this.applicationStore.setupThemeConfig(application.theme);
       this.applicationStore.setupMetadata(application.metadata);
@@ -176,6 +177,8 @@ export class DaoViewModel {
 
   fetchDefaultProposals = flow(function* (this) {
     try {
+      console.log("fetchDefaultProposals");
+
       loadingController.increaseRequest();
       const proposals = yield apiService.getDefaultProposal();
       if (!proposals || proposals.length == 0) {
@@ -198,6 +201,16 @@ export class DaoViewModel {
 
   @action setIsReview(val: boolean) {
     this.isReview = val;
+  }
+
+  @action setpickParameters(val: boolean) {
+    this.pickParameters = val;
+  }
+  @action setpickMembers(val: boolean) {
+    this.pickMembers = val;
+  }
+  @action setpickDao(val: boolean) {
+    this.pickDao = val;
   }
   @action setReviewPage(val: string) {
     this.reviewPage = val;
@@ -232,12 +245,12 @@ export class DaoViewModel {
   }
   @action addTransaction() {
     this.proposalTransactions.push({
-      type: "none",
-      source: "0x00",
-      destination: "0x00",
-      explorer: null,
+      type: "None",
+      source: "",
+      destination: "",
+      explorer: "",
       config: {},
-      token: "1",
+      token: "",
       amount: 0,
     });
   }
@@ -296,5 +309,19 @@ export class DaoViewModel {
   @computed get currentProposal() {
     if (!this.proposals) return;
     return this.proposals[0];
+  }
+
+  @computed get daoType() {
+    if (!this.daoSetting) return "";
+    switch (this.daoSetting.type) {
+      case "multi-sig":
+        return "Multi-Signature Wallet";
+      case "nft-dao":
+        return "NFT Community DAO";
+      case "community-dao":
+        return "Community Token DAO";
+      default:
+        return "";
+    }
   }
 }

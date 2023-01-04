@@ -164,6 +164,13 @@ export class ApiService {
     return res.data;
   }
 
+  async fetchMyInfo() {
+    const res = await axios.get(`/users/me`, {
+      headers: { Authorization: `Bearer ${walletStore.jwt}` },
+    });
+    return res.data;
+  }
+
   async deleteApplication(appId: string) {
     const res = await axios.delete(`applications/delete/${appId}`);
     return res.data;
@@ -181,6 +188,15 @@ export class ApiService {
     const res = await axios.post(`applications/customize`, {
       appId,
       metadata,
+    });
+    return res.data;
+  }
+
+  async purchaseTheme(params) {
+    const { userId, themeId } = params;
+    const res = await axios.post(`themes/purchase`, {
+      userId,
+      themeId,
     });
     return res.data;
   }

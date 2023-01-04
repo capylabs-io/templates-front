@@ -108,6 +108,10 @@ export class ApplicationStore {
     this.socialMedias = get(metadata, "socialMedias", []);
   }
 
+  @computed get defaultPageBackground() {
+    return defaultLayoutConfig.defaultColors.darkBackground;
+  }
+
   @computed get pageBackground() {
     return this.isDarkTheme
       ? defaultLayoutConfig.defaultColors.darkBackground
