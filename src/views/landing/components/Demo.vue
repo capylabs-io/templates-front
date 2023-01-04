@@ -150,8 +150,11 @@ export default class Partners extends Vue {}
   0% {
     transform: translateX(0);
   }
-  100% {
+  50% {
     transform: translateX(-1000px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 
@@ -163,11 +166,14 @@ export default class Partners extends Vue {}
   0% {
     transform: translateX(-1000px);
   }
-  100% {
+  50% {
     transform: translateX(0);
   }
+  100% {
+    transform: translateX(-1000px);
+  }
 }
-/* 
+/*
 .right-to-left-1 {
   animation: right-to-left-1 27s linear infinite;
 }
@@ -184,7 +190,7 @@ export default class Partners extends Vue {}
 }
 .partner-card.right-to-left-1 {
   right: -230px;
-} 
+}
 .left-to-right-2 {
   animation: left-to-right-2 27s linear infinite;
 }
