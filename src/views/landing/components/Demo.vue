@@ -11,13 +11,30 @@
       :src="require(`@/assets/landing/blue-blur.webp`)"
     >
     </v-img>
-    <div class="font-weight-bold text-dp-lg align-self-center mt-12">
+    <div
+      class="font-weight-bold text-dp-lg align-self-center mt-12"
+      data-aos="fade-up"
+    >
       Our Partner
     </div>
-    <div class="relative d-flex gap-20 pt-130 partner-list">
+    <div class="relative d-flex gap-20 pt-130 partner-list" data-aos="fade-up">
       <v-card
         class="partner-card-1 d-flex right-to-left-1 px-10 py-8"
-        v-for="partners in 9"
+        v-for="partners in 15"
+        :key="partners.image"
+      >
+        <v-img
+          contain
+          class="card-image align-self-center"
+          :src="require(`@/assets/landing/partner-logo.webp`)"
+        >
+        </v-img>
+      </v-card>
+    </div>
+    <div class="relative d-flex gap-20 pt-12 partner-list" data-aos="fade-up">
+      <v-card
+        class="partner-card-1 d-flex left-to-right-2 px-10 py-8"
+        v-for="partners in 15"
         :key="partners.image"
       >
         <v-img
@@ -29,7 +46,7 @@
       </v-card>
     </div>
 
-    <div class="relative d-flex mt-5 justify-center pt-130 gap-20">
+    <!-- <div class="relative d-flex mt-5 justify-center pt-130 gap-20">
       <v-card
         class="partner-card-2 d-flex left-to-right-2 px-10 py-8"
         v-for="partners in 9"
@@ -42,7 +59,7 @@
         >
         </v-img>
       </v-card>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -109,7 +126,57 @@ export default class Partners extends Vue {}
   left: 1050px;
   top: 50px;
 }
+.active {
+  animation: tran-opacity 0.4s forwards;
+}
+.right-to-left-1 {
+  animation: right-to-left-1 20s linear infinite;
+}
+@keyframes tran-opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
+@keyframes tran-opacity-reverse {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes right-to-left-1 {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-1000px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.left-to-right-2 {
+  animation: left-to-right-2 20s linear infinite;
+}
+
+@keyframes left-to-right-2 {
+  0% {
+    transform: translateX(-1000px);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-1000px);
+  }
+}
+/*
 .right-to-left-1 {
   animation: right-to-left-1 27s linear infinite;
 }
@@ -121,12 +188,12 @@ export default class Partners extends Vue {}
     right: 100%;
   }
 }
-/* .partner-card.left-to-right-2 {
+.partner-card.left-to-right-2 {
   left: -230px;
 }
 .partner-card.right-to-left-1 {
   right: -230px;
-} 
+}
 .left-to-right-2 {
   animation: left-to-right-2 27s linear infinite;
 }

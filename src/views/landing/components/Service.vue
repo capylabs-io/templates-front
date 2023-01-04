@@ -1,12 +1,16 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="service d-flex flex-column align-center">
-    <div class="font-weight-bold text-dp-lg align-self-center mt-12 mb-8">
+    <div
+      class="font-weight-bold text-dp-lg align-self-center mt-12 mb-8"
+      data-aos="fade-up"
+    >
       We help you save
     </div>
     <div class="d-flex justify-center col-gap-55 card-list mt-7">
       <v-card
         class="service-card d-flex flex-column align-center justify-center"
+        data-aos="fade-up"
       >
         <div class="font-weight-bold text-dp-xl slide-down">100+</div>
         <div class="text-dp-sm gray6--text slide-down">hours</div>
@@ -14,6 +18,7 @@
       </v-card>
       <v-card
         class="service-card d-flex flex-column align-center justify-center"
+        data-aos="fade-up"
       >
         <div class="font-weight-bold text-dp-xl slide-down">>75k</div>
         <div class="text-dp-sm gray6--text slide-down">US dollar</div>
@@ -23,6 +28,7 @@
       </v-card>
       <v-card
         class="service-card d-flex flex-column align-center justify-center"
+        data-aos="fade-up"
       >
         <div class="font-weight-bold text-dp-xl slide-down">2-3</div>
         <div class="text-dp-sm gray6--text slide-down">months</div>
@@ -31,7 +37,7 @@
         </div>
       </v-card>
     </div>
-    <div class="text-lg mt-10 text-center service-text">
+    <div class="text-lg mt-10 text-center service-text" data-aos="fade-up">
       Even better, be free from all the trails and errors by working directly
       with our experts
     </div>

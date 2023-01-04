@@ -42,6 +42,7 @@ export default new Vuetify({
         purplePizzazz: "#E569D9",
         cottonCandy: "#F4C7F0",
         wildBlueYondar: "#6F7488",
+        blueJean: "#4DAAF8",
 
         silver: "#D3D3D3",
         gold: "#FFDF00",
