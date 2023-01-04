@@ -20,7 +20,7 @@
       ></v-select>
     </div>
 
-    <div class="drawer-content px-6 mt-8">
+    <div class="drawer-content mt-8">
       <v-divider></v-divider>
       <v-expansion-panels
         v-model="panel"

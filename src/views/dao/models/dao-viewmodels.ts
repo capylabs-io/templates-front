@@ -71,7 +71,7 @@ export class DaoViewModel {
       type: "None",
       source: "0x00",
       destination: "0x00",
-      explorer: null,
+      explorer: "",
       config: {},
       token: "",
       amount: 0,
@@ -90,35 +90,39 @@ export class DaoViewModel {
     }
     try {
       loadingController.increaseRequest();
-      const createdProposal = yield apiService.addProposal({
+      const createdProposal = yield apiService.proposals.create({
+        appId: applicationStore.application!.appId,
         userId: walletStore.userId,
-        appId: applicationStore.application.appId,
-        data: {
-          application: applicationStore.application!.id,
-          title: this.proposalTitle,
-          description: this.proposalDescription,
-          //type:
-          //endTimeVote:
-          //tokenQuorum:
+        application: applicationStore.application!.id,
+        title: this.proposalTitle,
+        description: this.proposalDescription,
+        //type:
+        //endTimeVote:
+        //tokenQuorum:
 
-          //voteType: => if vote equally => need requiredTokenAmount to vote
-          //Draft => Deploy
-          status: "draft",
-          quorum: this.proposalQuorum,
-          user: walletStore.userId,
-        },
+        //voteType: => if vote equally => need requiredTokenAmount to vote
+        //Draft => Deploy
+        status: "draft",
+        quorum: this.proposalQuorum,
+        creator: walletStore.userId,
       });
+
       const promises = this.proposalTransactions.map(async (transaction) => {
-        return await apiService.transactions.create({
+        if (transaction.type == "None") return;
+        return apiService.transactions.create({
           ...transaction,
+          appId: applicationStore.application!.appId,
+          userId: walletStore.userId,
           amount: FixedNumber.from(transaction.amount).toString(),
-          proposal: createdProposal.id,
+          proposalId: createdProposal.id,
         });
       });
       yield Promise.all(promises);
-      yield this.fetchApplication();
+
+      yield this.fetchApplication(applicationStore.application!.appId);
       //TODO: Add to localstorage
       snackController.success("Add Proposal successfully!");
+
       this.isOpenAddProposal = false;
     } catch (err: any) {
       snackController.commonError(err);
@@ -156,10 +160,7 @@ export class DaoViewModel {
         return;
       }
 
-      if ((!application.proposals || application.proposals.length == 0) && this.isReview)
-        yield this.fetchDefaultProposals();
-      else this.proposals = application.proposals;
-
+      this.proposals = application.proposals;
       if (this.isReview) return;
       if (!this.applicationStore.themeConfig) this.applicationStore.setupThemeConfig(application.theme);
       this.applicationStore.setupMetadata(application.metadata);
@@ -173,6 +174,8 @@ export class DaoViewModel {
 
   fetchDefaultProposals = flow(function* (this) {
     try {
+      console.log("fetchDefaultProposals");
+
       loadingController.increaseRequest();
       const proposals = yield apiService.getDefaultProposal();
       if (!proposals || proposals.length == 0) {
@@ -229,12 +232,12 @@ export class DaoViewModel {
   }
   @action addTransaction() {
     this.proposalTransactions.push({
-      type: "none",
-      source: "0x00",
-      destination: "0x00",
-      explorer: null,
+      type: "None",
+      source: "",
+      destination: "",
+      explorer: "",
       config: {},
-      token: "1",
+      token: "",
       amount: 0,
     });
   }

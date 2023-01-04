@@ -66,7 +66,6 @@ import Programs from "../components/_Programs.vue";
 import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { applicationStore } from "@/stores/application-store";
-import { waitUntil } from "async-wait-until";
 
 @Observer
 @Component({
@@ -102,9 +101,7 @@ export default class Dao extends Vue {
         this.$router.push("/home");
       await this.vm.fetchApplication(this.$route.params.appId);
     } else {
-      await waitUntil(() => applicationStore.application != null);
-      if (!this.vm.proposals || this.vm.proposals.length == 0)
-        await this.vm.fetchDefaultProposals();
+      await this.vm.fetchDefaultProposals();
     }
   }
 }

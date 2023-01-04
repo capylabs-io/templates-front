@@ -52,10 +52,10 @@
         <div class="text-sm">Description</div>
         <div class="mt-2">
           <v-textarea
+            v-model="vm.proposalDescription"
             class="input-field border-radius-8 elevation-0 overflow-hidden"
             color="primary"
             placeholder="eg: Develop new Features..."
-            :value="vm.proposalDescription"
             dense
             solo
             outlined
