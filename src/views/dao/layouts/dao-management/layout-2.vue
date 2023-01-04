@@ -23,7 +23,7 @@
             </div>
           </v-col>
           <v-col :cols="el.is.small ? 12 : 7">
-            <DaoDetail />
+            <DaoDetail v-if="!vm.isOpenAddProposal" />
           </v-col>
         </v-row>
       </div>

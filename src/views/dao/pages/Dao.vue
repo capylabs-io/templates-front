@@ -14,22 +14,11 @@
       }"
       :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
     >
-      <div v-if="vm.isReview">
-        <div v-if="vm.reviewPage == 'management'">
-          <DaoLayout />
-        </div>
-        <div v-else-if="vm.reviewPage == 'proposal'">
-          <ProposalLayout />
-        </div>
+      <div class="add-proposal mx-auto mt-6" v-if="vm.isOpenAddProposal">
+        <AddProposal />
       </div>
-      <div v-else>
-        <div v-if="!vm.isProposalDetail">
-          <DaoLayout />
-        </div>
-        <div v-else>
-          <ProposalLayout />
-        </div>
-      </div>
+
+      <DaoLayout />
     </div>
     <DaoFooter />
     <!-- <div v-if="!vm.showVoteResult && vm.proposalID == 0">
@@ -71,16 +60,17 @@ import YourAccount from "../components/YourAccount.vue";
 import Programs from "../components/_Programs.vue";
 import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
-import AddProposal from "../components/Add-Proposal.vue";
 import { applicationStore } from "@/stores/application-store";
+import { waitUntil } from "async-wait-until";
 
 @Observer
 @Component({
   components: {
     DaoLayout: () => import("./DaoLayout.vue"),
-    ProposalLayout: () => import("./ProposalLayout.vue"),
     DaoNavigationBar: () => import("../components/NavigationBar.vue"),
     DaoFooter: () => import("../components/Footer.vue"),
+    AddProposal: () => import("../components/Add-Proposal.vue"),
+
     SettingIcon,
     YourAccount,
     Programs,
@@ -88,12 +78,11 @@ import { applicationStore } from "@/stores/application-store";
     ProposalDetailDiscussion,
     Voting,
     VoteResult,
-    AddProposal,
   },
 })
 export default class Dao extends Vue {
   @Provide() vm = new DaoViewModel();
-  @Prop({ default: true }) isReview?: boolean;
+  @Prop({ default: false }) isReview?: boolean;
   @Prop({ default: "management" }) reviewPage?: string;
 
   applicationStore = applicationStore;
@@ -102,16 +91,16 @@ export default class Dao extends Vue {
     this.vm.setIsReview(val);
   }
 
-  @Watch("reviewPage", { immediate: true }) onReviewPageChanged(val: string) {
-    this.vm.setReviewPage(val);
-  }
-
   async created() {
     if (!this.isReview) {
       if (!this.$route.params || !this.$route.params.appId)
         this.$router.push("/home");
+      await this.vm.fetchApplication(this.$route.params.appId);
+    } else {
+      await waitUntil(() => applicationStore.application != null);
+      if (!this.vm.proposals || this.vm.proposals.length == 0)
+        await this.vm.fetchDefaultProposals();
     }
-    await this.vm.fetchApplication(this.$route.params.appId);
   }
 }
 </script>
@@ -126,5 +115,8 @@ export default class Dao extends Vue {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+}
+.add-proposal {
+  max-width: 640px;
 }
 </style>

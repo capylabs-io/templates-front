@@ -1,9 +1,10 @@
+import { TransactionModel } from "./../models/transaction-model";
 import { ThemeModel } from "./../models/theme-model";
 import { walletStore } from "@/stores/wallet-store";
 import Axios from "axios";
 import moment from "moment";
 import { ApplicationModel } from "@/models/application-model";
-export type ApiRouteType = "applications" | "themes";
+export type ApiRouteType = "applications" | "themes" | "transactions" | "proposals";
 
 const axios = Axios.create({ baseURL: process.env.VUE_APP_API_ENDPOINT });
 
@@ -66,7 +67,7 @@ export class ApiHandlerJWT<T> {
       params,
       headers: {
         ...axios.defaults.headers,
-        Authorization: `Bearer ${walletStore.jwt}`,
+        // Authorization: `Bearer ${walletStore.jwt}`,
       },
     });
     return res.data;
@@ -110,11 +111,11 @@ export class ApiHandlerJWT<T> {
     let res: any;
     if (id) {
       res = await this.axios.get(`${this.route}/${id}`, {
-        headers: { Authorization: `Bearer ${walletStore.jwt}` },
+        // headers: { Authorization: `Bearer ${walletStore.jwt}` },
       });
     } else {
       res = await this.axios.get(`${this.route}`, {
-        headers: { Authorization: `Bearer ${walletStore.jwt}` },
+        // headers: { Authorization: `Bearer ${walletStore.jwt}` },
       });
     }
     const result = res.data;
@@ -137,8 +138,10 @@ export class ApiHandlerJWT<T> {
 }
 
 export class ApiService {
-  applications = new ApiHandler<any>(axios, "applications");
-  themes = new ApiHandler<any>(axios, "themes");
+  applications = new ApiHandlerJWT<any>(axios, "applications");
+  proposals = new ApiHandlerJWT<any>(axios, "proposals");
+  themes = new ApiHandlerJWT<any>(axios, "themes");
+  transactions = new ApiHandlerJWT<any>(axios, "transactions");
 
   async signUp(publicAddress: string) {
     const res = await axios.post(`auth/local/register`, { publicAddress });
@@ -200,8 +203,8 @@ export class ApiService {
     return res.data;
   }
 
-  async addProposal(proposal: any) {
-    const res = await axios.post(`proposals`, proposal);
+  async addProposal(model: any) {
+    const res = await axios.post(`proposals`, model);
     return res.data;
   }
 

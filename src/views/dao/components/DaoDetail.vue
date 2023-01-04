@@ -107,9 +107,6 @@ export default class SolendDao extends Vue {
 </script>
 
 <style>
-.dao-title {
-  width: calc(100% - 16px * 2 - 252px) !important;
-}
 .token-icon {
   max-width: 24px;
   max-height: 24px;

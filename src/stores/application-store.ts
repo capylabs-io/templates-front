@@ -4,6 +4,7 @@ import { action, computed, observable, runInAction, flow, makeAutoObservable } f
 import defaultLayoutConfig from "@/config/defaultLayoutConfig.json";
 import { ApplicationModel } from "@/models/application-model";
 import { get } from "lodash";
+import { walletStore } from "./wallet-store";
 export class ApplicationStore {
   @observable application?: ApplicationModel;
   @observable themeConfig?: ThemeModel;
@@ -169,6 +170,15 @@ export class ApplicationStore {
   }
   @computed get brandLogo() {
     return this.brandLogoFile || this.brandLogoPath;
+  }
+
+  @computed get isApplicationOwner() {
+    if (!walletStore.connected) return false;
+    if (!this.application) return false;
+    return (
+      walletStore.userId == (this.application?.user as unknown) ||
+      walletStore.userId == this.application?.user.id
+    );
   }
 }
 

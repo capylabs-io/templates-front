@@ -9,10 +9,12 @@ import "@egjs/vue-flicking/dist/flicking.css";
 // Or, if you have to support IE9
 import "@egjs/vue-flicking/dist/flicking-inline.css";
 import "@egjs/flicking-plugins/dist/arrow.css";
+import DatetimePicker from "vuetify-datetime-picker";
 
 Vue.use(Flicking);
 Vue.config.productionTip = false;
 Vue.component("address-copy-board", () => import("@/components/address-copy-board.vue"));
+Vue.use(DatetimePicker);
 
 pluginsRegister();
 vueFilterRegister();

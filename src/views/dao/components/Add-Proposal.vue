@@ -1,155 +1,290 @@
 <template>
-  <div class="pa-4 box-gray-12 rounded-lg">
-    <div class="d-flex justify-space-between">
+  <v-card
+    class="pa-6 border-radius-16"
+    :class="
+      applicationStore.isDarkTheme
+        ? 'box-border-gray11 white--text'
+        : 'black--text'
+    "
+    :style="'background:' + applicationStore.cardColor + ' !important;'"
+    :outlined="applicationStore.isDarkTheme"
+    elevation="0"
+  >
+    <!-- <div class="d-inline-flex justify-space-between full-width">
       <div
         class="pa-0 cursor-pointer"
         text
         @click="vm.changeAddProposalDialog()"
       >
-        <v-icon small color="blueJeans"> mdi-chevron-left</v-icon>
-        <span class="text-capitalize blueJeans--text">Back</span>
-      </div>
-      <div class="pa-0">
-        <v-icon class="ml-4" color="blueJeans">mdi-launch</v-icon>
-      </div>
-    </div>
-    <div class="text-dp-xs white--text font-weight-bold">
-      Add a proposal to SolenDAO
-    </div>
-    <div class="mt-3 text-sm font-weight-regular white--text">
-      <div class="mt-3">Title</div>
-      <div class="mt-2">
-        <v-text-field
-          class="input-field border-radius-8 elevation-0 h-36 max-width-428"
-          v-model="vm.title"
-          color="primary"
-          placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
-          :rules="[$rules.required]"
-          dense
-          solo
-          outlined
-          clearable
-        ></v-text-field>
-      </div>
-      <div class="mt-3">Description</div>
-      <div class="mt-2">
-        <v-textarea
-          class="
-            min-h-80
-            input-field
-            border-radius-8
-            elevation-0
-            overflow-hidden
-            max-width-428
-          "
-          color="primary"
-          placeholder="eg: Introducte to new Features..."
-          :value="vm.description"
-          dense
-          solo
-          outlined
-          no-resize
-        ></v-textarea>
-      </div>
-      <div class="mt-3">Quorum</div>
-      <div class="mt-2">
-        <v-text-field
-          class="input-field border-radius-8 elevation-0 h-36 max-width-428"
-          v-model="vm.quorum"
-          color="primary"
-          placeholder="eg. 100"
-          :rules="[$rules.required]"
-          dense
-          solo
-          outlined
-          clearable
-        ></v-text-field>
-      </div>
-      <div class="text-lg font-weight-bold">Transaction</div>
-      <div
-        class="mt-3 pa-4 transaction-box"
-        v-for="(transaction, index) in vm.transactions"
-        :key="index"
-      >
-        <div>Transaction {{ index + 1 }}</div>
-        <div class="mt-2 d-flex justify-space-between">
-          <v-select
-            :items="vm.transactionList"
-            label="Selection"
-            solo
-            hide-details
-            class="max-width-428"
-          ></v-select>
-          <div class="blueJeans--text d-flex align-seft-center cursor-pointer my-5">
-        <span class="ml-1">Inspect Transaction</span>
-      </div>
-      <div class="paradisePink--text d-flex align-seft-center cursor-pointer my-5" @click="vm.removeTransaction(index)">
-        <v-icon small color="paradisePink">mdi-delete</v-icon>
-        <span class="ml-1">Remove</span>
-      </div>
-        </div>
-        <div class="mt-3">Source account</div>
-        <div class="mt-2">
-          <v-text-field
-            class="input-field border-radius-8 elevation-0 h-36 max-width-428"
-            color="primary"
-            placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
-            dense
-            v-model="transaction.source"
-            solo
-            outlined
-            clearable
-          ></v-text-field>
-        </div>
-        <div class="mt-3">Destination account</div>
-        <div class="mt-2">
-          <v-text-field
-            class="input-field border-radius-8 elevation-0 h-36 max-width-428"
-            color="primary"
-            placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
-            v-model="transaction.destination"
-            dense
-            solo
-            outlined
-            clearable
-          ></v-text-field>
-        </div>
-      </div>
-      <div class="blueJeans--text d-flex justify-center cursor-pointer my-5" @click="vm.addTransaction()">
-        <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
-        <span class="ml-1">Add Transaction</span>
-      </div>
-      <div class="straight-line"></div>
-      <div class="mt-3 d-flex flex-row align-center justify-space-between">
-        <div class="d-flex">
-          <v-btn color="gray60" class="btn-gray-11 px-4 mr-4"
-            >Preview instruction</v-btn
-          >
-          <v-btn color="gray60" class="btn-gray-11 px-4">Save as Draft</v-btn>
-        </div>
-        <v-btn
-          color="majorelleBlue"
-          class="white--text font-weight-bold text-capitalize rounded-lg px-4"
-          @click="vm.createApplication()"
-          >Add proposal</v-btn
+        <v-icon small :color="applicationStore.primaryColor">
+          mdi-chevron-left</v-icon
+        >
+        <span
+          class="text-capitalize"
+          :style="'color:' + applicationStore.primaryColor"
+          >Back</span
         >
       </div>
+    </div> -->
+    <div class="mt-2 text-dp-xs white--text font-weight-bold text-center">
+      Add new proposal
     </div>
-  </div>
+
+    <v-form ref="proposalForm">
+      <div class="mt-2">
+        <div class="text-sm">Title</div>
+        <div class="mt-2">
+          <v-text-field
+            class="input-field border-radius-8 elevation-0"
+            v-model="vm.proposalTitle"
+            color="primary"
+            placeholder="eg. Create a new NFT collection for Stakeholders"
+            :rules="[$rules.required]"
+            dense
+            solo
+            outlined
+            clearable
+          ></v-text-field>
+        </div>
+      </div>
+
+      <div class="mt-n2">
+        <div class="text-sm">Description</div>
+        <div class="mt-2">
+          <v-textarea
+            class="input-field border-radius-8 elevation-0 overflow-hidden"
+            color="primary"
+            placeholder="eg: Develop new Features..."
+            :value="vm.proposalDescription"
+            dense
+            solo
+            outlined
+            no-resize
+          ></v-textarea>
+        </div>
+      </div>
+
+      <div class="mt-n2">
+        <div class="text-sm">Quorum</div>
+        <div class="mt-2">
+          <div class="d-flex justify-space-between text-sm font-weight-bold">
+            <div>0%</div>
+            <div>100%</div>
+          </div>
+          <v-slider
+            v-model="vm.proposalQuorum"
+            color="primary"
+            track-color="grey"
+            class="mt-0"
+            always-dirty
+            min="0"
+            max="100"
+            :thumb-size="28"
+            thumb-label="always"
+            hide-details
+          >
+            <template v-slot:thumb-label="{ value }"> {{ value }}% </template>
+          </v-slider>
+        </div>
+      </div>
+
+      <div class="mt-6 text-lg font-weight-bold">Transaction</div>
+      <div
+        class="mt-2 pa-4 border-radius-16 cursor-pointer"
+        :class="
+          applicationStore.isDarkTheme
+            ? 'box-border-gray11 white--text'
+            : 'black--text'
+        "
+        :style="'background:' + applicationStore.cardColor + ' !important;'"
+        :outlined="applicationStore.isDarkTheme"
+        v-for="(transaction, index) in vm.proposalTransactions"
+        :key="index"
+        @click="onExpandTransactionDetail(index)"
+      >
+        <div class="d-flex align-center justify-space-between">
+          <div>Transaction {{ index + 1 }}</div>
+          <v-btn
+            class="text-none btn-text px-0"
+            color="error"
+            :disabled="
+              vm.proposalTransactions && vm.proposalTransactions.length == 1
+            "
+            @click.stop="onRemoveTransaction(index)"
+            text
+          >
+            <v-icon class="mr-2" small>mdi-trash-can</v-icon>
+            Remove
+          </v-btn>
+        </div>
+        <div class="mt-2 d-flex justify-space-between">
+          <v-select
+            v-model="transaction.type"
+            :items="vm.transactionList"
+            :rules="[$rules.required]"
+            class="border-radius-8"
+            label="Transaction Type"
+            dense
+            solo
+            outlined
+          ></v-select>
+        </div>
+        <div v-if="index == currentIndex && transaction.type != 'None'">
+          <div class="mt-n2">
+            <div>Source account</div>
+            <div class="mt-2">
+              <v-text-field
+                class="input-field border-radius-8 elevation-0"
+                color="primary"
+                placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
+                dense
+                v-model="transaction.source"
+                :rules="[$rules.validWalletAddress, $rules.required]"
+                solo
+                outlined
+                clearable
+              ></v-text-field>
+            </div>
+          </div>
+          <div class="mt-n2">
+            <div>Destination account</div>
+            <div class="mt-2">
+              <v-text-field
+                class="input-field border-radius-8 elevation-0"
+                color="primary"
+                placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
+                v-model="transaction.destination"
+                :rules="[$rules.validWalletAddress, $rules.required]"
+                dense
+                solo
+                outlined
+                clearable
+              ></v-text-field>
+            </div>
+          </div>
+          <div class="mt-n2">
+            <div>Amount</div>
+            <div class="mt-2">
+              <v-text-field
+                class="input-field border-radius-8 elevation-0"
+                color="primary"
+                placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
+                v-model="transaction.amount"
+                :rules="[$rules.numberOnly, $rules.required, $rules.min(0)]"
+                dense
+                solo
+                outlined
+                clearable
+              ></v-text-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="d-flex justify-center cursor-pointer my-5"
+        @click="onAddTransaction()"
+      >
+        <v-icon small :color="applicationStore.primaryColor"
+          >mdi-plus-circle-outline</v-icon
+        >
+        <span class="ml-1" :style="'color:' + applicationStore.primaryColor"
+          >Add Transaction</span
+        >
+      </div>
+    </v-form>
+
+    <div class="straight-line"></div>
+    <div class="d-flex justify-center my-4">
+      <VueRecaptcha
+        sitekey="6LeHpK8jAAAAAOOfNAcZI-ayzWxQ5R1Dzf1swXjB"
+        :loadRecaptchaScript="true"
+        @render="onCaptchaRender"
+        @verify="onCaptchaVerify"
+        @expired="onCaptchaExpired"
+        ref="recaptcha"
+      >
+      </VueRecaptcha>
+    </div>
+
+    <div class="straight-line"></div>
+    <div class="mt-4 d-flex flex-row align-center justify-space-between">
+      <div class="d-flex">
+        <v-btn
+          color="gray6"
+          class="font-weight-bold gray11 rounded-lg text-capitalize px-4"
+          @click="vm.changeAddProposalDialog()"
+          >Cancel</v-btn
+        >
+      </div>
+      <v-btn
+        :color="applicationStore.primaryColor"
+        class="font-weight-bold text-capitalize rounded-lg px-4"
+        @click="onCreateProposal()"
+        :disabled="!confirmCaptcha"
+        >Add proposal</v-btn
+      >
+    </div>
+  </v-card>
 </template>
 <script lang="ts">
 import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { observable } from "mobx";
 import { DaoViewModel } from "../models/dao-viewmodels";
+import { applicationStore } from "@/stores/application-store";
+import { VueRecaptcha } from "vue-recaptcha";
+import { snackController } from "@/components/snack-bar/snack-bar-controller";
 @Observer
 @Component({
-  components: {},
+  components: { VueRecaptcha },
 })
 export default class AddProposal extends Vue {
   @observable checkbox;
   @observable isFilter = false;
+
   @Inject() vm!: DaoViewModel;
+
+  applicationStore = applicationStore;
+  currentIndex = 0;
+
+  confirmCaptcha = false;
+  reset() {
+    this.confirmCaptcha = false;
+  }
+  onCreateProposal() {
+    if (!(this.$refs.proposalForm as any).validate()) {
+      snackController.error("Please fill all required information!");
+      return;
+    }
+    this.vm.createProposal();
+  }
+  onCaptchaError(error) {
+    snackController.error(error);
+  }
+  onCaptchaRender() {
+    (this.$refs.recaptcha as any).reset();
+    this.confirmCaptcha = false;
+  }
+  onCaptchaVerify(response) {
+    if (response) this.confirmCaptcha = true;
+  }
+  onCaptchaExpired() {
+    (this.$refs.recaptcha as any).reset();
+    this.confirmCaptcha = false;
+  }
+  onExpandTransactionDetail(index: number) {
+    this.currentIndex = index;
+  }
+  onAddTransaction() {
+    this.vm.addTransaction();
+    this.currentIndex = this.vm.proposalTransactions.length - 1;
+  }
+  onRemoveTransaction(index: number) {
+    this.vm.removeTransaction(index);
+    if (this.currentIndex == index) this.currentIndex = index - 1;
+    else this.currentIndex -= 1;
+  }
 }
 </script>
 <style scoped>
