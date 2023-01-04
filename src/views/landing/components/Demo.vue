@@ -11,10 +11,13 @@
       :src="require(`@/assets/landing/blue-blur.webp`)"
     >
     </v-img>
-    <div class="font-weight-bold text-dp-lg align-self-center mt-12">
+    <div
+      class="font-weight-bold text-dp-lg align-self-center mt-12"
+      data-aos="fade-up"
+    >
       Our Partner
     </div>
-    <div class="relative d-flex gap-20 pt-130 partner-list">
+    <div class="relative d-flex gap-20 pt-130 partner-list" data-aos="fade-up">
       <v-card
         class="partner-card-1 d-flex right-to-left-1 px-10 py-8"
         v-for="partners in 15"
@@ -28,7 +31,7 @@
         </v-img>
       </v-card>
     </div>
-    <div class="relative d-flex gap-20 pt-12 partner-list">
+    <div class="relative d-flex gap-20 pt-12 partner-list" data-aos="fade-up">
       <v-card
         class="partner-card-1 d-flex left-to-right-2 px-10 py-8"
         v-for="partners in 15"
@@ -127,7 +130,7 @@ export default class Partners extends Vue {}
   animation: tran-opacity 0.4s forwards;
 }
 .right-to-left-1 {
-  animation: right-to-left-1 15s linear infinite;
+  animation: right-to-left-1 20s linear infinite;
 }
 @keyframes tran-opacity {
   0% {
@@ -159,7 +162,7 @@ export default class Partners extends Vue {}
 }
 
 .left-to-right-2 {
-  animation: left-to-right-2 15s linear infinite;
+  animation: left-to-right-2 20s linear infinite;
 }
 
 @keyframes left-to-right-2 {

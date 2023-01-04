@@ -9,6 +9,8 @@ import "@egjs/vue-flicking/dist/flicking.css";
 // Or, if you have to support IE9
 import "@egjs/vue-flicking/dist/flicking-inline.css";
 import "@egjs/flicking-plugins/dist/arrow.css";
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 Vue.use(Flicking);
 Vue.config.productionTip = false;
@@ -19,5 +21,8 @@ vueFilterRegister();
 new Vue({
   vuetify,
   router,
+   created () {
+    AOS.init()
+  },
   render: (h) => h(App),
 }).$mount("#app");

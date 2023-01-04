@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="align-self-center intro-image-group d-flex flex-column">
-      <div>
+      <div data-aos="fade-up">
         <v-img
           class="intro-image align-self-center"
           :src="require(`@/assets/bitcoin.webp`)"
@@ -55,19 +55,23 @@
       ></v-img>
       <v-img
         class="image1 align-self-center"
-        :src="require(`@/assets/bitcoin.webp`)"
+        data-aos="fade-up"
+        :src="require(`@/assets/tron-coin.webp`)"
       ></v-img>
       <v-img
         class="image2 align-self-center"
-        :src="require(`@/assets/bitcoin.webp`)"
+        data-aos="fade-up"
+        :src="require(`@/assets/bnb-coin.webp`)"
       ></v-img>
       <v-img
         class="image3 align-self-center"
-        :src="require(`@/assets/bitcoin.webp`)"
+        data-aos="fade-up"
+        :src="require(`@/assets/ethereum-coin.webp`)"
       ></v-img>
       <v-img
         class="image4 align-self-center"
-        :src="require(`@/assets/bitcoin.webp`)"
+        data-aos="fade-up"
+        :src="require(`@/assets/usdt-coin.webp`)"
       ></v-img>
     </div>
     <!-- <v-img
@@ -108,7 +112,7 @@ export default {};
   max-width: 60px;
   position: absolute;
   z-index: 3;
-  top: 40%;
+  top: 42%;
   right: 40%;
   animation: blink 4s infinite;
   animation-delay: 1s;
@@ -135,12 +139,12 @@ export default {};
 }
 
 .image1 {
-  height: 130px;
-  max-width: 130px;
-  top: 23%;
-  right: 35%;
+  height: 150px;
+  max-width: 150px;
+  top: 22%;
+  right: 36%;
   position: absolute;
-  z-index: 3;
+  z-index: 2;
 }
 .image2 {
   height: 100px;
@@ -148,22 +152,22 @@ export default {};
   top: 55%;
   right: 38%;
   position: absolute;
-  z-index: 3;
+  z-index: 2;
 }
 .image3 {
-  height: 120px;
-  max-width: 120px;
-  right: 18%;
-  position: absolute;
-  z-index: 3;
-}
-.image4 {
   height: 140px;
   max-width: 140px;
+  right: 16%;
+  position: absolute;
+  z-index: 2;
+}
+.image4 {
+  height: 150px;
+  max-width: 150px;
   position: absolute;
   top: 60%;
-  right: 19%;
-  z-index: 3;
+  right: 18%;
+  z-index: 2;
 }
 .intro-image {
   height: 350px;
@@ -174,7 +178,7 @@ export default {};
   animation: rotate-float-left 4s infinite;
 }
 .image2 {
-  animation: rotate-float-left 4s infinite;
+  animation: rotate-float-left 5s infinite;
   animation-delay: 1s;
 }
 .image3 {
@@ -182,13 +186,13 @@ export default {};
   animation-delay: 1.5s;
 }
 .image4 {
-  animation: rotate-float-right 4s infinite;
-  animation-delay: 2.5s;
+  animation: rotate-float-right 5s infinite;
+  animation-delay: 1.6s;
 }
 
 .intro-image {
   animation: float 3s ease-in-out infinite;
-  z-index: 4;
+  z-index: 3;
 }
 .intro-left {
   width: 30%;
@@ -205,22 +209,30 @@ export default {};
 .btn-connect {
   border-radius: 10px;
 }
+
 .wiggle {
   animation: wiggle 5s linear infinite;
 }
-
-@keyframes float {
+@keyframes loader {
   0% {
-    transform: translatey(0px);
+    rotate: 0deg;
+  }
+  25% {
+    rotate: 90deg;
+    scale: 0.5;
   }
   50% {
-    transform: translatey(-20px);
+    rotate: 180deg;
+  }
+  75% {
+    rotate: 270deg;
+    border-radius: 50%;
+    scale: 1;
   }
   100% {
-    transform: translatey(0px);
+    rotate: 360deg;
   }
 }
-
 @keyframes wiggle {
   0%,
   7% {
@@ -247,25 +259,18 @@ export default {};
   }
 }
 
-@keyframes loader {
+@keyframes float {
   0% {
-    rotate: 0deg;
-  }
-  25% {
-    rotate: y 90deg;
-    scale: 0.5;
+    transform: translatey(0px);
   }
   50% {
-    rotate: 180deg;
-  }
-  75% {
-    rotate: x 270deg;
-    border-radius: 50%;
+    transform: translatey(-20px);
   }
   100% {
-    rotate: 360deg;
+    transform: translatey(0px);
   }
 }
+
 @keyframes rotate-float-left {
   0% {
     rotate: 0deg;
@@ -275,20 +280,24 @@ export default {};
     rotate: y 90deg;
     transform: translatey(-10px);
     scale: 0.8;
+    opacity: 0;
   }
   50% {
     rotate: y 180deg;
     transform: translatey(-20px);
     scale: 1;
+    opacity: 1;
   }
   75% {
     rotate: y 270deg;
     transform: translatey(-10px);
     scale: 0.8;
+    opacity: 0;
   }
   100% {
     rotate: y 360deg;
     transform: translatey(0px);
+    opacity: 1;
   }
 }
 @keyframes rotate-float-right {
@@ -300,20 +309,24 @@ export default {};
     rotate: y -90deg;
     transform: translatey(-10px);
     scale: 0.8;
+    opacity: 0;
   }
   50% {
     rotate: y -180deg;
     transform: translatey(-20px);
     scale: 1;
+    opacity: 1;
   }
   75% {
     rotate: y -270deg;
     transform: translatey(-10px);
     scale: 0.8;
+    opacity: 0;
   }
   100% {
     rotate: y -360deg;
     transform: translatey(0px);
+    opacity: 1;
   }
 }
 @keyframes blink {
