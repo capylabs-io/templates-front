@@ -1,3 +1,4 @@
+import { FixedNumber } from "@ethersproject/bignumber";
 import { applicationStore } from "../../../stores/application-store";
 import { ProposalModel } from "./../../../models/proposal-model";
 import { DaoSettingModel } from "./../../../models/dao-setting-model";
@@ -25,15 +26,15 @@ export class DaoViewModel {
   @observable filterDraft = false;
 
   @observable daoSetting?: DaoSettingModel;
+  @observable pickParameters = false;
+  @observable pickMembers = false;
+  @observable pickDao = true;
   @observable proposals: ProposalModel[] = [];
   @observable itemsPerPage = 8;
   @observable proposalPage = 1;
 
-  @observable isProposalDetail = false;
-  @observable proposal?: ProposalModel;
-
   @observable instructionList = ["Instruction 1", "Instruction 2", "Instruction 3", "Instruction 3"];
-  @observable transactionList = ["none", "Transfer Token", "Mint Token"];
+  @observable transactionList = ["None", "Transfer Token", "Mint Token"];
   @observable proposalID = 0;
   @observable pageSize = 3;
   @observable currentPage = 1;
@@ -62,27 +63,21 @@ export class DaoViewModel {
       },
     ],
   };
+
   // Add Proposal
   @observable isOpenAddProposal = false;
-  @observable title = "";
-  @observable description = "";
-  @observable quorum = "";
-  @observable transactions = [
+  @observable proposalTitle = "";
+  @observable proposalDescription = "";
+  @observable proposalQuorum = 50;
+  @observable proposalTransactions = [
     {
-      type: "none",
+      type: "None",
       source: "0x00",
       destination: "0x00",
-      explorer: null,
+      explorer: "",
       config: {},
-      token: "1",
-    },
-    {
-      type: "none",
-      source: "0x00",
-      destination: "0x00",
-      explorer: null,
-      config: {},
-      token: "1",
+      token: "",
+      amount: 0,
     },
   ];
 
@@ -91,63 +86,85 @@ export class DaoViewModel {
 
   applicationStore = applicationStore;
 
-  createApplication = flow(function* (this) {
+  createProposal = flow(function* (this) {
+    if (!applicationStore || !applicationStore.application) {
+      snackController.error("Invalid application!");
+      return;
+    }
     try {
       loadingController.increaseRequest();
-      yield apiService.addProposal({
-        appId: "950467437867",
+      const createdProposal = yield apiService.proposals.create({
+        appId: applicationStore.application!.appId,
         userId: walletStore.userId,
-        data: {
-          title: this.title,
-          description: this.description,
-          quorum: this.quorum,
-          transactions: this.transactions,
-        },
+        application: applicationStore.application!.id,
+        title: this.proposalTitle,
+        description: this.proposalDescription,
+        //type:
+        //endTimeVote:
+        //tokenQuorum:
+
+        //voteType: => if vote equally => need requiredTokenAmount to vote
+        //Draft => Deploy
+        status: "draft",
+        quorum: this.proposalQuorum,
+        creator: walletStore.userId,
       });
+
+      const promises = this.proposalTransactions.map(async (transaction) => {
+        if (transaction.type == "None") return;
+        return apiService.transactions.create({
+          ...transaction,
+          appId: applicationStore.application!.appId,
+          userId: walletStore.userId,
+          amount: FixedNumber.from(transaction.amount).toString(),
+          proposalId: createdProposal.id,
+        });
+      });
+      yield Promise.all(promises);
+
+      yield this.fetchApplication(applicationStore.application!.appId);
       //TODO: Add to localstorage
       snackController.success("Add Proposal successfully!");
+
+      this.isOpenAddProposal = false;
     } catch (err: any) {
       snackController.commonError(err);
     } finally {
       loadingController.decreaseRequest();
-      this.isOpenAddProposal = false;
     }
   });
 
   fetchApplication = flow(function* (this, appId) {
     try {
       loadingController.increaseRequest();
-      const res = yield apiService.applications.find({
+      const applications = yield apiService.applications.find({
         appId,
-        userId: walletStore.userId,
+        _limit: -1,
       });
-      if (!res || !res.applications || res.applications.length == 0)
+      if (!applications) {
         this.pushBackHome("Application does not exist!");
+        return;
+      }
 
-      const application = res.applications[0];
+      const application = applications[0];
       this.applicationStore.application = application;
       this.daoSetting = application.dao_setting;
 
-      if (!application || !application.service || !application.dao_setting)
+      if (!application || !application.service || !application.dao_setting) {
         this.pushBackHome(`Invalid service type!`);
-      else if ((!application.isCustomized || !application.theme) && !this.isReview) {
+        return;
+      } else if (!applicationStore.isApplicationOwner && application.status == "draft") {
+        this.pushBackHome(`Appplication not available!`);
+        return;
+      } else if ((!application.isCustomized || !application.theme) && !this.isReview) {
         appProvider.router.replace(
           `/customize-interface?type=${application.service}&appId=${application.appId}`
         );
         return;
       }
 
-      if ((!application.proposals || application.proposals.length == 0) && this.isReview)
-        yield this.fetchDefaultProposals();
-      else this.proposals = application.proposals;
-
-      const proposalId = appProvider.router.currentRoute.params.proposalId;
-      if (!proposalId) this.isProposalDetail = false;
-      else {
-        this.proposal = this.proposals.find((proposal) => proposal.id == proposalId);
-        this.isProposalDetail = true;
-      }
-
+      this.proposals = application.proposals;
+      if (this.isReview) return;
       if (!this.applicationStore.themeConfig) this.applicationStore.setupThemeConfig(application.theme);
       this.applicationStore.setupMetadata(application.metadata);
     } catch (err: any) {
@@ -160,6 +177,8 @@ export class DaoViewModel {
 
   fetchDefaultProposals = flow(function* (this) {
     try {
+      console.log("fetchDefaultProposals");
+
       loadingController.increaseRequest();
       const proposals = yield apiService.getDefaultProposal();
       if (!proposals || proposals.length == 0) {
@@ -183,11 +202,18 @@ export class DaoViewModel {
   @action setIsReview(val: boolean) {
     this.isReview = val;
   }
+
+  @action setpickParameters(val: boolean) {
+    this.pickParameters = val;
+  }
+  @action setpickMembers(val: boolean) {
+    this.pickMembers = val;
+  }
+  @action setpickDao(val: boolean) {
+    this.pickDao = val;
+  }
   @action setReviewPage(val: string) {
     this.reviewPage = val;
-  }
-  @action setCurrentProposal(val: ProposalModel) {
-    this.proposal = val;
   }
   @action changeAddProposalDialog() {
     this.isOpenAddProposal = !this.isOpenAddProposal;
@@ -195,9 +221,6 @@ export class DaoViewModel {
   @action changeVoteConfirmDialog(isVoteYes) {
     this.isVoteYes = isVoteYes;
     this.isOpenVoteConfirm = !this.isOpenVoteConfirm;
-  }
-  @action gotoProposalDetail() {
-    this.proposalID = 1;
   }
   @action backSolendDao() {
     this.proposalID = 0;
@@ -218,16 +241,17 @@ export class DaoViewModel {
     this.showVoteResult = false;
   }
   @action removeTransaction(index) {
-    this.transactions.splice(index, 1);
+    this.proposalTransactions.splice(index, 1);
   }
   @action addTransaction() {
-    this.transactions.push({
-      type: "none",
-      source: "0x00",
-      destination: "0x00",
-      explorer: null,
+    this.proposalTransactions.push({
+      type: "None",
+      source: "",
+      destination: "",
+      explorer: "",
       config: {},
-      token: "1",
+      token: "",
+      amount: 0,
     });
   }
   // computed
@@ -240,8 +264,8 @@ export class DaoViewModel {
     return this.proposals.filter((proposal) => {
       if (
         this.searchKey &&
-        !proposal.title.includes(this.searchKey) &&
-        !proposal.description.includes(this.searchKey)
+        !proposal.title.toLowerCase().includes(this.searchKey.toLowerCase()) &&
+        !proposal.description.toLowerCase().includes(this.searchKey.toLowerCase())
       )
         return false;
       if (this.filterCancelled && proposal.status == "cancelled") return true;
@@ -250,7 +274,7 @@ export class DaoViewModel {
       if (this.filterExecuting && proposal.status == "executing") return true;
       if (this.filterOnHold && proposal.status == "onHold") return true;
       if (this.filterVoting && proposal.status == "voting") return true;
-      if (this.filterDraft && proposal.status == "draft") return true;
+      if (this.filterDraft && proposal.status == "draft" && applicationStore.isApplicationOwner) return true;
       return (
         !this.filterCancelled &&
         !this.filterPassed &&
@@ -284,7 +308,20 @@ export class DaoViewModel {
 
   @computed get currentProposal() {
     if (!this.proposals) return;
-    else if (this.isReview) return this.proposals[0];
-    return this.proposal;
+    return this.proposals[0];
+  }
+
+  @computed get daoType() {
+    if (!this.daoSetting) return "";
+    switch (this.daoSetting.type) {
+      case "multi-sig":
+        return "Multi-Signature Wallet";
+      case "nft-dao":
+        return "NFT Community DAO";
+      case "community-dao":
+        return "Community Token DAO";
+      default:
+        return "";
+    }
   }
 }

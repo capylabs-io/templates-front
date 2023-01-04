@@ -108,6 +108,7 @@
       <div
         class="blueJeans--text d-flex align-center cursor-pointer"
         @click="vm.changeAddProposalDialog()"
+        v-if="applicationStore.isApplicationOwner"
       >
         <v-icon small :color="applicationStore.primaryColor"
           >mdi-plus-circle-outline</v-icon
@@ -115,7 +116,7 @@
         <span
           class="ml-1 align-self-end"
           :style="'color:' + applicationStore.primaryColor"
-          >New Proposals</span
+          >Add Proposal</span
         >
       </div>
     </div>
@@ -133,7 +134,7 @@
             rounded-lg
           "
           :style="'background:' + applicationStore.cardColor"
-          @click="vm.gotoProposalDetail()"
+          @click="gotoProposalDetail(proposal.id)"
           slot-scope="el"
         >
           <div :class="el.is.small ? 'small-proposal-title' : 'proposal-title'">
@@ -152,7 +153,7 @@
               </template>
               <span> {{ proposal.title }}</span>
             </v-tooltip>
-            <div>
+            <div class="text-capitalize">
               {{ new Date(proposal.updatedAt) | normalizeTimeDuration }}
             </div>
           </div>
@@ -200,6 +201,11 @@ export default class Proposals extends Vue {
   @Inject() vm!: DaoViewModel;
 
   applicationStore = applicationStore;
+
+  gotoProposalDetail(proposalId: string) {
+    if (this.vm.isReview) return;
+    this.$router.push(`/proposal/${proposalId}`);
+  }
 }
 </script>
 <style scoped>

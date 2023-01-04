@@ -1,12 +1,11 @@
 <template>
   <v-btn
-    class="rounded-lg px-2 py-5 text-sm boder-gray-10 align-self-center"
+    class="rounded-lg px-2 py-5 text-sm align-self-center"
     v-if="!walletStore.connected"
     @click="walletStore.connect()"
     :large="large"
     :block="block"
     :small="small"
-    outlined
   >
     <div
       class="d-flex flex-row text-capitalize font-weight-regular justify-center"
@@ -24,7 +23,7 @@
       </div>
       <div class="straight-line"></div>
       <div class="align-self-center pa-2">
-        <v-icon small color="white"> mdi-chevron-down </v-icon>
+        <v-icon small> mdi-chevron-down </v-icon>
       </div>
     </div>
   </v-btn>
@@ -34,11 +33,11 @@
     depressed
     rounded-lg
     transparent-bg
-    color="primary"
     outlined
     :large="large"
     :block="block"
     :small="small"
+    :color="primaryColor"
     v-else-if="walletStore.chainId + '' !== Number(requiredChainId).toString()"
     @click="walletStore.switchNetwork(+walletStore.chainId)"
   >
@@ -60,6 +59,7 @@ export default class ConnectMetamask extends Vue {
   @Prop({ default: false }) block!: boolean;
   @Prop({ default: false }) large!: boolean;
   @Prop({ default: false }) small!: boolean;
+  @Prop({ default: "primary" }) primaryColor!: string;
 
   walletStore = walletStore;
 

@@ -111,6 +111,7 @@
                       d-flex
                       align-center
                       connect-wallet
+                      primary--text
                       rounded-lg
                       text-none
                       py-2

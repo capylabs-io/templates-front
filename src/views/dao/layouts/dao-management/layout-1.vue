@@ -7,7 +7,7 @@
         :defaultImageUrl="require('@/assets/webservice/dao/default-banner.jpg')"
         cover
       />
-      <div class="dao-management ma-auto px-2 py-3">
+      <div class="dao-management ma-auto px-2 py-3 full-width">
         <v-row class="justify-center ma-auto">
           <v-col :cols="el.is.small ? 12 : 7">
             <DaoDetail />

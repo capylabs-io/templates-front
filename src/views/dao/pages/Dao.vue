@@ -14,21 +14,25 @@
       }"
       :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
     >
-      <div v-if="vm.isReview">
-        <div v-if="vm.reviewPage == 'management'">
-          <DaoLayout />
-        </div>
-        <div v-else-if="vm.reviewPage == 'proposal'">
-          <ProposalLayout />
-        </div>
+      <div v-if="vm.pickParameters">
+        <v-fade-transition mode="out-in" appear>
+          <Parameters></Parameters>
+        </v-fade-transition>
+      </div>
+      <div v-else-if="vm.pickMembers">
+        <v-fade-transition mode="out-in" appear>
+          <Member></Member>
+        </v-fade-transition>
+      </div>
+      <div class="add-proposal mx-auto mt-6" v-else-if="vm.isOpenAddProposal">
+        <v-fade-transition mode="out-in" appear>
+          <AddProposal />
+        </v-fade-transition>
       </div>
       <div v-else>
-        <div v-if="!vm.isProposalDetail">
+        <v-fade-transition mode="out-in" appear>
           <DaoLayout />
-        </div>
-        <div v-else>
-          <ProposalLayout />
-        </div>
+        </v-fade-transition>
       </div>
     </div>
     <DaoFooter />
@@ -71,16 +75,18 @@ import YourAccount from "../components/YourAccount.vue";
 import Programs from "../components/_Programs.vue";
 import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
-import AddProposal from "../components/Add-Proposal.vue";
 import { applicationStore } from "@/stores/application-store";
 
 @Observer
 @Component({
   components: {
     DaoLayout: () => import("./DaoLayout.vue"),
-    ProposalLayout: () => import("./ProposalLayout.vue"),
     DaoNavigationBar: () => import("../components/NavigationBar.vue"),
     DaoFooter: () => import("../components/Footer.vue"),
+    AddProposal: () => import("../components/Add-Proposal.vue"),
+
+    Parameters: () => import("../components/Params.vue"),
+    Member: () => import("../components/Members.vue"),
     SettingIcon,
     YourAccount,
     Programs,
@@ -88,12 +94,11 @@ import { applicationStore } from "@/stores/application-store";
     ProposalDetailDiscussion,
     Voting,
     VoteResult,
-    AddProposal,
   },
 })
 export default class Dao extends Vue {
   @Provide() vm = new DaoViewModel();
-  @Prop({ default: true }) isReview?: boolean;
+  @Prop({ default: false }) isReview?: boolean;
   @Prop({ default: "management" }) reviewPage?: string;
 
   applicationStore = applicationStore;
@@ -110,8 +115,10 @@ export default class Dao extends Vue {
     if (!this.isReview) {
       if (!this.$route.params || !this.$route.params.appId)
         this.$router.push("/home");
+      await this.vm.fetchApplication(this.$route.params.appId);
+    } else {
+      await this.vm.fetchDefaultProposals();
     }
-    await this.vm.fetchApplication(this.$route.params.appId);
   }
 }
 </script>
@@ -126,5 +133,8 @@ export default class Dao extends Vue {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+}
+.add-proposal {
+  max-width: 640px;
 }
 </style>

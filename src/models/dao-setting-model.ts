@@ -4,6 +4,7 @@ import { FixedNumber } from "@ethersproject/bignumber";
 export interface DaoSettingModel {
   id: string;
   type: string;
+  name: string;
   isExisted: boolean;
   tokenAddress: string;
   threshold: number;

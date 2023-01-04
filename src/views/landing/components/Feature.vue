@@ -11,10 +11,10 @@
       :src="require(`@/assets/landing/blue-blur.webp`)"
     >
     </v-img>
-    <div class="font-weight-bold text-dp-lg align-self-center mt-12 mb-8">
+    <div class="font-weight-bold text-dp-lg align-self-center mt-12 mb-8" data-aos="fade-up">
       Featured blogposts
     </div>
-    <div class="d-flex justify-center col-gap-20 card-list mt-7">
+    <div class="d-flex justify-center col-gap-20 card-list mt-7" data-aos="fade-right">
       <v-card
         class="feature-card d-flex flex-column align-center justify-center"
       >

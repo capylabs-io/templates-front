@@ -145,7 +145,7 @@
             block
           >
             <v-icon class="mr-1">mdi-check-circle-outline</v-icon>
-            Owned
+            {{ vm.theme?.type == "free" ? "Free Theme" : "Owned" }}
           </v-btn>
           <v-btn
             class="border-radius-8 text-none"

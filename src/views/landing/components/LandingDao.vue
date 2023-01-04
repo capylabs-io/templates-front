@@ -11,10 +11,10 @@
       :src="require(`@/assets/landing/blue-blur.webp`)"
     >
     </v-img>
-    <div class="font-weight-bold text-dp-lg align-self-center mt-12 mb-8 z-2">
+    <div class="font-weight-bold text-dp-lg align-self-center mt-12 mb-8 z-2" data-aos="fade-up">
       DAO Builder pioneers the optimal way for
     </div>
-    <div class="d-flex mt-12 justify-center col-gap-40 z-2 mb-5">
+    <div class="d-flex mt-12 justify-center col-gap-40 z-2 mb-5" data-aos="fade-right">
       <div
         class="d-flex flex-column align-center active slide cursor"
         @click="slidedao(0), setImage(0)"
@@ -43,7 +43,7 @@
         <!-- <div class="divider" /> -->
       </div>
     </div>
-    <div class="d-flex mt-2 justify-center col-gap-40 z-2 gray6--text">
+    <div class="d-flex mt-2 justify-center col-gap-40 z-2 gray6--text" data-aos="fade-right">
       <div
         class="d-flex flex-column align-center slide active cursor"
         @click="slidedao(0), setImage(0)"

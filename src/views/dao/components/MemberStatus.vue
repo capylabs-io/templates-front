@@ -1,7 +1,7 @@
 <template>
   <div
     class="d-flex align-center border-radius-16"
-    :style="'background:' + applicationStore.cardBackground + ' !important'"
+    :style="'background:' + color + ' !important'"
   >
     <div class="d-flex align-center pa-2">
       <v-icon color="success" small>mdi-thumb-up</v-icon>
@@ -14,8 +14,8 @@
     <div class="pa-2">999999 SLND</div>
   </div>
 </template>
-  
-  <script lang="ts">
+
+<script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { Responsive } from "vue-responsive-components";

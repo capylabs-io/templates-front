@@ -10,7 +10,7 @@
     :outlined="applicationStore.isDarkTheme"
     elevation="0"
   >
-    <div class="d-inline-flex justify-space-between full-width">
+    <div class="d-inline-flex justify-space-between full-width flex-wrap">
       <div class="d-flex align-center dao-title">
         <CoverImage
           class="token-icon mr-2"
@@ -33,10 +33,39 @@
         </v-tooltip>
       </div>
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
-        <v-icon class="mr-1" color="gray6" small>mdi-account-multiple</v-icon>
-        <span>Members (194)</span>
-        <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
-        <span>Params</span>
+        <v-icon
+          class="mr-1"
+          color="gray6"
+          small
+          @click="(vm.pickMembers = !vm.pickMembers), vm.setpickDao(false)"
+        >
+          mdi-account-multiple</v-icon
+        >
+        <span
+          class="cursor-pointer"
+          @click="(vm.pickMembers = !vm.pickMembers), vm.setpickDao(false)"
+          >Members ({{
+            vm.daoSetting?.members === undefined
+              ? "0"
+              : vm.daoSetting?.members?.length
+          }})</span
+        >
+        <v-icon
+          class="ml-3 mr-1"
+          color="gray6"
+          small
+          @click="
+            (vm.pickParameters = !vm.pickParameters), vm.setpickDao(false)
+          "
+          >mdi-cog</v-icon
+        >
+        <span
+          @click="
+            (vm.pickParameters = !vm.pickParameters), vm.setpickDao(false)
+          "
+          class="cursor-pointer"
+          >Params</span
+        >
         <v-icon class="ml-4" :color="applicationStore.primaryColor"
           >mdi-launch</v-icon
         >
@@ -80,36 +109,38 @@
     </div>
     <div>
       <Proposals v-if="showProposals" />
+      <DaoAbout v-else />
     </div>
   </v-card>
 </template>
 
 <script lang="ts">
-import { Component, Inject, Prop, Vue } from "vue-property-decorator";
+import { Component, Inject, Prop, Vue, Watch } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
-import Proposals from "./_Proposals.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { applicationStore } from "@/stores/application-store";
 @Observer
 @Component({
   components: {
-    Proposals,
+    Proposals: () => import("./_Proposals.vue"),
+    DaoAbout: () => import("./DaoAbout.vue"),
     CoverImage: () => import("@/components/CoverImage.vue"),
   },
 })
 export default class SolendDao extends Vue {
   @Inject() vm!: DaoViewModel;
   @Prop({ default: false }) isSmall!: boolean;
-
+  @Watch("pickParameters", { immediate: true }) onpickParametersChanged(
+    val: boolean
+  ) {
+    this.vm.setpickParameters(val);
+  }
   applicationStore = applicationStore;
   showProposals = true;
 }
 </script>
 
 <style>
-.dao-title {
-  width: calc(100% - 16px * 2 - 252px) !important;
-}
 .token-icon {
   max-width: 24px;
   max-height: 24px;
@@ -121,5 +152,8 @@ export default class SolendDao extends Vue {
 .dao-banner {
   max-height: 220px;
   aspect-ratio: 8 / 1;
+}
+.dao-title {
+  width: calc(100% - 236px - 16px);
 }
 </style>
