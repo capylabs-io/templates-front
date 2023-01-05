@@ -50,42 +50,28 @@
               {{ vm.daoSetting?.id }}
             </div>
           </div>
-
-          <div class="overflow-y-auto mt-3">
-            <div class="d-flex pa-4">
-              <div class="gray3--text"></div>
+          <div class="text-sm mt-4">
+            <div class="gray6--text">Authority</div>
+            <div class="font-weight-bold">
+              {{ vm.daoSetting?.id }}
             </div>
-            <div class="d-flex pa-4">
-              <div class="gray3--text">
-                <div class="text-overline-2">Authority</div>
-                <div class="font-weight-bold">
-                  {{ vm.daoSetting?.id }}
-                </div>
-              </div>
+          </div>
+          <div class="text-sm mt-4">
+            <div class="gray6--text">Owner</div>
+            <div class="font-weight-bold">
+              {{ vm.daoSetting?.id }}
             </div>
-            <div class="d-flex pa-4">
-              <div class="gray3--text">
-                <div class="text-overline-2">Owner</div>
-                <div class="font-weight-bold">
-                  {{ vm.daoSetting?.id }}
-                </div>
-              </div>
+          </div>
+          <div class="text-sm mt-4">
+            <div class="gray6--text">Community Mint</div>
+            <div class="font-weight-bold">
+              {{ vm.daoSetting?.id }}
             </div>
-            <div class="d-flex pa-4">
-              <div class="gray3--text">
-                <div class="text-overline-2">Community Mint</div>
-                <div class="font-weight-bold">
-                  {{ vm.daoSetting?.id }}
-                </div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div class="gray3--text">
-                <div class="text-overline-2">Council Mint</div>
-                <div class="font-weight-bold">
-                  {{ vm.daoSetting?.id }}
-                </div>
-              </div>
+          </div>
+          <div class="text-sm mt-4">
+            <div class="gray6--text">Council Mint</div>
+            <div class="font-weight-bold">
+              {{ vm.daoSetting?.id }}
             </div>
           </div>
         </div>
@@ -96,70 +82,53 @@
           :class="{ 'box-border-gray11': applicationStore.isDarkTheme }"
           :style="'background:' + applicationStore.accentColor + ' !important'"
         >
-          <div class="overflow-y-auto">
-            <div class="d-flex px-4">
-              <div class="text-lg white--text font-weight-bold">Config</div>
+          <div class="text-lg font-weight-bold">Config</div>
+          <div class="text-sm mt-4">
+            <div class="gray6--text">council Approval Quorum</div>
+            <div class="font-weight-bold">
+              {{ vm.daoSetting?.council?.councilApprovalQuorum }}
             </div>
           </div>
-          <div class="overflow-y-auto mt-3">
-            <div class="d-flex pa-4">
-              <div class="gray3--text">
-                <div class="text-overline-2 text-capitalize">
-                  council Approval Quorum
-                </div>
-                <div class="font-weight-bold">
-                  {{ vm.daoSetting?.council?.councilApprovalQuorum }}
-                </div>
-              </div>
+          <div class="text-sm mt-4">
+            <div class="gray6--text">Type</div>
+            <div class="font-weight-bold">
+              {{ vm.daoSetting?.type }}
             </div>
+          </div>
+          <div class="text-sm mt-4">
+            <div class="gray6--text">threshold</div>
+            <div class="font-weight-bold">
+              {{ vm.daoSetting?.threshold }}
+            </div>
+          </div>
+          <div class="text-sm mt-4">
+            <div class="gray6--text">Existed</div>
+            <div class="font-weight-bold">
+              {{ vm.daoSetting?.isExisted }}
+            </div>
+          </div>
+          <div class="text-sm mt-4">
+            <div class="gray6--text">Council</div>
+            <div class="font-weight-bold">
+              {{ vm.daoSetting?.isCouncil }}
+            </div>
+          </div>
+          <div class="text-sm mt-4">
+            <div class="gray6--text">createdAt</div>
+            <div class="font-weight-bold">
+              {{ vm.daoSetting?.createdAt | ddmmyyyyhhmmss }}
+            </div>
+          </div>
 
-            <div class="d-flex pa-4">
-              <div class="gray3--text">
-                <div class="text-overline-2 text-capitalize">Type</div>
-                <div class="font-weight-bold">
-                  {{ vm.daoSetting?.type }}
-                </div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div class="gray3--text">
-                <div class="text-overline-2 text-capitalize">threshold</div>
-                <div class="font-weight-bold">
-                  {{ vm.daoSetting?.threshold }}
-                </div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div class="gray3--text">
-                <div class="text-overline-2 text-capitalize">Existed</div>
-                <div class="font-weight-bold">
-                  {{ vm.daoSetting?.isExisted }}
-                </div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div class="gray3--text">
-                <div class="text-overline-2 text-capitalize">Council</div>
-                <div class="font-weight-bold">
-                  {{ vm.daoSetting?.isCouncil }}
-                </div>
-              </div>
-            </div>
-            <div class="d-flex pa-4">
-              <div class="gray3--text">
-                <div class="text-overline-2 text-capitalize">createdAt</div>
-                <div class="font-weight-bold">
-                  {{ vm.daoSetting?.createdAt | ddmmyyyyhhmmss }}
-                </div>
-              </div>
-            </div>
-            <div class="full-width d-flex justify-center my-3">
-              <v-btn
-                class="text-none btn-text"
-                :color="applicationStore.primaryColor"
-                >Change Config</v-btn
-              >
-            </div>
+          <div
+            class="full-width d-flex justify-center my-3"
+            @click="vm.setConfig(true)"
+          >
+            <v-btn
+              class="text-none btn-text"
+              :color="applicationStore.primaryColor"
+              >Change Config</v-btn
+            >
           </div>
         </div>
       </v-col>

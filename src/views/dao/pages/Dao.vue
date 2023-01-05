@@ -16,7 +16,12 @@
     >
       <div v-if="vm.pickParameters">
         <v-fade-transition mode="out-in" appear>
-          <Parameters></Parameters>
+          <div v-if="!vm.pickConfig">
+            <Parameters></Parameters>
+          </div>
+          <div v-else>
+            <ChangeConfig />
+          </div>
         </v-fade-transition>
       </div>
       <div v-else-if="vm.pickMembers">
@@ -87,6 +92,7 @@ import { applicationStore } from "@/stores/application-store";
 
     Parameters: () => import("../components/Params.vue"),
     Member: () => import("../components/Members.vue"),
+    ChangeConfig: () => import("../components/Change_config.vue"),
     SettingIcon,
     YourAccount,
     Programs,

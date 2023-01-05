@@ -1,3 +1,4 @@
+import { VoteModel } from './../../../models/vote-model';
 import { FixedNumber } from "@ethersproject/bignumber";
 import { applicationStore } from "../../../stores/application-store";
 import { ProposalModel } from "./../../../models/proposal-model";
@@ -28,8 +29,15 @@ export class DaoViewModel {
   @observable daoSetting?: DaoSettingModel;
   @observable pickParameters = false;
   @observable pickMembers = false;
+  @observable pickConfig=false;
   @observable pickDao = true;
   @observable proposals: ProposalModel[] = [];
+  @observable votes: VoteModel[] = [];
+  @observable comments: VoteModel[] = [];
+  @observable votesAmount: number =0;
+  @observable votesYes: number =0;
+  @observable votesNo: number =0;
+  @observable numberOfVotes: number =0;
   @observable itemsPerPage = 8;
   @observable proposalPage = 1;
 
@@ -133,7 +141,7 @@ export class DaoViewModel {
       loadingController.decreaseRequest();
     }
   });
-
+  
   fetchApplication = flow(function* (this, appId) {
     try {
       loadingController.increaseRequest();
@@ -193,6 +201,43 @@ export class DaoViewModel {
     }
   });
 
+  fetchUserVotes = flow(function* (this, walletAddress){
+    try {
+      loadingController.increaseRequest();
+      const proposalIds = applicationStore.application?.proposals.map(proposal => proposal.id);
+      const votes = yield apiService.votes.find({
+        "user.address": walletAddress,
+        proposal_in: proposalIds
+      });
+      if (!votes || votes.length == 0) {
+        this.pushBackHome(`User dont have any votes in this proposal`);
+        return;
+      }
+     this.votes = votes;
+     this.votesAmount = votes.reduce((a,b)=> Number.parseInt(a.amount) + Number.parseInt(b.amount))
+     this.votesYes = votes.filter(votes =>{
+      if(votes.vote === true)
+      {
+        return true
+      }
+      return false
+     }).length;
+     this.votesNo = votes.filter(votes =>{
+      if(votes.vote === false)
+      {
+        return true
+      }
+      return false
+     }).length;
+     this.numberOfVotes=  this.votesYes +  this.votesNo;
+    } catch (err: any) {
+      console.error("err", err);
+      this.pushBackHome(`Error occurred, please try again later!`);
+    }finally{
+      loadingController.decreaseRequest();
+    }
+  });
+
   @action pushBackHome(error: any) {
     snackController.error(error);
     if (walletStore.connected) appProvider.router.replace("/management");
@@ -208,6 +253,9 @@ export class DaoViewModel {
   }
   @action setpickMembers(val: boolean) {
     this.pickMembers = val;
+  }
+  @action setConfig(val: boolean) {
+    this.pickConfig = val;
   }
   @action setpickDao(val: boolean) {
     this.pickDao = val;

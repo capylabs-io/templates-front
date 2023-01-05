@@ -91,6 +91,7 @@ export default class App extends Vue {
   background-attachment: fixed;
   background-position: center center;
   background-repeat: repeat !important;
+  background-size: 100% !important;
   /*background-size: cover !important;*/
 }
 .v-application--wrap::before {
@@ -103,8 +104,9 @@ export default class App extends Vue {
   opacity: 0.3;
   background-position: center center;
   background-repeat: repeat !important;
-   /*background-size: cover !important;*/
+  background-size: 100% !important;
 
+  /*background-size: cover !important;*/
 }
 body {
   font-family: "DM Sans", sans-serif !important;

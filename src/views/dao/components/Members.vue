@@ -1,43 +1,69 @@
 <template>
-  <div class="pa-4 ma-5 box-gray-12 rounded-lg member-page">
-    <div class="d-flex">
-      <div class="pa-0 cursor-pointer" text @click="vm.changeMemberFlag()">
-        <v-icon
-          :color="applicationStore.primaryColor"
-          small
-          @click="vm.setpickMembers(false), vm.setpickDao(true)"
-        >
-          mdi-chevron-left</v-icon
-        >
-        <span
-          @click="vm.setpickMembers(false), vm.setpickDao(true)"
-          class="text-capitalize onCursor"
-          :style="'color:' + applicationStore.primaryColor + ' !important'"
-          >Back</span
-        >
+  <v-card
+    class="pa-6 border-radius-16 member-card mx-auto mt-8 mb-5"
+    :class="
+      applicationStore.isDarkTheme
+        ? 'box-border-gray11 white--text'
+        : 'black--text'
+    "
+    :style="'background:' + applicationStore.cardColor + ' !important;'"
+    :outlined="applicationStore.isDarkTheme"
+    elevation="0"
+  >
+    <div
+      class="d-flex cursor-pointer"
+      @click="vm.setpickMembers(false), vm.setpickDao(true)"
+      text
+    >
+      <v-icon :color="applicationStore.primaryColor" small>
+        mdi-chevron-left</v-icon
+      >
+      <span
+        :style="'color:' + applicationStore.primaryColor + ' !important'"
+        class="text-capitalize onCursor"
+        >Back</span
+      >
+    </div>
+
+    <div>
+      <div class="d-flex align-center mt-3">
+        <img class="mr-2 w-16" src="@/assets/axie-icon.png" />
+        <span class="font-weight-bold text-md gray5--text"> Axie DAO</span>
       </div>
+      <div class="text-dp-xs white--text font-weight-bold mt-1">Members</div>
     </div>
-    <div class="d-flex align-center mt-3">
-      <img class="mr-2 w-16" src="@/assets/axie-icon.png" />
-      <span class="font-weight-bold text-md gray5--text">Axie DAO</span>
-    </div>
-    <div class="text-dp-xs white--text font-weight-bold">Member</div>
-    <v-row class="pa-2">
-      <v-col cols="12" md="4" class="pa-2 text-sm">
-        <div class="gray13 border-radius-12 pa-4">
+    <v-row class="mt-1">
+      <v-col cols="12" md="6" class="text-sm">
+        <div
+          class="border-radius-16 pa-4 full-height"
+          :class="{
+            'box-border-gray11': applicationStore.isDarkTheme,
+          }"
+          :style="'background:' + applicationStore.accentColor + ' !important'"
+        >
           <div class="d-flex justify-space-between">
-            <div class="pa-0">2 members</div>
+            <div class="">
+              {{
+                vm.daoSetting?.members === undefined
+                  ? "0"
+                  : vm.daoSetting?.members?.length
+              }}
+              members
+            </div>
             <div class="blueJeans--text d-flex justify-center cursor-pointer">
               <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
               <span class="ml-1">New Member</span>
             </div>
           </div>
           <div
-            class="overflow-y-auto mt-3"
+            class="mt-3"
             v-for="member in vm.daoSetting.members"
             :key="member.wallet"
           >
-            <div class="d-flex pa-4 active">
+            <div
+              class="d-flex pa-4 active"
+              @click="getUsersVote(member.wallet)"
+            >
               <div>
                 <div class="prime7 pa-1 rounded-circle mr-2">
                   <v-icon color="prime2">mdi-account-circle</v-icon>
@@ -51,9 +77,12 @@
           </div>
         </div>
       </v-col>
-
-      <v-col cols="12" md="8" class="pa-2">
-        <div class="gray13 border-radius-12 pa-4 overflow-y-auto">
+      <v-col cols="12" md="6" class="text-sm">
+        <div
+          class="border-radius-16 pa-4 full-height"
+          :class="{ 'box-border-gray11': applicationStore.isDarkTheme }"
+          :style="'background:' + applicationStore.accentColor + ' !important'"
+        >
           <div class="d-flex justify-space-between">
             <div class="pa-0">3Q3ph8KiL...RGvG8</div>
             <div
@@ -68,32 +97,37 @@
               class="d-flex flex-column justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-50"
               :style="'background: #2A2A2D'"
             >
-              <div class="font-weight-bold text-md">Votes</div>
-              <div class="font-weight-bold text-dp-xs pb-10">300</div>
+              <!-- sum of votes amount -->
+              <div class="font-weight-bold text-md">Votes (amount)</div>
+              <div class="font-weight-bold text-dp-xs pb-10">
+                {{ vm.votesAmount }}
+              </div>
             </div>
             <div
-              class="d-flex flex-column justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-50 row-gap-10"
+              class="d-flex flex-column justify-space-betwe en pa-4 cursor-pointer mt-3 rounded-lg w-50 row-gap-10"
               :style="'background: #2A2A2D'"
             >
-              <div class="font-weight-bold text-md">Votes</div>
-              <div class="font-weight-bold text-dp-xs">3</div>
+              <div class="font-weight-bold text-md">Votes Cast</div>
+              <div class="font-weight-bold text-dp-xs">
+                {{ vm.numberOfVotes }}
+              </div>
               <div class="d-flex gap-20">
                 <div class="d-flex align-center">
                   <v-icon color="success" class="mr-2 align-center"
                     >mdi-thumb-up</v-icon
                   >
-                  <div>Yes: 2</div>
+                  <div>Yes: {{ vm.votesYes }}</div>
                 </div>
                 <div class="d-flex align-center">
                   <v-icon color="error" class="mr-2 align-center"
                     >mdi-thumb-down</v-icon
                   >
-                  <div>No: 1</div>
+                  <div>No: {{ vm.votesNo }}</div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="pa-0 gray-12">3 recent votes</div>
+          <div class="pa-0 gray-12">{{ vm.numberOfVotes }} recent votes</div>
           <div
             class="d-flex justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-100"
             :style="'background: #2A2A2D'"
@@ -220,10 +254,10 @@
               </div>
             </div>
           </div>
-        </div>
-      </v-col>
+        </div></v-col
+      >
     </v-row>
-  </div>
+  </v-card>
 </template>
 <script lang="ts">
 import { Component, Inject, Vue } from "vue-property-decorator";
@@ -240,19 +274,26 @@ import { applicationStore } from "@/stores/application-store";
 export default class Members extends Vue {
   @Inject() vm!: DaoViewModel;
   applicationStore = applicationStore;
+
+  getUsersVote(address) {
+    this.vm.fetchUserVotes(address);
+  }
 }
 </script>
 <style lang="scss">
+.member-card {
+  max-width: 1500px;
+}
+.active:hover {
+  background: #3b3b3f !important;
+  border-radius: 12px;
+  .gray3--text {
+    color: white !important;
+  }
+}
 .member-page {
   .w-16 {
     width: 16px;
-  }
-  .active {
-    background: #3b3b3f !important;
-    border-radius: 12px;
-    .gray3--text {
-      color: white !important;
-    }
   }
 }
 .w-50 {
