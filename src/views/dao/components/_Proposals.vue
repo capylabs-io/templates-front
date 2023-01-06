@@ -107,7 +107,7 @@
       <div class="gray7--text">{{ vm.proposalLength }} Proposals</div>
       <div
         class="blueJeans--text d-flex align-center cursor-pointer"
-        @click="vm.changeAddProposalDialog()"
+        @click="openAddProposal()"
         v-if="applicationStore.isApplicationOwner"
       >
         <v-icon small :color="applicationStore.primaryColor"
@@ -205,6 +205,11 @@ export default class Proposals extends Vue {
   gotoProposalDetail(proposalId: string) {
     if (this.vm.isReview) return;
     this.$router.push(`/proposal/${proposalId}`);
+  }
+
+  openAddProposal() {
+    if (this.vm.isReview) return;
+    this.vm.changeAddProposalDialog();
   }
 }
 </script>

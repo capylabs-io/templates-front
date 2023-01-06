@@ -11,6 +11,7 @@ import { loadingController } from "@/components/global-loading/global-loading-co
 import { action, observable, computed, flow } from "mobx";
 import moment, { now } from "moment";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
+import { confirmDialogController } from "@/components/confirm-dialog/confirm-dialog-controller";
 
 export class ProposalDetailViewmodel {
   @observable isReview = false;
@@ -69,6 +70,76 @@ export class ProposalDetailViewmodel {
       loadingController.decreaseRequest();
     }
   });
+
+  @action.bound deleteProposal() {
+    try {
+      loadingController.increaseRequest();
+      confirmDialogController.confirm({
+        title: "Confirm Delete Proposal",
+        content: `Are you sure you want to remove proposal <span class='font-weight-bold white--text'>${this.proposal?.title}</span>? 
+        <div class='error--text mt-1'>This proposal will be deleted pernamently and it cannot be restored!</div>`,
+        doneText: "Remove",
+        doneCallback: async () => {
+          const removedProposal = await apiService.proposals.delete(this.proposal?.id);
+          snackController.success(`Remove proposal ${removedProposal.title} successfully!`);
+          appProvider.router.push(`/dao/${removedProposal.application.appId}`);
+        },
+      });
+    } catch (err: any) {
+      this.pushBackHome(`Error occurred, please try again later!`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  }
+
+  @action.bound publishProposal() {
+    try {
+      loadingController.increaseRequest();
+      confirmDialogController.confirm({
+        title: "Confirm Publish Proposal",
+        content: `Are you sure you want to publish proposal <span class='font-weight-bold white--text'>${this.proposal?.title}</span>? 
+        <div class='warning--text mt-1'>Please review carefully before publishing your final version. Once published, you can no longer edit the proposal!</div>`,
+        doneText: "Publish",
+        showWarningIcon: false,
+        doneCallback: async () => {
+          const updatedProposal = await apiService.proposals.update(this.proposal?.id, {
+            status: "voting",
+          });
+          snackController.success(`Publish proposal ${updatedProposal.title} successfully!`);
+          await this.fetchProposal(updatedProposal.id);
+        },
+      });
+    } catch (err: any) {
+      this.pushBackHome(`Error occurred, please try again later!`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  }
+
+  @action.bound cancelProposal() {
+    try {
+      loadingController.increaseRequest();
+      confirmDialogController.confirm({
+        title: "Confirm Publish Proposal",
+        content: `Are you sure you want to cancel proposal <span class='font-weight-bold white--text'>${this.proposal?.title}</span>? 
+        <div class='error--text mt-1'>Once proposal cancelled, you cannot restore it.</div>`,
+        doneText: "Cancel Proposal",
+        cancelText: "Abort",
+        warningIconColor: "error",
+        doneCallback: async () => {
+          const updatedProposal = await apiService.proposals.update(this.proposal?.id, {
+            status: "cancelled",
+          });
+          snackController.success(`Publish proposal ${updatedProposal.title} successfully!`);
+          await this.fetchProposal(updatedProposal.id);
+        },
+      });
+    } catch (err: any) {
+      this.pushBackHome(`Error occurred, please try again later!`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  }
 
   @action pushBackHome(error: any) {
     snackController.error(error);

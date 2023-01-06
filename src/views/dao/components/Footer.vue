@@ -2,8 +2,8 @@
   <v-footer
     :style="'background:' + applicationStore.navColor + ' !important'"
     :light="!applicationStore.isNavDarkTheme"
-    :dark="applicationStore.isNavDarkTheme"
-    class="dao-footer"
+    :elevation="applicationStore.isNavDarkTheme ? 0 : 5"
+    class="dao-footer z-index-8"
   >
     <v-row class="full-width d-flex justify-space-between px-2 align-center">
       <v-col cols="3"></v-col>

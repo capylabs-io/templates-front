@@ -21,62 +21,64 @@
     </div>
 
     <div class="drawer-content mt-8">
-      <v-divider></v-divider>
-      <v-expansion-panels
-        v-model="panel"
-        class="expansion-container d-flex flex-column z-index-8"
-        accordion
-        flat
-      >
-        <v-expansion-panel>
-          <v-expansion-panel-header class="font-weight-bold mt-2"
-            >General Config</v-expansion-panel-header
-          >
-          <v-expansion-panel-content class="mb-4 mt-2">
-            <GeneralConfig />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+      <v-form v-model="vm.customizeForm" ref="customizeForm">
+        <v-divider></v-divider>
+        <v-expansion-panels
+          v-model="panel"
+          class="expansion-container d-flex flex-column z-index-8"
+          accordion
+          flat
+        >
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold mt-2"
+              >General Config</v-expansion-panel-header
+            >
+            <v-expansion-panel-content class="mb-4 mt-2">
+              <GeneralConfig />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
 
-        <v-divider class="mt-2"></v-divider>
+          <v-divider class="mt-2"></v-divider>
 
-        <v-expansion-panel>
-          <v-expansion-panel-header class="font-weight-bold mt-2"
-            >Custom Branding</v-expansion-panel-header
-          >
-          <v-expansion-panel-content class="mb-4 mt-2">
-            <BrandConfig />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold mt-2"
+              >Custom Branding</v-expansion-panel-header
+            >
+            <v-expansion-panel-content class="mb-4 mt-2">
+              <BrandConfig />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
 
-        <v-divider class="mt-2"></v-divider>
+          <v-divider class="mt-2"></v-divider>
 
-        <v-expansion-panel>
-          <v-expansion-panel-header class="font-weight-bold mt-2">
-            <div>
-              Social Media
-              <v-chip color="primary" class="ml-1" small>{{
-                applicationStore.socialMedias.length
-              }}</v-chip>
-            </div>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content class="mb-4 mt-2">
-            <SocialMedia />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold mt-2">
+              <div>
+                Social Media
+                <v-chip color="primary" class="ml-1" small>{{
+                  applicationStore.socialMedias.length
+                }}</v-chip>
+              </div>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content class="mb-4 mt-2">
+              <SocialMedia />
+            </v-expansion-panel-content>
+          </v-expansion-panel>
 
-        <v-divider class="mt-2"></v-divider>
-      </v-expansion-panels>
+          <v-divider class="mt-2"></v-divider>
+        </v-expansion-panels>
+      </v-form>
     </div>
 
-    <v-divider class="my-5"></v-divider>
+    <v-divider></v-divider>
 
-    <div class="d-flex flex-column align-center mb-4">
+    <div class="d-flex flex-column align-center my-4">
       <v-btn
         class="button-action text-none btn-text"
         color="primary"
         elevation="0"
         @click="onBtnSaveClicked"
-        :disabled="!vm.socialMediaForm"
+        :disabled="!vm.customizeForm"
         >Save and Deploy</v-btn
       >
       <v-btn
@@ -149,6 +151,7 @@ export default class CustomizeInterface extends Vue {
   z-index: 10 !important;
   transition: margin-left 0.5s;
   position: relative;
+  border-right: 1px solid var(--v-gray11-base);
 }
 .drawer-content {
   height: calc(100% - 140px - 120px - 16px) !important;

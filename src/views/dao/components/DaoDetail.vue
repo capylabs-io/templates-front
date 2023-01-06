@@ -33,39 +33,22 @@
         </v-tooltip>
       </div>
       <div class="d-flex align-center text-sm font-weight-regular gray6--text">
-        <v-icon
-          class="mr-1"
-          color="gray6"
-          small
-          @click="(vm.pickMembers = !vm.pickMembers), vm.setpickDao(false)"
-        >
-          mdi-account-multiple</v-icon
-        >
-        <span
-          class="cursor-pointer"
-          @click="(vm.pickMembers = !vm.pickMembers), vm.setpickDao(false)"
-          >Members ({{
-            vm.daoSetting?.members === undefined
-              ? "0"
-              : vm.daoSetting?.members?.length
-          }})</span
-        >
-        <v-icon
-          class="ml-3 mr-1"
-          color="gray6"
-          small
-          @click="
-            (vm.pickParameters = !vm.pickParameters), vm.setpickDao(false)
-          "
-          >mdi-cog</v-icon
-        >
-        <span
-          @click="
-            (vm.pickParameters = !vm.pickParameters), vm.setpickDao(false)
-          "
-          class="cursor-pointer"
-          >Params</span
-        >
+        <div class="cursor-pointer" @click="openMembers()">
+          <v-icon class="mr-1" color="gray6" small>
+            mdi-account-multiple</v-icon
+          >
+          <span
+            >Members ({{
+              vm.daoSetting?.members === undefined
+                ? "0"
+                : vm.daoSetting?.members?.length
+            }})</span
+          >
+        </div>
+        <div class="cursor-pointer" @click="openParams()">
+          <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
+          <span class="cursor-pointer">Params</span>
+        </div>
         <v-icon class="ml-4" :color="applicationStore.primaryColor"
           >mdi-launch</v-icon
         >
@@ -137,23 +120,17 @@ export default class SolendDao extends Vue {
   }
   applicationStore = applicationStore;
   showProposals = true;
+
+  openMembers() {
+    if (this.vm.isReview) return;
+    this.vm.pickMembers = !this.vm.pickMembers;
+    this.vm.setpickDao(false);
+  }
+
+  openParams() {
+    if (this.vm.isReview) return;
+    this.vm.pickParameters = !this.vm.pickParameters;
+    this.vm.setpickDao(false);
+  }
 }
 </script>
-
-<style>
-.token-icon {
-  max-width: 24px;
-  max-height: 24px;
-}
-.dao-side-banner {
-  /* max-width: 432px; */
-  aspect-ratio: 3 / 4;
-}
-.dao-banner {
-  max-height: 220px;
-  aspect-ratio: 8 / 1;
-}
-.dao-title {
-  width: calc(100% - 236px - 16px);
-}
-</style>

@@ -21,8 +21,13 @@
           >Back</span
         >
       </v-btn>
-      <v-btn :color="applicationStore.primaryColor" icon>
-        <v-icon class="ml-4">mdi-launch</v-icon>
+      <v-btn
+        class="mr-n2"
+        :color="applicationStore.primaryColor"
+        v-if="vm.proposal?.status != 'draft'"
+        icon
+      >
+        <v-icon>mdi-launch</v-icon>
       </v-btn>
     </div>
     <div class="d-flex justify-space-between mt-3">
@@ -30,11 +35,23 @@
         {{ vm.proposal?.title }}
       </div>
       <div>
-        <ProposalStatus />
+        <ProposalStatus :status="vm.proposal?.status" />
       </div>
     </div>
     <div
-      class="pa-4 mt-4 text-sm font-weight-regular border-radius-8"
+      class="mt-4"
+      v-if="
+        applicationStore.isApplicationOwner &&
+        (vm.proposal?.status == 'draft' ||
+          vm.proposal?.status == 'onHold' ||
+          vm.proposal?.status == 'voting' ||
+          vm.proposal?.status == 'executing')
+      "
+    >
+      <ProposalControl />
+    </div>
+    <div
+      class="pa-4 mt-4 font-weight-regular border-radius-8"
       :style="'background:' + applicationStore.accentColor + ' !important'"
       :class="
         applicationStore.isDarkTheme
@@ -87,6 +104,7 @@ import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
 @Component({
   components: {
     ProposalStatus: () => import("../components/ProposalStatus.vue"),
+    ProposalControl: () => import("../components/ProposalControl.vue"),
   },
 })
 export default class DetailProposal extends Vue {
@@ -98,5 +116,3 @@ export default class DetailProposal extends Vue {
   }
 }
 </script>
-<style scoped>
-</style>
