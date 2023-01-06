@@ -59,6 +59,8 @@ export class ApplicationStore {
       "primaryColors",
       applicationStore.defaultLayoutConfig.defaultPrimaryColors
     );
+    if (!this.primaryColors?.includes(this.primaryColor) && this.primaryColors)
+      this.primaryColor = this.primaryColors[0];
 
     this.backgroundUrl = get(
       theme,

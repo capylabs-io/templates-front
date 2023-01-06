@@ -25,6 +25,7 @@ export class CustomizeInterfaceViewmodel {
   @observable themePerPage?: number = 9;
 
   @observable socialMediaForm?: boolean = false;
+  @observable customizeForm?: boolean = false;
 
   applicationStore = applicationStore;
 

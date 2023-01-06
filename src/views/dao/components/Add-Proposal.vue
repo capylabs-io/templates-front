@@ -10,7 +10,7 @@
     :outlined="applicationStore.isDarkTheme"
     elevation="0"
   >
-    <!-- <div class="d-inline-flex justify-space-between full-width">
+    <div class="d-inline-flex justify-space-between full-width">
       <div
         class="pa-0 cursor-pointer"
         text
@@ -25,8 +25,8 @@
           >Back</span
         >
       </div>
-    </div> -->
-    <div class="mt-2 text-dp-xs white--text font-weight-bold text-center">
+    </div>
+    <div class="mt-2 text-dp-xs font-weight-bold text-center">
       Add new proposal
     </div>
 
@@ -37,8 +37,9 @@
           <v-text-field
             class="input-field border-radius-8 elevation-0"
             v-model="vm.proposalTitle"
-            color="primary"
             placeholder="eg. Create a new NFT collection for Stakeholders"
+            :light="!applicationStore.isDarkTheme"
+            :color="applicationStore.primaryColor"
             :rules="[$rules.required]"
             dense
             solo
@@ -54,7 +55,8 @@
           <v-textarea
             v-model="vm.proposalDescription"
             class="input-field border-radius-8 elevation-0 overflow-hidden"
-            color="primary"
+            :light="!applicationStore.isDarkTheme"
+            :color="applicationStore.primaryColor"
             placeholder="eg: Develop new Features..."
             dense
             solo
@@ -73,7 +75,7 @@
           </div>
           <v-slider
             v-model="vm.proposalQuorum"
-            color="primary"
+            :color="applicationStore.primaryColor"
             track-color="grey"
             class="mt-0"
             always-dirty
@@ -96,7 +98,7 @@
             ? 'box-border-gray11 white--text'
             : 'black--text'
         "
-        :style="'background:' + applicationStore.cardColor + ' !important;'"
+        :style="'background:' + applicationStore.accentColor + ' !important;'"
         :outlined="applicationStore.isDarkTheme"
         v-for="(transaction, index) in vm.proposalTransactions"
         :key="index"
@@ -122,6 +124,8 @@
             v-model="transaction.type"
             :items="vm.transactionList"
             :rules="[$rules.required]"
+            :light="!applicationStore.isDarkTheme"
+            :color="applicationStore.primaryColor"
             class="border-radius-8"
             label="Transaction Type"
             dense
@@ -135,10 +139,11 @@
             <div class="mt-2">
               <v-text-field
                 class="input-field border-radius-8 elevation-0"
-                color="primary"
                 placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
                 dense
                 v-model="transaction.source"
+                :light="!applicationStore.isDarkTheme"
+                :color="applicationStore.primaryColor"
                 :rules="[$rules.validWalletAddress, $rules.required]"
                 solo
                 outlined
@@ -151,9 +156,10 @@
             <div class="mt-2">
               <v-text-field
                 class="input-field border-radius-8 elevation-0"
-                color="primary"
                 placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
                 v-model="transaction.destination"
+                :light="!applicationStore.isDarkTheme"
+                :color="applicationStore.primaryColor"
                 :rules="[$rules.validWalletAddress, $rules.required]"
                 dense
                 solo
@@ -167,9 +173,10 @@
             <div class="mt-2">
               <v-text-field
                 class="input-field border-radius-8 elevation-0"
-                color="primary"
                 placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
                 v-model="transaction.amount"
+                :light="!applicationStore.isDarkTheme"
+                :color="applicationStore.primaryColor"
                 :rules="[$rules.numberOnly, $rules.required, $rules.min(0)]"
                 dense
                 solo
@@ -212,16 +219,16 @@
       <div class="d-flex">
         <v-btn
           color="gray6"
-          class="font-weight-bold gray11 rounded-lg text-capitalize px-4"
+          class="font-weight-bold rounded-lg text-capitalize px-4"
           @click="vm.changeAddProposalDialog()"
           >Cancel</v-btn
         >
       </div>
       <v-btn
         :color="applicationStore.primaryColor"
+        :disabled="!confirmCaptcha"
         class="font-weight-bold text-capitalize rounded-lg px-4"
         @click="onCreateProposal()"
-        :disabled="!confirmCaptcha"
         >Add proposal</v-btn
       >
     </div>

@@ -165,7 +165,7 @@ export class DaoViewModel {
 
       this.proposals = application.proposals;
       if (this.isReview) return;
-      if (!this.applicationStore.themeConfig) this.applicationStore.setupThemeConfig(application.theme);
+      this.applicationStore.setupThemeConfig(application.theme);
       this.applicationStore.setupMetadata(application.metadata);
     } catch (err: any) {
       console.error("err", err);

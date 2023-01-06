@@ -6,7 +6,7 @@
   >
     <DaoNavigationBar />
     <div
-      class="dao-content"
+      class="dao-content full-height"
       :style="{
         'background-color': applicationStore.pageBackground + ' !important',
         'background-image':
@@ -122,19 +122,3 @@ export default class Dao extends Vue {
   }
 }
 </script>
-<style>
-.dao-management {
-  max-width: 1440px;
-}
-.dao-content {
-  height: calc(100vh - 52px - 64px) !important;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-}
-.add-proposal {
-  max-width: 640px;
-}
-</style>

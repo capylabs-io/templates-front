@@ -10,6 +10,8 @@ export interface ConfirmDialogConfig {
   hideDone?: boolean;
   doneCallback?: any;
   cancelCallback?: any;
+  showWarningIcon?: boolean;
+  warningIconColor?: string;
 }
 
 export class ConfirmDialogController {
@@ -18,6 +20,8 @@ export class ConfirmDialogController {
     hideDone: false,
     doneText: "Done",
     cancelText: "Cancel",
+    showWarningIcon: true,
+    warningIconColor: "error",
   };
   @observable dialog = false;
 
