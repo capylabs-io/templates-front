@@ -11,7 +11,7 @@
     :outlined="applicationStore.isDarkTheme"
     elevation="0"
   >
-    <div class="mt-2 text-dp-xs white--text font-weight-bold text-center mb-8">
+    <div class="mt-2 text-dp-xs font-weight-bold text-center mb-8">
       Config update
     </div>
     <div class="text-lg font-weight-bold mt-2">Member's wallet</div>
@@ -20,9 +20,10 @@
       :style="'background:' + applicationStore.accentColor + ' !important'"
     >
       <v-text-field
-        class=""
+        outlined
+        :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+        :class="applicationStore.isDarkTheme ? 'white-text' : 'placeholer-lightTheme'"
         placeholder="eg. Govffg894jRjkgfh08943jfVVudfL"
-        :rules="rules"
         hide-details="auto"
       ></v-text-field>
     </div>
@@ -32,10 +33,11 @@
       :style="'background:' + applicationStore.accentColor + ' !important'"
     >
       <v-text-field
-        class=""
+        :color="applicationStore.accentColor"
+        :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
         placeholder="eg. Whatsupppp"
-        :rules="rules"
         hide-details="auto"
+        outlined
       ></v-text-field>
     </div>
     <div class="text-lg font-weight-bold mt-2">Description</div>
@@ -43,12 +45,15 @@
       class="mt-2"
       :style="'background:' + applicationStore.accentColor + ' !important'"
     >
-      <v-text-field
-        class=""
+      <v-textarea
+        :color="applicationStore.accentColor"
+        :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
         placeholder="eg: Introducte to new Features..."
         :rules="rules"
         hide-details="auto"
-      ></v-text-field>
+        no-resize
+        outlined
+      ></v-textarea>
     </div>
     <div class="text-lg font-weight-bold mt-2">Token amount</div>
     <div
@@ -56,17 +61,20 @@
       :style="'background:' + applicationStore.accentColor + ' !important'"
     >
       <v-text-field
-        class=""
+        :color="applicationStore.accentColor"
+        :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
         placeholder="1"
-        :rules="rules"
         hide-details="auto"
+        outlined
       ></v-text-field>
     </div>
     <div
       class="full-width d-flex justify-center my-4 justify-space-between"
       @click="vm.setConfig(false)"
     >
-      <v-btn class="text-none btn-text">Cancel</v-btn>
+      <v-btn class="text-none btn-text" :color="applicationStore.primaryColor"
+        >Cancel</v-btn
+      >
       <v-btn class="text-none btn-text" :color="applicationStore.primaryColor"
         >Update</v-btn
       >
@@ -113,5 +121,13 @@ export default class DaoManagementParams extends Vue {
 }
 .onCursor {
   cursor: pointer;
+}
+.placeholer-lightTheme input::placeholder {
+  color: black!important;
+  opacity: 1;
+}
+.placeholer-lightTheme input,
+.placeholer-lightTheme input{
+  color: black!important;
 }
 </style>

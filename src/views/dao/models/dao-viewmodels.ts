@@ -1,3 +1,4 @@
+import { CommentModel } from './../../../models/comment-model';
 import { VoteModel } from './../../../models/vote-model';
 import { FixedNumber } from "@ethersproject/bignumber";
 import { applicationStore } from "../../../stores/application-store";
@@ -33,7 +34,7 @@ export class DaoViewModel {
   @observable pickDao = true;
   @observable proposals: ProposalModel[] = [];
   @observable votes: VoteModel[] = [];
-  @observable comments: VoteModel[] = [];
+  @observable comments: CommentModel[] = [];
   @observable votesAmount: number =0;
   @observable votesYes: number =0;
   @observable votesNo: number =0;
@@ -201,7 +202,7 @@ export class DaoViewModel {
     }
   });
 
-  fetchUserVotes = flow(function* (this, walletAddress){
+  fetchUserInteract = flow(function* (this, walletAddress){
     try {
       loadingController.increaseRequest();
       const proposalIds = applicationStore.application?.proposals.map(proposal => proposal.id);
@@ -209,12 +210,18 @@ export class DaoViewModel {
         "user.address": walletAddress,
         proposal_in: proposalIds
       });
-      if (!votes || votes.length == 0) {
-        this.pushBackHome(`User dont have any votes in this proposal`);
+      const comments = yield apiService.comments.find({
+        "user.address": walletAddress,
+        proposal_in: proposalIds
+      });
+
+      if (!votes || votes.length == 0 || !comments || comments.length == 0) {
+        this.pushBackHome(`User dont have any infomation in this proposal`);
         return;
       }
      this.votes = votes;
-     this.votesAmount = votes.reduce((a,b)=> Number.parseInt(a.amount) + Number.parseInt(b.amount))
+     this.comments = comments;
+     this.votesAmount = votes.reduce((a,b)=> a + Number.parseInt(b.amount),0)
      this.votesYes = votes.filter(votes =>{
       if(votes.vote === true)
       {
