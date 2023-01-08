@@ -2,8 +2,8 @@
   <v-app-bar
     :style="'background:' + applicationStore.navColor + ' !important'"
     :light="!applicationStore.isNavDarkTheme"
-    :dark="applicationStore.isNavDarkTheme"
-    elevation="0"
+    :elevation="applicationStore.isNavDarkTheme ? 0 : 5"
+    class="z-index-8"
   >
     <div class="full-width d-flex align-center justify-space-between px-2">
       <div

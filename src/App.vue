@@ -419,4 +419,35 @@ input[type="number"]::-webkit-outer-spin-button {
 .flicking-arrow-next.is-thin::after {
   top: calc(50% - 2px);
 }
+
+//dao
+.dao-management {
+  max-width: 1440px;
+}
+.dao-content {
+  height: calc(100vh - 52px - 64px) !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.add-proposal {
+  max-width: 640px;
+}
+.token-icon {
+  max-width: 24px;
+  max-height: 24px;
+}
+.dao-side-banner {
+  /* max-width: 432px; */
+  aspect-ratio: 3 / 4 !important;
+}
+.dao-banner {
+  max-height: 220px;
+  aspect-ratio: 8 / 1 !important;
+}
+.dao-title {
+  width: calc(100% - 236px - 16px);
+}
 </style>

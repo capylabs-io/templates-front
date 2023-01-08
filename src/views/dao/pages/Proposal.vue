@@ -6,7 +6,7 @@
   >
     <DaoNavigationBar />
     <div
-      class="dao-content"
+      class="dao-content full-height"
       :style="{
         'background-color': applicationStore.pageBackground + ' !important',
         'background-image':

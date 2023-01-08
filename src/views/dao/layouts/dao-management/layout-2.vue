@@ -1,12 +1,16 @@
 <template>
   <Responsive :breakpoints="{ small: (el) => el.width <= 960 }">
     <div class="d-flex flex-column" slot-scope="el">
-      <CoverImage
-        class="full-width dao-banner"
-        :imageUrl="applicationStore.banner"
-        :defaultImageUrl="require('@/assets/webservice/dao/default-banner.jpg')"
-        cover
-      />
+      <div class="dao-banner">
+        <CoverImage
+          class="full-width"
+          :imageUrl="applicationStore.banner"
+          :defaultImageUrl="
+            require('@/assets/webservice/dao/default-banner.jpg')
+          "
+          cover
+        />
+      </div>
       <div class="dao-management ma-auto px-2 py-3">
         <v-row class="justify-center ma-auto">
           <v-col :cols="el.is.small ? 12 : 5">
