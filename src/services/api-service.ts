@@ -219,6 +219,16 @@ export class ApiService {
     const res = await axios.get(`proposals/default`);
     return res.data;
   }
+
+  async proposalVote(model: any) {
+    const res = await axios.post(`votes`, model, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${walletStore.jwt}`,
+      },
+    });
+    return res.data;
+  }
 }
 
 export const apiService = new ApiService();

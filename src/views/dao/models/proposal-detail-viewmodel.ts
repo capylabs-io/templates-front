@@ -16,6 +16,9 @@ export class ProposalDetailViewmodel {
   @observable isReview = false;
   @observable loading = false;
 
+  // @observable isVoted = false;
+  @observable isVoteYes = false;
+  // @observable isVoteDone = false;
   @observable isVoted = false;
   @observable isVoteDone = false;
   @observable reviewPage: string = "management";
@@ -24,6 +27,9 @@ export class ProposalDetailViewmodel {
 
   applicationStore = applicationStore;
   walletStore = walletStore;
+
+  @observable isOpenVoteConfirm = false;
+  @observable showVoteResult = false;
 
   fetchProposal = flow(function* (this, proposalId) {
     try {
@@ -78,5 +84,41 @@ export class ProposalDetailViewmodel {
 
   @action setIsReview(val: boolean) {
     this.isReview = val;
+  }
+
+  @action changeVoteConfirmDialog(isVoteYes = false) {
+    this.isVoteYes = isVoteYes;
+    this.isOpenVoteConfirm = !this.isOpenVoteConfirm;
+  }
+  voting = flow(function* (this) {
+    try {
+      loadingController.increaseRequest();
+      console.log(this.proposal);
+      const model = {
+        userId: this.walletStore.userId,
+        proposalId: this.proposal.id,
+        voteType: this.isVoteYes, // true = yes, false = no
+        amount: "100"
+      }
+      console.log(model);
+      const voteResult = yield apiService.proposalVote(model);
+      this.isVoteDone = true;
+      this.isOpenVoteConfirm = false;
+    } catch (err: any) {
+      this.pushBackHome(`Error occurred, please try again later!`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  });
+  @action voteExcute() {
+    this.loading = true;
+    this.isVoteDone = true;
+    this.loading = false;
+  }
+  @action gotoVoteResult() {
+    this.showVoteResult = true;
+  }
+  @action backPropoDetail() {
+    this.showVoteResult = false;
   }
 }

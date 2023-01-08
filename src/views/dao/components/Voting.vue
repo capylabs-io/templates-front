@@ -162,10 +162,10 @@
 <script lang="ts">
 import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
-import { DaoViewModel } from "../models/dao-viewmodels";
 import Countdown from "@/components/Countdown.vue";
 import VoteConfrimDialog from "../dialog/Vote-Confirm-Dialog.vue";
 import { applicationStore } from "@/stores/application-store";
+import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
 @Observer
 @Component({
   components: {
@@ -174,7 +174,7 @@ import { applicationStore } from "@/stores/application-store";
   },
 })
 export default class Voting extends Vue {
-  @Inject() vm!: DaoViewModel;
+  @Inject() vm!: ProposalDetailViewmodel;
 
   applicationStore = applicationStore;
 }

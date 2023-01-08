@@ -34,9 +34,9 @@
   
   <script lang="ts">
 import { Vue, Component, Inject } from "vue-property-decorator";
-import { DaoViewModel } from "../../models/dao-viewmodels";
 import { Responsive } from "vue-responsive-components";
 import { applicationStore } from "@/stores/application-store";
+import { ProposalDetailViewmodel } from "../../models/proposal-detail-viewmodel";
 
 @Component({
   components: {
@@ -50,7 +50,7 @@ import { applicationStore } from "@/stores/application-store";
   },
 })
 export default class ProposalDaoLayout1 extends Vue {
-  @Inject() vm!: DaoViewModel;
+  @Inject() vm!: ProposalDetailViewmodel;
 
   applicationStore = applicationStore;
 }

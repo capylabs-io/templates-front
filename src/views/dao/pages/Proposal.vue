@@ -41,7 +41,8 @@ import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
 })
 export default class Dao extends Vue {
   @Provide() vm = new ProposalDetailViewmodel();
-  @Prop({ default: false }) isReview?: boolean;
+  // defaut = false
+  @Prop({ default: true }) isReview?: boolean;
 
   applicationStore = applicationStore;
 

@@ -47,7 +47,7 @@
 <script lang="ts">
 import { Observer } from "mobx-vue";
 import { Component, Inject, Prop, Vue } from "vue-property-decorator";
-import { DaoViewModel } from "../models/dao-viewmodels";
+import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
 
 @Observer
 @Component({
@@ -55,7 +55,7 @@ import { DaoViewModel } from "../models/dao-viewmodels";
 })
 export default class VoteConfrimDialog extends Vue {
 @Prop({ default: false }) isVoteYes!: boolean;
-@Inject() vm!: DaoViewModel;
+@Inject() vm!: ProposalDetailViewmodel;
 }
 </script>
 
