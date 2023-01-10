@@ -1,59 +1,92 @@
 <template>
-  <div class="pa-4 ma-5 box-gray-12 rounded-lg member-page">
-    <div class="d-flex">
-      <div class="pa-0 cursor-pointer" text @click="vm.changeMemberFlag()">
-        <v-icon
-          :color="applicationStore.primaryColor"
-          small
-          @click="vm.setpickMembers(false), vm.setpickDao(true)"
-        >
-          mdi-chevron-left</v-icon
-        >
-        <span
-          @click="vm.setpickMembers(false), vm.setpickDao(true)"
-          class="text-capitalize onCursor"
-          :style="'color:' + applicationStore.primaryColor + ' !important'"
-          >Back</span
-        >
+  <v-card
+    class="pa-6 border-radius-16 member-card mx-auto mt-8 mb-5"
+    :class="
+      applicationStore.isDarkTheme
+        ? 'box-border-gray11 white--text'
+        : 'black--text'
+    "
+    :style="'background:' + applicationStore.cardColor + ' !important;'"
+    :outlined="applicationStore.isDarkTheme"
+    elevation="0"
+  >
+    <div
+      class="d-flex cursor-pointer"
+      @click="vm.setpickMembers(false), vm.setpickDao(true)"
+      text
+    >
+      <v-icon :color="applicationStore.primaryColor" small>
+        mdi-chevron-left</v-icon
+      >
+      <span
+        :style="'color:' + applicationStore.primaryColor + ' !important'"
+        class="text-capitalize onCursor"
+        >Back</span
+      >
+    </div>
+
+    <div>
+      <div class="d-flex align-center mt-3">
+        <img class="mr-2 w-16" src="@/assets/axie-icon.png" />
+        <span class="font-weight-bold text-md"> Axie DAO</span>
       </div>
+      <div class="text-dp-xs font-weight-bold mt-1">Members</div>
     </div>
-    <div class="d-flex align-center mt-3">
-      <img class="mr-2 w-16" src="@/assets/axie-icon.png" />
-      <span class="font-weight-bold text-md gray5--text">Axie DAO</span>
-    </div>
-    <div class="text-dp-xs white--text font-weight-bold">Member</div>
-    <v-row class="pa-2">
-      <v-col cols="12" md="4" class="pa-2 text-sm">
-        <div class="gray13 border-radius-12 pa-4">
+    <v-row class="mt-1">
+      <v-col cols="12" md="6" class="text-sm">
+        <div
+          class="border-radius-16 pa-4 full-height"
+          :class="{
+            'box-border-gray11': applicationStore.isDarkTheme,
+          }"
+          :style="'background:' + applicationStore.accentColor + ' !important'"
+        >
           <div class="d-flex justify-space-between">
-            <div class="pa-0">2 members</div>
+            <div class="">
+              {{
+                vm.daoSetting?.members === undefined
+                  ? "0"
+                  : vm.daoSetting?.members?.length
+              }}
+              members
+            </div>
             <div class="blueJeans--text d-flex justify-center cursor-pointer">
               <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
               <span class="ml-1">New Member</span>
             </div>
           </div>
           <div
-            class="overflow-y-auto mt-3"
+            class="mt-3"
             v-for="member in vm.daoSetting.members"
             :key="member.wallet"
           >
-            <div class="d-flex pa-4 active">
+            <v-card
+              class="members-list d-flex pa-4"
+              @click="getUsersVote(member.wallet)"
+              :color="applicationStore.cardColor"
+              :class="
+                applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+              "
+            >
               <div>
                 <div class="prime7 pa-1 rounded-circle mr-2">
                   <v-icon color="prime2">mdi-account-circle</v-icon>
                 </div>
               </div>
-              <div class="gray3--text">
+              <div class="pa-1">
                 <div class="font-weight-bold">{{ member.wallet }}</div>
-                <div class="text-overline-1">Votes Cast: 3</div>
+                <!-- <div class="text-overline-1">Votes Cast: 3</div> -->
               </div>
-            </div>
+            </v-card>
           </div>
         </div>
       </v-col>
-
-      <v-col cols="12" md="8" class="pa-2">
-        <div class="gray13 border-radius-12 pa-4 overflow-y-auto">
+      <v-col cols="12" md="6" class="text-sm">
+        <div
+          class="border-radius-16 pa-4 full-height"
+          :class="{ 'box-border-gray11': applicationStore.isDarkTheme }"
+          :style="'background:' + applicationStore.accentColor + ' !important'"
+        >
           <div class="d-flex justify-space-between">
             <div class="pa-0">3Q3ph8KiL...RGvG8</div>
             <div
@@ -64,166 +97,98 @@
             </div>
           </div>
           <div class="d-flex gap-20">
-            <div
+            <v-card
               class="d-flex flex-column justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-50"
-              :style="'background: #2A2A2D'"
+              :color="applicationStore.cardColor"
+              :class="
+                applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+              "
             >
-              <div class="font-weight-bold text-md">Votes</div>
-              <div class="font-weight-bold text-dp-xs pb-10">300</div>
-            </div>
-            <div
-              class="d-flex flex-column justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-50 row-gap-10"
-              :style="'background: #2A2A2D'"
+              <!-- sum of votes amount -->
+              <div class="font-weight-bold text-md">Votes (amount)</div>
+              <div class="font-weight-bold text-dp-xs pb-10">
+                {{ vm.votesAmount }}
+              </div>
+            </v-card>
+            <v-card
+              class="d-flex flex-column justify-space-betwe en pa-4 cursor-pointer mt-3 rounded-lg w-50 row-gap-10"
+              :color="applicationStore.cardColor"
+              :class="
+                applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+              "
             >
-              <div class="font-weight-bold text-md">Votes</div>
-              <div class="font-weight-bold text-dp-xs">3</div>
+              <div class="font-weight-bold text-md">Votes Cast</div>
+              <div class="font-weight-bold text-dp-xs">
+                {{ vm.numberOfVotes }}
+              </div>
               <div class="d-flex gap-20">
                 <div class="d-flex align-center">
                   <v-icon color="success" class="mr-2 align-center"
                     >mdi-thumb-up</v-icon
                   >
-                  <div>Yes: 2</div>
+                  <div>Yes: {{ vm.votesYes }}</div>
                 </div>
                 <div class="d-flex align-center">
                   <v-icon color="error" class="mr-2 align-center"
                     >mdi-thumb-down</v-icon
                   >
-                  <div>No: 1</div>
+                  <div>No: {{ vm.votesNo }}</div>
                 </div>
               </div>
-            </div>
+            </v-card>
           </div>
-          <div class="pa-0 gray-12">3 recent votes</div>
-          <div
-            class="d-flex justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-100"
-            :style="'background: #2A2A2D'"
-          >
-            <div :class="'small-proposal-title'">
-              <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                  <div
-                    class="text-lg text-truncate font-weight-bold"
-                    :class="
-                      applicationStore.isDarkTheme
-                        ? 'white--text'
-                        : 'black--text'
-                    "
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    SLND3: Introduce Account Borrow Limit
-                  </div>
-                </template>
-                <span>SLND3: Introduce Account Borrow Limit</span>
-              </v-tooltip>
-              <div>Succeeded 3 months ago</div>
-            </div>
-            <div class="d-flex align-center ml-4">
-              <MemberStatus :color="'#3B3B3F'" />
-              <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
-            </div>
-          </div>
-
-          <div
-            class="d-flex flex-column justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-100"
-            :style="'background: #2A2A2D'"
-          >
-            <div class="d-flex justify-space-between">
-              <div :class="'small-proposal-title'">
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <div
-                      class="text-lg text-truncate font-weight-bold"
-                      :class="
-                        applicationStore.isDarkTheme
-                          ? 'white--text'
-                          : 'black--text'
-                      "
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      SLND3: Introduce Account Borrow Limit
-                    </div>
-                  </template>
-                  <span>SLND3: Introduce Account Borrow Limit</span>
-                </v-tooltip>
-                <div>Succeeded 3 months ago</div>
-              </div>
-              <div class="d-flex align-center ml-4">
-                <MemberStatus :color="'#3B3B3F'" />
-                <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
-              </div>
-            </div>
-            <div
-              class="d-flex gap-20 pa-4 rounded-lg mt-2"
-              :style="'background:' + applicationStore.accentColor"
+          <div class="pt-4">{{ vm.numberOfVotes }} recent votes</div>
+          <div v-for="comments in vm.comments" :key="comments.id">
+            <v-card
+              class="d-flex flex-column pa-4 cursor-pointer mt-3 rounded-lg w-100"
+              :color="applicationStore.cardColor"
+              :class="
+                applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+              "
             >
-              <div>
-                <v-icon class="ml-4" color="gray6"> mdi-chat-outline </v-icon>
+              <div class="d-flex justify-space-between">
+                <div :class="'small-proposal-title'">
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <div
+                        class="text-lg text-truncate font-weight-bold"
+                        :class="
+                          applicationStore.isDarkTheme
+                            ? 'white--text'
+                            : 'black--text'
+                        "
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        {{ comments.proposal.title }}
+                      </div>
+                    </template>
+                    <span>{{ comments.proposal.title }}</span>
+                  </v-tooltip>
+                  <div>Succeeded {{ comments.createdAt | datetime }}</div>
+                </div>
+                <div class="d-flex align-center ml-4">
+                  <MemberStatus :status="comments.vote.vote" />
+                  <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
+                </div>
               </div>
-              <div>
-                Lorem ipsum dolor sit amet consectetur. Condimentum eu ornare
-                odio neque viverra mattis facilisi nisi urna.Condimentum eu
-                ornare odio neque viverra mattis facilisi nisi urna.
+              <div
+                class="d-flex gap-20 pa-4 rounded-lg mt-2"
+                :style="'background:' + applicationStore.accentColor"
+              >
+                <div>
+                  <v-icon class="ml-4" color="gray6"> mdi-chat-outline </v-icon>
+                </div>
+                <div>
+                  {{ comments.content }}
+                </div>
               </div>
-            </div>
-            <div
-              class="d-flex gap-20 pa-4 rounded-lg mt-2"
-              :style="'background:' + applicationStore.accentColor"
-            >
-              <div>
-                <v-icon class="ml-4" color="gray6"> mdi-chat-outline </v-icon>
-              </div>
-              <div>What are thoseeeeee</div>
-            </div>
+            </v-card>
           </div>
-          <div
-            class="d-flex flex-column pa-4 cursor-pointer mt-3 rounded-lg w-100"
-            :style="'background: #2A2A2D'"
-          >
-            <div class="d-flex justify-space-between">
-              <div :class="'small-proposal-title'">
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <div
-                      class="text-lg text-truncate font-weight-bold"
-                      :class="
-                        applicationStore.isDarkTheme
-                          ? 'white--text'
-                          : 'black--text'
-                      "
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      SLND3: Introduce Account Borrow Limit
-                    </div>
-                  </template>
-                  <span>SLND3: Introduce Account Borrow Limit</span>
-                </v-tooltip>
-                <div>Succeeded 3 months ago</div>
-              </div>
-              <div class="d-flex align-center ml-4">
-                <MemberStatus :color="'#3B3B3F'" />
-                <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
-              </div>
-            </div>
-            <div
-              class="d-flex gap-20 pa-4 rounded-lg mt-2"
-              :style="'background:' + applicationStore.accentColor"
-            >
-              <div>
-                <v-icon class="ml-4" color="gray6"> mdi-chat-outline </v-icon>
-              </div>
-              <div>
-                Lorem ipsum dolor sit amet consectetur. Condimentum eu ornare
-                odio neque viverra mattis facilisi nisi urna.
-              </div>
-            </div>
-          </div>
-        </div>
-      </v-col>
+        </div></v-col
+      >
     </v-row>
-  </div>
+  </v-card>
 </template>
 <script lang="ts">
 import { Component, Inject, Vue } from "vue-property-decorator";
@@ -240,19 +205,37 @@ import { applicationStore } from "@/stores/application-store";
 export default class Members extends Vue {
   @Inject() vm!: DaoViewModel;
   applicationStore = applicationStore;
+  hover = false;
+  getUsersVote(address) {
+    this.vm.fetchUserInteract(address);
+  }
 }
 </script>
 <style lang="scss">
+:root {
+  --color-hover: "";
+}
+.member-card {
+  max-width: 1500px;
+}
+.active:hover {
+  background: white !important;
+  border-radius: 12px;
+  .gray3--text {
+    color: white !important;
+  }
+}
+
+.active2:hover {
+  background: #2a2a2d !important;
+  border-radius: 12px;
+  .gray3--text {
+    color: white !important;
+  }
+}
 .member-page {
   .w-16 {
     width: 16px;
-  }
-  .active {
-    background: #3b3b3f !important;
-    border-radius: 12px;
-    .gray3--text {
-      color: white !important;
-    }
   }
 }
 .w-50 {
