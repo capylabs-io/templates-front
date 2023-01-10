@@ -92,7 +92,7 @@ import { applicationStore } from "@/stores/application-store";
 
     Parameters: () => import("../components/Params.vue"),
     Member: () => import("../components/Members.vue"),
-    ChangeConfig: () => import("../components/Change_config.vue"),
+    ChangeConfig: () => import("../components/Change-config.vue"),
     SettingIcon,
     YourAccount,
     Programs,

@@ -29,11 +29,9 @@
     <div>
       <div class="d-flex align-center mt-3">
         <img class="mr-2 w-16" src="@/assets/axie-icon.png" />
-        <span class="font-weight-bold text-md gray5--text"> Axie DAO</span>
+        <span class="font-weight-bold text-md"> Axie DAO</span>
       </div>
-      <div class="text-dp-xs white--text font-weight-bold mt-1">
-        DAO Parameters
-      </div>
+      <div class="text-dp-xs font-weight-bold mt-1">DAO Parameters</div>
     </div>
 
     <v-row class="mt-1">
@@ -44,36 +42,54 @@
           :style="'background:' + applicationStore.accentColor + ' !important'"
         >
           <div class="text-lg font-weight-bold">Intructions</div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">PubKey</div>
-            <div class="font-weight-bold">
-              {{ vm.daoSetting?.id }}
+          <v-card
+            class="pa-3 mt-2"
+            :color="applicationStore.cardColor"
+            :class="
+              applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+            "
+          >
+            <div class="text-sm mt-2">
+              <div class="gray6--text font-weight-bold text-capitalize">
+                PubKey
+              </div>
+              <div class="font-weight-bold">
+                {{ vm.daoSetting?.id }}
+              </div>
             </div>
-          </div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">Authority</div>
-            <div class="font-weight-bold">
-              {{ vm.daoSetting?.id }}
+            <div class="text-sm mt-4">
+              <div class="gray6--text font-weight-bold text-capitalize">
+                Authority
+              </div>
+              <div class="font-weight-bold">
+                {{ vm.daoSetting?.id }}
+              </div>
             </div>
-          </div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">Owner</div>
-            <div class="font-weight-bold">
-              {{ vm.daoSetting?.id }}
+            <div class="text-sm mt-4">
+              <div class="gray6--text font-weight-bold text-capitalize">
+                Owner
+              </div>
+              <div class="font-weight-bold">
+                {{ vm.daoSetting?.id }}
+              </div>
             </div>
-          </div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">Community Mint</div>
-            <div class="font-weight-bold">
-              {{ vm.daoSetting?.id }}
+            <div class="text-sm mt-4">
+              <div class="gray6--text font-weight-bold text-capitalize">
+                Community Mint
+              </div>
+              <div class="font-weight-bold">
+                {{ vm.daoSetting?.id }}
+              </div>
             </div>
-          </div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">Council Mint</div>
-            <div class="font-weight-bold">
-              {{ vm.daoSetting?.id }}
+            <div class="text-sm mt-4">
+              <div class="gray6--text font-weight-bold text-capitalize">
+                Council Mint
+              </div>
+              <div class="font-weight-bold">
+                {{ vm.daoSetting?.id }}
+              </div>
             </div>
-          </div>
+          </v-card>
         </div>
       </v-col>
       <v-col cols="12" md="6" class="text-sm">
@@ -83,42 +99,80 @@
           :style="'background:' + applicationStore.accentColor + ' !important'"
         >
           <div class="text-lg font-weight-bold">Config</div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">council Approval Quorum</div>
+          <v-card
+            class="pa-3 mt-2"
+            :color="applicationStore.cardColor"
+            :class="
+              applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+            "
+          >
+            <div class="gray6--text font-weight-bold text-capitalize">
+              council Approval Quorum
+            </div>
             <div class="font-weight-bold">
               {{ vm.daoSetting?.council?.councilApprovalQuorum }}
             </div>
-          </div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">Type</div>
+          </v-card>
+          <v-card
+            class="pa-3 mt-2"
+            :color="applicationStore.cardColor"
+            :class="
+              applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+            "
+          >
+            <div class="gray6--text font-weight-bold text-capitalize">Type</div>
             <div class="font-weight-bold">
               {{ vm.daoSetting?.type }}
             </div>
-          </div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">threshold</div>
+          </v-card>
+          <v-card
+            class="pa-3 mt-2"
+            :color="applicationStore.cardColor"
+            :class="
+              applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+            "
+          >
+            <div class="gray6--text font-weight-bold text-capitalize">
+              threshold
+            </div>
             <div class="font-weight-bold">
               {{ vm.daoSetting?.threshold }}
             </div>
-          </div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">Existed</div>
+          </v-card>
+          <v-card
+            class="pa-3 mt-2"
+            :color="applicationStore.cardColor"
+            :class="
+              applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+            "
+          >
+            <div class="gray6--text font-weight-bold text-capitalize">
+              Existed
+            </div>
             <div class="font-weight-bold">
               {{ vm.daoSetting?.isExisted }}
             </div>
-          </div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">Council</div>
+          </v-card>
+          <v-card
+            class="pa-3 mt-2"
+            :color="applicationStore.cardColor"
+            :class="
+              applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+            "
+          >
+            <div class="gray6--text font-weight-bold text-capitalize">
+              Council
+            </div>
             <div class="font-weight-bold">
               {{ vm.daoSetting?.isCouncil }}
             </div>
-          </div>
-          <div class="text-sm mt-4">
-            <div class="gray6--text">createdAt</div>
+          </v-card>
+          <!-- <div class="text-sm mt-4">
+            <div class="gray6--text text-capitalize">createdAt</div>
             <div class="font-weight-bold">
               {{ vm.daoSetting?.createdAt | ddmmyyyyhhmmss }}
             </div>
-          </div>
+          </div> -->
 
           <div
             class="full-width d-flex justify-center my-3"

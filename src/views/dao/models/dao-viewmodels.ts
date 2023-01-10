@@ -31,6 +31,7 @@ export class DaoViewModel {
   @observable pickParameters = false;
   @observable pickMembers = false;
   @observable pickConfig=false;
+  @observable pickAddMembers=false;
   @observable pickDao = true;
   @observable proposals: ProposalModel[] = [];
   @observable votes: VoteModel[] = [];
@@ -263,6 +264,9 @@ export class DaoViewModel {
   }
   @action setConfig(val: boolean) {
     this.pickConfig = val;
+  }
+  @action setAddMembers(val: boolean) {
+    this.pickAddMembers = val;
   }
   @action setpickDao(val: boolean) {
     this.pickDao = val;

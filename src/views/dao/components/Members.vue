@@ -52,7 +52,8 @@
             </div>
             <div class="blueJeans--text d-flex justify-center cursor-pointer">
               <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
-              <span class="ml-1">New Member</span>
+              <span class="ml-1">New Member</span>   
+              <!-- add member call api /application/:appid method put -->
             </div>
           </div>
           <div
