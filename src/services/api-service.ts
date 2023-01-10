@@ -229,6 +229,21 @@ export class ApiService {
     });
     return res.data;
   }
+
+  async sendMessage(model: any) {
+    const res = await axios.post(`comments`, model, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${walletStore.jwt}`,
+      },
+    });
+    return res.data;
+  }
+
+  async getMessage() {
+    const res = await axios.get(`comments`);
+    return res.data;
+  }
 }
 
 export const apiService = new ApiService();

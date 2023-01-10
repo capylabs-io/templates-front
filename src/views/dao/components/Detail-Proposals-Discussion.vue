@@ -13,28 +13,44 @@
     <div class="text-lg font-weight-bold">
       Discussion<span class="prime2--text ml-1">(38)</span>
     </div>
-    <div
-      class="
-        py-12
-        mt-4
-        text-sm
-        font-weight-regular
-        mt-4
-        text-center
-        border-radius-8
-      "
-      :style="'background: ' + applicationStore.accentColor + ' !important'"
-      :class="
-        applicationStore.isDarkTheme
-          ? 'white--text box-border-gray11'
-          : 'black--text'
-      "
-    >
-      <div>You can share your thoughts after connecting your wallet</div>
-      <div class="mt-4">
-        <ConnectMetamask />
+    <v-form ref="messageForm">
+      <div
+        v-if="!walletStore.connected"
+        class="py-12 mt-4 text-sm font-weight-regular mt-4 text-center border-radius-8"
+        :style="'background: ' + applicationStore.accentColor + ' !important'"
+        :class="
+          applicationStore.isDarkTheme
+            ? 'white--text box-border-gray11'
+            : 'black--text'
+        "
+      >
+        <div>You can share your thoughts after connecting your wallet</div>
+        <div class="mt-4">
+          <ConnectMetamask :requiredChainId="walletStore.chainId" />
+        </div>
       </div>
-    </div>
+      <div class="mt-3" v-else>
+        <v-textarea
+          class="input-field border-radius-8 elevation-0 overflow-hidden"
+          color="primary"
+          placeholder="Input your comment"
+          v-model="vm.message"
+          dense
+          solo
+          outlined
+          no-resize
+          :rules="[$rules.required]"
+        ></v-textarea>
+        <div class="d-flex justify-left">
+          <v-btn
+            @click = "onSendMessage()"
+            :color="applicationStore.primaryColor"
+            class="font-weight-bold text-capitalize rounded-lg px-4"
+            >Send</v-btn
+          >
+        </div>
+      </div>
+    </v-form>
     <div
       class="pa-4 mt-4 text-sm font-weight-regular border-radius-8"
       :style="'background: ' + applicationStore.accentColor + ' !important'"
@@ -89,9 +105,11 @@
 <script lang="ts">
 import { Observer } from "mobx-vue";
 import { Component, Inject, Vue } from "vue-property-decorator";
-import { DaoViewModel } from "../models/dao-viewmodels";
 import ConnectMetamask from "@/components/wallet/ConnectMetamask.vue";
 import { applicationStore } from "@/stores/application-store";
+import { walletStore } from "@/stores/wallet-store";
+import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
+import { snackController } from "@/components/snack-bar/snack-bar-controller";
 
 @Observer
 @Component({
@@ -101,9 +119,18 @@ import { applicationStore } from "@/stores/application-store";
   },
 })
 export default class DetailProposalDiscussion extends Vue {
-  @Inject() vm!: DaoViewModel;
+  @Inject() vm!: ProposalDetailViewmodel;
 
+  walletStore = walletStore;
   applicationStore = applicationStore;
+
+  onSendMessage() {
+    if (!(this.$refs.messageForm as any).validate()) {
+      snackController.error("Please input message!");
+      return;
+    }
+    this.vm.sendMessage();
+  }
 }
 </script>
 <style scoped>

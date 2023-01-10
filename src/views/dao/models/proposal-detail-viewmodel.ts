@@ -31,6 +31,8 @@ export class ProposalDetailViewmodel {
 
   @observable isOpenVoteConfirm = false;
   @observable showVoteResult = false;
+  @observable message ="";
+  // @observable commentList
 
   fetchProposal = flow(function* (this, proposalId) {
     try {
@@ -43,6 +45,7 @@ export class ProposalDetailViewmodel {
       this.proposal = proposal;
       const application = proposal.application;
       this.applicationStore.application = proposal.application;
+      console.log(this.proposal);
 
       if (!applicationStore.isApplicationOwner && application.status == "draft") {
         this.pushBackHome(`Appplication not available!`);
@@ -161,6 +164,24 @@ export class ProposalDetailViewmodel {
     this.isVoteYes = isVoteYes;
     this.isOpenVoteConfirm = !this.isOpenVoteConfirm;
   }
+
+  sendMessage = flow(function* (this) {
+    try {
+      loadingController.increaseRequest();
+      const model = {
+        userId: this.walletStore.userId,
+        proposalId: this.proposal.id,
+        content: this.message
+      };
+      const result = yield apiService.sendMessage(model);
+      snackController.success("Send message successfull!");
+    } catch (err: any) {
+      this.pushBackHome(`Error occurred, please try again later!`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  })
+
   voting = flow(function* (this) {
     try {
       loadingController.increaseRequest();
@@ -171,10 +192,10 @@ export class ProposalDetailViewmodel {
         voteType: this.isVoteYes, // true = yes, false = no
         amount: "100"
       }
-      console.log(model);
       const voteResult = yield apiService.proposalVote(model);
       this.isVoteDone = true;
       this.isOpenVoteConfirm = false;
+      snackController.success("Vote success!");
     } catch (err: any) {
       this.pushBackHome(`Error occurred, please try again later!`);
     } finally {
