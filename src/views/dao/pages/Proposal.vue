@@ -41,6 +41,7 @@ import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
 })
 export default class Dao extends Vue {
   @Provide() vm = new ProposalDetailViewmodel();
+  // defaut = false
   @Prop({ default: false }) isReview?: boolean;
 
   applicationStore = applicationStore;
@@ -54,6 +55,8 @@ export default class Dao extends Vue {
       if (!this.$route.params || !this.$route.params.proposalId)
         this.$router.push("/home");
       await this.vm.fetchProposal(this.$route.params.proposalId);
+      await this.vm.fetchVotes();
+      await this.vm.fetchComments();
     } else {
       await this.vm.fetchDefaultProposals();
     }

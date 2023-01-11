@@ -1,4 +1,4 @@
-import { VueResponsiveComponents } from 'vue-responsive-components';
+import { VueResponsiveComponents } from "vue-responsive-components";
 import { TransactionModel } from "./../models/transaction-model";
 import { ThemeModel } from "./../models/theme-model";
 import { walletStore } from "@/stores/wallet-store";
@@ -210,11 +210,6 @@ export class ApiService {
         "Content-Type": "multipart/form-data",
       },
     });
-    return res.data;
-  }
-
-  async addProposal(model: any) {
-    const res = await axios.post(`proposals`, model);
     return res.data;
   }
 
