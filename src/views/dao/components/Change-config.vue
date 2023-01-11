@@ -161,15 +161,15 @@
       </div>
       <div>
         <div>Application Type</div>
-        <div class="gray6--text">multi-sig</div>
+        <div class="gray6--text text-cap text-capitalize">multi-sig</div>
       </div>
     </v-form>
     <v-divider></v-divider>
-    <div
-      class="full-width d-flex justify-center my-4 justify-space-between"
-      @click="vm.setConfig(false)"
-    >
-      <v-btn class="text-none btn-text" :color="applicationStore.primaryColor"
+    <div class="full-width d-flex justify-center my-4 justify-space-between">
+      <v-btn
+        class="text-none btn-text"
+        :color="applicationStore.primaryColor"
+        @click="vm.setConfig(false)"
         >Cancel</v-btn
       >
       <v-btn class="text-none btn-text" :color="applicationStore.primaryColor"

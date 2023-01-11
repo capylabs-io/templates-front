@@ -31,7 +31,7 @@ export class DaoViewModel {
   @observable pickParameters = false;
   @observable pickMembers = false;
   @observable pickConfig=false;
-  @observable pickAddMembers=false;
+  @observable pickAddMembers = false;
   @observable pickDao = true;
   @observable proposals: ProposalModel[] = [];
   @observable votes: VoteModel[] = [];

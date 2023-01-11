@@ -19,15 +19,23 @@
           <div v-if="!vm.pickConfig">
             <Parameters></Parameters>
           </div>
+
           <div v-else>
             <ChangeConfig />
           </div>
         </v-fade-transition>
       </div>
       <div v-else-if="vm.pickMembers">
-        <v-fade-transition mode="out-in" appear>
-          <Member></Member>
-        </v-fade-transition>
+        <div v-if="vm.pickAddMembers">
+          <v-fade-transition mode="out-in" appear>
+            <AddMember />
+          </v-fade-transition>
+        </div>
+        <div v-else>
+          <v-fade-transition mode="out-in" appear>
+            <Member></Member>
+          </v-fade-transition>
+        </div>
       </div>
       <div class="add-proposal mx-auto mt-6" v-else-if="vm.isOpenAddProposal">
         <v-fade-transition mode="out-in" appear>
@@ -93,6 +101,7 @@ import { applicationStore } from "@/stores/application-store";
     Parameters: () => import("../components/Params.vue"),
     Member: () => import("../components/Members.vue"),
     ChangeConfig: () => import("../components/Change-config.vue"),
+    AddMember: () => import("../components/Add-Member.vue"),
     SettingIcon,
     YourAccount,
     Programs,

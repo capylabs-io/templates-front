@@ -50,9 +50,13 @@
               }}
               members
             </div>
-            <div class="blueJeans--text d-flex justify-center cursor-pointer">
+            
+            <div
+              class="blueJeans--text d-flex justify-center cursor-pointer"
+              @click="vm.pickAddMembers = !vm.pickAddMembers"
+            >
               <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
-              <span class="ml-1">New Member</span>   
+              <span class="ml-1">New Member</span>
               <!-- add member call api /application/:appid method put -->
             </div>
           </div>
