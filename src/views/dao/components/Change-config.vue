@@ -17,18 +17,13 @@
     <v-form
       class="mt-5 pa-3"
       ref="choose-token"
-      v-model="vm.chooseTokenForm"
+      v-model="vm.configChangeform"
       :style="'background:' + applicationStore.accentColor + ' !important;'"
     >
       <div>
         <div>Do you want to use council</div>
         <div class="gray6--text">This will change your council setting</div>
-        <v-radio-group
-          class="mt-3"
-          v-model="vm.isCreateNewToken"
-          :disabled="isSummary"
-          mandatory
-        >
+        <v-radio-group class="mt-3" v-model="vm.daoSetting.isCouncil" mandatory>
           <v-radio :value="true" :color="applicationStore.primaryColor">
             <template v-slot:label>
               <div
@@ -54,19 +49,18 @@
         </v-radio-group>
       </div>
       <v-slide-y-transition mode="out-in">
-        <div v-show="!vm.isCreateNewToken">
+        <div v-show="vm.daoSetting.isCouncil == true">
           <div>
             <div>Council Token Mint Address</div>
-            <v-text-field
+            <v-text-field            
               class="input-field border-radius-8 elevation-0 mt-2"
-              v-model="vm.councilTokenAddress"
+              v-model="vm.daoSetting.tokenAddress"
               :color="applicationStore.isDarkTheme ? 'white' : 'black'"
               :class="
                 applicationStore.isDarkTheme ? 'white-text' : 'black-text'
               "
               :light="!applicationStore.isDarkTheme"
               placeholder="ex: 0x0CDF9acd87E940837ff21BB40c9fd55F68bba059"
-              :disabled="isSummary"
               dense
               solo
               outlined
@@ -85,8 +79,8 @@
               "
               placeholder="ex: 20"
               :light="!applicationStore.isDarkTheme"
-              v-model="vm.councilApprovalQuorum"
-              :disabled="isSummary"
+              v-model="vm.daoSetting.council.councilApprovalQuorum"
+              :rules="[$rules.required]"
               dense
               solo
               outlined
@@ -96,15 +90,31 @@
         </div>
       </v-slide-y-transition>
       <div>
-        <div>Threshold</div>
+        <div>Name</div>
         <v-text-field
           class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.councilTokenAddress"
+          v-model="vm.daoSetting.name"
           :color="applicationStore.isDarkTheme ? 'white' : 'black'"
           :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
           :light="!applicationStore.isDarkTheme"
+          :rules="[$rules.required]"
           placeholder="ex: 60"
-          :disabled="isSummary"
+          dense
+          solo
+          outlined
+          clearable
+        ></v-text-field>
+      </div>
+      <div>
+        <div>Threshold</div>
+        <v-text-field
+          class="input-field border-radius-8 elevation-0 mt-2"
+          v-model="vm.daoSetting.threshold"
+          :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+          :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
+          :light="!applicationStore.isDarkTheme"
+          :rules="[$rules.required]"
+          placeholder="ex: 60"
           dense
           solo
           outlined
@@ -115,12 +125,12 @@
         <div>Weight</div>
         <v-text-field
           class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.councilTokenAddress"
+          v-model="vm.daoSetting.weight"
           :color="applicationStore.isDarkTheme ? 'white' : 'black'"
           :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
           :light="!applicationStore.isDarkTheme"
+          :rules="[$rules.required]"
           placeholder="ex: 0"
-          :disabled="isSummary"
           dense
           solo
           outlined
@@ -131,12 +141,12 @@
         <div>Min Amount To Create</div>
         <v-text-field
           class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.councilTokenAddress"
+          v-model="vm.daoSetting.otherSetting.minAmountToCreate"
           :color="applicationStore.isDarkTheme ? 'white' : 'black'"
           :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
           :light="!applicationStore.isDarkTheme"
+          :rules="[$rules.required]"
           placeholder="ex: 1000000"
-          :disabled="isSummary"
           dense
           solo
           outlined
@@ -147,12 +157,12 @@
         <div>Community Mint Factor</div>
         <v-text-field
           class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.councilTokenAddress"
+          v-model="vm.daoSetting.otherSetting.communityMintFactor"
           :color="applicationStore.isDarkTheme ? 'white' : 'black'"
           :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
           :light="!applicationStore.isDarkTheme"
+          :rules="[$rules.required]"
           placeholder="ex: 1"
-          :disabled="isSummary"
           dense
           solo
           outlined
@@ -161,7 +171,19 @@
       </div>
       <div>
         <div>Application Type</div>
-        <div class="gray6--text text-cap text-capitalize">multi-sig</div>
+        <v-text-field
+          class="input-field border-radius-8 elevation-0 mt-2"
+          v-model="vm.daoType"
+          :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+          :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
+          :light="!applicationStore.isDarkTheme"
+          placeholder="ex: NFT"
+          disabled
+          dense
+          solo
+          outlined
+          clearable
+        ></v-text-field>
       </div>
     </v-form>
     <v-divider></v-divider>
@@ -172,9 +194,15 @@
         @click="vm.setConfig(false)"
         >Cancel</v-btn
       >
-      <v-btn class="text-none btn-text" :color="applicationStore.primaryColor"
+      <v-btn
+        class="text-none btn-text"
+        :color="applicationStore.primaryColor"
+        :disabled="!vm.configChangeform"
+        @click="vm.updateDaoSetting()"
+
         >Update</v-btn
       >
+      <!--url update dao-setting /dao-settings/:id -->
     </div>
   </v-card>
 </template>

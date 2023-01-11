@@ -122,7 +122,7 @@
           >
             <div class="gray6--text font-weight-bold text-capitalize">Type</div>
             <div class="font-weight-bold">
-              {{ vm.daoSetting?.type }}
+              {{ vm.daoType }}
             </div>
           </v-card>
           <v-card

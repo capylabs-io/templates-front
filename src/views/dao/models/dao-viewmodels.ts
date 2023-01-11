@@ -90,7 +90,8 @@ export class DaoViewModel {
       amount: 0,
     },
   ];
-
+  //form 
+  @observable configChangeform?: boolean;
   // Member
   @observable openMemberFlag = false;
 
@@ -245,7 +246,40 @@ export class DaoViewModel {
       loadingController.decreaseRequest();
     }
   });
-
+  updateDaoSetting = flow(function* (this) {
+    try {
+      loadingController.increaseRequest();
+      const { application, setting } = yield apiService.daoSettings.update(
+        this.daoSetting.id,
+        {
+          name: this.daoSetting.name,
+          type: this.daoSetting.type,
+          isExisted: this.daoSetting.isExisted,
+          tokenAddress: this.daoSetting.tokenAddress,
+          threshold: this.daoSetting.threshold,
+          weight: this.daoSetting.weight,
+          isCouncil: this.daoSetting.isCouncil,
+          council: {
+            councilTokenAddress: this.daoSetting.tokenAddress,
+            councilApprovalQuorum: this.daoSetting.councilApprovalQuorum,
+          },
+          members: this.members,
+          otherSetting: {
+            //TODO: Add program
+            minAmountToCreate: this.daoSetting.minAmountToCreate,
+            communityMintFactor: this.daoSetting.communityMintFactor,
+          },
+        },
+      );
+      //TODO: Add to localstorage
+      snackController.success("Update Dao successfully!");
+      appProvider.router.push("/dao/" + application.appId);
+    } catch (err: any) {
+      snackController.commonError(err);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  });
   @action pushBackHome(error: any) {
     snackController.error(error);
     if (walletStore.connected) appProvider.router.replace("/management");
