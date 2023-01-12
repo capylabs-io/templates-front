@@ -200,8 +200,7 @@ export default defineComponent({
   color: white;
 }
 
-.active .dao-card {
-}
+
 image {
   max-height: 292px;
 }

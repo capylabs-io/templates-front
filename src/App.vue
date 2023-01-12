@@ -91,7 +91,7 @@ export default class App extends Vue {
   background-attachment: fixed;
   background-position: center center;
   background-repeat: repeat !important;
-  background-size: 100% !important;
+  background-size: cover !important;
   /*background-size: cover !important;*/
 }
 .v-application--wrap::before {

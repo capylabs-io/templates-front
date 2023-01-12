@@ -110,7 +110,6 @@ export default class Partners extends Vue {}
   transform: matrix(0.98, 0.21, 0.21, -0.98, 0, 0);
   filter: blur(60px);
   left: 1400px;
-  top: 50px;
 }
 .blueblur-image {
   z-index: 0;
