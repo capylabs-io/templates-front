@@ -13,6 +13,7 @@ import { loadingController } from "@/components/global-loading/global-loading-co
 import { action, observable, computed, flow } from "mobx";
 import moment, { now } from "moment";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
+import { Observable } from 'rxjs';
 
 export class DaoViewModel {
   @observable isReview = false;
@@ -27,12 +28,21 @@ export class DaoViewModel {
   @observable filterVoting = false;
   @observable filterDraft = false;
 
-  @observable daoSetting?: DaoSettingModel;
+  @observable daoSetting !: DaoSettingModel;
+  @observable minAmountToCreate?: number = 1000000;
+  @observable communityMintFactor?: number = 1;
+
+  @observable councilApprovalQuorum?: number = 60;
   @observable pickParameters = false;
   @observable pickMembers = false;
   @observable pickConfig=false;
   @observable pickAddMembers = false;
   @observable pickDao = true;
+  @observable members = [{
+    wallet : "",
+    isYou: true
+  }];
+  @observable memberAddress: string ="";
   @observable proposals: ProposalModel[] = [];
   @observable votes: VoteModel[] = [];
   @observable comments: CommentModel[] = [];
@@ -92,6 +102,7 @@ export class DaoViewModel {
   ];
   //form 
   @observable configChangeform?: boolean;
+  @observable addMemberform?: boolean;
   // Member
   @observable openMemberFlag = false;
 
@@ -160,7 +171,7 @@ export class DaoViewModel {
       const application = applications[0];
       this.applicationStore.application = application;
       this.daoSetting = application.dao_setting;
-
+      this.members= application.dao_setting?.members;
       if (!application || !application.service || !application.dao_setting) {
         this.pushBackHome(`Invalid service type!`);
         return;
@@ -218,7 +229,7 @@ export class DaoViewModel {
       });
 
       if (!votes || votes.length == 0 || !comments || comments.length == 0) {
-        this.pushBackHome(`User dont have any infomation in this proposal`);
+        snackController.error(`User dont have any infomation in this proposal`)
         return;
       }
      this.votes = votes;
@@ -261,25 +272,27 @@ export class DaoViewModel {
           isCouncil: this.daoSetting.isCouncil,
           council: {
             councilTokenAddress: this.daoSetting.tokenAddress,
-            councilApprovalQuorum: this.daoSetting.councilApprovalQuorum,
+            councilApprovalQuorum: this.councilApprovalQuorum,
           },
           members: this.members,
           otherSetting: {
             //TODO: Add program
-            minAmountToCreate: this.daoSetting.minAmountToCreate,
-            communityMintFactor: this.daoSetting.communityMintFactor,
+            minAmountToCreate: this.minAmountToCreate,
+            communityMintFactor: this.communityMintFactor,
           },
         },
       );
       //TODO: Add to localstorage
       snackController.success("Update Dao successfully!");
-      appProvider.router.push("/dao/" + application.appId);
+      // appProvider.router.push("/dao/" + application.appId);
+        appProvider.router.push("/management/");
     } catch (err: any) {
       snackController.commonError(err);
     } finally {
       loadingController.decreaseRequest();
     }
   });
+  
   @action pushBackHome(error: any) {
     snackController.error(error);
     if (walletStore.connected) appProvider.router.replace("/management");
@@ -346,6 +359,13 @@ export class DaoViewModel {
       token: "",
       amount: 0,
     });
+  }
+  @action addMember(){
+    this.members.push({
+       wallet: this.memberAddress,
+      isYou: this.memberAddress === this.daoSetting.tokenAddress? true:false 
+    });
+    this.updateDaoSetting();
   }
   // computed
   // @computed get eventEndDate() {

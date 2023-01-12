@@ -80,7 +80,6 @@
               placeholder="ex: 20"
               :light="!applicationStore.isDarkTheme"
               v-model="vm.daoSetting.council.councilApprovalQuorum"
-              :rules="[$rules.required]"
               dense
               solo
               outlined
@@ -145,7 +144,6 @@
           :color="applicationStore.isDarkTheme ? 'white' : 'black'"
           :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
           :light="!applicationStore.isDarkTheme"
-          :rules="[$rules.required]"
           placeholder="ex: 1000000"
           dense
           solo
@@ -161,7 +159,6 @@
           :color="applicationStore.isDarkTheme ? 'white' : 'black'"
           :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
           :light="!applicationStore.isDarkTheme"
-          :rules="[$rules.required]"
           placeholder="ex: 1"
           dense
           solo

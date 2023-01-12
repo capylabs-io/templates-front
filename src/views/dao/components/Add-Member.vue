@@ -12,31 +12,30 @@
     elevation="0"
   >
     <div class="mt-2 text-dp-xs font-weight-bold text-center mb-8">
-        Add Members
+      Add Members
     </div>
     <v-form
       class="mt-5 pa-3"
       ref="choose-token"
-      v-model="vm.chooseTokenForm"
+      v-model="vm.addMemberform"
       :style="'background:' + applicationStore.accentColor + ' !important;'"
     >
       <div>
         <div>Member's wallet</div>
         <v-text-field
           class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.councilTokenAddress"
+          v-model="vm.memberAddress"
           :color="applicationStore.isDarkTheme ? 'white' : 'black'"
           :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
           :light="!applicationStore.isDarkTheme"
           placeholder="ex: Govffg894jRjkgfh08943jfVVudfL"
-          :disabled="isSummary"
+          :rules="[$rules.required]"
           dense
           solo
           outlined
           clearable
         ></v-text-field>
       </div>
- 
     </v-form>
     <v-divider></v-divider>
     <div class="full-width d-flex justify-center my-4 justify-space-between">
@@ -46,7 +45,11 @@
         @click="vm.setAddMembers(false)"
         >Cancel</v-btn
       >
-      <v-btn class="text-none btn-text" :color="applicationStore.primaryColor"
+      <v-btn
+        class="text-none btn-text"
+        :color="applicationStore.primaryColor"
+        :disabled="!vm.addMemberform"
+        @click="vm.addMember()"
         >Add</v-btn
       >
     </div>
@@ -67,6 +70,9 @@ import { DaoViewModel } from "../models/dao-viewmodels";
 export default class DaoManagementParams extends Vue {
   @Inject() vm!: DaoViewModel;
   applicationStore = applicationStore;
+  onAddMember() {
+    this.vm.addMember();
+  }
 }
 </script>
 

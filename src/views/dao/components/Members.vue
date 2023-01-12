@@ -44,9 +44,9 @@
           <div class="d-flex justify-space-between">
             <div class="">
               {{
-                vm.daoSetting?.members === undefined
+                vm.members === undefined
                   ? "0"
-                  : vm.daoSetting?.members?.length
+                  : vm.members.length
               }}
               members
             </div>
@@ -62,7 +62,7 @@
           </div>
           <div
             class="mt-3"
-            v-for="member in vm.daoSetting.members"
+            v-for="member in vm.members"
             :key="member.wallet"
           >
             <v-card
