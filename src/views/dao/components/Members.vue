@@ -45,16 +45,17 @@
         >
           <div class="d-flex justify-space-between">
             <div class="">
-              {{
-                vm.daoSetting?.members === undefined
-                  ? "0"
-                  : vm.daoSetting?.members?.length
-              }}
+              {{ vm.members === undefined ? "0" : vm.members.length }}
               members
             </div>
-            <div class="blueJeans--text d-flex justify-center cursor-pointer">
+
+            <div
+              class="blueJeans--text d-flex justify-center cursor-pointer"
+              @click="vm.pickAddMembers = !vm.pickAddMembers"
+            >
               <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
               <span class="ml-1">New Member</span>
+              <!-- add member call api /application/:appid method put -->
             </div>
           </div>
           <div class="mt-3" v-for="member in vm.daoMembers" :key="member">
