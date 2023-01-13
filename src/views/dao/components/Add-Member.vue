@@ -11,48 +11,29 @@
     :outlined="applicationStore.isDarkTheme"
     elevation="0"
   >
-    <div class="mt-2 text-dp-xs font-weight-bold text-center mb-8">
-      Add Members
-    </div>
-    <v-form
-      class="mt-5 pa-3"
-      ref="choose-token"
-      v-model="vm.addMemberform"
-      :style="'background:' + applicationStore.accentColor + ' !important;'"
+    <v-tabs
+      v-model="vm.tab"
+      :background-color="applicationStore.primaryColor"
+      :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+      grow
     >
-      <div>
-        <div>Member's wallet</div>
-        <v-text-field
-          class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.memberAddress"
-          :color="applicationStore.isDarkTheme ? 'white' : 'black'"
-          :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
-          :light="!applicationStore.isDarkTheme"
-          placeholder="ex: Govffg894jRjkgfh08943jfVVudfL"
-          :rules="[$rules.required]"
-          dense
-          solo
-          outlined
-          clearable
-        ></v-text-field>
-      </div>
-    </v-form>
-    <v-divider></v-divider>
-    <div class="full-width d-flex justify-center my-4 justify-space-between">
-      <v-btn
-        class="text-none btn-text"
-        :color="applicationStore.primaryColor"
-        @click="vm.setAddMembers(false)"
-        >Cancel</v-btn
-      >
-      <v-btn
-        class="text-none btn-text"
-        :color="applicationStore.primaryColor"
-        :disabled="!vm.addMemberform"
-        @click="vm.addMember()"
-        >Add</v-btn
-      >
-    </div>
+      <v-tabs-slider></v-tabs-slider>
+
+      <v-tab href="#tab-1" :key="1"> Manual </v-tab>
+
+      <v-tab href="#tab-2" :key="2"> Import File </v-tab>
+    </v-tabs>
+
+    <v-tabs-items
+      v-model="vm.tab"
+      :style="'background:' + applicationStore.cardColor + ' !important;'"
+    >
+      <v-tab-item :key="1" :value="'tab-' + 1">
+        <Manual></Manual>
+      </v-tab-item>
+      <v-tab-item :key="2" :value="'tab-' + 2"> </v-tab-item>
+      <Imported></Imported>
+    </v-tabs-items>
   </v-card>
 </template>
 
@@ -65,6 +46,8 @@ import { DaoViewModel } from "../models/dao-viewmodels";
 @Component({
   components: {
     Responsive,
+    Manual: () => import("../components/Add-Member-manual.vue"),
+    Imported: () => import("../components/Add-Member-imported.vue"),
   },
 })
 export default class DaoManagementParams extends Vue {

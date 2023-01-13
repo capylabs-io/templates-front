@@ -14,7 +14,7 @@ import { action, observable, computed, flow } from "mobx";
 import moment, { now } from "moment";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
 import { Observable } from "rxjs";
-
+import readXlsxFile from "read-excel-file";
 export class DaoViewModel {
   @observable isReview = false;
   @observable reviewPage: string = "management";
@@ -35,21 +35,19 @@ export class DaoViewModel {
   @observable daoSetting!: DaoSettingModel;
   @observable minAmountToCreate?: number = 1000000;
   @observable communityMintFactor?: number = 1;
-
+  @observable tab ?: null
+  @observable filesReview = false;
   @observable councilApprovalQuorum?: number = 60;
   @observable pickParameters = false;
   @observable pickMembers = false;
   @observable pickConfig = false;
   @observable pickAddMembers = false;
   @observable pickDao = true;
-  @observable members = [
-    {
-      wallet: "",
-      isYou: true,
-    },
-  ];
+  @observable members: string[] = [];
+  @observable membersFile: string[] = [];
 
   @observable memberSearchKey = "";
+  @observable memberTableSearchKey = "";
   @observable membersPerPage = 8;
   @observable memberPage = 1;
   @observable memberAddress: string = "";
@@ -62,6 +60,7 @@ export class DaoViewModel {
   @observable numberOfVotes: number = 0;
   @observable commentsPerPage = 8;
   @observable commentPage = 1;
+  @observable fileResults = [];
 
   @observable instructionList = ["Instruction 1", "Instruction 2", "Instruction 3", "Instruction 3"];
   @observable transactionList = ["None", "Transfer Token", "Mint Token"];
@@ -247,6 +246,9 @@ export class DaoViewModel {
       loadingController.decreaseRequest();
     }
   });
+
+  
+
   updateDaoSetting = flow(function* (this) {
     try {
       loadingController.increaseRequest();
@@ -278,6 +280,28 @@ export class DaoViewModel {
     } finally {
       loadingController.decreaseRequest();
     }
+  });
+
+  readFile= flow(function* (this, fileData: any) { 
+    let readFileResult;
+    try {
+      readFileResult = yield readXlsxFile(fileData, {
+        schema:{
+          'wallet': {
+            prop: 'wallet',
+            type: String
+          }
+        }
+      });
+    } catch (error) {
+      snackController.commonError(error);
+      return;
+    }
+    this.fileResults = readFileResult.rows;
+    this.membersFile = readFileResult.rows.map(row => row.wallet);
+    console.log("membersFile", this.membersFile);
+    
+    snackController.success("Read File successfully!");
   });
 
   @action pushBackHome(error: any) {
@@ -329,10 +353,11 @@ export class DaoViewModel {
     });
   }
   @action addMember() {
-    this.members.push({
-      wallet: this.memberAddress,
-      isYou: this.memberAddress === this.daoSetting.tokenAddress ? true : false,
-    });
+    this.members.push(this.memberAddress);
+    this.updateDaoSetting();
+  }
+  @action addMemberImported() {
+    this.members=this.members.concat(this.membersFile);
     this.updateDaoSetting();
   }
   // computed
@@ -387,7 +412,7 @@ export class DaoViewModel {
     else return Math.floor(this.filteredProposals.length / this.proposalsPerPage!) + 1;
   }
 
-  @computed get filteredMembers() {
+  @computed get filteredMembers() { 
     return this.daoMembers.filter((member) => {
       if (this.memberSearchKey && !member?.toLowerCase().includes(this.memberSearchKey.toLowerCase()))
         return false;
@@ -395,6 +420,13 @@ export class DaoViewModel {
     });
   }
 
+  // @computed get filteredTableMembers(){
+  //   return this.fileResults.filter((member) => {
+  //     if (this.memberTableSearchKey && !member?.toLowerCase().includes(this.memberTableSearchKey.toLowerCase()))
+  //       return false;
+  //     return true;
+  //   });
+  // }
   @computed get slicedMembers() {
     return this.filteredMembers.slice(
       (this.membersPerPage - 1) * this.memberPage,
