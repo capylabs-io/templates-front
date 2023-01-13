@@ -44,7 +44,9 @@ export class DaoViewModel {
       isYou: true,
     },
   ];
+  @observable currentMember: string = "";
   @observable memberAddress: string = "";
+
   @observable proposals: ProposalModel[] = [];
   @observable votes: VoteModel[] = [];
   @observable comments: CommentModel[] = [];
@@ -215,6 +217,7 @@ export class DaoViewModel {
   fetchUserInteract = flow(function* (this, walletAddress) {
     try {
       loadingController.increaseRequest();
+      this.currentMember = walletAddress;
       const proposalIds = applicationStore.application?.proposals.map((proposal) => proposal.id);
       const votes = yield apiService.votes.find({
         "user.address": walletAddress,
@@ -225,25 +228,11 @@ export class DaoViewModel {
         proposal_in: proposalIds,
       });
 
-      if (!votes || votes.length == 0 || !comments || comments.length == 0) {
-        snackController.error(`User dont have any infomation in this proposal`);
-        return;
-      }
       this.votes = votes;
       this.comments = comments;
       this.votesAmount = votes.reduce((a, b) => a + Number.parseInt(b.amount), 0);
-      this.votesYes = votes.filter((votes) => {
-        if (votes.vote === true) {
-          return true;
-        }
-        return false;
-      }).length;
-      this.votesNo = votes.filter((votes) => {
-        if (votes.vote === false) {
-          return true;
-        }
-        return false;
-      }).length;
+      this.votesYes = votes.filter((votes) => votes.vote).length;
+      this.votesNo = votes.filter((votes) => !votes.vote).length;
       this.numberOfVotes = this.votesYes + this.votesNo;
     } catch (err: any) {
       console.error("err", err);

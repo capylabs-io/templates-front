@@ -10,8 +10,8 @@
     :outlined="applicationStore.isDarkTheme"
     elevation="0"
   >
-    <div
-      class="d-flex cursor-pointer"
+    <v-btn
+      class="px-0 ml-n2"
       @click="vm.setpickMembers(false), vm.setpickDao(true)"
       text
     >
@@ -23,7 +23,7 @@
         class="text-capitalize onCursor"
         >Back</span
       >
-    </div>
+    </v-btn>
 
     <div>
       <div class="d-flex align-center mt-3">
@@ -45,7 +45,7 @@
         >
           <div class="d-flex justify-space-between">
             <div class="">
-              {{ vm.members === undefined ? "0" : vm.members.length }}
+              {{ vm.daoMembers.length }}
               members
             </div>
 
@@ -60,7 +60,7 @@
           </div>
           <div class="mt-3" v-for="member in vm.daoMembers" :key="member">
             <v-card
-              class="members-list d-flex pa-4"
+              class="members-list d-flex pa-4 border-radius-16"
               @click="getUsersVote(member)"
               :color="applicationStore.cardColor"
               :class="
@@ -87,7 +87,9 @@
           :style="'background:' + applicationStore.accentColor + ' !important'"
         >
           <div class="d-flex justify-space-between">
-            <div class="pa-0">3Q3ph8KiL...RGvG8</div>
+            <div class="font-weight-bold">
+              {{ vm.currentMember | truncateAddress(6, 10) }}
+            </div>
             <div
               class="
                 blueJeans--text
@@ -101,17 +103,16 @@
               <v-icon small color="blueJeans">mdi-launch</v-icon>
             </div>
           </div>
-          <div class="d-flex gap-20">
+          <div class="d-flex gap-20 mt-4">
             <v-card
               class="
                 d-flex
                 flex-column
                 justify-space-between
                 pa-4
-                cursor-pointer
-                mt-3
-                rounded-lg
                 w-50
+                row-gap-10
+                border-radius-16
               "
               :color="applicationStore.cardColor"
               :class="
@@ -119,32 +120,33 @@
               "
             >
               <!-- sum of votes amount -->
-              <div class="font-weight-bold text-md">Votes (amount)</div>
-              <div class="font-weight-bold text-dp-xs pb-10">
-                {{ vm.votesAmount }}
+              <div>
+                <div class="font-weight-bold text-md">Votes (amount)</div>
+                <div class="font-weight-bold text-dp-xs">
+                  {{ vm.votesAmount }}
+                </div>
               </div>
             </v-card>
             <v-card
               class="
                 d-flex
                 flex-column
-                justify-space-betwe
-                en
+                justify-space-between
                 pa-4
-                cursor-pointer
-                mt-3
-                rounded-lg
                 w-50
                 row-gap-10
+                border-radius-16
               "
               :color="applicationStore.cardColor"
               :class="
                 applicationStore.isDarkTheme ? 'white--text' : 'black--text'
               "
             >
-              <div class="font-weight-bold text-md">Votes Cast</div>
-              <div class="font-weight-bold text-dp-xs">
-                {{ vm.numberOfVotes }}
+              <div>
+                <div class="font-weight-bold text-md">Votes Cast</div>
+                <div class="font-weight-bold text-dp-xs">
+                  {{ vm.numberOfVotes }}
+                </div>
               </div>
               <div class="d-flex gap-20">
                 <div class="d-flex align-center">
@@ -228,6 +230,7 @@ import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { applicationStore } from "@/stores/application-store";
+import { walletStore } from "@/stores/wallet-store";
 @Observer
 @Component({
   components: {
@@ -238,9 +241,14 @@ import { applicationStore } from "@/stores/application-store";
 export default class Members extends Vue {
   @Inject() vm!: DaoViewModel;
   applicationStore = applicationStore;
+  walletStore = walletStore;
   hover = false;
   getUsersVote(address) {
     this.vm.fetchUserInteract(address);
+  }
+  mounted() {
+    if (walletStore.connected)
+      this.vm.fetchUserInteract(walletStore.userInfo?.address);
   }
 }
 </script>

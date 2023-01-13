@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <v-card
-    class="pa-6 border-radius-16 config-card mx-auto mt-8"
+    class="pa-6 border-radius-16 config-card mx-auto mt-12"
     :class="
       applicationStore.isDarkTheme
         ? 'box-border-gray11 white--text'
@@ -11,180 +11,188 @@
     :outlined="applicationStore.isDarkTheme"
     elevation="0"
   >
-    <div class="mt-2 text-dp-xs font-weight-bold text-center mb-8">
+    <div class="text-dp-xs font-weight-bold text-center mb-4">
       Config update
     </div>
-    <v-form
-      class="mt-5 pa-3"
-      ref="choose-token"
-      v-model="vm.configChangeform"
-      :style="'background:' + applicationStore.accentColor + ' !important;'"
-    >
-      <div>
-        <div>Do you want to use council</div>
-        <div class="gray6--text">This will change your council setting</div>
-        <v-radio-group class="mt-3" v-model="vm.daoSetting.isCouncil" mandatory>
-          <v-radio :value="true" :color="applicationStore.primaryColor">
-            <template v-slot:label>
-              <div
-                :class="
-                  applicationStore.isDarkTheme ? 'white--text' : 'black--text'
-                "
-              >
-                Yes
-              </div>
-            </template></v-radio
-          >
-          <v-radio :value="false" :color="applicationStore.primaryColor">
-            <template v-slot:label>
-              <div
-                :class="
-                  applicationStore.isDarkTheme ? 'white--text' : 'black--text'
-                "
-              >
-                No
-              </div>
-            </template></v-radio
-          >
-        </v-radio-group>
-      </div>
-      <v-slide-y-transition mode="out-in">
-        <div v-show="vm.daoSetting.isCouncil == true">
-          <div>
-            <div>Council Token Mint Address</div>
-            <v-text-field            
-              class="input-field border-radius-8 elevation-0 mt-2"
-              v-model="vm.daoSetting.tokenAddress"
-              :color="applicationStore.isDarkTheme ? 'white' : 'black'"
-              :class="
-                applicationStore.isDarkTheme ? 'white-text' : 'black-text'
-              "
-              :light="!applicationStore.isDarkTheme"
-              placeholder="ex: 0x0CDF9acd87E940837ff21BB40c9fd55F68bba059"
-              dense
-              solo
-              outlined
-              clearable
-            ></v-text-field>
-          </div>
-
-          <div>
-            <div>Approval quorum (%)</div>
-            <v-text-field
-              type="number"
-              class="input-field border-radius-8 elevation-0 mt-2"
-              :color="applicationStore.isDarkTheme ? 'white' : 'black'"
-              :class="
-                applicationStore.isDarkTheme ? 'white-text' : 'black-text'
-              "
-              placeholder="ex: 20"
-              :light="!applicationStore.isDarkTheme"
-              v-model="vm.daoSetting.council.councilApprovalQuorum"
-              dense
-              solo
-              outlined
-              clearable
-            ></v-text-field>
-          </div>
+    <v-form v-model="vm.configChangeform">
+      <div
+        class="border-radius-16 mt-5 pa-6"
+        :style="'background:' + applicationStore.accentColor + ' !important;'"
+      >
+        <div>
+          <div>Application Type</div>
+          <v-text-field
+            class="input-field border-radius-8 elevation-0 mt-2"
+            :value="vm.daoType"
+            :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+            :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
+            :light="!applicationStore.isDarkTheme"
+            placeholder="ex: NFT"
+            hide-details
+            disabled
+            dense
+            solo
+            outlined
+            clearable
+          ></v-text-field>
         </div>
-      </v-slide-y-transition>
-      <div>
-        <div>Name</div>
-        <v-text-field
-          class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.daoSetting.name"
-          :color="applicationStore.isDarkTheme ? 'white' : 'black'"
-          :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
-          :light="!applicationStore.isDarkTheme"
-          :rules="[$rules.required]"
-          placeholder="ex: 60"
-          dense
-          solo
-          outlined
-          clearable
-        ></v-text-field>
-      </div>
-      <div>
-        <div>Threshold</div>
-        <v-text-field
-          class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.daoSetting.threshold"
-          :color="applicationStore.isDarkTheme ? 'white' : 'black'"
-          :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
-          :light="!applicationStore.isDarkTheme"
-          :rules="[$rules.required]"
-          placeholder="ex: 60"
-          dense
-          solo
-          outlined
-          clearable
-        ></v-text-field>
-      </div>
-      <div>
-        <div>Weight</div>
-        <v-text-field
-          class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.daoSetting.weight"
-          :color="applicationStore.isDarkTheme ? 'white' : 'black'"
-          :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
-          :light="!applicationStore.isDarkTheme"
-          :rules="[$rules.required]"
-          placeholder="ex: 0"
-          dense
-          solo
-          outlined
-          clearable
-        ></v-text-field>
-      </div>
-      <div>
-        <div>Min Amount To Create</div>
-        <v-text-field
-          class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.daoSetting.otherSetting.minAmountToCreate"
-          :color="applicationStore.isDarkTheme ? 'white' : 'black'"
-          :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
-          :light="!applicationStore.isDarkTheme"
-          placeholder="ex: 1000000"
-          dense
-          solo
-          outlined
-          clearable
-        ></v-text-field>
-      </div>
-      <div>
-        <div>Community Mint Factor</div>
-        <v-text-field
-          class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.daoSetting.otherSetting.communityMintFactor"
-          :color="applicationStore.isDarkTheme ? 'white' : 'black'"
-          :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
-          :light="!applicationStore.isDarkTheme"
-          placeholder="ex: 1"
-          dense
-          solo
-          outlined
-          clearable
-        ></v-text-field>
-      </div>
-      <div>
-        <div>Application Type</div>
-        <v-text-field
-          class="input-field border-radius-8 elevation-0 mt-2"
-          v-model="vm.daoType"
-          :color="applicationStore.isDarkTheme ? 'white' : 'black'"
-          :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
-          :light="!applicationStore.isDarkTheme"
-          placeholder="ex: NFT"
-          disabled
-          dense
-          solo
-          outlined
-          clearable
-        ></v-text-field>
+        <div class="mt-5">
+          <div>Do you want to use council</div>
+          <div class="gray6--text">This will change your council setting</div>
+          <v-radio-group
+            class="mt-3"
+            v-model="vm.daoSetting.isCouncil"
+            mandatory
+          >
+            <v-radio :value="true" :color="applicationStore.primaryColor">
+              <template v-slot:label>
+                <div
+                  :class="
+                    applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+                  "
+                >
+                  Yes
+                </div>
+              </template></v-radio
+            >
+            <v-radio :value="false" :color="applicationStore.primaryColor">
+              <template v-slot:label>
+                <div
+                  :class="
+                    applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+                  "
+                >
+                  No
+                </div>
+              </template></v-radio
+            >
+          </v-radio-group>
+        </div>
+        <v-slide-y-transition mode="out-in">
+          <div v-show="vm.daoSetting.isCouncil == true">
+            <div>
+              <div>Council Token Mint Address</div>
+              <v-text-field
+                class="input-field border-radius-8 elevation-0 mt-2"
+                v-model="vm.daoSetting.tokenAddress"
+                :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+                :class="
+                  applicationStore.isDarkTheme ? 'white-text' : 'black-text'
+                "
+                :light="!applicationStore.isDarkTheme"
+                :rules="[$rules.required]"
+                placeholder="ex: 0x0CDF9acd87E940837ff21BB40c9fd55F68bba059"
+                dense
+                solo
+                outlined
+                clearable
+              ></v-text-field>
+            </div>
+
+            <div>
+              <div>Approval quorum (%)</div>
+              <v-text-field
+                type="number"
+                class="input-field border-radius-8 elevation-0 mt-2"
+                placeholder="ex: 60"
+                :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+                :class="
+                  applicationStore.isDarkTheme ? 'white-text' : 'black-text'
+                "
+                :light="!applicationStore.isDarkTheme"
+                :rules="[$rules.required, $rules.min(0.0001), $rules.max(100)]"
+                v-model="vm.daoSetting.council.councilApprovalQuorum"
+                dense
+                solo
+                outlined
+                clearable
+              ></v-text-field>
+            </div>
+          </div>
+        </v-slide-y-transition>
+        <div>
+          <div>Name</div>
+          <v-text-field
+            class="input-field border-radius-8 elevation-0 mt-2"
+            v-model="vm.daoSetting.name"
+            :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+            :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
+            :light="!applicationStore.isDarkTheme"
+            :rules="[$rules.required]"
+            placeholder="ex: 60"
+            dense
+            solo
+            outlined
+            clearable
+          ></v-text-field>
+        </div>
+        <div>
+          <div>Threshold</div>
+          <v-text-field
+            class="input-field border-radius-8 elevation-0 mt-2"
+            v-model="vm.daoSetting.threshold"
+            :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+            :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
+            :light="!applicationStore.isDarkTheme"
+            :rules="[$rules.required, $rules.min(0.0001), $rules.max(100)]"
+            placeholder="ex: 60"
+            dense
+            solo
+            outlined
+            clearable
+          ></v-text-field>
+        </div>
+        <div>
+          <div>Weight</div>
+          <v-text-field
+            class="input-field border-radius-8 elevation-0 mt-2"
+            v-model="vm.daoSetting.weight"
+            :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+            :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
+            :light="!applicationStore.isDarkTheme"
+            :rules="[$rules.required]"
+            placeholder="ex: 0"
+            dense
+            solo
+            outlined
+            clearable
+          ></v-text-field>
+        </div>
+        <div>
+          <div>Min Amount To Create</div>
+          <v-text-field
+            class="input-field border-radius-8 elevation-0 mt-2"
+            v-model="vm.daoSetting.otherSetting.minAmountToCreate"
+            :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+            :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
+            :light="!applicationStore.isDarkTheme"
+            :rules="[$rules.required]"
+            placeholder="ex: 1000000"
+            dense
+            solo
+            outlined
+            clearable
+          ></v-text-field>
+        </div>
+        <div>
+          <div>Community Mint Factor</div>
+          <v-text-field
+            class="input-field border-radius-8 elevation-0 mt-2"
+            v-model="vm.daoSetting.otherSetting.communityMintFactor"
+            :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+            :class="applicationStore.isDarkTheme ? 'white-text' : 'black-text'"
+            :light="!applicationStore.isDarkTheme"
+            :rules="[$rules.required]"
+            placeholder="ex: 1"
+            dense
+            solo
+            outlined
+            clearable
+          ></v-text-field>
+        </div>
       </div>
     </v-form>
-    <v-divider></v-divider>
-    <div class="full-width d-flex justify-center my-4 justify-space-between">
+    <div class="full-width d-flex justify-center mt-6 justify-space-between">
       <v-btn
         class="text-none btn-text"
         :color="applicationStore.primaryColor"
@@ -196,7 +204,6 @@
         :color="applicationStore.primaryColor"
         :disabled="!vm.configChangeform"
         @click="vm.updateDaoSetting()"
-
         >Update</v-btn
       >
       <!--url update dao-setting /dao-settings/:id -->

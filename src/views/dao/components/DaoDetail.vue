@@ -37,13 +37,7 @@
           <v-icon class="mr-1" color="gray6" small>
             mdi-account-multiple</v-icon
           >
-          <span
-            >Members ({{
-              vm.daoSetting?.members === undefined
-                ? "0"
-                : vm.daoSetting?.members?.length
-            }})</span
-          >
+          <span>Members ({{ vm.daoMembers.length }})</span>
         </div>
         <div class="cursor-pointer" @click="openParams()">
           <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
