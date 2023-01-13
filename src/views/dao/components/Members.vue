@@ -37,191 +37,247 @@
     <v-row class="mt-1">
       <v-col cols="12" md="6" class="text-sm">
         <div
-          class="border-radius-16 pa-4 full-height"
+          class="
+            border-radius-16
+            pa-4
+            full-height
+            d-flex
+            flex-column
+            justify-space-between
+          "
           :class="{
             'box-border-gray11': applicationStore.isDarkTheme,
           }"
           :style="'background:' + applicationStore.accentColor + ' !important'"
         >
-          <div class="d-flex justify-space-between">
-            <div class="">
-              {{ vm.daoMembers.length }}
-              members
-            </div>
+          <div>
+            <div class="d-flex justify-space-between">
+              <div class="">
+                {{ vm.daoMembers.length }}
+                members
+              </div>
 
+              <div
+                class="blueJeans--text d-flex justify-center cursor-pointer"
+                @click="vm.pickAddMembers = !vm.pickAddMembers"
+              >
+                <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
+                <span class="ml-1">New Member</span>
+                <!-- add member call api /application/:appid method put -->
+              </div>
+            </div>
+            <div class="mt-2">
+              <v-text-field
+                class="input-field border-radius-8 elevation-0"
+                v-model="vm.memberSearchKey"
+                placeholder="Search Member"
+                :light="!applicationStore.isDarkTheme"
+                :color="applicationStore.primaryColor"
+                hide-details
+                dense
+                solo
+                clearable
+              ></v-text-field>
+            </div>
             <div
-              class="blueJeans--text d-flex justify-center cursor-pointer"
-              @click="vm.pickAddMembers = !vm.pickAddMembers"
+              class="mt-4"
+              v-for="member in vm.filteredMembers"
+              :key="member"
             >
-              <v-icon small color="blueJeans">mdi-plus-circle-outline</v-icon>
-              <span class="ml-1">New Member</span>
-              <!-- add member call api /application/:appid method put -->
+              <v-card
+                class="members-list d-flex pa-4 border-radius-8"
+                @click="getUsersVote(member)"
+                :color="applicationStore.cardColor"
+                :class="
+                  applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+                "
+              >
+                <div>
+                  <div class="prime7 pa-1 rounded-circle mr-2">
+                    <v-icon color="prime2">mdi-account-circle</v-icon>
+                  </div>
+                </div>
+                <div class="pa-1">
+                  <div class="font-weight-bold">{{ member }}</div>
+                </div>
+              </v-card>
             </div>
           </div>
-          <div class="mt-3" v-for="member in vm.daoMembers" :key="member">
-            <v-card
-              class="members-list d-flex pa-4 border-radius-16"
-              @click="getUsersVote(member)"
-              :color="applicationStore.cardColor"
-              :class="
-                applicationStore.isDarkTheme ? 'white--text' : 'black--text'
-              "
-            >
-              <div>
-                <div class="prime7 pa-1 rounded-circle mr-2">
-                  <v-icon color="prime2">mdi-account-circle</v-icon>
-                </div>
-              </div>
-              <div class="pa-1">
-                <div class="font-weight-bold">{{ member }}</div>
-                <!-- <div class="text-overline-1">Votes Cast: 3</div> -->
-              </div>
-            </v-card>
+          <div class="mt-4">
+            <v-pagination
+              v-model="vm.memberPage"
+              :length="vm.totalMemberPage"
+              :color="applicationStore.primaryColor"
+              :light="!applicationStore.isDarkTheme"
+            ></v-pagination>
           </div>
         </div>
       </v-col>
       <v-col cols="12" md="6" class="text-sm">
         <div
-          class="border-radius-16 pa-4 full-height"
+          class="
+            border-radius-16
+            pa-4
+            full-height
+            d-flex
+            flex-column
+            justify-space-between
+          "
           :class="{ 'box-border-gray11': applicationStore.isDarkTheme }"
           :style="'background:' + applicationStore.accentColor + ' !important'"
         >
-          <div class="d-flex justify-space-between">
-            <div class="font-weight-bold">
-              {{ vm.currentMember | truncateAddress(6, 10) }}
-            </div>
-            <div
-              class="
-                blueJeans--text
-                d-flex
-                justify-center
-                cursor-pointer
-                gray6--text
-              "
-            >
-              <span class="mr-1">Explore</span>
-              <v-icon small color="blueJeans">mdi-launch</v-icon>
-            </div>
-          </div>
-          <div class="d-flex gap-20 mt-4">
-            <v-card
-              class="
-                d-flex
-                flex-column
-                justify-space-between
-                pa-4
-                w-50
-                row-gap-10
-                border-radius-16
-              "
-              :color="applicationStore.cardColor"
-              :class="
-                applicationStore.isDarkTheme ? 'white--text' : 'black--text'
-              "
-            >
-              <!-- sum of votes amount -->
-              <div>
-                <div class="font-weight-bold text-md">Votes (amount)</div>
-                <div class="font-weight-bold text-dp-xs">
-                  {{ vm.votesAmount }}
-                </div>
-              </div>
-            </v-card>
-            <v-card
-              class="
-                d-flex
-                flex-column
-                justify-space-between
-                pa-4
-                w-50
-                row-gap-10
-                border-radius-16
-              "
-              :color="applicationStore.cardColor"
-              :class="
-                applicationStore.isDarkTheme ? 'white--text' : 'black--text'
-              "
-            >
-              <div>
-                <div class="font-weight-bold text-md">Votes Cast</div>
-                <div class="font-weight-bold text-dp-xs">
-                  {{ vm.numberOfVotes }}
-                </div>
-              </div>
-              <div class="d-flex gap-20">
-                <div class="d-flex align-center">
-                  <v-icon color="success" class="mr-2 align-center"
-                    >mdi-thumb-up</v-icon
-                  >
-                  <div>Yes: {{ vm.votesYes }}</div>
-                </div>
-                <div class="d-flex align-center">
-                  <v-icon color="error" class="mr-2 align-center"
-                    >mdi-thumb-down</v-icon
-                  >
-                  <div>No: {{ vm.votesNo }}</div>
-                </div>
-              </div>
-            </v-card>
-          </div>
-          <div class="pt-4">{{ vm.numberOfVotes }} recent votes</div>
-          <div v-for="comments in vm.comments" :key="comments.id">
-            <v-card
-              class="
-                d-flex
-                flex-column
-                pa-4
-                cursor-pointer
-                mt-3
-                rounded-lg
-                w-100
-              "
-              :color="applicationStore.cardColor"
-              :class="
-                applicationStore.isDarkTheme ? 'white--text' : 'black--text'
-              "
-            >
-              <div class="d-flex justify-space-between">
-                <div :class="'small-proposal-title'">
-                  <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                      <div
-                        class="text-lg text-truncate font-weight-bold"
-                        :class="
-                          applicationStore.isDarkTheme
-                            ? 'white--text'
-                            : 'black--text'
-                        "
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        {{ comments.proposal.title }}
-                      </div>
-                    </template>
-                    <span>{{ comments.proposal.title }}</span>
-                  </v-tooltip>
-                  <div>Succeeded {{ comments.createdAt | datetime }}</div>
-                </div>
-                <div class="d-flex align-center ml-4">
-                  <MemberStatus :status="comments.vote.vote" />
-                  <v-icon class="ml-4" color="gray6"> mdi-chevron-right</v-icon>
-                </div>
+          <div>
+            <div class="d-flex justify-space-between">
+              <div class="font-weight-bold">
+                {{ vm.currentMember | truncateAddress(6, 10) }}
               </div>
               <div
-                class="d-flex gap-20 pa-4 rounded-lg mt-2"
-                :style="'background:' + applicationStore.accentColor"
+                class="
+                  blueJeans--text
+                  d-flex
+                  justify-center
+                  cursor-pointer
+                  gray6--text
+                "
+              >
+                <span class="mr-1">Explore</span>
+                <v-icon small color="blueJeans">mdi-launch</v-icon>
+              </div>
+            </div>
+            <div class="d-flex gap-20 mt-4">
+              <v-card
+                class="
+                  d-flex
+                  flex-column
+                  justify-space-between
+                  pa-4
+                  w-50
+                  row-gap-10
+                  border-radius-16
+                "
+                :color="applicationStore.cardColor"
+                :class="
+                  applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+                "
+              >
+                <!-- sum of votes amount -->
+                <div>
+                  <div class="font-weight-bold text-md">Votes (amount)</div>
+                  <div class="font-weight-bold text-dp-xs">
+                    {{ vm.votesAmount }}
+                  </div>
+                </div>
+              </v-card>
+              <v-card
+                class="
+                  d-flex
+                  flex-column
+                  justify-space-between
+                  pa-4
+                  w-50
+                  row-gap-10
+                  border-radius-16
+                "
+                :color="applicationStore.cardColor"
+                :class="
+                  applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+                "
               >
                 <div>
-                  <v-icon class="ml-4" color="gray6"> mdi-chat-outline </v-icon>
+                  <div class="font-weight-bold text-md">Votes Cast</div>
+                  <div class="font-weight-bold text-dp-xs">
+                    {{ vm.numberOfVotes }}
+                  </div>
                 </div>
-                <div>
-                  {{ comments.content }}
+                <div class="d-flex gap-20">
+                  <div class="d-flex align-center">
+                    <v-icon color="success" class="mr-2 align-center"
+                      >mdi-thumb-up</v-icon
+                    >
+                    <div>Yes: {{ vm.votesYes }}</div>
+                  </div>
+                  <div class="d-flex align-center">
+                    <v-icon color="error" class="mr-2 align-center"
+                      >mdi-thumb-down</v-icon
+                    >
+                    <div>No: {{ vm.votesNo }}</div>
+                  </div>
                 </div>
-              </div>
-            </v-card>
+              </v-card>
+            </div>
+            <div class="pt-4">{{ vm.comments.length }} recent comments</div>
+            <div v-for="comment in vm.comments" :key="comment.id">
+              <v-card
+                class="
+                  d-flex
+                  flex-column
+                  pa-4
+                  cursor-pointer
+                  mt-3
+                  rounded-lg
+                  w-100
+                "
+                :color="applicationStore.cardColor"
+                :class="
+                  applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+                "
+              >
+                <div class="d-flex justify-space-between">
+                  <div :class="'small-proposal-title'">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <div
+                          class="text-lg text-truncate font-weight-bold"
+                          :class="
+                            applicationStore.isDarkTheme
+                              ? 'white--text'
+                              : 'black--text'
+                          "
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          {{ comment.proposal?.title }}
+                        </div>
+                      </template>
+                      <span>{{ comment.proposal?.title }}</span>
+                    </v-tooltip>
+                    <div>{{ comment.createdAt | datetime }}</div>
+                  </div>
+                  <div class="d-flex align-center ml-4">
+                    <VoteStatus
+                      :amount="comment.vote.amount"
+                      :yes="comment.vote.vote"
+                      :token="comment.vote.token"
+                      :small="true"
+                    />
+                    <v-icon class="ml-4" color="gray6">
+                      mdi-chevron-right</v-icon
+                    >
+                  </div>
+                </div>
+                <div
+                  class="d-flex gap-20 pa-4 rounded-lg mt-4"
+                  :style="'background:' + applicationStore.accentColor"
+                >
+                  <v-icon color="gray6"> mdi-chat-outline </v-icon>
+                  <div>
+                    {{ comment.content }}
+                  </div>
+                </div>
+              </v-card>
+            </div>
           </div>
-        </div></v-col
-      >
+
+          <div class="mt-4">
+            <v-pagination
+              v-model="vm.commentPage"
+              :length="vm.totalCommentPage"
+              :color="applicationStore.primaryColor"
+              :light="!applicationStore.isDarkTheme"
+            ></v-pagination>
+          </div>
+        </div>
+      </v-col>
     </v-row>
   </v-card>
 </template>

@@ -19,7 +19,11 @@ export class DaoViewModel {
   @observable isReview = false;
   @observable reviewPage: string = "management";
 
-  @observable searchKey = "";
+  //Proposals
+  @observable proposals: ProposalModel[] = [];
+  @observable proposalSearchKey = "";
+  @observable proposalsPerPage = 6;
+  @observable proposalPage = 1;
   @observable filterCancelled = false;
   @observable filterPassed = false;
   @observable filterFailed = false;
@@ -44,18 +48,20 @@ export class DaoViewModel {
       isYou: true,
     },
   ];
-  @observable currentMember: string = "";
-  @observable memberAddress: string = "";
 
-  @observable proposals: ProposalModel[] = [];
+  @observable memberSearchKey = "";
+  @observable membersPerPage = 8;
+  @observable memberPage = 1;
+  @observable memberAddress: string = "";
+  @observable currentMember: string = "";
   @observable votes: VoteModel[] = [];
   @observable comments: CommentModel[] = [];
   @observable votesAmount: number = 0;
   @observable votesYes: number = 0;
   @observable votesNo: number = 0;
   @observable numberOfVotes: number = 0;
-  @observable itemsPerPage = 8;
-  @observable proposalPage = 1;
+  @observable commentsPerPage = 8;
+  @observable commentPage = 1;
 
   @observable instructionList = ["Instruction 1", "Instruction 2", "Instruction 3", "Instruction 3"];
   @observable transactionList = ["None", "Transfer Token", "Mint Token"];
@@ -338,9 +344,9 @@ export class DaoViewModel {
     if (!this.proposals) return [];
     return this.proposals.filter((proposal) => {
       if (
-        this.searchKey &&
-        !proposal.title.toLowerCase().includes(this.searchKey.toLowerCase()) &&
-        !proposal.description.toLowerCase().includes(this.searchKey.toLowerCase())
+        this.proposalSearchKey &&
+        !proposal.title.toLowerCase().includes(this.proposalSearchKey.toLowerCase()) &&
+        !proposal.description.toLowerCase().includes(this.proposalSearchKey.toLowerCase())
       )
         return false;
       if (this.filterCancelled && proposal.status == "cancelled") return true;
@@ -365,8 +371,8 @@ export class DaoViewModel {
   @computed get slicedProposals() {
     if (!this.proposals) return [];
     return this.filteredProposals.slice(
-      (this.proposalPage - 1) * this.itemsPerPage,
-      this.proposalPage * this.itemsPerPage
+      (this.proposalPage - 1) * this.proposalsPerPage,
+      this.proposalPage * this.proposalsPerPage
     );
   }
 
@@ -376,9 +382,45 @@ export class DaoViewModel {
 
   @computed get totalProposalPage() {
     if (!this.proposals || this.proposals.length == 0) return 1;
-    if (this.filteredProposals.length % this.itemsPerPage! == 0)
-      return this.filteredProposals.length / this.itemsPerPage!;
-    else return Math.floor(this.filteredProposals.length / this.itemsPerPage!) + 1;
+    if (this.filteredProposals.length % this.proposalsPerPage! == 0)
+      return this.filteredProposals.length / this.proposalsPerPage!;
+    else return Math.floor(this.filteredProposals.length / this.proposalsPerPage!) + 1;
+  }
+
+  @computed get filteredMembers() {
+    return this.daoMembers.filter((member) => {
+      if (this.memberSearchKey && !member?.toLowerCase().includes(this.memberSearchKey.toLowerCase()))
+        return false;
+      return true;
+    });
+  }
+
+  @computed get slicedMembers() {
+    return this.filteredMembers.slice(
+      (this.membersPerPage - 1) * this.memberPage,
+      this.membersPerPage * this.memberPage
+    );
+  }
+
+  @computed get totalMemberPage() {
+    if (!this.filteredMembers || this.filteredMembers.length == 0) return 1;
+    if (this.filteredMembers.length % this.membersPerPage! == 0)
+      return this.filteredMembers.length / this.membersPerPage!;
+    else return Math.floor(this.filteredMembers.length / this.membersPerPage!) + 1;
+  }
+
+  @computed get slicedComments() {
+    return this.comments.slice(
+      (this.commentsPerPage - 1) * this.commentPage,
+      this.commentsPerPage * this.commentPage
+    );
+  }
+
+  @computed get totalCommentPage() {
+    if (!this.comments || this.comments.length == 0) return 1;
+    if (this.comments.length % this.commentsPerPage! == 0)
+      return this.comments.length / this.commentsPerPage!;
+    else return Math.floor(this.comments.length / this.commentsPerPage!) + 1;
   }
 
   @computed get currentProposal() {
