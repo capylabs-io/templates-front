@@ -28,7 +28,9 @@
     <div>
       <div class="d-flex align-center mt-3">
         <img class="mr-2 w-16" src="@/assets/axie-icon.png" />
-        <span class="font-weight-bold text-md"> Axie DAO</span>
+        <span class="font-weight-bold text-md">{{
+          applicationStore.application?.name || "Your Application Title"
+        }}</span>
       </div>
       <div class="text-dp-xs font-weight-bold mt-1">Members</div>
     </div>
@@ -55,14 +57,10 @@
               <span class="ml-1">New Member</span>
             </div>
           </div>
-          <div
-            class="mt-3"
-            v-for="member in vm.daoSetting.members"
-            :key="member.wallet"
-          >
+          <div class="mt-3" v-for="member in vm.daoMembers" :key="member">
             <v-card
               class="members-list d-flex pa-4"
-              @click="getUsersVote(member.wallet)"
+              @click="getUsersVote(member)"
               :color="applicationStore.cardColor"
               :class="
                 applicationStore.isDarkTheme ? 'white--text' : 'black--text'
@@ -74,7 +72,7 @@
                 </div>
               </div>
               <div class="pa-1">
-                <div class="font-weight-bold">{{ member.wallet }}</div>
+                <div class="font-weight-bold">{{ member }}</div>
                 <!-- <div class="text-overline-1">Votes Cast: 3</div> -->
               </div>
             </v-card>
@@ -90,15 +88,30 @@
           <div class="d-flex justify-space-between">
             <div class="pa-0">3Q3ph8KiL...RGvG8</div>
             <div
-              class="blueJeans--text d-flex justify-center cursor-pointer gray6--text"
+              class="
+                blueJeans--text
+                d-flex
+                justify-center
+                cursor-pointer
+                gray6--text
+              "
             >
-              <span class="ml-1">Explore</span>
+              <span class="mr-1">Explore</span>
               <v-icon small color="blueJeans">mdi-launch</v-icon>
             </div>
           </div>
           <div class="d-flex gap-20">
             <v-card
-              class="d-flex flex-column justify-space-between pa-4 cursor-pointer mt-3 rounded-lg w-50"
+              class="
+                d-flex
+                flex-column
+                justify-space-between
+                pa-4
+                cursor-pointer
+                mt-3
+                rounded-lg
+                w-50
+              "
               :color="applicationStore.cardColor"
               :class="
                 applicationStore.isDarkTheme ? 'white--text' : 'black--text'
@@ -111,7 +124,18 @@
               </div>
             </v-card>
             <v-card
-              class="d-flex flex-column justify-space-betwe en pa-4 cursor-pointer mt-3 rounded-lg w-50 row-gap-10"
+              class="
+                d-flex
+                flex-column
+                justify-space-betwe
+                en
+                pa-4
+                cursor-pointer
+                mt-3
+                rounded-lg
+                w-50
+                row-gap-10
+              "
               :color="applicationStore.cardColor"
               :class="
                 applicationStore.isDarkTheme ? 'white--text' : 'black--text'
@@ -140,7 +164,15 @@
           <div class="pt-4">{{ vm.numberOfVotes }} recent votes</div>
           <div v-for="comments in vm.comments" :key="comments.id">
             <v-card
-              class="d-flex flex-column pa-4 cursor-pointer mt-3 rounded-lg w-100"
+              class="
+                d-flex
+                flex-column
+                pa-4
+                cursor-pointer
+                mt-3
+                rounded-lg
+                w-100
+              "
               :color="applicationStore.cardColor"
               :class="
                 applicationStore.isDarkTheme ? 'white--text' : 'black--text'
