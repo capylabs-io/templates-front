@@ -16,7 +16,7 @@
       <v-row class="d-flex align-center justify-space-between">
         <v-col col="8" class="d-flex align-center">
           <div class="font-weight-bold text-xl align-self-center mr-6">
-            Logo here
+            Cyberk.io
           </div>
           <!-- Main menu -->
           <router-link

@@ -76,7 +76,6 @@
         ></v-img>
       </div>
     </div>
-   
   </div>
 </template>
 

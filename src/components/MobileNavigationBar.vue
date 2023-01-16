@@ -6,7 +6,7 @@
         style="z-index: 10"
       ></v-app-bar-nav-icon>
       <div class="full-width d-flex justify-center">
-        Logo here
+        Cyberk.io
         <!-- <img src=""/> -->
       </div>
     </div>

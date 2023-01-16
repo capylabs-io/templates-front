@@ -12,7 +12,7 @@
           !applicationStore.brandLogoFile && !applicationStore.brandLogoPath
         "
       >
-        Your Logo Here
+        Cyberk.io
       </div>
       <CoverImage
         class="brand-logo"

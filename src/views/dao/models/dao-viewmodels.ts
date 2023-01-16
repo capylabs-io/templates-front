@@ -18,7 +18,6 @@ import readXlsxFile from "read-excel-file";
 export class DaoViewModel {
   @observable isReview = false;
   @observable reviewPage: string = "management";
-
   //Proposals
   @observable proposals: ProposalModel[] = [];
   @observable proposalSearchKey = "";
@@ -35,7 +34,6 @@ export class DaoViewModel {
   @observable daoSetting!: DaoSettingModel;
   @observable minAmountToCreate?: number = 1000000;
   @observable communityMintFactor?: number = 1;
-  @observable tab ?: null
   @observable filesReview = false;
   @observable councilApprovalQuorum?: number = 60;
   @observable pickParameters = false;

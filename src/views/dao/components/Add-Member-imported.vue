@@ -11,10 +11,11 @@
     <div class="mt-2 text-dp-xs font-weight-bold text-center mb-8">
       IMPORT FILE
     </div>
-    <template v-if="!vm.filesReview">
+    <div v-if="!vm.filesReview">
       <div class="mt-2 font-weight-bold pa-3 text-capitalize">
         <v-file-input
-          :color="applicationStore.isDarkTheme ? 'white' : 'black'"
+          :light="!applicationStore.isDarkTheme"
+          :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
           :rules="[$rules.required]"
           @change="onFileChanged($event)"
           outlined
@@ -22,29 +23,45 @@
           filled
         ></v-file-input>
       </div>
-    </template>
-    <template v-else>
-      <div class="ma-3">
-        <v-text-field
-          class="input-field border-radius-8 elevation-0"
-          v-model="vm.memberTableSearchKey"
-          placeholder="Search Member"
-          :light="!applicationStore.isDarkTheme"
-          :color="applicationStore.primaryColor"
-          hide-details
-          dense
-          solo
-          clearable
-        ></v-text-field>
-      </div>
+    </div>
+    <div class="pa-4" v-else>
+      <v-text-field
+        class="input-field border-radius-8 elevation-0"
+        v-model="vm.memberTableSearchKey"
+        placeholder="Search Member"
+        :light="!applicationStore.isDarkTheme"
+        :color="applicationStore.primaryColor"
+        hide-details
+        dense
+        solo
+        clearable
+      ></v-text-field>
       <v-data-table
         :headers="headers"
         :items="vm.fileResults"
-        :style="'background:' + applicationStore.primaryColor + ' !important;'"
-        class="ma-3 pa-2"
+        :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
+        :style="{ background: applicationStore.cardColor + ' !important;' }"
+        :light="!applicationStore.isDarkTheme"
+        hide-default-header
+        class="mt-4 border-radius-8 overflow-hidden"
       >
+        <template v-slot:header="{ props: { headers } }">
+          <thead
+            :style="
+              'background-color:' +
+              applicationStore.primaryColor +
+              '!important;'
+            "
+          >
+            <tr>
+              <th v-for="h in headers" :key="h" :class="h.class">
+                <span class="white--text">{{ h.text }}</span>
+              </th>
+            </tr>
+          </thead>
+        </template>
       </v-data-table>
-    </template>
+    </div>
     <v-divider></v-divider>
     <div
       class="full-width d-flex justify-center my-2 justify-space-between pa-3"

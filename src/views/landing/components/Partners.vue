@@ -11,6 +11,8 @@
       :src="require(`@/assets/landing/blue-blur.webp`)"
     >
     </v-img>
+    <v-img class="full-width" :src="require(`@/assets/linear-up.webp`)"></v-img>
+
     <div class="font-weight-bold text-dp-lg align-self-center mt-12">
       Our Partner
     </div>

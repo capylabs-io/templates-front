@@ -12,27 +12,26 @@
     elevation="0"
   >
     <v-tabs
-      v-model="vm.tab"
+      v-model="tab"
       :background-color="applicationStore.primaryColor"
       :color="applicationStore.isDarkTheme ? 'white' : 'black'"
       grow
     >
       <v-tabs-slider></v-tabs-slider>
 
-      <v-tab href="#tab-1" :key="1"> Manual </v-tab>
+      <v-tab href="#tab-1"> Manual </v-tab>
 
-      <v-tab href="#tab-2" :key="2"> Import File </v-tab>
+      <v-tab href="#tab-2"> Import File </v-tab>
     </v-tabs>
 
     <v-tabs-items
-      v-model="vm.tab"
+      v-model="tab"
       :style="'background:' + applicationStore.cardColor + ' !important;'"
     >
-      <v-tab-item :key="1" :value="'tab-' + 1">
+      <v-tab-item :value="'tab-1'">
         <Manual></Manual>
       </v-tab-item>
-      <v-tab-item :key="2" :value="'tab-' + 2"> </v-tab-item>
-      <Imported></Imported>
+      <v-tab-item :value="'tab-2'"> <Imported></Imported> </v-tab-item>
     </v-tabs-items>
   </v-card>
 </template>
@@ -53,6 +52,7 @@ import { DaoViewModel } from "../models/dao-viewmodels";
 export default class DaoManagementParams extends Vue {
   @Inject() vm!: DaoViewModel;
   applicationStore = applicationStore;
+  tab = null;
   onAddMember() {
     this.vm.addMember();
   }

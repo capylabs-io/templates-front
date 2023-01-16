@@ -40,12 +40,11 @@ import { appProvider } from "./app-providers";
 })
 export default class App extends Vue {
   isEndUser = false;
-
   async created() {
     // await walletStore.start();
     appProvider.setVueRouter(this.$router);
   }
-
+  
   @Watch("$route", { deep: true, immediate: true }) onRouteChange(val) {
     if (val) this.isEndUser = val.meta.isEndUser;
     if (!this.isEndUser) this.isEndUser = false;
