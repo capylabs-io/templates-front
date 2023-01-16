@@ -1,37 +1,58 @@
 <template>
-  <div
-    class="d-flex align-center border-radius-16"
-    :style="'background:' + applicationStore.cardBackground + ' !important'"
+  <v-card
+    class="d-flex align-center border-radius-8 vote-status py-1 px-3 text-xs"
+    :class="{
+      'box-border-gray11 white--text': applicationStore.isDarkTheme,
+      'black--text': !applicationStore.isDarkTheme,
+      'px-5 py-2 text-md': !small,
+    }"
+    :style="'background:' + applicationStore.pageBackground + ' !important;'"
+    outlined
   >
-    <div class="d-flex align-center pa-2">
-      <v-icon color="success" small>mdi-thumb-up</v-icon>
-      <div class="ml-2">Yes</div>
-    </div>
+    <v-icon :color="yes ? 'success' : 'error'" small>{{
+      yes ? "mdi-thumb-up-outline" : "mdi-thumb-down-outline"
+    }}</v-icon>
+    <div class="ml-1">{{ yes ? "Yes" : "No" }}</div>
     <v-divider
-      :color="applicationStore.isDarkTheme ? 'black' : 'white'"
+      :class="small ? 'mx-2' : 'mx-3'"
+      :color="
+        applicationStore.isDarkTheme ? 'gray' : applicationStore.accentColor
+      "
       vertical
     ></v-divider>
-    <div class="pa-2">999999 SLND</div>
-  </div>
+    <div
+      class="font-weight-bold mr-1"
+      :class="yes ? 'success--text' : 'error--text'"
+    >
+      {{ amount | formatNumber(0) }}
+    </div>
+    <div>
+      {{ token }}
+    </div>
+  </v-card>
 </template>
-  
-  <script lang="ts">
+
+<script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
-import { Responsive } from "vue-responsive-components";
 import { applicationStore } from "@/stores/application-store";
 
 @Observer
 @Component({
-  components: {
-    Responsive,
-  },
+  components: {},
 })
 export default class VoteStatus extends Vue {
-  @Prop({ default: "executing" }) status?: string;
-  @Prop({ default: "0" }) voteAmount?: string;
-  @Prop({ default: "#fffff" }) color?: string;
+  @Prop({ default: false }) small!: boolean;
+  @Prop({ default: false }) yes?: boolean;
+  @Prop({ default: "0" }) amount?: string;
+  @Prop({ default: "Token" }) token?: string;
 
   applicationStore = applicationStore;
 }
 </script>
+
+<style scoped>
+.vote-status {
+  max-width: max-content;
+}
+</style>

@@ -11,6 +11,8 @@
       :src="require(`@/assets/landing/blue-blur.webp`)"
     >
     </v-img>
+    <v-img class="full-width" :src="require(`@/assets/linear-up.webp`)"></v-img>
+
     <div class="font-weight-bold text-dp-lg align-self-center mt-12">
       Our Partner
     </div>
@@ -110,7 +112,6 @@ export default class Partners extends Vue {}
   transform: matrix(0.98, 0.21, 0.21, -0.98, 0, 0);
   filter: blur(60px);
   left: 1400px;
-  top: 50px;
 }
 .blueblur-image {
   z-index: 0;

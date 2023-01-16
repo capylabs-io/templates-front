@@ -3,9 +3,17 @@
     class="d-flex align-center border-radius-16"
     :style="'background:' + color + ' !important'"
   >
-    <div class="d-flex align-center pa-2">
-      <v-icon color="success" small>mdi-thumb-up</v-icon>
-      <div class="ml-2">Yes</div>
+    <div v-if="status === true">
+      <div class="d-flex align-center pa-2">
+        <v-icon color="success" small>mdi-thumb-up</v-icon>
+        <div class="ml-2">Yes</div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="d-flex align-center pa-2">
+        <v-icon color="error" small>mdi-thumb-down</v-icon>
+        <div class="ml-2">No</div>
+      </div>
     </div>
     <v-divider
       :color="applicationStore.isDarkTheme ? 'black' : 'white'"
@@ -28,7 +36,7 @@ import { applicationStore } from "@/stores/application-store";
   },
 })
 export default class VoteStatus extends Vue {
-  @Prop({ default: "executing" }) status?: string;
+  @Prop({ default: "" }) status?: string;
   @Prop({ default: "0" }) voteAmount?: string;
   @Prop({ default: "#fffff" }) color?: string;
 

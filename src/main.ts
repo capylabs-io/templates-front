@@ -17,7 +17,6 @@ Vue.use(Flicking);
 Vue.config.productionTip = false;
 Vue.component("address-copy-board", () => import("@/components/address-copy-board.vue"));
 Vue.use(DatetimePicker);
-
 pluginsRegister();
 vueFilterRegister();
 new Vue({

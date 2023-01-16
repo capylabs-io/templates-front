@@ -3,7 +3,7 @@
     z-index="998"
     :value="controller.requesting"
     style="z-index: 999"
-    opacity="0.8"
+    opacity="0.9"
   >
     <v-progress-circular indeterminate size="32"></v-progress-circular>
   </v-overlay>

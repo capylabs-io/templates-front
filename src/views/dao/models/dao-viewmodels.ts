@@ -1,3 +1,5 @@
+import { CommentModel } from "./../../../models/comment-model";
+import { VoteModel } from "./../../../models/vote-model";
 import { FixedNumber } from "@ethersproject/bignumber";
 import { applicationStore } from "../../../stores/application-store";
 import { ProposalModel } from "./../../../models/proposal-model";
@@ -11,12 +13,16 @@ import { loadingController } from "@/components/global-loading/global-loading-co
 import { action, observable, computed, flow } from "mobx";
 import moment, { now } from "moment";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
-
+import { Observable } from "rxjs";
+import readXlsxFile from "read-excel-file";
 export class DaoViewModel {
   @observable isReview = false;
   @observable reviewPage: string = "management";
-
-  @observable searchKey = "";
+  //Proposals
+  @observable proposals: ProposalModel[] = [];
+  @observable proposalSearchKey = "";
+  @observable proposalsPerPage = 6;
+  @observable proposalPage = 1;
   @observable filterCancelled = false;
   @observable filterPassed = false;
   @observable filterFailed = false;
@@ -25,13 +31,34 @@ export class DaoViewModel {
   @observable filterVoting = false;
   @observable filterDraft = false;
 
-  @observable daoSetting?: DaoSettingModel;
+  @observable daoSetting!: DaoSettingModel;
+  @observable minAmountToCreate?: number = 1000000;
+  @observable communityMintFactor?: number = 1;
+  @observable filesReview = false;
+  @observable councilApprovalQuorum?: number = 60;
   @observable pickParameters = false;
   @observable pickMembers = false;
+  @observable pickConfig = false;
+  @observable pickAddMembers = false;
   @observable pickDao = true;
-  @observable proposals: ProposalModel[] = [];
-  @observable itemsPerPage = 8;
-  @observable proposalPage = 1;
+  @observable members: string[] = [];
+  @observable membersFile: string[] = [];
+
+  @observable memberSearchKey = "";
+  @observable memberTableSearchKey = "";
+  @observable membersPerPage = 8;
+  @observable memberPage = 1;
+  @observable memberAddress: string = "";
+  @observable currentMember: string = "";
+  @observable votes: VoteModel[] = [];
+  @observable comments: CommentModel[] = [];
+  @observable votesAmount: number = 0;
+  @observable votesYes: number = 0;
+  @observable votesNo: number = 0;
+  @observable numberOfVotes: number = 0;
+  @observable commentsPerPage = 8;
+  @observable commentPage = 1;
+  @observable fileResults = [];
 
   @observable instructionList = ["Instruction 1", "Instruction 2", "Instruction 3", "Instruction 3"];
   @observable transactionList = ["None", "Transfer Token", "Mint Token"];
@@ -40,11 +67,6 @@ export class DaoViewModel {
   @observable currentPage = 1;
   @observable totalPage = 3;
   @observable voteEnd = "2022/10/31";
-  @observable isVoted = false;
-  @observable showVoteResult = false;
-  @observable isOpenVoteConfirm = false;
-  @observable isVoteYes = false;
-  @observable isVoteDone = false;
   @observable loading = false;
   @observable chartOptions = {
     series: [44, 55, 13, 43, 22],
@@ -80,7 +102,9 @@ export class DaoViewModel {
       amount: 0,
     },
   ];
-
+  //form
+  @observable configChangeform?: boolean;
+  @observable addMemberform?: boolean;
   // Member
   @observable openMemberFlag = false;
 
@@ -149,7 +173,7 @@ export class DaoViewModel {
       const application = applications[0];
       this.applicationStore.application = application;
       this.daoSetting = application.dao_setting;
-
+      this.members = application.dao_setting?.members;
       if (!application || !application.service || !application.dao_setting) {
         this.pushBackHome(`Invalid service type!`);
         return;
@@ -193,6 +217,91 @@ export class DaoViewModel {
     }
   });
 
+  fetchUserInteract = flow(function* (this, walletAddress) {
+    try {
+      loadingController.increaseRequest();
+      this.currentMember = walletAddress;
+      const proposalIds = applicationStore.application?.proposals.map((proposal) => proposal.id);
+      const votes = yield apiService.votes.find({
+        "user.address": walletAddress,
+        proposal_in: proposalIds,
+      });
+      const comments = yield apiService.comments.find({
+        "user.address": walletAddress,
+        proposal_in: proposalIds,
+      });
+
+      this.votes = votes;
+      this.comments = comments;
+      this.votesAmount = votes.reduce((a, b) => a + Number.parseInt(b.amount), 0);
+      this.votesYes = votes.filter((votes) => votes.vote).length;
+      this.votesNo = votes.filter((votes) => !votes.vote).length;
+      this.numberOfVotes = this.votesYes + this.votesNo;
+    } catch (err: any) {
+      console.error("err", err);
+      this.pushBackHome(`Error occurred, please try again later!`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  });
+
+  
+
+  updateDaoSetting = flow(function* (this) {
+    try {
+      loadingController.increaseRequest();
+      const { application, setting } = yield apiService.daoSettings.update(this.daoSetting.id, {
+        name: this.daoSetting.name,
+        type: this.daoSetting.type,
+        isExisted: this.daoSetting.isExisted,
+        tokenAddress: this.daoSetting.tokenAddress,
+        threshold: this.daoSetting.threshold,
+        weight: this.daoSetting.weight,
+        isCouncil: this.daoSetting.isCouncil,
+        council: {
+          councilTokenAddress: this.daoSetting.tokenAddress,
+          councilApprovalQuorum: this.councilApprovalQuorum,
+        },
+        members: this.members,
+        otherSetting: {
+          //TODO: Add program
+          minAmountToCreate: this.minAmountToCreate,
+          communityMintFactor: this.communityMintFactor,
+        },
+      });
+      //TODO: Add to localstorage
+      snackController.success("Update Dao successfully!");
+      // appProvider.router.push("/dao/" + application.appId);
+      appProvider.router.push("/management/");
+    } catch (err: any) {
+      snackController.commonError(err);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  });
+
+  readFile= flow(function* (this, fileData: any) { 
+    let readFileResult;
+    try {
+      readFileResult = yield readXlsxFile(fileData, {
+        schema:{
+          'wallet': {
+            prop: 'wallet',
+            type: String
+          }
+        }
+      });
+    } catch (error) {
+      snackController.commonError(error);
+      return;
+    }
+    this.fileResults = readFileResult.rows;
+    this.membersFile = readFileResult.rows.map(row => row.wallet);
+    console.log("membersFile", this.membersFile);
+    
+    snackController.success("Read File successfully!");
+  });
+
   @action pushBackHome(error: any) {
     snackController.error(error);
     if (walletStore.connected) appProvider.router.replace("/management");
@@ -209,6 +318,12 @@ export class DaoViewModel {
   @action setpickMembers(val: boolean) {
     this.pickMembers = val;
   }
+  @action setConfig(val: boolean) {
+    this.pickConfig = val;
+  }
+  @action setAddMembers(val: boolean) {
+    this.pickAddMembers = val;
+  }
   @action setpickDao(val: boolean) {
     this.pickDao = val;
   }
@@ -218,27 +333,8 @@ export class DaoViewModel {
   @action changeAddProposalDialog() {
     this.isOpenAddProposal = !this.isOpenAddProposal;
   }
-  @action changeVoteConfirmDialog(isVoteYes) {
-    this.isVoteYes = isVoteYes;
-    this.isOpenVoteConfirm = !this.isOpenVoteConfirm;
-  }
   @action backSolendDao() {
     this.proposalID = 0;
-  }
-  @action voting() {
-    this.isOpenVoteConfirm = false;
-    this.isVoted = true;
-  }
-  @action voteExcute() {
-    this.loading = true;
-    this.isVoteDone = true;
-    this.loading = false;
-  }
-  @action gotoVoteResult() {
-    this.showVoteResult = true;
-  }
-  @action backPropoDetail() {
-    this.showVoteResult = false;
   }
   @action removeTransaction(index) {
     this.proposalTransactions.splice(index, 1);
@@ -254,6 +350,14 @@ export class DaoViewModel {
       amount: 0,
     });
   }
+  @action addMember() {
+    this.members.push(this.memberAddress);
+    this.updateDaoSetting();
+  }
+  @action addMemberImported() {
+    this.members=this.members.concat(this.membersFile);
+    this.updateDaoSetting();
+  }
   // computed
   // @computed get eventEndDate() {
   //   return moment(this.voteEnd).isBefore(now());
@@ -263,9 +367,9 @@ export class DaoViewModel {
     if (!this.proposals) return [];
     return this.proposals.filter((proposal) => {
       if (
-        this.searchKey &&
-        !proposal.title.toLowerCase().includes(this.searchKey.toLowerCase()) &&
-        !proposal.description.toLowerCase().includes(this.searchKey.toLowerCase())
+        this.proposalSearchKey &&
+        !proposal.title.toLowerCase().includes(this.proposalSearchKey.toLowerCase()) &&
+        !proposal.description.toLowerCase().includes(this.proposalSearchKey.toLowerCase())
       )
         return false;
       if (this.filterCancelled && proposal.status == "cancelled") return true;
@@ -290,8 +394,8 @@ export class DaoViewModel {
   @computed get slicedProposals() {
     if (!this.proposals) return [];
     return this.filteredProposals.slice(
-      (this.proposalPage - 1) * this.itemsPerPage,
-      this.proposalPage * this.itemsPerPage
+      (this.proposalPage - 1) * this.proposalsPerPage,
+      this.proposalPage * this.proposalsPerPage
     );
   }
 
@@ -301,9 +405,52 @@ export class DaoViewModel {
 
   @computed get totalProposalPage() {
     if (!this.proposals || this.proposals.length == 0) return 1;
-    if (this.filteredProposals.length % this.itemsPerPage! == 0)
-      return this.filteredProposals.length / this.itemsPerPage!;
-    else return Math.floor(this.filteredProposals.length / this.itemsPerPage!) + 1;
+    if (this.filteredProposals.length % this.proposalsPerPage! == 0)
+      return this.filteredProposals.length / this.proposalsPerPage!;
+    else return Math.floor(this.filteredProposals.length / this.proposalsPerPage!) + 1;
+  }
+
+  @computed get filteredMembers() { 
+    return this.daoMembers.filter((member) => {
+      if (this.memberSearchKey && !member?.toLowerCase().includes(this.memberSearchKey.toLowerCase()))
+        return false;
+      return true;
+    });
+  }
+
+  // @computed get filteredTableMembers(){
+  //   return this.fileResults.filter((member) => {
+  //     if (this.memberTableSearchKey && !member?.toLowerCase().includes(this.memberTableSearchKey.toLowerCase()))
+  //       return false;
+  //     return true;
+  //   });
+  // }
+  @computed get slicedMembers() {
+    return this.filteredMembers.slice(
+      (this.membersPerPage - 1) * this.memberPage,
+      this.membersPerPage * this.memberPage
+    );
+  }
+
+  @computed get totalMemberPage() {
+    if (!this.filteredMembers || this.filteredMembers.length == 0) return 1;
+    if (this.filteredMembers.length % this.membersPerPage! == 0)
+      return this.filteredMembers.length / this.membersPerPage!;
+    else return Math.floor(this.filteredMembers.length / this.membersPerPage!) + 1;
+  }
+
+  @computed get slicedComments() {
+    return this.comments.slice(
+      (this.commentsPerPage - 1) * this.commentPage,
+      this.commentsPerPage * this.commentPage
+    );
+  }
+
+  @computed get totalCommentPage() {
+    if (!this.comments || this.comments.length == 0) return 1;
+    if (this.comments.length % this.commentsPerPage! == 0)
+      return this.comments.length / this.commentsPerPage!;
+    else return Math.floor(this.comments.length / this.commentsPerPage!) + 1;
   }
 
   @computed get currentProposal() {
@@ -323,5 +470,11 @@ export class DaoViewModel {
       default:
         return "";
     }
+  }
+
+  @computed get daoMembers() {
+    const members = [applicationStore.application?.user.address];
+    if (!this.daoSetting || !this.daoSetting.members) return members;
+    return members.concat(this.daoSetting.members);
   }
 }

@@ -126,6 +126,15 @@ const routes: Array<RouteConfig> = [
       canAccess: false,
     },
   },
+  {
+    path: "/404",
+    name: "pagenotfound",
+    component: () => import("../views/404page.vue"),
+    meta: {
+      title: "Page Not Found",
+      canAccess: true,
+    },
+  },
 ];
 
 const router = new VueRouter({

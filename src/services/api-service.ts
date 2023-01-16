@@ -1,10 +1,11 @@
+import { VueResponsiveComponents } from "vue-responsive-components";
 import { TransactionModel } from "./../models/transaction-model";
 import { ThemeModel } from "./../models/theme-model";
 import { walletStore } from "@/stores/wallet-store";
 import Axios from "axios";
 import moment from "moment";
 import { ApplicationModel } from "@/models/application-model";
-export type ApiRouteType = "applications" | "themes" | "transactions" | "proposals";
+export type ApiRouteType = "applications" | "themes" | "transactions" | "proposals" | "votes" | "comments" | "dao-settings";
 
 const axios = Axios.create({ baseURL: process.env.VUE_APP_API_ENDPOINT });
 
@@ -142,6 +143,9 @@ export class ApiService {
   proposals = new ApiHandlerJWT<any>(axios, "proposals");
   themes = new ApiHandlerJWT<any>(axios, "themes");
   transactions = new ApiHandlerJWT<any>(axios, "transactions");
+  votes = new ApiHandlerJWT<any>(axios, "votes");
+  comments = new ApiHandlerJWT<any>(axios, "comments");
+  daoSettings = new ApiHandlerJWT<any>(axios, "dao-settings");
 
   async signUp(publicAddress: string) {
     const res = await axios.post(`auth/local/register`, { publicAddress });
@@ -207,11 +211,6 @@ export class ApiService {
         "Content-Type": "multipart/form-data",
       },
     });
-    return res.data;
-  }
-
-  async addProposal(model: any) {
-    const res = await axios.post(`proposals`, model);
     return res.data;
   }
 

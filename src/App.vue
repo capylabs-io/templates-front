@@ -40,12 +40,11 @@ import { appProvider } from "./app-providers";
 })
 export default class App extends Vue {
   isEndUser = false;
-
   async created() {
     // await walletStore.start();
     appProvider.setVueRouter(this.$router);
   }
-
+  
   @Watch("$route", { deep: true, immediate: true }) onRouteChange(val) {
     if (val) this.isEndUser = val.meta.isEndUser;
     if (!this.isEndUser) this.isEndUser = false;
@@ -89,9 +88,10 @@ export default class App extends Vue {
   width: 100vw;
   position: relative;
   background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat !important;
+  background-position: center center;
+  background-repeat: repeat !important;
   background-size: cover !important;
+  /*background-size: cover !important;*/
 }
 .v-application--wrap::before {
   content: "";
@@ -101,9 +101,11 @@ export default class App extends Vue {
   width: 100%;
   position: absolute;
   opacity: 0.3;
-  background-position: center;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
+  background-position: center center;
+  background-repeat: repeat !important;
+  background-size: 100% !important;
+
+  /*background-size: cover !important;*/
 }
 body {
   font-family: "DM Sans", sans-serif !important;

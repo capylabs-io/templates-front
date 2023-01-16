@@ -1,83 +1,81 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div
-    class="intro d-flex justify-center col-gap-45"
+    class="intro d-flex flex-column justify-center"
     v-bind:style="{
       backgroundImage:
         'url(' + require('@/assets/landing/intro-background.webp') + ')',
     }"
   >
-    <div class="d-flex flex-column align-self-center intro-left">
-      <div class="font-weight-bold text-dp-xl">
-        The Key to A Decentralized World
+    <div class="d-flex justify-center col-gap-45">
+      <div class="d-flex flex-column align-self-center intro-left">
+        <div class="font-weight-bold text-dp-xl">
+          The Key to A Decentralized World
+        </div>
+        <div class="gray6--text text-lg mt-3 sub-text">
+          The fastest and easiest way to build your own DAO without coding. It’s
+          time to give the power back to the community.
+        </div>
+        <div class="d-flex mt-10 col-gap-20">
+          <v-btn
+            class="btn-connect text-none white--text text-capitalize"
+            elevation="0"
+            color="primary"
+            >Connect Wallet</v-btn
+          >
+          <v-btn
+            class="btn-connect text-none white--text text-capitalize"
+            elevation="0"
+            color="gray11"
+            >Watch Tutorial</v-btn
+          >
+        </div>
       </div>
-      <div class="gray6--text text-lg mt-3 sub-text">
-        The fastest and easiest way to build your own DAO without coding. It’s
-        time to give the power back to the community.
-      </div>
-      <div class="d-flex mt-10 col-gap-20">
-        <v-btn
-          class="btn-connect text-none white--text text-capitalize"
-          elevation="0"
-          color="primary"
-          >Connect Wallet</v-btn
-        >
-        <v-btn
-          class="btn-connect text-none white--text text-capitalize"
-          elevation="0"
-          color="gray11"
-          >Watch Tutorial</v-btn
-        >
-      </div>
-    </div>
-    <div class="align-self-center intro-image-group d-flex flex-column">
-      <div data-aos="fade-up">
+      <div class="align-self-center intro-image-group d-flex flex-column">
+        <div data-aos="fade-up">
+          <v-img
+            class="intro-image align-self-center"
+            :src="require(`@/assets/bitcoin.webp`)"
+          ></v-img>
+        </div>
         <v-img
-          class="intro-image align-self-center"
-          :src="require(`@/assets/bitcoin.webp`)"
+          class="blink1 align-self-center"
+          :src="require(`@/assets/coin-blink.webp`)"
+        ></v-img>
+        <v-img
+          class="blink2 align-self-center"
+          :src="require(`@/assets/coin-blink.webp`)"
+        ></v-img>
+        <v-img
+          class="blink3 align-self-center"
+          :src="require(`@/assets/coin-blink.webp`)"
+        ></v-img>
+        <v-img
+          class="blink4 align-self-center"
+          :src="require(`@/assets/coin-blink.webp`)"
+        ></v-img>
+        <v-img
+          class="image1 align-self-center"
+          data-aos="fade-up"
+          :src="require(`@/assets/tron-coin.webp`)"
+        ></v-img>
+        <v-img
+          class="image2 align-self-center"
+          data-aos="fade-up"
+          :src="require(`@/assets/bnb-coin.webp`)"
+        ></v-img>
+        <v-img
+          class="image3 align-self-center"
+          data-aos="fade-up"
+          :src="require(`@/assets/ethereum-coin.webp`)"
+        ></v-img>
+        <v-img
+          class="image4 align-self-center"
+          data-aos="fade-up"
+          :src="require(`@/assets/usdt-coin.webp`)"
         ></v-img>
       </div>
-      <v-img
-        class="blink1 align-self-center"
-        :src="require(`@/assets/coin-blink.webp`)"
-      ></v-img>
-      <v-img
-        class="blink2 align-self-center"
-        :src="require(`@/assets/coin-blink.webp`)"
-      ></v-img>
-      <v-img
-        class="blink3 align-self-center"
-        :src="require(`@/assets/coin-blink.webp`)"
-      ></v-img>
-      <v-img
-        class="blink4 align-self-center"
-        :src="require(`@/assets/coin-blink.webp`)"
-      ></v-img>
-      <v-img
-        class="image1 align-self-center"
-        data-aos="fade-up"
-        :src="require(`@/assets/tron-coin.webp`)"
-      ></v-img>
-      <v-img
-        class="image2 align-self-center"
-        data-aos="fade-up"
-        :src="require(`@/assets/bnb-coin.webp`)"
-      ></v-img>
-      <v-img
-        class="image3 align-self-center"
-        data-aos="fade-up"
-        :src="require(`@/assets/ethereum-coin.webp`)"
-      ></v-img>
-      <v-img
-        class="image4 align-self-center"
-        data-aos="fade-up"
-        :src="require(`@/assets/usdt-coin.webp`)"
-      ></v-img>
     </div>
-    <!-- <v-img
-      class="intro-image align-self-center wiggle"
-      :src="require(`@/assets/landing/coin-image.webp`)"
-    ></v-img> -->
   </div>
 </template>
 
@@ -86,6 +84,11 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
+.linear {
+  position: relative;
+  width: 100%;
+  margin-top: 500px;
+}
 .intro {
   max-width: 100%;
   height: 100vh;
