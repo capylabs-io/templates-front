@@ -14,8 +14,15 @@ import { action, observable, computed, flow } from "mobx";
 import moment, { now } from "moment";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
 import { confirmDialogController } from "@/components/confirm-dialog/confirm-dialog-controller";
+import { UserModel } from "@/models/user-model";
+import { bnHelper } from "@/helpers/bignumber-helper";
 
 export class ProposalDetailViewmodel {
+  applicationStore = applicationStore;
+  walletStore = walletStore;
+
+  @observable isResultShow = false;
+
   @observable isReview = false;
   @observable loading = false;
 
@@ -24,9 +31,6 @@ export class ProposalDetailViewmodel {
   @observable reviewPage: string = "management";
 
   @observable proposal?: ProposalModel;
-
-  applicationStore = applicationStore;
-  walletStore = walletStore;
 
   @observable isOpenVoteConfirm = false;
   @observable showVoteResult = false;
@@ -43,6 +47,10 @@ export class ProposalDetailViewmodel {
   @observable voteAmount = 0;
   @observable confirmVoteForm = false;
   @observable voting = false;
+
+  @observable owner?: UserModel;
+  @observable filterYesResult = true;
+  @observable filterNoResult = true;
 
   fetchProposal = flow(function* (this, proposalId) {
     try {
@@ -65,6 +73,8 @@ export class ProposalDetailViewmodel {
         );
         return;
       }
+      if (proposal.application && proposal.application.user)
+        this.owner = yield this.fetchApplicationOwner(proposal.application.user);
 
       if (this.isReview) return;
 
@@ -78,6 +88,18 @@ export class ProposalDetailViewmodel {
       loadingController.decreaseRequest();
     }
   });
+
+  fetchApplicationOwner = async (userId) => {
+    try {
+      loadingController.increaseRequest();
+      return await apiService.users.findOne(userId);
+    } catch (err: any) {
+      console.error("err", err);
+      this.pushBackHome(`Error occurred, please try again later!`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  };
 
   fetchDefaultProposals = flow(function* (this) {
     try {
@@ -245,6 +267,10 @@ export class ProposalDetailViewmodel {
     });
   }
 
+  @action.bound toggleVoteResult() {
+    this.isResultShow = !this.isResultShow;
+  }
+
   processPublishProposal = flow(function* (this) {
     try {
       const updatedProposal = yield apiService.proposals.update(this.proposal?.id, {
@@ -387,5 +413,55 @@ export class ProposalDetailViewmodel {
   @computed get totalNoPercent() {
     if (!this.votes || this.totalNoVotes.isZero()) return FixedNumber.from(0);
     return this.totalNoVotes.divUnsafe(this.totalVoteAmount).mulUnsafe(FixedNumber.from(100));
+  }
+
+  @computed get top10Votes() {
+    if (!this.votes) return [];
+    return this.votes
+      .filter((vote) => {
+        if (this.filterYesResult && !this.filterNoResult && !vote.vote) return false;
+        if (this.filterNoResult && !this.filterYesResult && vote.vote) return false;
+        return true;
+      })
+      .sort((a, b) => this.sortByAmount(a, b))
+      .slice(0, 10)
+      .map((vote) => {
+        return {
+          ...vote,
+          percentage: FixedNumber.from(vote.amount)
+            .divUnsafe(this.totalVoteAmount)
+            .mulUnsafe(FixedNumber.from(100))
+            .toUnsafeFloat(),
+        };
+      });
+  }
+
+  @computed get top10Labels() {
+    if (!this.votes) return [];
+    const labels = this.top10Votes.map((vote) => vote.user.address);
+    if (this.votes.length < 11) return labels;
+    return labels.push("Other");
+  }
+
+  @computed get top10Amounts() {
+    if (!this.votes) return [];
+    const amounts = this.top10Votes.map((vote) => vote.percentage);
+    if (this.votes.length < 11) return amounts;
+    const totalPercentage = amounts.reduce((amount, acc) => {
+      return (acc += amount);
+    }, 0);
+    return amounts.push(100 - totalPercentage);
+  }
+
+  sortByAmount(a: VoteModel, b: VoteModel) {
+    const minus = FixedNumber.from(a.amount).subUnsafe(FixedNumber.from(b.amount));
+    if (bnHelper.lt(minus, FixedNumber.from("0"))) return -1;
+    else if (bnHelper.gt(minus, FixedNumber.from("0"))) return 1;
+    else return 0;
+  }
+
+  @computed get ownerAddress() {
+    if (!this.owner) return "Unknown Wallet";
+    return this.owner.address;
   }
 }

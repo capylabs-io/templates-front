@@ -86,7 +86,6 @@ import ProposalDetailDiscussion from "../components/Detail-Proposals-Discussion.
 import Voting from "../components/Voting.vue";
 import YourAccount from "../components/YourAccount.vue";
 import Programs from "../components/_Programs.vue";
-import VoteResult from "../components/Vote-Results.vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { applicationStore } from "@/stores/application-store";
 
@@ -102,13 +101,14 @@ import { applicationStore } from "@/stores/application-store";
     Member: () => import("../components/Members.vue"),
     ChangeConfig: () => import("../components/Change-config.vue"),
     AddMember: () => import("../components/Add-Member.vue"),
+    VoteResult: () => import("../components/Vote-Results.vue"),
+
     SettingIcon,
     YourAccount,
     Programs,
     ProposalDetail,
     ProposalDetailDiscussion,
     Voting,
-    VoteResult,
   },
 })
 export default class Dao extends Vue {

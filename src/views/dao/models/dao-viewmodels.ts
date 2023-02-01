@@ -68,23 +68,6 @@ export class DaoViewModel {
   @observable totalPage = 3;
   @observable voteEnd = "2022/10/31";
   @observable loading = false;
-  @observable chartOptions = {
-    series: [44, 55, 13, 43, 22],
-    chart: {
-      width: 380,
-      type: "pie",
-    },
-    labels: ["3Q3ph...RGvG8", "3Q3ph...RGvG8", "3Q3ph...RGvG8", "3Q3ph...RGvG8", "Other"],
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: { width: 200 },
-          legend: { position: "bottom" },
-        },
-      },
-    ],
-  };
 
   // Add Proposal
   @observable isOpenAddProposal = false;
@@ -245,8 +228,6 @@ export class DaoViewModel {
     }
   });
 
-  
-
   updateDaoSetting = flow(function* (this) {
     try {
       loadingController.increaseRequest();
@@ -280,25 +261,25 @@ export class DaoViewModel {
     }
   });
 
-  readFile= flow(function* (this, fileData: any) { 
+  readFile = flow(function* (this, fileData: any) {
     let readFileResult;
     try {
       readFileResult = yield readXlsxFile(fileData, {
-        schema:{
-          'wallet': {
-            prop: 'wallet',
-            type: String
-          }
-        }
+        schema: {
+          wallet: {
+            prop: "wallet",
+            type: String,
+          },
+        },
       });
     } catch (error) {
       snackController.commonError(error);
       return;
     }
     this.fileResults = readFileResult.rows;
-    this.membersFile = readFileResult.rows.map(row => row.wallet);
+    this.membersFile = readFileResult.rows.map((row) => row.wallet);
     console.log("membersFile", this.membersFile);
-    
+
     snackController.success("Read File successfully!");
   });
 
@@ -355,7 +336,7 @@ export class DaoViewModel {
     this.updateDaoSetting();
   }
   @action addMemberImported() {
-    this.members=this.members.concat(this.membersFile);
+    this.members = this.members.concat(this.membersFile);
     this.updateDaoSetting();
   }
   // computed
@@ -410,7 +391,7 @@ export class DaoViewModel {
     else return Math.floor(this.filteredProposals.length / this.proposalsPerPage!) + 1;
   }
 
-  @computed get filteredMembers() { 
+  @computed get filteredMembers() {
     return this.daoMembers.filter((member) => {
       if (this.memberSearchKey && !member?.toLowerCase().includes(this.memberSearchKey.toLowerCase()))
         return false;
