@@ -35,8 +35,9 @@
           </div>
         </div>
         <div
-          class="d-flex cursor-pointer align-center text-sm"
+          class="d-flex cursor-pointer align-center text-sm cursor-pointer"
           :style="'color:' + applicationStore.primaryColor"
+          @click="vm.toggleVoteResult()"
         >
           <span>View</span>
           <v-icon :color="applicationStore.primaryColor" small>
@@ -50,7 +51,7 @@
       </div> -->
 
       <div
-        class="vote-info pa-4 mt-4"
+        class="pa-4 mt-4 border-radius-8"
         :style="'background:' + applicationStore.accentColor + ' !important'"
         :class="
           applicationStore.isDarkTheme
@@ -95,7 +96,7 @@
         ></v-progress-linear>
       </div>
       <div
-        class="vote-info pa-4 mt-4"
+        class="pa-4 mt-4 border-radius-8"
         :style="'background:' + applicationStore.accentColor + ' !important'"
         :class="
           applicationStore.isDarkTheme
@@ -200,9 +201,3 @@ export default class Voting extends Vue {
   walletStore = walletStore;
 }
 </script>
-<style scoped>
-.vote-info {
-  opacity: 0.8;
-  border-radius: 8px;
-}
-</style>

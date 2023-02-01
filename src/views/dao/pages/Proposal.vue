@@ -6,7 +6,7 @@
   >
     <DaoNavigationBar />
     <div
-      class="dao-content full-height"
+      class="dao-content full-height pa-6"
       :style="{
         'background-color': applicationStore.pageBackground + ' !important',
         'background-image':
@@ -14,7 +14,12 @@
       }"
       :class="applicationStore.isDarkTheme ? 'white--text' : 'black--text'"
     >
-      <ProposalLayout />
+      <div v-if="!vm.isResultShow">
+        <ProposalLayout />
+      </div>
+      <div v-else>
+        <VoteResult />
+      </div>
     </div>
     <DaoFooter />
   </div>
@@ -23,11 +28,6 @@
 <script lang="ts">
 import { Component, Prop, Provide, Vue, Watch } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
-// import ProposalDetail from "../components/Detail-Proposals.vue";
-// import ProposalDetailDiscussion from "../components/Detail-Proposals-Discussion.vue";
-// import Voting from "../components/Voting.vue";
-// import VoteResult from "../components/Vote-Results.vue";
-
 import { applicationStore } from "@/stores/application-store";
 import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
 
@@ -37,6 +37,7 @@ import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
     ProposalLayout: () => import("./ProposalLayout.vue"),
     DaoNavigationBar: () => import("../components/NavigationBar.vue"),
     DaoFooter: () => import("../components/Footer.vue"),
+    VoteResult: () => import("../components/Vote-Results.vue"),
   },
 })
 export default class Dao extends Vue {

@@ -56,7 +56,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
-import { promiseHelper } from "@/helper/promise-helper";
+import { promiseHelper } from "@/helpers/promise-helper";
 
 @Observer
 @Component

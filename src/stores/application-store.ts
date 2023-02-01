@@ -182,6 +182,11 @@ export class ApplicationStore {
       walletStore.userId == this.application?.user.id
     );
   }
+
+  @computed get applicationOwner() {
+    if (!this.application || !this.application.user) return "Unknown Wallet";
+    return this.application?.user.address;
+  }
 }
 
 export const applicationStore = new ApplicationStore();
