@@ -75,7 +75,7 @@ export class DaoViewModel {
   @observable proposalTitle = "";
   @observable proposalDescription = "";
   @observable proposalQuorum = 50;
-  @observable proposalEndTime = moment().toISOString();
+  @observable proposalEndTime = new Date();
   @observable proposalTransactions = [
     {
       type: "None",
@@ -100,8 +100,6 @@ export class DaoViewModel {
       snackController.error("Invalid application!");
       return;
     }
-    console.log("endTimeVote", this.endTimeVote);
-
     try {
       loadingController.increaseRequest();
       const createdProposal = yield apiService.proposals.create({
@@ -111,12 +109,6 @@ export class DaoViewModel {
         title: this.proposalTitle,
         description: this.proposalDescription,
         endTimeVote: this.proposalEndTime,
-        //type:
-        //endTimeVote:
-        //tokenQuorum:
-
-        //voteType: => if vote equally => need requiredTokenAmount to vote
-        //Draft => Deploy
         status: "draft",
         quorum: this.proposalQuorum,
         creator: walletStore.userId,

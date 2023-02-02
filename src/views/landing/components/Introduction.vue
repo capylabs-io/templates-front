@@ -92,7 +92,7 @@ export default {};
 .intro {
   max-width: 100%;
   height: 100vh;
-  background-size: 100% 100%;
+  background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
   position: relative;
