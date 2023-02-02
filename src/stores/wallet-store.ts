@@ -1,4 +1,5 @@
-import { action, computed, observable, runInAction, flow, toJS } from "mobx";
+import { applicationStore } from "./application-store";
+import { action, computed, observable, flow } from "mobx";
 // import { actionAsync, asyncAction } from "mobx-utils";
 import Application from "@/libs/models";
 import Web3 from "web3";
@@ -10,6 +11,8 @@ import { snackController } from "@/components/snack-bar/snack-bar-controller";
 import { apiService } from "@/services/api-service";
 import { UserModel } from "@/models/user-model";
 import { ThemeModel } from "@/models/theme-model";
+import { localdata } from "@/helpers/local-data";
+import { waitUntil } from "async-wait-until";
 
 export class WalletStore {
   ethereum: any = (window as any).ethereum;
@@ -18,8 +21,6 @@ export class WalletStore {
 
   @observable web3: Web3 | null = null;
   @observable account = "";
-  @observable avaxBalance = Zero;
-  @observable hvgBalance = Zero;
   @observable chainId = "5";
   @observable loaded = false;
 
@@ -32,8 +33,9 @@ export class WalletStore {
   @observable userInfo?: UserModel | null;
   @observable userThemes?: ThemeModel[] | null;
 
+  @observable accountBalance = Zero;
+
   LPTokenContract?: any;
-  private _balanceSubscription: Subscription | undefined;
 
   @action.bound setAuth(jwt: string, user: UserModel) {
     this.jwt = jwt;
@@ -46,6 +48,25 @@ export class WalletStore {
     this.userId = "";
     this.userInfo = null;
     this.userThemes = [];
+  }
+  //TODO: Remove this
+  @action.bound minusUserBalance(amount: string) {
+    if (!this.connected || !applicationStore.daoToken) return;
+    this.accountBalance = this.accountBalance.subUnsafe(FixedNumber.from(amount));
+    localdata.setAccountToken(
+      this.account,
+      applicationStore.daoToken.address,
+      this.accountBalance.toHexString()
+    );
+  }
+  @action.bound addUserBalance(amount: string) {
+    if (!this.connected || !applicationStore.daoToken) return;
+    this.accountBalance = this.accountBalance.addUnsafe(FixedNumber.from(amount));
+    localdata.setAccountToken(
+      this.account,
+      applicationStore.daoToken.address,
+      this.accountBalance.toString()
+    );
   }
 
   // @action *getAvaxBalance() {
@@ -205,6 +226,14 @@ export class WalletStore {
   @computed get userPaidThemes() {
     if (!this.connected || !this.userThemes) return [];
     return this.userThemes;
+  }
+
+  //TODO: update this load from token contract
+  @action loadUserBalance() {
+    if (!localdata.getAccountToken(this.account, applicationStore.daoToken?.address))
+      localdata.setAccountToken(this.account, applicationStore.daoToken?.address, "100000");
+    const balance = localdata.getAccountToken(this.account, applicationStore.daoToken?.address);
+    this.accountBalance = FixedNumber.from(balance.amount);
   }
 
   // @computed get shortAccount() {

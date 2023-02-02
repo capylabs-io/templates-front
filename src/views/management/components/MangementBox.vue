@@ -9,6 +9,7 @@
         d-flex
         flex-column
         overflow-hidden
+        full-width full-height
       "
       :class="{ 'on-hover cursor-pointer': hover }"
       @click="goToDomain()"

@@ -8,13 +8,11 @@ export interface UserModel {
   username: string;
   email: string;
   provider: string;
-  password: string;
   resetPasswordToken: string;
   confirmationToken: string;
   confirmed: boolean;
   blocked: boolean;
   address: string;
-  role: any;
   metadata: any;
   applications: ApplicationModel[];
   comments: CommentModel[];

@@ -30,8 +30,10 @@
       "
       :style="'background:' + applicationStore.accentColor + ' !important'"
     >
-      <div>DAO Token Votes</div>
-      <div class="font-weight-bold text-dp-xs">$$$</div>
+      <div>${{ applicationStore.daoToken?.symbol || "DAO Token" }} Balance</div>
+      <div class="font-weight-bold text-dp-xs">
+        {{ walletStore.accountBalance || "0" | formatNumber(2) }}
+      </div>
     </div>
     <v-row class="justify-center mt-2">
       <v-col cols="6 pr-2"
@@ -60,6 +62,7 @@ import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import { DaoViewModel } from "../models/dao-viewmodels";
 import { applicationStore } from "@/stores/application-store";
+import { walletStore } from "@/stores/wallet-store";
 @Observer
 @Component({
   components: {},
@@ -68,5 +71,6 @@ export default class YourAccount extends Vue {
   @Inject() vm!: DaoViewModel;
 
   applicationStore = applicationStore;
+  walletStore = walletStore;
 }
 </script>

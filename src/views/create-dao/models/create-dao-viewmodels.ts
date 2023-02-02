@@ -85,7 +85,12 @@ export class CreateDaoViewModel {
           name: this.daoName,
           type: this.daoType,
           isExisted: this.isCreateNewToken,
-          tokenAddress: this.tokenAddress,
+          token: {
+            address: this.tokenAddress,
+            name: "",
+            symbol: "",
+            supply: "",
+          },
           threshold: this.approvalThreshold,
           weight: this.isAbsoluteOption ? 1 : 0,
           isCouncil: this.isCouncilUse,

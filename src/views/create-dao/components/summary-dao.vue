@@ -1,7 +1,7 @@
 <template>
   <v-card class="card card-border border-radius-16 mx-auto pa-6" elevation="10">
     <div class="text-xl text-center font-weight-medium">Summary of the DAO</div>
-    <div class="inner-card card-border border-radius-8 mt-6 px-5">
+    <div class="inner-card card-border border-radius-8 mt-6 px-5 pb-6">
       <div v-if="vm.isCommunityToken">
         <ChooseToken :isSummary="true" />
         <CreateNew1 class="mt-n1" :isSummary="true" />

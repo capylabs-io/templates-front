@@ -6,7 +6,7 @@ export interface DaoSettingModel {
   type: string;
   name: string;
   isExisted: boolean;
-  tokenAddress: string;
+  token: any;
   threshold: number;
   weight: number;
   isCouncil: boolean;

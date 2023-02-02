@@ -58,9 +58,8 @@
           ? 'white--text box-border-gray11'
           : 'black--text'
       "
-    >
-      {{ vm.proposal?.description }}
-    </div>
+      v-html="vm.proposal?.description || 'No Description'"
+    ></div>
   </v-card>
 </template>
 <script lang="ts">

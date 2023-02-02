@@ -1,7 +1,7 @@
+import { applicationStore } from "./../../../stores/application-store";
 import { CommentModel } from "./../../../models/comment-model";
 import { VoteModel } from "./../../../models/vote-model";
 import { FixedNumber } from "@ethersproject/bignumber";
-import { applicationStore } from "../../../stores/application-store";
 import { ProposalModel } from "./../../../models/proposal-model";
 import { DaoSettingModel } from "./../../../models/dao-setting-model";
 import { walletStore } from "@/stores/wallet-store";
@@ -15,6 +15,7 @@ import moment, { now } from "moment";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
 import { Observable } from "rxjs";
 import readXlsxFile from "read-excel-file";
+import { localdata } from "@/helpers/local-data";
 export class DaoViewModel {
   @observable isReview = false;
   @observable reviewPage: string = "management";
@@ -74,6 +75,7 @@ export class DaoViewModel {
   @observable proposalTitle = "";
   @observable proposalDescription = "";
   @observable proposalQuorum = 50;
+  @observable proposalEndTime = moment().toISOString();
   @observable proposalTransactions = [
     {
       type: "None",
@@ -98,6 +100,8 @@ export class DaoViewModel {
       snackController.error("Invalid application!");
       return;
     }
+    console.log("endTimeVote", this.endTimeVote);
+
     try {
       loadingController.increaseRequest();
       const createdProposal = yield apiService.proposals.create({
@@ -106,6 +110,7 @@ export class DaoViewModel {
         application: applicationStore.application!.id,
         title: this.proposalTitle,
         description: this.proposalDescription,
+        endTimeVote: this.proposalEndTime,
         //type:
         //endTimeVote:
         //tokenQuorum:
@@ -156,6 +161,7 @@ export class DaoViewModel {
       const application = applications[0];
       this.applicationStore.application = application;
       this.daoSetting = application.dao_setting;
+      this.applicationStore.daoSetting = this.daoSetting;
       this.members = application.dao_setting?.members;
       if (!application || !application.service || !application.dao_setting) {
         this.pushBackHome(`Invalid service type!`);
@@ -171,6 +177,8 @@ export class DaoViewModel {
       }
 
       this.proposals = application.proposals;
+      walletStore.loadUserBalance();
+
       if (this.isReview) return;
       this.applicationStore.setupThemeConfig(application.theme);
       this.applicationStore.setupMetadata(application.metadata);

@@ -18,11 +18,11 @@
     </v-row>
     <v-row>
       <v-col class="gray6--text" cols="3">Token Address</v-col>
-      <v-col cols="9">{{ vm.daoSetting?.tokenAddress || "Unknown" }}</v-col>
+      <v-col cols="9">{{ vm.daoSetting?.token?.address || "Unknown" }}</v-col>
     </v-row>
     <v-row>
       <v-col class="gray6--text" cols="3">Vote Threshold</v-col>
-      <v-col cols="9">{{ vm.daoSetting?.threshold || "0" }}%</v-col>
+      <v-col cols="9">{{ vm.daoSetting?.threshold + "%" || "Unknown" }}</v-col>
     </v-row>
   </div>
 </template>
