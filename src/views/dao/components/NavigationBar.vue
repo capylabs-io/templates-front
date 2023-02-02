@@ -89,7 +89,7 @@ export default class DaoNavigationBar extends Vue {
 
 <style scoped>
 .brand-logo {
-  height: 36px !important;
-  max-width: 64px !important;
+  max-height: 36px !important;
+  max-width: 160px !important;
 }
 </style>

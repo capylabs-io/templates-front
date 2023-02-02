@@ -128,8 +128,14 @@ export default class Dao extends Vue {
 
   async created() {
     if (!this.isReview) {
-      if (!this.$route.params || !this.$route.params.appId)
+      if (this.$route.meta?.isTemplate) {
+        await this.vm.fetchDefaultApplication();
+        return;
+      }
+      if (!this.$route.params || !this.$route.params.appId) {
         this.$router.push("/home");
+        return;
+      }
       await this.vm.fetchApplication(this.$route.params.appId);
     } else {
       await this.vm.fetchDefaultProposals();

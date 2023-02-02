@@ -66,7 +66,25 @@
         </div>
       </div>
 
-      <div class="mt-n2">
+      <div>
+        <div class="text-sm mb-2">Vote EndTime</div>
+        <v-datetime-picker
+          v-model="vm.proposalEndTime"
+          :text-field-props="textFieldProps"
+          :date-picker-props="dateProps"
+          :time-picker-props="timeProps"
+          outlined
+        >
+          <template slot="dateIcon">
+            <v-icon :color="applicationStore.primaryColor">mdi-calendar</v-icon>
+          </template>
+          <template slot="timeIcon">
+            <v-icon :color="applicationStore.primaryColor">mdi-clock</v-icon>
+          </template>
+        </v-datetime-picker>
+      </div>
+
+      <div>
         <div class="text-sm">Quorum</div>
         <div class="mt-2">
           <div class="d-flex justify-space-between text-sm font-weight-bold">
@@ -90,7 +108,8 @@
         </div>
       </div>
 
-      <div class="mt-6 text-lg font-weight-bold">Transaction</div>
+      <!-- TODO: Update this (proposal transaction)-->
+      <!-- <div class="mt-6 text-lg font-weight-bold">Transaction</div>
       <div
         class="mt-2 pa-4 border-radius-16 cursor-pointer"
         :class="
@@ -198,10 +217,10 @@
         <span class="ml-1" :style="'color:' + applicationStore.primaryColor"
           >Add Transaction</span
         >
-      </div>
+      </div>-->
     </v-form>
 
-    <div class="straight-line"></div>
+    <div class="straight-line mt-2"></div>
     <div class="d-flex justify-center my-4">
       <VueRecaptcha
         sitekey="6LeHpK8jAAAAAOOfNAcZI-ayzWxQ5R1Dzf1swXjB"
@@ -242,6 +261,7 @@ import { DaoViewModel } from "../models/dao-viewmodels";
 import { applicationStore } from "@/stores/application-store";
 import { VueRecaptcha } from "vue-recaptcha";
 import { snackController } from "@/components/snack-bar/snack-bar-controller";
+import { rules } from "@/plugins/rules";
 @Observer
 @Component({
   components: { VueRecaptcha },
@@ -254,6 +274,27 @@ export default class AddProposal extends Vue {
 
   applicationStore = applicationStore;
   currentIndex = 0;
+
+  textFieldProps = {
+    color: applicationStore.primaryColor,
+    outlined: true,
+    dense: true,
+    solo: true,
+    clearable: true,
+    light: !applicationStore.isDarkTheme,
+    rules: [rules.required],
+    placeholder: "Select Vote EndTime",
+  };
+  dateProps = {
+    headerColor: applicationStore.primaryColor,
+    color: applicationStore.primaryColor,
+    min: new Date().toISOString().slice(0, 10),
+  };
+  timeProps = {
+    headerColor: applicationStore.primaryColor,
+    color: applicationStore.primaryColor,
+    ampmInTitle: true,
+  };
 
   confirmCaptcha = false;
   reset() {

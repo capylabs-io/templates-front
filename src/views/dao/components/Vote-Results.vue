@@ -18,11 +18,11 @@
         <v-icon small color="blueJeans"> mdi-chevron-left</v-icon>
         <span class="text-capitalize blueJeans--text">Back</span>
       </div>
-      <div class="pa-0 cursor-pointer">
+      <!-- <div class="pa-0 cursor-pointer">
         <v-icon class="ml-4" :color="applicationStore.primaryColor"
           >mdi-launch</v-icon
         >
-      </div>
+      </div> -->
     </div>
     <div class="d-flex justify-space-between align-center mt-3">
       <div class="text-dp-xs font-weight-bold">
@@ -110,11 +110,11 @@
           <div class="text-caption gray6--text">SIGNATORIES (1/1)</div>
           <div class="text-lg font-weight-bold d-flex mt-1">
             {{ vm.ownerAddress | truncateAddress(4, 6) }}
-            <span
+            <!-- <span
               ><v-icon class="ml-2" :color="applicationStore.primaryColor" small
                 >mdi-launch</v-icon
               ></span
-            >
+            > -->
           </div>
         </div>
       </v-col>

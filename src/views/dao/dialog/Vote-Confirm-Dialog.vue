@@ -22,7 +22,13 @@
         <v-form v-model="vm.confirmVoteForm">
           <div class="text-center">
             <div>You can not withdraw after voting close.</div>
-            <div>Token owned: 0</div>
+            <div>
+              Token owned:
+              <span class="font-weight-bold">
+                {{ walletStore.accountBalance || "0" | formatNumber(2) }}
+                {{ applicationStore.daoToken?.symbol || "DAO Token" }}
+              </span>
+            </div>
           </div>
           <div class="mt-2">
             <div>Vote amount</div>
@@ -36,7 +42,11 @@
               outlined
               no-resize
               :color="applicationStore.primaryColor"
-              :rules="[$rules.required, $rules.min(0.00001)]"
+              :rules="[
+                $rules.required,
+                $rules.min(0.0001),
+                $rules.max(+walletStore.accountBalance || 0),
+              ]"
             ></v-text-field>
           </div>
         </v-form>
@@ -63,6 +73,7 @@
           class="white--text font-weight-bold text-capitalize rounded-lg px-4"
           @click="vm.sendVote()"
           :loading="vm.voting"
+          :disabled="!vm.confirmVoteForm"
           v-else
           ><v-icon class="mr-2" small>mdi-thumb-down</v-icon>Vote NO</v-btn
         >
@@ -73,8 +84,9 @@
 
 <script lang="ts">
 import { applicationStore } from "@/stores/application-store";
+import { walletStore } from "@/stores/wallet-store";
 import { Observer } from "mobx-vue";
-import { Component, Inject, Prop, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue } from "vue-property-decorator";
 import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
 
 @Observer
@@ -82,10 +94,10 @@ import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
   components: {},
 })
 export default class VoteConfrimDialog extends Vue {
-  @Prop({ default: false }) isVoteYes!: boolean;
   @Inject() vm!: ProposalDetailViewmodel;
 
   applicationStore = applicationStore;
+  walletStore = walletStore;
 }
 </script>
 

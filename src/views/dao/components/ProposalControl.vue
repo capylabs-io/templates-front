@@ -26,7 +26,7 @@
           <span> Delete </span>
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn
+        <!-- <v-btn
           class="control-btn text-none btn-text border-radius-8 mr-3"
           :color="applicationStore.primaryColor"
           dense
@@ -34,7 +34,7 @@
         >
           <v-icon class="mr-1" small>mdi-pencil</v-icon>
           Edit
-        </v-btn>
+        </v-btn> -->
         <v-btn
           class="control-btn text-none btn-text border-radius-8"
           @click="vm.publishProposal()"

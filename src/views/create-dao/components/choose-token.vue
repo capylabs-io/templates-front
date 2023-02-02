@@ -2,9 +2,7 @@
   <v-form class="mt-5" ref="choose-token" v-model="vm.chooseTokenForm">
     <div>
       <div>Do you have an existing token for your DAO's community?</div>
-      <div class="gray6--text">
-        Holders of this tokne will be able to vote or edit your DAO.
-      </div>
+      <div class="gray6--text">Holders of this token will be able to vote</div>
       <v-radio-group
         class="mt-3"
         v-model="vm.isCreateNewToken"
@@ -17,10 +15,7 @@
     </div>
     <v-slide-y-transition mode="out-in">
       <div v-show="!vm.isCreateNewToken">
-        <div>Do you have an existing token for your DAO's community?</div>
-        <div class="gray6--text">
-          Holders of this tokne will be able to vote or edit your DAO.
-        </div>
+        <div>Please fill your DAO's community token address</div>
         <div class="mt-2">
           <v-text-field
             class="input-field border-radius-8 elevation-0"

@@ -5,8 +5,10 @@ import defaultLayoutConfig from "@/config/defaultLayoutConfig.json";
 import { ApplicationModel } from "@/models/application-model";
 import { get } from "lodash";
 import { walletStore } from "./wallet-store";
+import { DaoSettingModel } from "@/models/dao-setting-model";
 export class ApplicationStore {
   @observable application?: ApplicationModel;
+  @observable daoSetting?: DaoSettingModel;
   @observable themeConfig?: ThemeModel;
   @observable metadata?: any;
 
@@ -165,7 +167,7 @@ export class ApplicationStore {
     return this.bannerFile || this.bannerPath;
   }
   @computed get sideBanner() {
-    return this.sideBannerFile || this.bannerPath;
+    return this.sideBannerFile || this.sideBannerPath;
   }
   @computed get tokenIcon() {
     return this.tokenIconFile || this.tokenIconPath;
@@ -186,6 +188,11 @@ export class ApplicationStore {
   @computed get applicationOwner() {
     if (!this.application || !this.application.user) return "Unknown Wallet";
     return this.application?.user.address;
+  }
+
+  @computed get daoToken() {
+    if (!this.application || !this.daoSetting) return;
+    return this.daoSetting.token;
   }
 }
 

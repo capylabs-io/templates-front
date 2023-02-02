@@ -90,9 +90,9 @@
             </div>
             <div class="d-flex">
               <div class="font-weight-bold">You</div>
-              <v-icon small class="ml-2" :color="applicationStore.primaryColor"
+              <!-- <v-icon small class="ml-2" :color="applicationStore.primaryColor"
                 >mdi-launch</v-icon
-              >
+              > -->
             </div>
             <div class="prime2--text text-overline-1 ml-1">
               {{ new Date(vm.myComment?.updatedAt) | normalizeTimeDuration }}
@@ -133,9 +133,9 @@
             </div>
             <div class="d-flex">
               <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-              <v-icon small class="ml-2" :color="applicationStore.primaryColor"
+              <!-- <v-icon small class="ml-2" :color="applicationStore.primaryColor"
                 >mdi-launch</v-icon
-              >
+              > -->
             </div>
             <div class="prime2--text text-overline-1 ml-1">
               {{ new Date(comment?.updatedAt) | normalizeTimeDuration }}
@@ -185,9 +185,9 @@
           <div>
             <div class="d-flex">
               <div class="font-weight-bold">3Q3ph8KiL...RGvG8</div>
-              <v-icon small class="ml-2" :color="applicationStore.primaryColor"
+              <!-- <v-icon small class="ml-2" :color="applicationStore.primaryColor"
                 >mdi-launch</v-icon
-              >
+              > -->
             </div>
             <div class="prime2--text text-overline-1">2 months ago</div>
           </div>

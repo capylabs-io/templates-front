@@ -130,7 +130,7 @@
             :color="applicationStore.isDarkTheme ? 'gray11' : 'gray2'"
             :light="!applicationStore.isDarkTheme"
             :dark="applicationStore.isDarkTheme"
-            :disabled="!walletStore.connected"
+            :disabled="!walletStore.connected || vm.isDraft"
             elevation="0"
           >
             <div class="d-flex align-center">
@@ -148,7 +148,7 @@
             :color="applicationStore.isDarkTheme ? 'gray11' : 'gray2'"
             :light="!applicationStore.isDarkTheme"
             :dark="applicationStore.isDarkTheme"
-            :disabled="!walletStore.connected"
+            :disabled="!walletStore.connected || vm.isDraft"
             elevation="0"
           >
             <div class="d-flex align-center">
