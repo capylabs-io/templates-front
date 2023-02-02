@@ -1,6 +1,13 @@
 <template>
   <v-card
-    class="vote-result pa-4 border-radius-16 text-sm font-weight-regular mx-auto"
+    class="
+      vote-result
+      pa-4
+      border-radius-16
+      text-sm
+      font-weight-regular
+      mx-auto
+    "
     :class="
       applicationStore.isDarkTheme
         ? 'box-border-gray11 white--text'
@@ -82,7 +89,15 @@
       </v-col>
       <v-col cols="12" md="3">
         <div
-          class="pa-4 border-radius-8 full-height d-flex flex-column justify-center align-center"
+          class="
+            pa-4
+            border-radius-8
+            full-height
+            d-flex
+            flex-column
+            justify-center
+            align-center
+          "
           :style="'background:' + applicationStore.accentColor + ' !important'"
           :class="
             applicationStore.isDarkTheme
@@ -99,7 +114,15 @@
       </v-col>
       <v-col cols="12" md="3">
         <div
-          class="pa-4 border-radius-8 full-height d-flex flex-column justify-center align-center"
+          class="
+            pa-4
+            border-radius-8
+            full-height
+            d-flex
+            flex-column
+            justify-center
+            align-center
+          "
           :style="'background:' + applicationStore.accentColor + ' !important'"
           :class="
             applicationStore.isDarkTheme
@@ -127,6 +150,7 @@
           <v-checkbox
             v-model="vm.filterYesResult"
             :light="applicationStore.isDarkTheme ? false : true"
+            :color="applicationStore.primaryColor"
             label="Yes"
             class="ml-4 pt-0"
             hide-details
@@ -134,6 +158,7 @@
           <v-checkbox
             v-model="vm.filterNoResult"
             :light="applicationStore.isDarkTheme ? false : true"
+            :color="applicationStore.primaryColor"
             label="No"
             class="ml-2 pt-0"
             hide-details

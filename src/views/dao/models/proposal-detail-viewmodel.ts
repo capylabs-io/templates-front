@@ -443,7 +443,7 @@ export class ProposalDetailViewmodel {
         if (this.filterNoResult && !this.filterYesResult && vote.vote) return false;
         return true;
       })
-      .sort((a, b) => this.sortByAmount(a, b))
+      .sort((b, a) => this.sortByAmount(a, b))
       .slice(0, 10)
       .map((vote) => {
         return {
