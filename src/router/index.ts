@@ -82,6 +82,16 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    path: "/governance-template",
+    name: "Governance Template",
+    component: () => import("../views/dao/pages/Dao.vue"),
+    meta: {
+      title: "DAO Dashboard",
+      isEndUser: true,
+      isTemplate: true,
+    },
+  },
+  {
     path: "/proposal/:proposalId",
     name: "Proprosal Detail",
     component: () => import("../views/dao/pages/Proposal.vue"),

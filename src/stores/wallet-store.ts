@@ -56,7 +56,7 @@ export class WalletStore {
     localdata.setAccountToken(
       this.account,
       applicationStore.daoToken.address,
-      this.accountBalance.toHexString()
+      this.accountBalance.toString()
     );
   }
   @action.bound addUserBalance(amount: string) {

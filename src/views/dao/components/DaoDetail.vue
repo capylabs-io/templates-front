@@ -43,9 +43,9 @@
           <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
           <span class="cursor-pointer">Params</span>
         </div>
-        <v-icon class="ml-4" :color="applicationStore.primaryColor"
+        <!-- <v-icon class="ml-4" :color="applicationStore.primaryColor"
           >mdi-launch</v-icon
-        >
+        > -->
       </div>
     </div>
     <div

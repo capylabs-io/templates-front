@@ -190,6 +190,41 @@ export class DaoViewModel {
     }
   });
 
+  fetchDefaultApplication = flow(function* (this) {
+    try {
+      loadingController.increaseRequest();
+      const application = yield apiService.getDefaultApplication();
+      if (!application) {
+        this.pushBackHome("Application does not exist!");
+        return;
+      }
+
+      this.applicationStore.application = application;
+      this.daoSetting = application.dao_setting;
+      this.applicationStore.daoSetting = this.daoSetting;
+      this.members = application.dao_setting?.members;
+      if (!application || !application.service || !application.dao_setting) {
+        this.pushBackHome(`Invalid service type!`);
+        return;
+      } else if (!applicationStore.isApplicationOwner && application.status == "draft") {
+        this.pushBackHome(`Appplication not available!`);
+        return;
+      }
+
+      this.proposals = application.proposals;
+      walletStore.loadUserBalance();
+
+      if (this.isReview) return;
+      this.applicationStore.setupThemeConfig(application.theme);
+      this.applicationStore.setupMetadata(application.metadata);
+    } catch (err: any) {
+      console.error("err", err);
+      this.pushBackHome(`Error occurred, please try again later!`);
+    } finally {
+      loadingController.decreaseRequest();
+    }
+  });
+
   fetchDefaultProposals = flow(function* (this) {
     try {
       console.log("fetchDefaultProposals");

@@ -11,7 +11,7 @@
   >
     <div class="d-flex justify-space-between">
       <div class="font-weight-bold text-lg">Your Account</div>
-      <div
+      <!-- <div
         class="d-flex cursor-pointer align-center"
         :style="'color:' + applicationStore.primaryColor"
       >
@@ -19,7 +19,7 @@
         <v-icon :color="applicationStore.primaryColor" small>
           mdi-chevron-right</v-icon
         >
-      </div>
+      </div> -->
     </div>
     <div
       class="pa-4 mt-3 border-radius-8"

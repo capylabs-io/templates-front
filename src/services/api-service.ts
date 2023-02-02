@@ -227,6 +227,10 @@ export class ApiService {
     const res = await axios.get(`proposals/default`);
     return res.data;
   }
+  async getDefaultApplication() {
+    const res = await axios.get(`/applications/default`);
+    return res.data;
+  }
 }
 
 export const apiService = new ApiService();
