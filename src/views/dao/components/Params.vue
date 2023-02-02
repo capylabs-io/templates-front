@@ -29,9 +29,13 @@
     <div>
       <div class="d-flex align-center mt-3">
         <img class="mr-2 w-16" src="@/assets/axie-icon.png" />
-        <span class="font-weight-bold text-md"> Axie DAO</span>
+        <span class="font-weight-bold text-md">
+          {{
+            applicationStore.application?.name || "Your Application Name"
+          }}</span
+        >
       </div>
-      <div class="text-dp-xs font-weight-bold mt-1">DAO Parameters</div>
+      <div class="text-dp-xs font-weight-bold mt-2">DAO Settings</div>
     </div>
 
     <v-row class="mt-1">
@@ -54,7 +58,7 @@
                 PubKey
               </div>
               <div class="font-weight-bold">
-                {{ vm.daoSetting?.id }}
+                {{ applicationStore.applicationOwner }}
               </div>
             </div>
             <div class="text-sm mt-4">
@@ -62,7 +66,7 @@
                 Authority
               </div>
               <div class="font-weight-bold">
-                {{ vm.daoSetting?.id }}
+                {{ applicationStore.applicationOwner }}
               </div>
             </div>
             <div class="text-sm mt-4">
@@ -70,7 +74,7 @@
                 Owner
               </div>
               <div class="font-weight-bold">
-                {{ vm.daoSetting?.id }}
+                {{ applicationStore.applicationOwner }}
               </div>
             </div>
             <div class="text-sm mt-4">
@@ -78,15 +82,15 @@
                 Community Mint
               </div>
               <div class="font-weight-bold">
-                {{ vm.daoSetting?.id }}
+                {{ applicationStore.applicationOwner }}
               </div>
             </div>
-            <div class="text-sm mt-4">
+            <div class="text-sm mt-4" v-if="vm.daoSetting?.isCouncil">
               <div class="gray6--text font-weight-bold text-capitalize">
                 Council Mint
               </div>
               <div class="font-weight-bold">
-                {{ vm.daoSetting?.id }}
+                {{ applicationStore.applicationOwner }}
               </div>
             </div>
           </v-card>
@@ -149,7 +153,7 @@
             <div class="gray6--text font-weight-bold text-capitalize">
               Existed
             </div>
-            <div class="font-weight-bold">
+            <div class="font-weight-bold text-capitalize">
               {{ vm.daoSetting?.isExisted }}
             </div>
           </v-card>
@@ -163,18 +167,26 @@
             <div class="gray6--text font-weight-bold text-capitalize">
               Council
             </div>
-            <div class="font-weight-bold">
+            <div class="font-weight-bold text-capitalize">
               {{ vm.daoSetting?.isCouncil }}
             </div>
           </v-card>
-          <!-- <div class="text-sm mt-4">
-            <div class="gray6--text text-capitalize">createdAt</div>
+          <v-card
+            class="pa-3 mt-2"
+            :color="applicationStore.cardColor"
+            :class="
+              applicationStore.isDarkTheme ? 'white--text' : 'black--text'
+            "
+          >
+            <div class="gray6--text font-weight-bold text-capitalize">
+              createdAt
+            </div>
             <div class="font-weight-bold">
               {{ vm.daoSetting?.createdAt | ddmmyyyyhhmmss }}
             </div>
-          </div> -->
+          </v-card>
 
-          <div
+          <!-- <div
             class="full-width d-flex justify-center my-3"
             @click="vm.setConfig(true)"
           >
@@ -183,7 +195,7 @@
               :color="applicationStore.primaryColor"
               >Change Config</v-btn
             >
-          </div>
+          </div> -->
         </div>
       </v-col>
     </v-row>

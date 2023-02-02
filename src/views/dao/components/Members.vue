@@ -29,7 +29,7 @@
       <div class="d-flex align-center mt-3">
         <img class="mr-2 w-16" src="@/assets/axie-icon.png" />
         <span class="font-weight-bold text-md">{{
-          applicationStore.application?.name || "Your Application Title"
+          applicationStore.application?.name || "Your Application Name"
         }}</span>
       </div>
       <div class="text-dp-xs font-weight-bold mt-1">Members</div>
@@ -37,7 +37,14 @@
     <v-row class="mt-1">
       <v-col cols="12" md="6" class="text-sm">
         <div
-          class="border-radius-16 pa-4 full-height d-flex flex-column justify-space-between"
+          class="
+            border-radius-16
+            pa-4
+            full-height
+            d-flex
+            flex-column
+            justify-space-between
+          "
           :class="{
             'box-border-gray11': applicationStore.isDarkTheme,
           }"
@@ -108,7 +115,14 @@
       </v-col>
       <v-col cols="12" md="6" class="text-sm">
         <div
-          class="border-radius-16 pa-4 full-height d-flex flex-column justify-space-between"
+          class="
+            border-radius-16
+            pa-4
+            full-height
+            d-flex
+            flex-column
+            justify-space-between
+          "
           :class="{ 'box-border-gray11': applicationStore.isDarkTheme }"
           :style="'background:' + applicationStore.accentColor + ' !important'"
         >
@@ -118,7 +132,13 @@
                 {{ vm.currentMember | truncateAddress(6, 10) }}
               </div>
               <div
-                class="blueJeans--text d-flex justify-center cursor-pointer gray6--text"
+                class="
+                  blueJeans--text
+                  d-flex
+                  justify-center
+                  cursor-pointer
+                  gray6--text
+                "
               >
                 <span class="mr-1">Explore</span>
                 <v-icon small color="blueJeans">mdi-launch</v-icon>
@@ -126,7 +146,15 @@
             </div>
             <div class="d-flex gap-20 mt-4">
               <v-card
-                class="d-flex flex-column justify-space-between pa-4 w-50 row-gap-10 border-radius-16"
+                class="
+                  d-flex
+                  flex-column
+                  justify-space-between
+                  pa-4
+                  w-50
+                  row-gap-10
+                  border-radius-16
+                "
                 :color="applicationStore.cardColor"
                 :class="
                   applicationStore.isDarkTheme ? 'white--text' : 'black--text'
@@ -141,7 +169,15 @@
                 </div>
               </v-card>
               <v-card
-                class="d-flex flex-column justify-space-between pa-4 w-50 row-gap-10 border-radius-16"
+                class="
+                  d-flex
+                  flex-column
+                  justify-space-between
+                  pa-4
+                  w-50
+                  row-gap-10
+                  border-radius-16
+                "
                 :color="applicationStore.cardColor"
                 :class="
                   applicationStore.isDarkTheme ? 'white--text' : 'black--text'
@@ -172,7 +208,15 @@
             <div class="pt-4">{{ vm.comments.length }} recent comments</div>
             <div v-for="comment in vm.comments" :key="comment.id">
               <v-card
-                class="d-flex flex-column pa-4 cursor-pointer mt-3 rounded-lg w-100"
+                class="
+                  d-flex
+                  flex-column
+                  pa-4
+                  cursor-pointer
+                  mt-3
+                  rounded-lg
+                  w-100
+                "
                 :color="applicationStore.cardColor"
                 :class="
                   applicationStore.isDarkTheme ? 'white--text' : 'black--text'
@@ -261,7 +305,7 @@ export default class Members extends Vue {
   mounted() {
     if (walletStore.connected)
       this.vm.fetchUserInteract(walletStore.userInfo?.address);
-      console.log("filteredMembers",this.vm.filteredMembers);
+    console.log("filteredMembers", this.vm.filteredMembers);
   }
 }
 </script>
