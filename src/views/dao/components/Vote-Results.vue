@@ -1,13 +1,6 @@
 <template>
   <v-card
-    class="
-      vote-result
-      pa-4
-      border-radius-16
-      text-sm
-      font-weight-regular
-      mx-auto
-    "
+    class="vote-result pa-4 border-radius-16 text-sm font-weight-regular mx-auto"
     :class="
       applicationStore.isDarkTheme
         ? 'box-border-gray11 white--text'
@@ -89,15 +82,7 @@
       </v-col>
       <v-col cols="12" md="3">
         <div
-          class="
-            pa-4
-            border-radius-8
-            full-height
-            d-flex
-            flex-column
-            justify-center
-            align-center
-          "
+          class="pa-4 border-radius-8 full-height d-flex flex-column justify-center align-center"
           :style="'background:' + applicationStore.accentColor + ' !important'"
           :class="
             applicationStore.isDarkTheme
@@ -106,20 +91,15 @@
           "
         >
           <div class="text-caption gray6--text">VOTING TIME REMAINING</div>
-          <div class="font-weight-bold text-dp-md mt-1">00:00:00</div>
+          <div class="font-weight-bold text-dp-xs mt-1">
+            {{ days }}d : {{ hours | twoDigits }}h : {{ minutes | twoDigits }}m
+            : {{ seconds | twoDigits }}s
+          </div>
         </div>
       </v-col>
       <v-col cols="12" md="3">
         <div
-          class="
-            pa-4
-            border-radius-8
-            full-height
-            d-flex
-            flex-column
-            justify-center
-            align-center
-          "
+          class="pa-4 border-radius-8 full-height d-flex flex-column justify-center align-center"
           :style="'background:' + applicationStore.accentColor + ' !important'"
           :class="
             applicationStore.isDarkTheme
@@ -146,12 +126,14 @@
           <div class="text-lg font-weight-bold pt-3">Top Voters</div>
           <v-checkbox
             v-model="vm.filterYesResult"
+            :light="applicationStore.isDarkTheme ? false : true"
             label="Yes"
             class="ml-4 pt-0"
             hide-details
           ></v-checkbox>
           <v-checkbox
             v-model="vm.filterNoResult"
+            :light="applicationStore.isDarkTheme ? false : true"
             label="No"
             class="ml-2 pt-0"
             hide-details
@@ -173,6 +155,7 @@
               'background:' + applicationStore.accentColor + ' !important'
             "
             hide-default-footer
+            :light="applicationStore.isDarkTheme ? false : true"
           >
             <template v-slot:body="{ items }">
               <tbody>
@@ -236,11 +219,12 @@
   </v-card>
 </template>
 <script lang="ts">
-import { Component, Inject, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue, Prop } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
 import PieChart from "@/components/PieChart.vue";
 import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
 import { applicationStore } from "@/stores/application-store";
+import { action } from "mobx";
 
 @Observer
 @Component({
@@ -251,8 +235,39 @@ import { applicationStore } from "@/stores/application-store";
 })
 export default class VoteResult extends Vue {
   @Inject() vm!: ProposalDetailViewmodel;
+  @Prop() targetDate!: string;
   applicationStore = applicationStore;
+  days = 0;
+  hours = 0;
+  minutes = 0;
+  seconds = 0;
+  millisecondsInOneSecond = 1000;
+  millisecondsInOneMinute = 1000 * 60;
+  millisecondsInOneHour = 1000 * 60 * 60;
+  millisecondsInOneDay = 1000 * 60 * 60 * 24;
+  timer = setInterval(() => this.startTimer(), 1000);
 
+  @action startTimer() {
+    const timeNow = new Date().getTime();
+    const result = new Date(this.targetDate).getTime();
+    const timeDifference = result - timeNow;
+    if (timeDifference < 0) {
+      clearInterval(this.timer);
+    }
+    const differenceInDays = timeDifference / this.millisecondsInOneDay;
+    const remainderDifferenceInHours =
+      (timeDifference % this.millisecondsInOneDay) / this.millisecondsInOneHour;
+    const remainderDifferenceInMinutes =
+      (timeDifference % this.millisecondsInOneHour) /
+      this.millisecondsInOneMinute;
+    const remainderDifferenceInSeconds =
+      (timeDifference % this.millisecondsInOneMinute) /
+      this.millisecondsInOneSecond;
+    this.days = Math.floor(differenceInDays);
+    this.hours = Math.floor(remainderDifferenceInHours);
+    this.minutes = Math.floor(remainderDifferenceInMinutes);
+    this.seconds = Math.floor(remainderDifferenceInSeconds);
+  }
   resultTableHeaders = [
     {
       text: "",
@@ -319,7 +334,6 @@ export default class VoteResult extends Vue {
   width: 100%;
   min-height: 544px;
   background: #1e1e20;
-  box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.15);
   border-radius: 12px;
 }
 </style>

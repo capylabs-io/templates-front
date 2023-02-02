@@ -43,9 +43,18 @@
           <v-icon class="ml-3 mr-1" color="gray6" small>mdi-cog</v-icon>
           <span class="cursor-pointer">Params</span>
         </div>
-        <v-icon class="ml-4" :color="applicationStore.primaryColor"
-          >mdi-launch</v-icon
-        >
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              class="ml-4"
+              v-bind="attrs"
+              v-on="on"
+              :color="applicationStore.primaryColor"
+              >mdi-launch</v-icon
+            >
+          </template>
+          <span>Coming Soon</span>
+        </v-tooltip>
       </div>
     </div>
     <div

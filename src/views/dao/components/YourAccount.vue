@@ -11,15 +11,22 @@
   >
     <div class="d-flex justify-space-between">
       <div class="font-weight-bold text-lg">Your Account</div>
-      <div
-        class="d-flex cursor-pointer align-center"
-        :style="'color:' + applicationStore.primaryColor"
-      >
-        <span>View</span>
-        <v-icon :color="applicationStore.primaryColor" small>
-          mdi-chevron-right</v-icon
-        >
-      </div>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <div
+            class="d-flex cursor-pointer align-center"
+            :style="'color:' + applicationStore.primaryColor"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <span>View</span>
+            <v-icon :color="applicationStore.primaryColor" small>
+              mdi-chevron-right</v-icon
+            >
+          </div>
+        </template>
+        <span>Coming Soon</span>
+      </v-tooltip>
     </div>
     <div
       class="pa-4 mt-3 border-radius-8"

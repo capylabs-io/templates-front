@@ -18,7 +18,7 @@
         <ProposalLayout />
       </div>
       <div v-else>
-        <VoteResult />
+        <VoteResult :targetDate="vm.voteEndTime" />
       </div>
     </div>
     <DaoFooter />

@@ -31,7 +31,7 @@
             "
             v-if="!vm.isVoteDone"
           >
-            <Countdown :targetDate="vm.voteEnd" />
+            <Countdown :targetDate="vm.voteEndTime" />
           </div>
         </div>
         <div
@@ -183,7 +183,7 @@
 <script lang="ts">
 import { Component, Inject, Vue } from "vue-property-decorator";
 import { Observer } from "mobx-vue";
-import { applicationStore } from "@/stores/application-store";
+import { applicationStore } from "@/stores/application-store";  
 import { ProposalDetailViewmodel } from "../models/proposal-detail-viewmodel";
 import { walletStore } from "@/stores/wallet-store";
 @Observer

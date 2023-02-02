@@ -60,7 +60,7 @@ export default {
   },
   mounted() {
     this.countdownInterval = setInterval(() => {
-      this.now = Math.trunc(new Date().getTime() / 1000);
+      this.startTimer();
     }, 1000);
   },
   destroyed() {
@@ -70,32 +70,64 @@ export default {
     return {
       now: moment.unix(1645714800).toISOString(),
       countdownInterval: null,
+      millisecondsInOneSecond: 1000,
+      millisecondsInOneMinute: 1000 * 60,
+      millisecondsInOneHour: 1000 * 60 * 60,
+      millisecondsInOneDay: 1000 * 60 * 60 * 24,
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
     };
   },
-  computed: {
-    isSmAndDown() {
-      return this.$vuetify.breakpoint.smAndDown;
-    },
-    dateInMilliseconds() {
-      if (!this.targetDate) return 0;
-      return Math.trunc(Date.parse(this.targetDate) / 1000);
-    },
-    seconds() {
-      if (!this.targetDate || this.dateInMilliseconds === 0) return 0;
-      return (this.dateInMilliseconds - this.now) % 60;
-    },
-    minutes() {
-      if (!this.targetDate || this.dateInMilliseconds === 0) return 0;
-      return Math.trunc((this.dateInMilliseconds - this.now) / 60) % 60;
-    },
-    hours() {
-      if (!this.targetDate || this.dateInMilliseconds === 0) return 0;
-      return Math.trunc((this.dateInMilliseconds - this.now) / 60 / 60) % 24;
-    },
-    days() {
-      if (!this.targetDate || this.dateInMilliseconds === 0) return 0;
-      return Math.trunc((this.dateInMilliseconds - this.now) / 60 / 60 / 24);
+  methods: {
+    startTimer: function () {
+      const timeNow = new Date().getTime();
+      const result = new Date(this.targetDate).getTime();
+      const timeDifference = result - timeNow;
+      if (timeDifference < 0) {
+        clearInterval(this.countdownInterval);
+      }
+      const differenceInDays = timeDifference / this.millisecondsInOneDay;
+      const remainderDifferenceInHours =
+        (timeDifference % this.millisecondsInOneDay) /
+        this.millisecondsInOneHour;
+      const remainderDifferenceInMinutes =
+        (timeDifference % this.millisecondsInOneHour) /
+        this.millisecondsInOneMinute;
+      const remainderDifferenceInSeconds =
+        (timeDifference % this.millisecondsInOneMinute) /
+        this.millisecondsInOneSecond;
+      this.days = Math.floor(differenceInDays);
+      this.hours = Math.floor(remainderDifferenceInHours);
+      this.minutes = Math.floor(remainderDifferenceInMinutes);
+      this.seconds = Math.floor(remainderDifferenceInSeconds);
     },
   },
+  // computed: {
+  //   isSmAndDown() {
+  //     return this.$vuetify.breakpoint.smAndDown;
+  //   },
+  //   dateInMilliseconds() {
+  //     if (!this.targetDate) return 0;
+  //     return Math.trunc(Date.parse(this.targetDate) / 1000);
+  //   },
+  //   seconds() {
+  //     if (!this.targetDate || this.dateInMilliseconds === 0) return 0;
+  //     return (this.dateInMilliseconds - this.now) % 60;
+  //   },
+  //   minutes() {
+  //     if (!this.targetDate || this.dateInMilliseconds === 0) return 0;
+  //     return Math.trunc((this.dateInMilliseconds - this.now) / 60) % 60;
+  //   },
+  //   hours() {
+  //     if (!this.targetDate || this.dateInMilliseconds === 0) return 0;
+  //     return Math.trunc((this.dateInMilliseconds - this.now) / 60 / 60) % 24;
+  //   },
+  //   days() {
+  //     if (!this.targetDate || this.dateInMilliseconds === 0) return 0;
+  //     return Math.trunc((this.dateInMilliseconds - this.now) / 60 / 60 / 24);
+  //   },
+  // },
 };
 </script>

@@ -23,12 +23,12 @@
           depressed
         >
           <v-icon class="mr-1" small>mdi-trash-can</v-icon>
-          Delete
+          <span> Delete </span>
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn
           class="control-btn text-none btn-text border-radius-8 mr-3"
-          color="gray11"
+          :color="applicationStore.primaryColor"
           dense
           depressed
         >
