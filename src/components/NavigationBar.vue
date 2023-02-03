@@ -19,104 +19,178 @@
             Cyberk.io
           </div>
           <!-- Main menu -->
-          <router-link
-            to="/home"
-            class="
-              white--text
-              text-decoration-none
-              cursor-pointer
-              px-3
-              align-self-center
-            "
-            active-class="active"
-          >
-            <div class="text-none">Home</div>
-          </router-link>
-          <router-link
-            to="/theme-market"
-            class="
-              white--text
-              text-decoration-none
-              cursor-pointer
-              px-3
-              align-self-center
-            "
-            active-class="active"
-          >
-            <div class="text-none">Market</div>
-          </router-link>
-          <router-link
-            to="/select-service"
-            class="
-              white--text
-              text-decoration-none
-              cursor-pointer
-              px-3
-              align-self-center
-            "
-            active-class="active"
-          >
-            <div class="text-none">Service</div>
-          </router-link>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <div
-                v-bind="attrs"
-                v-on="on"
-                class="
-                  white--text
-                  text-decoration-none
-                  cursor-pointer
-                  px-3
-                  align-self-center
-                "
-                active-class="active"
-              >
-                <div class="text-none">Help</div>
-              </div>
-            </template>
-            <span>Coming Soon</span>
-          </v-tooltip>
-          <router-link
-            to="/select-service"
-            class="
-              primary--text
-              text-lg
-              font-weight-bold
-              text-decoration-none
-              cursor-pointer
-              px-3
-              align-self-center
-            "
-          >
-            <v-btn
-              class="btn-text text-none white--text"
-              elevation="0"
-              color="primary"
-              rounded
-              >Create</v-btn
+          <template v-if="!isMobile()">
+            <router-link
+              to="/home"
+              class="white--text text-decoration-none cursor-pointer px-3 align-self-center"
+              active-class="active"
             >
-          </router-link>
+              <div class="text-none">Home</div>
+            </router-link>
+            <router-link
+              to="/theme-market"
+              class="white--text text-decoration-none cursor-pointer px-3 align-self-center"
+              active-class="active"
+            >
+              <div class="text-none">Market</div>
+            </router-link>
+            <router-link
+              to="/select-service"
+              class="white--text text-decoration-none cursor-pointer px-3 align-self-center"
+              active-class="active"
+            >
+              <div class="text-none">Service</div>
+            </router-link>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <div
+                  v-bind="attrs"
+                  v-on="on"
+                  class="white--text text-decoration-none cursor-pointer px-3 align-self-center"
+                  active-class="active"
+                >
+                  <div class="text-none">Help</div>
+                </div>
+              </template>
+              <span>Coming Soon</span>
+            </v-tooltip>
+            <router-link
+              to="/select-service"
+              class="primary--text text-lg font-weight-bold text-decoration-none cursor-pointer px-3 align-self-center"
+            >
+              <v-btn
+                class="btn-text text-none white--text"
+                elevation="0"
+                color="primary"
+                rounded
+                >Create</v-btn
+              >
+            </router-link>
+          </template>
         </v-col>
         <v-col col="3">
           <div class="d-flex align-center justify-end">
             <!-- <div class="pa-2 box-gray-11 rounded-circle mr-2 align-self-center">
               <v-icon>mdi-lightbulb-on-outline</v-icon>
             </div> -->
-            <ConnectMetamask :requiredChainId="walletStore.chainId">
+            <template v-if="isMobile()">
+              <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-app-bar-nav-icon
+                    v-bind="attrs"
+                    v-on="on"
+                    @click.stop="expansion = !expansion"
+                  ></v-app-bar-nav-icon>
+                </template>
+                <!-- <v-list>
+                <v-list-item v-for="(item, index) in items" :key="index">
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list> -->
+                <div
+                  class="d-flex flex-column drawer pa-3"
+                  :style="'gap: 17px'"
+                >
+                  <router-link
+                    to="/home"
+                    class="white--text text-decoration-none cursor-pointer px-3"
+                    active-class="active"
+                  >
+                    <div class="text-none">Home</div>
+                  </router-link>
+                  <router-link
+                    to="/theme-market"
+                    class="white--text text-decoration-none cursor-pointer px-3"
+                    active-class="active"
+                  >
+                    <div class="text-none">Market</div>
+                  </router-link>
+                  <router-link
+                    to="/select-service"
+                    class="white--text text-decoration-none cursor-pointer px-3"
+                    active-class="active"
+                  >
+                    <div class="text-none">Service</div>
+                  </router-link>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <div
+                        v-bind="attrs"
+                        v-on="on"
+                        class="white--text text-decoration-none cursor-pointer px-3"
+                        active-class="active"
+                      >
+                        <div class="text-none">Help</div>
+                      </div>
+                    </template>
+                    <span>Coming Soon</span>
+                  </v-tooltip>
+                  <router-link
+                    to="/select-service"
+                    class="primary--text text-lg font-weight-bold text-decoration-none cursor-pointer px-3"
+                  >
+                    <v-btn
+                      class="btn-text text-none white--text"
+                      elevation="0"
+                      color="primary"
+                      rounded
+                      >Create</v-btn
+                    >
+                  </router-link>
+                  <ConnectMetamask :requiredChainId="walletStore.chainId">
+                    <v-menu open-on-hover offset-y v-if="walletStore.connected">
+                      <template v-slot:activator="{ on, attrs }">
+                        <div
+                          class="d-flex align-center connect-wallet primary--text rounded-lg text-none py-2 px-4"
+                          v-bind="attrs"
+                          v-on="on"
+                          large
+                        >
+                          <address-copy-board
+                            :address="walletStore.account"
+                            :isShortAddress="true"
+                            :shortStartAmount="6"
+                            :shortEndAmount="4"
+                            :iconSize="18"
+                          ></address-copy-board>
+                        </div>
+                      </template>
+                      <v-list>
+                        <v-list-item
+                          class="d-flex align-center"
+                          :to="'/management'"
+                        >
+                          <v-icon>mdi-view-dashboard</v-icon>
+                          <v-list-item-title class="ml-3"
+                            >Application Dashboard</v-list-item-title
+                          >
+                        </v-list-item>
+                        <v-list-item
+                          class="d-flex align-center"
+                          :to="'/theme-management'"
+                        >
+                          <v-icon>mdi-developer-board</v-icon>
+                          <v-list-item-title class="ml-3"
+                            >Theme Management</v-list-item-title
+                          >
+                        </v-list-item>
+                        <v-list-item :to="'/trash'">
+                          <v-icon>mdi-trash-can</v-icon>
+                          <v-list-item-title class="ml-3"
+                            >Recent Deleted</v-list-item-title
+                          >
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
+                  </ConnectMetamask>
+                </div>
+              </v-menu>
+            </template>
+            <ConnectMetamask :requiredChainId="walletStore.chainId" v-else>
               <v-menu open-on-hover offset-y v-if="walletStore.connected">
                 <template v-slot:activator="{ on, attrs }">
                   <div
-                    class="
-                      d-flex
-                      align-center
-                      connect-wallet
-                      primary--text
-                      rounded-lg
-                      text-none
-                      py-2
-                      px-4
-                    "
+                    class="d-flex align-center connect-wallet primary--text rounded-lg text-none py-2 px-4"
                     v-bind="attrs"
                     v-on="on"
                     large
@@ -166,6 +240,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { walletStore } from "@/stores/wallet-store";
 import { Observer } from "mobx-vue";
+import { action } from "mobx";
 
 @Observer
 @Component({
@@ -177,6 +252,13 @@ import { Observer } from "mobx-vue";
 export default class NavigationBar extends Vue {
   walletStore = walletStore;
 
+  @action isMobile() {
+    if (window.innerWidth <= 780) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   openLink(url) {
     window.open(url, "_blank");
   }
@@ -194,5 +276,8 @@ export default class NavigationBar extends Vue {
 }
 .active {
   color: var(--v-primary-base) !important;
+}
+.drawer {
+  background-color: var(--v-gray12-base);
 }
 </style>
